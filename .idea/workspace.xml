@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe33892c-d671-4236-ae95-de2d683273b5" name="Changes" comment="Initial commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fe33892c-d671-4236-ae95-de2d683273b5" name="Changes" comment="Added CircleCi configuration file">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +45,7 @@
       <option name="presentableId" value="Default" />
       <updated>1677584013251</updated>
       <workItem from="1677584015221" duration="185000" />
-      <workItem from="1677589356814" duration="923000" />
+      <workItem from="1677589356814" duration="1160000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1677589484021</created>
@@ -54,7 +54,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677589484021</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added CircleCi configuration file">
+      <created>1677590436222</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677590436222</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -73,6 +80,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Added CircleCi configuration file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added CircleCi configuration file" />
   </component>
 </project>
