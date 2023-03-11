@@ -8,11 +8,15 @@ public class Position {
     private final int column;
 
     public Position(int row, int column) throws InvalidPositionException {
-        if (row < 1 || column < 1) {
+        if (arePositionCoordinatesInvalid(row, column)) {
             throw new InvalidPositionException("Invalid paramater: position row and column must be > 1");
         }
         this.row = row;
         this.column = column;
+    }
+
+    private static boolean arePositionCoordinatesInvalid(int row, int column) {
+        return row < 1 || column < 1;
     }
 
     public int getRow() {
