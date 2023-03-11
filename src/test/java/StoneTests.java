@@ -20,4 +20,11 @@ public class StoneTests {
         assertTrue(stone.isLive());
     }
 
+    @Test
+    void testEquals() {
+        Stone newStone = new Stone(Color.WHITE);
+        assertEquals(stone, stone);
+        assertNotEquals(stone, newStone);
+    }
+
 }
