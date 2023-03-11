@@ -24,4 +24,9 @@ public class Cell {
         this.occupied = true;
     }
 
+    public void clear() {
+        this.stone = null;
+        this.occupied = false;
+    }
+
 }
