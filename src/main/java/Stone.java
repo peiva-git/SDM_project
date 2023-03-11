@@ -1,21 +1,21 @@
 public class Stone {
 
-    private boolean isLive = false;
+    private boolean live = false;
     private final Color color;
 
-    Stone(Color color) {
+    public Stone(Color color) {
         this.color = color;
     }
 
     public boolean isLive() {
-        return this.isLive;
+        return this.live;
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public void setLive(boolean live) {
-        isLive = live;
+        this.live = live;
     }
 }
