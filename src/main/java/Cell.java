@@ -1,30 +1,27 @@
 import org.jetbrains.annotations.NotNull;
 
 public class Cell {
-
-    public enum Status {FREE, OCCUPIED}
-
     private Stone stone;
-    private Status status = Status.FREE;
+    private boolean occupied = false;
 
     public Cell() {
     }
     public Cell(@NotNull Stone stone) {
         this.stone = stone;
-        this.status = Status.OCCUPIED;
+        this.occupied = true;
     }
 
     public Stone getStone() {
         return stone;
     }
 
-    public Status isOccupied() {
-        return status;
+    public boolean isOccupied() {
+        return this.occupied;
     }
 
     public void setStone(@NotNull Stone stone) {
         this.stone = stone;
-        this.status = Status.OCCUPIED;
+        this.occupied = true;
     }
 
 }

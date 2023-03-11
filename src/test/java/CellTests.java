@@ -9,13 +9,13 @@ public class CellTests {
     @Test
     void testGettersAfterDefaultConstructor() {
         Cell cell = new Cell();
-        Assertions.assertEquals(cell.isOccupied(), Cell.Status.FREE);
+        Assertions.assertFalse(cell.isOccupied());
         Assertions.assertNull(cell.getStone());
     }
 
     @Test
     void testGettersAfterCustomConstructor() {
-        Assertions.assertEquals(cell.isOccupied(), Cell.Status.OCCUPIED);
+        Assertions.assertTrue(cell.isOccupied());
         Assertions.assertEquals(cell.getStone(), stone);
     }
 
