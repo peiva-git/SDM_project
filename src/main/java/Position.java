@@ -41,12 +41,30 @@ public class Position {
     }
 
     public boolean isPositionAdjacentTo(@NotNull Position otherPosition) {
-        if (otherPosition.getRow() == row && otherPosition.getColumn() == column + 1) {
+        if (isPositionOneColumnToTheRight(otherPosition)) {
             return true;
-        } else if (otherPosition.getRow() == row && otherPosition.getColumn() == column - 1) {
+        } else if (isPositionOneColumnToTheLeft(otherPosition)) {
             return true;
-        } else if (otherPosition.getColumn() == column && otherPosition.getRow() == row + 1) {
+        } else if (isPositionOneRowDown(otherPosition)) {
             return true;
-        } else return otherPosition.getColumn() == column && otherPosition.getRow() == row - 1;
+        } else {
+            return isPositionOneRowUp(otherPosition);
+        }
+    }
+
+    private boolean isPositionOneRowUp(@NotNull Position otherPosition) {
+        return otherPosition.getColumn() == column && otherPosition.getRow() == row - 1;
+    }
+
+    private boolean isPositionOneRowDown(@NotNull Position otherPosition) {
+        return otherPosition.getColumn() == column && otherPosition.getRow() == row + 1;
+    }
+
+    private boolean isPositionOneColumnToTheLeft(@NotNull Position otherPosition) {
+        return otherPosition.getRow() == row && otherPosition.getColumn() == column - 1;
+    }
+
+    private boolean isPositionOneColumnToTheRight(@NotNull Position otherPosition) {
+        return otherPosition.getRow() == row && otherPosition.getColumn() == column + 1;
     }
 }
