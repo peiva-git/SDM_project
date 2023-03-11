@@ -1,3 +1,4 @@
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,7 +26,7 @@ public class PositionTests {
         assertEquals(position.getColumn(), column);
     }
 
-    private static Stream<Arguments> providePositionPairsForArePositionsAdjacent() {
+    private static @NotNull Stream<Arguments> providePositionPairsForArePositionsAdjacent() {
         return Stream.of(
                 Arguments.of(new Position(3, 3), new Position(3, 4), true),
                 Arguments.of(new Position(3, 3), new Position(3, 2), true),
@@ -40,7 +41,7 @@ public class PositionTests {
 
     @ParameterizedTest
     @MethodSource("providePositionPairsForArePositionsAdjacent")
-    void arePositionsAdjacent(Position firstPosition, Position secondPosition, boolean expectedAdjacent) {
+    void arePositionsAdjacent(@NotNull Position firstPosition,@NotNull Position secondPosition, boolean expectedAdjacent) {
         assertEquals(firstPosition.isPositionAdjacentTo(secondPosition), expectedAdjacent);
     }
 }

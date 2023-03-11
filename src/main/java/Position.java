@@ -1,8 +1,16 @@
-public class Position {
-    int row;
-    int column;
+import exceptions.InvalidPositionException;
+import org.jetbrains.annotations.NotNull;
 
-    public Position(int row, int column) {
+import java.util.Objects;
+
+public class Position {
+    private final int row;
+    private final int column;
+
+    public Position(int row, int column) throws InvalidPositionException {
+        if (row < 1 || column < 1) {
+            throw new InvalidPositionException("Invalid paramater: position row and column must be > 1");
+        }
         this.row = row;
         this.column = column;
     }
@@ -15,7 +23,26 @@ public class Position {
         return column;
     }
 
-    public boolean isPositionAdjacentTo(Position position) {
-        return true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    public boolean isPositionAdjacentTo(@NotNull Position otherPosition) {
+        if (otherPosition.getRow() == row && otherPosition.getColumn() == column + 1) {
+            return true;
+        } else if (otherPosition.getRow() == row && otherPosition.getColumn() == column - 1) {
+            return true;
+        } else if (otherPosition.getColumn() == column && otherPosition.getRow() == row + 1) {
+            return true;
+        } else return otherPosition.getColumn() == column && otherPosition.getRow() == row - 1;
     }
 }
