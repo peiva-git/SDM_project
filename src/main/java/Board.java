@@ -1,3 +1,4 @@
+import exceptions.InvalidBoardPositionException;
 import exceptions.InvalidSizeOfBoardException;
 
 import java.util.HashMap;
@@ -20,4 +21,21 @@ public class Board {
     private boolean isSizeOfBoardValid(int numberOfRows, int numberOfColumns) {
         return (numberOfRows == numberOfColumns) && ((numberOfRows == 8) || (numberOfRows == 10));
     }
+
+    public Cell getCell(Position position) throws InvalidBoardPositionException{
+        Cell cell = cells.get(position);
+        if(cell == null) throw new InvalidBoardPositionException("Invalid board position");
+        return cell;
+    }
+
+    public void putStone(Stone stone, Position position) throws InvalidBoardPositionException {
+        Cell cell = cells.get(position);
+        if (cell == null) {
+            throw new InvalidBoardPositionException("Invalid board position");
+        } else {
+            if(cell.isOccupied()) throw new InvalidBoardPositionException("The cell is already occupied");
+            cell.putStone(stone);
+        }
+    }
+
 }
