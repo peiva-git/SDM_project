@@ -19,7 +19,7 @@ public class Cell {
         return this.occupied;
     }
 
-    public void setStone(@NotNull Stone stone) {
+    public void putStone(@NotNull Stone stone) {
         this.stone = stone;
         this.occupied = true;
     }

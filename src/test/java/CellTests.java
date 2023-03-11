@@ -22,7 +22,7 @@ public class CellTests {
     @Test
     void testSetStone() {
         Stone newStone = new Stone(Color.WHITE);
-        cell.setStone(newStone);
+        cell.putStone(newStone);
         Assertions.assertEquals(cell.getStone(), newStone);
     }
 
