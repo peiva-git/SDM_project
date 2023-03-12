@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class BoardTests {
@@ -58,6 +59,24 @@ public class BoardTests {
         Position position = new Position(2, 3);
         board.putStone(stone, position);
         Assertions.assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
+    }
+    @Test
+    void testClearBoardByRemovingAllTheStones() {
+        Board board = new Board(8, 8);
+        fillTheEntireBoardWithWhiteStones(board);
+        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+            Assertions.assertTrue(cellWithPosition.getValue().isOccupied());
+        }
+        board.clearBoard();
+        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+            Assertions.assertFalse(cellWithPosition.getValue().isOccupied());
+        }
+    }
+
+    private void fillTheEntireBoardWithWhiteStones(Board board) {
+        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+            cellWithPosition.getValue().putStone(new Stone(Color.WHITE));
+        }
     }
 
 }
