@@ -45,7 +45,7 @@ public class BoardTests {
     @Test
     void testPutStoneMethodOnAFreePosition() {
         Board board = new Board(8, 8);
-        Stone stone = new Stone(Color.BLACK);
+        Stone stone = new Stone(Stone.Color.BLACK);
         Position position = new Position(2, 3);
         board.putStone(stone, position);
         assertEquals(stone, board.getStone(position));
@@ -54,7 +54,7 @@ public class BoardTests {
     @Test
     void testPutStoneMethodOnAWrongPosition() {
         Board board = new Board(8, 8);
-        Stone stone = new Stone(Color.BLACK);
+        Stone stone = new Stone(Stone.Color.BLACK);
         Position position = new Position(13, 3);
         assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
     }
@@ -62,7 +62,7 @@ public class BoardTests {
     @Test
     void testPutStoneMethodOnAnOccupiedPosition() {
         Board board = new Board(8, 8);
-        Stone stone = new Stone(Color.BLACK);
+        Stone stone = new Stone(Stone.Color.BLACK);
         Position position = new Position(2, 3);
         board.putStone(stone, position);
         assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
@@ -82,7 +82,7 @@ public class BoardTests {
 
     private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            cellWithPosition.getValue().putStone(new Stone(Color.WHITE));
+            cellWithPosition.getValue().putStone(new Stone(Stone.Color.WHITE));
         }
     }
 

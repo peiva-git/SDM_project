@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 public class CellTests {
 
-    Stone stone = new Stone(Color.BLACK);
+    Stone stone = new Stone(Stone.Color.BLACK);
     Cell cell = new Cell(stone);
 
     @Test
@@ -21,7 +21,7 @@ public class CellTests {
 
     @Test
     void testSetStone() {
-        Stone newStone = new Stone(Color.WHITE);
+        Stone newStone = new Stone(Stone.Color.WHITE);
         cell.putStone(newStone);
         Assertions.assertEquals(cell.getStone(), newStone);
     }

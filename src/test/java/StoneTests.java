@@ -2,11 +2,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class StoneTests {
 
-    Stone blackStone = new Stone(Color.BLACK);
+    Stone blackStone = new Stone(Stone.Color.BLACK);
 
     @Test
     void testColorGetter() {
-        assertEquals(blackStone.getColor(), Color.BLACK);
+        assertEquals(blackStone.getColor(), Stone.Color.BLACK);
     }
 
     @Test
@@ -22,8 +22,8 @@ public class StoneTests {
 
     @Test
     void testEquals() {
-        Stone newWhiteStone = new Stone(Color.WHITE);
-        Stone newBlackStone = new Stone(Color.BLACK);
+        Stone newWhiteStone = new Stone(Stone.Color.WHITE);
+        Stone newBlackStone = new Stone(Stone.Color.BLACK);
         assertEquals(blackStone, newBlackStone);
         assertNotEquals(blackStone, newWhiteStone);
     }

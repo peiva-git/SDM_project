@@ -1,5 +1,6 @@
 public class Stone {
 
+    public enum Color {WHITE, BLACK}
     private boolean live = false;
     private final Color color;
 
