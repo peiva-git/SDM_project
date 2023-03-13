@@ -83,13 +83,13 @@ public class BoardTests {
     @ParameterizedTest
     @MethodSource("provideBoardPositions")
     void testPutStoneMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
-        Stone stone = new Stone(Stone.Color.BLACK);
+        Stone blackStone = new Stone(Stone.Color.BLACK);
         Position position = new Position(row, column);
         if (expectedException == null) {
-            assertDoesNotThrow(() -> board.putStone(stone, position));
-            assertEquals(stone, board.getStone(position));
+            assertDoesNotThrow(() -> board.putStone(blackStone, position));
+            assertEquals(blackStone, board.getStone(position));
         } else {
-            assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
+            assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
         }
     }
 
@@ -97,9 +97,9 @@ public class BoardTests {
     @MethodSource("provideBoardPositions")
     void testPutStoneMethodOnAnOccupiedPosition(int row, int column, Class<Exception> expectedException) {
         testPutStoneMethodOnAFreePosition(row, column, expectedException);
-        Stone stone = new Stone(Stone.Color.BLACK);
+        Stone blackStone = new Stone(Stone.Color.BLACK);
         Position position = new Position(row, column);
-        assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
+        assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
     }
     @Test
     void testClearBoardByRemovingAllTheStones() {
