@@ -3,11 +3,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class BoardPosition {
+public class Position {
     private final int row;
     private final int column;
 
-    public BoardPosition(int row, int column) throws InvalidPositionException {
+    public Position(int row, int column) throws InvalidPositionException {
         if (arePositionCoordinatesInvalid(row, column)) {
             throw new InvalidPositionException("Invalid paramater: position row and column must be > 1");
         }
@@ -31,7 +31,7 @@ public class BoardPosition {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BoardPosition position = (BoardPosition) o;
+        Position position = (Position) o;
         return row == position.row && column == position.column;
     }
 
@@ -40,7 +40,7 @@ public class BoardPosition {
         return Objects.hash(row, column);
     }
 
-    public boolean isPositionAdjacentTo(@NotNull BoardPosition otherPosition) {
+    public boolean isPositionAdjacentTo(@NotNull Position otherPosition) {
         if (isPositionOneColumnToTheRight(otherPosition)) {
             return true;
         } else if (isPositionOneColumnToTheLeft(otherPosition)) {
@@ -52,19 +52,19 @@ public class BoardPosition {
         }
     }
 
-    private boolean isPositionOneRowUp(@NotNull BoardPosition otherPosition) {
+    private boolean isPositionOneRowUp(@NotNull Position otherPosition) {
         return otherPosition.getColumn() == column && otherPosition.getRow() == row - 1;
     }
 
-    private boolean isPositionOneRowDown(@NotNull BoardPosition otherPosition) {
+    private boolean isPositionOneRowDown(@NotNull Position otherPosition) {
         return otherPosition.getColumn() == column && otherPosition.getRow() == row + 1;
     }
 
-    private boolean isPositionOneColumnToTheLeft(@NotNull BoardPosition otherPosition) {
+    private boolean isPositionOneColumnToTheLeft(@NotNull Position otherPosition) {
         return otherPosition.getRow() == row && otherPosition.getColumn() == column - 1;
     }
 
-    private boolean isPositionOneColumnToTheRight(@NotNull BoardPosition otherPosition) {
+    private boolean isPositionOneColumnToTheRight(@NotNull Position otherPosition) {
         return otherPosition.getRow() == row && otherPosition.getColumn() == column + 1;
     }
 }
