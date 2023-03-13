@@ -38,7 +38,7 @@ public class BoardTests {
     @Test
     void testGetCellMethodOnAFreePosition() {
         Board board = new Board(8, 8);
-        Position position = new Position(4, 5);
+        BoardPosition position = new BoardPosition(4, 5);
         assertDoesNotThrow(() -> board.getCell(position));
     }
 
@@ -46,7 +46,7 @@ public class BoardTests {
     void testPutStoneMethodOnAFreePosition() {
         Board board = new Board(8, 8);
         Stone stone = new Stone(Color.BLACK);
-        Position position = new Position(2, 3);
+        BoardPosition position = new BoardPosition(2, 3);
         board.putStone(stone, position);
         assertEquals(stone, board.getStone(position));
     }
@@ -55,7 +55,7 @@ public class BoardTests {
     void testPutStoneMethodOnAWrongPosition() {
         Board board = new Board(8, 8);
         Stone stone = new Stone(Color.BLACK);
-        Position position = new Position(13, 3);
+        BoardPosition position = new BoardPosition(13, 3);
         assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
     }
 
@@ -63,7 +63,7 @@ public class BoardTests {
     void testPutStoneMethodOnAnOccupiedPosition() {
         Board board = new Board(8, 8);
         Stone stone = new Stone(Color.BLACK);
-        Position position = new Position(2, 3);
+        BoardPosition position = new BoardPosition(2, 3);
         board.putStone(stone, position);
         assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
     }
@@ -71,17 +71,17 @@ public class BoardTests {
     void testClearBoardByRemovingAllTheStones() {
         Board board = new Board(8, 8);
         fillTheEntireBoardWithWhiteStones(board);
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+        for (Map.Entry<BoardPosition, Cell> cellWithPosition : board) {
             assertTrue(cellWithPosition.getValue().isOccupied());
         }
         board.clearBoard();
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+        for (Map.Entry<BoardPosition, Cell> cellWithPosition : board) {
             assertFalse(cellWithPosition.getValue().isOccupied());
         }
     }
 
     private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+        for (Map.Entry<BoardPosition, Cell> cellWithPosition : board) {
             cellWithPosition.getValue().putStone(new Stone(Color.WHITE));
         }
     }
