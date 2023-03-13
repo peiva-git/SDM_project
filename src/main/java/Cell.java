@@ -1,6 +1,8 @@
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Cell {
+    @Nullable
     private Stone stone;
 
     public Cell() {
@@ -9,6 +11,7 @@ public class Cell {
         this.stone = stone;
     }
 
+    @Nullable
     public Stone getStone() {
         return stone;
     }
