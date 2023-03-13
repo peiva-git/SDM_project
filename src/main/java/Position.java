@@ -3,7 +3,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Position {
+public class Position implements Comparable<Position> {
     private final int row;
     private final int column;
 
@@ -66,5 +66,34 @@ public class Position {
 
     private boolean isPositionOneColumnToTheRight(@NotNull Position otherPosition) {
         return otherPosition.getRow() == row && otherPosition.getColumn() == column + 1;
+    }
+
+    /**
+     *
+     * The assumed ordering is that of a chess board: assuming to be looking from the white player's side,
+     * the columns are ordered from A to H starting on the left to the right,
+     * while the rows are ordered from 1 to 8 from the bottom to the top.
+     * We're therefore ordering all the board positions starting from numbers first and then letters
+     * @param position the position to compare this instance with
+     * @return 0 if the positions are the same, < 0 if position comes before this position,
+     * > 0 if position comes after this position
+     */
+    /*
+     * 8 -  -  -  -  -  -  -  -
+     * 7 -  -  -  -  -  -  -  -
+     * 6 -  -  -  -  -  -  -  -
+     * 5 -  -  -  -  -  -  -  -
+     * 4 -  -  -  -  -  -  -  -
+     * 3 -  -  -  -  -  -  -  -
+     * 2 -  -  -  -  -  -  -  -
+     * 1 -  -  -  -  -  -  -  -
+     *   A  B  C  D  E  F  G  H
+     * **White player's side is here**
+     */
+    @Override
+    public int compareTo(@NotNull Position position) {
+        if (column == position.getColumn()) {
+            return position.getRow() - row;
+        } else return Integer.compare(position.getColumn(), column);
     }
 }
