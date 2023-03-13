@@ -1,7 +1,8 @@
 import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,17 +15,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTests {
 
-    @ParameterizedTest
-    @MethodSource("provideWrongBoardInSize")
-    void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
-        if (expectedException != null) {
-            assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
-        } else {
-            Assertions.assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
-        }
+    private Board board;
+    private final int numberOfRows = 8;
+    private final int numberOfColumns = 8;
+
+    @BeforeEach
+    void initBoard() {
+        board = new Board(numberOfRows, numberOfColumns);
     }
 
-    private static @NotNull Stream<Arguments> provideWrongBoardInSize() {
+    @AfterEach
+    void clearBoard() {
+        board.clearBoard();
+    }
+
+    private static @NotNull Stream<Arguments> provideBoardSizes() {
         return Stream.of(
                 Arguments.of(11, 11, InvalidBoardSizeException.class),
                 Arguments.of(8, 3, InvalidBoardSizeException.class),
@@ -35,41 +40,69 @@ public class BoardTests {
         );
     }
 
-    @Test
-    void testGetCellMethodOnAFreePosition() {
-        Board board = new Board(8, 8);
-        Position position = new Position(4, 5);
-        assertDoesNotThrow(() -> board.getCell(position));
+    private static @NotNull Stream<Arguments> provideBoardPositions() {
+        return Stream.of(
+                Arguments.of(1, 1, null),
+                Arguments.of(5, 3, null),
+                Arguments.of(9, 8, InvalidPositionException.class)
+        );
     }
 
-    @Test
-    void testPutStoneMethodOnAFreePosition() {
-        Board board = new Board(8, 8);
-        Stone stone = new Stone(Stone.Color.BLACK);
-        Position position = new Position(2, 3);
-        board.putStone(stone, position);
-        assertEquals(stone, board.getStone(position));
+    @ParameterizedTest
+    @MethodSource("provideBoardSizes")
+    void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
+        if (expectedException != null) {
+            assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
+        } else {
+            assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
+        }
     }
 
-    @Test
-    void testPutStoneMethodOnAWrongPosition() {
-        Board board = new Board(8, 8);
-        Stone stone = new Stone(Stone.Color.BLACK);
-        Position position = new Position(13, 3);
-        assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void testGetCellMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
+        Position position = new Position(row, column);
+        if (expectedException == null) {
+            assertDoesNotThrow(() -> board.getCell(position));
+        } else {
+            assertThrows(InvalidPositionException.class, () -> board.getCell(position));
+        }
     }
 
-    @Test
-    void testPutStoneMethodOnAnOccupiedPosition() {
-        Board board = new Board(8, 8);
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void testGetStoneMethodOnFreePosition(int row, int column, Class<Exception> expectedException) {
+        Position position = new Position(row, column);
+        if (expectedException == null) {
+            assertDoesNotThrow(() -> board.getStone(position));
+        } else {
+            assertThrows(InvalidPositionException.class, () -> board.getStone(position));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void testPutStoneMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
         Stone stone = new Stone(Stone.Color.BLACK);
-        Position position = new Position(2, 3);
-        board.putStone(stone, position);
+        Position position = new Position(row, column);
+        if (expectedException == null) {
+            assertDoesNotThrow(() -> board.putStone(stone, position));
+            assertEquals(stone, board.getStone(position));
+        } else {
+            assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void testPutStoneMethodOnAnOccupiedPosition(int row, int column, Class<Exception> expectedException) {
+        testPutStoneMethodOnAFreePosition(row, column, expectedException);
+        Stone stone = new Stone(Stone.Color.BLACK);
+        Position position = new Position(row, column);
         assertThrows(InvalidPositionException.class, () -> board.putStone(stone, position));
     }
     @Test
     void testClearBoardByRemovingAllTheStones() {
-        Board board = new Board(8, 8);
         fillTheEntireBoardWithWhiteStones(board);
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
             assertTrue(cellWithPosition.getValue().isOccupied());
