@@ -10,13 +10,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class BoardTests {
 
     @ParameterizedTest
     @MethodSource("provideWrongBoardInSize")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
-            Assertions.assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
+            assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
         } else {
             Assertions.assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
         }
@@ -24,15 +26,20 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideWrongBoardInSize() {
         return Stream.of(
-                Arguments.of(2, 3, InvalidBoardSizeException.class),
-                Arguments.of(4, 3, InvalidBoardSizeException.class),
                 Arguments.of(11, 11, InvalidBoardSizeException.class),
                 Arguments.of(8, 3, InvalidBoardSizeException.class),
-                Arguments.of(45, 10, InvalidBoardSizeException.class),
-                Arguments.of(12, 12, InvalidBoardSizeException.class),
+                Arguments.of(7, 7, InvalidBoardSizeException.class),
+                Arguments.of(9, 9, InvalidBoardSizeException.class),
                 Arguments.of(10, 10, null),
                 Arguments.of(8, 8, null)
         );
+    }
+
+    @Test
+    void testGetCellMethodOnAFreePosition() {
+        Board board = new Board(8, 8);
+        Position position = new Position(4, 5);
+        assertDoesNotThrow(() -> board.getCell(position));
     }
 
     @Test
@@ -41,7 +48,7 @@ public class BoardTests {
         Stone stone = new Stone(Color.BLACK);
         Position position = new Position(2, 3);
         board.putStone(stone, position);
-        Assertions.assertEquals(stone, board.getStone(position));
+        assertEquals(stone, board.getStone(position));
     }
 
     @Test
@@ -49,7 +56,7 @@ public class BoardTests {
         Board board = new Board(8, 8);
         Stone stone = new Stone(Color.BLACK);
         Position position = new Position(13, 3);
-        Assertions.assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
+        assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
     }
 
     @Test
@@ -58,18 +65,18 @@ public class BoardTests {
         Stone stone = new Stone(Color.BLACK);
         Position position = new Position(2, 3);
         board.putStone(stone, position);
-        Assertions.assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
+        assertThrows(InvalidBoardPositionException.class, () -> board.putStone(stone, position));
     }
     @Test
     void testClearBoardByRemovingAllTheStones() {
         Board board = new Board(8, 8);
         fillTheEntireBoardWithWhiteStones(board);
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            Assertions.assertTrue(cellWithPosition.getValue().isOccupied());
+            assertTrue(cellWithPosition.getValue().isOccupied());
         }
         board.clearBoard();
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            Assertions.assertFalse(cellWithPosition.getValue().isOccupied());
+            assertFalse(cellWithPosition.getValue().isOccupied());
         }
     }
 
