@@ -26,4 +26,11 @@ public class CellTests {
         Assertions.assertEquals(cell.getStone(), newStone);
     }
 
+    @Test
+    void testClearCell() {
+        cell.clear();
+        Assertions.assertFalse(cell.isOccupied());
+        Assertions.assertNull(cell.getStone());
+    }
+
 }
