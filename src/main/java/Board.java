@@ -1,6 +1,7 @@
 import exceptions.InvalidBoardPositionException;
-import exceptions.InvalidSizeOfBoardException;
+import exceptions.InvalidBoardSizeException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,9 +11,9 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
     private final Map<Position, Cell> cells = new HashMap<>();
 
-    public Board(int numberOfRows, int numberOfColumns) throws InvalidSizeOfBoardException {
+    public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isSizeOfBoardValid(numberOfRows, numberOfColumns))
-            throw new InvalidSizeOfBoardException("The size of the board must be 8x8 or 10x10.");
+            throw new InvalidBoardSizeException("The size of the board must be 8x8 or 10x10.");
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
@@ -30,13 +31,24 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         return this.cells.entrySet().iterator();
     }
 
-    public Cell getCell(Position position) throws InvalidBoardPositionException {
+    @NotNull
+    public Cell getCell(@NotNull Position position) throws InvalidBoardPositionException {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidBoardPositionException("Invalid board position");
         return cell;
     }
 
-    public void putStone(Stone stone, Position position) throws InvalidBoardPositionException {
+    @Nullable
+    public Stone getStone(@NotNull Position position) throws InvalidBoardPositionException {
+        Cell cell = cells.get(position);
+        if (cell == null) {
+            throw new InvalidBoardPositionException("Invalid board position");
+        } else {
+            return cell.getStone();
+        }
+    }
+
+    public void putStone(@NotNull Stone stone,@NotNull Position position) throws InvalidBoardPositionException {
         Cell cell = cells.get(position);
         if (cell == null) {
             throw new InvalidBoardPositionException("Invalid board position");

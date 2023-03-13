@@ -1,5 +1,5 @@
 import exceptions.InvalidBoardPositionException;
-import exceptions.InvalidSizeOfBoardException;
+import exceptions.InvalidBoardSizeException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,12 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideWrongBoardInSize() {
         return Stream.of(
-                Arguments.of(2, 3, InvalidSizeOfBoardException.class),
-                Arguments.of(4, 3, InvalidSizeOfBoardException.class),
-                Arguments.of(11, 11, InvalidSizeOfBoardException.class),
-                Arguments.of(8, 3, InvalidSizeOfBoardException.class),
-                Arguments.of(45, 10, InvalidSizeOfBoardException.class),
-                Arguments.of(12, 12, InvalidSizeOfBoardException.class),
+                Arguments.of(2, 3, InvalidBoardSizeException.class),
+                Arguments.of(4, 3, InvalidBoardSizeException.class),
+                Arguments.of(11, 11, InvalidBoardSizeException.class),
+                Arguments.of(8, 3, InvalidBoardSizeException.class),
+                Arguments.of(45, 10, InvalidBoardSizeException.class),
+                Arguments.of(12, 12, InvalidBoardSizeException.class),
                 Arguments.of(10, 10, null),
                 Arguments.of(8, 8, null)
         );
@@ -41,7 +41,7 @@ public class BoardTests {
         Stone stone = new Stone(Color.BLACK);
         Position position = new Position(2, 3);
         board.putStone(stone, position);
-        Assertions.assertEquals(stone, board.getCell(position).getStone());
+        Assertions.assertEquals(stone, board.getStone(position));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class BoardTests {
         }
     }
 
-    private void fillTheEntireBoardWithWhiteStones(Board board) {
+    private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
             cellWithPosition.getValue().putStone(new Stone(Color.WHITE));
         }
