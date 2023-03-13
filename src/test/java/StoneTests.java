@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class StoneTests {
-
     Stone blackStone = new Stone(Stone.Color.BLACK);
 
     @Test

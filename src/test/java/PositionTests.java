@@ -1,33 +1,17 @@
+import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTests {
-
-    @Test
-    void getPositionRow() {
-        int row = 3;
-        int column = 2;
-        Position position = new Position(row, column);
-        assertEquals(position.getRow(), row);
-    }
-
-    @Test
-    void getPositionColumn() {
-        int row = 4;
-        int column = 8;
-        Position position = new Position(row, column);
-        assertEquals(position.getColumn(), column);
-    }
-
     private static @NotNull Stream<Arguments> providePositionPairsForArePositionsAdjacent() {
         return Stream.of(
+                Arguments.of(new Position(3, 3), new Position(3, 3), false),
                 Arguments.of(new Position(3, 3), new Position(3, 4), true),
                 Arguments.of(new Position(3, 3), new Position(3, 2), true),
                 Arguments.of(new Position(3, 3), new Position(2, 3), true),
@@ -37,6 +21,26 @@ public class PositionTests {
                 Arguments.of(new Position(3, 3), new Position(1, 3), false),
                 Arguments.of(new Position(3, 3), new Position(5, 3), false)
         );
+    }
+
+    private static @NotNull Stream<Arguments> providePositionCoordinates() {
+        return Stream.of(
+                Arguments.of(0, 0, InvalidPositionException.class),
+                Arguments.of(-1, -1, InvalidPositionException.class),
+                Arguments.of(5, 8, null)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("providePositionCoordinates")
+    void testNewPosition(int row, int column, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            Position position = assertDoesNotThrow(() -> new Position(row, column));
+            assertEquals(row, position.getRow());
+            assertEquals(column, position.getColumn());
+        } else {
+            assertThrows(InvalidPositionException.class, () -> new Position(row, column));
+        }
     }
 
     @ParameterizedTest
