@@ -2,29 +2,30 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class StoneTests {
 
-    Stone stone = new Stone(Color.BLACK);
+    Stone blackStone = new Stone(Color.BLACK);
 
     @Test
     void testColorGetter() {
-        assertEquals(stone.getColor(), Color.BLACK);
+        assertEquals(blackStone.getColor(), Color.BLACK);
     }
 
     @Test
     void testIsLiveAfterStoneCreation() {
-        assertFalse(stone.isLive());
+        assertFalse(blackStone.isLive());
     }
 
     @Test
     void testIsLiveAfterLiveSetter() {
-        stone.setLive(true);
-        assertTrue(stone.isLive());
+        blackStone.setLive(true);
+        assertTrue(blackStone.isLive());
     }
 
     @Test
     void testEquals() {
-        Stone newStone = new Stone(Color.WHITE);
-        assertEquals(stone, stone);
-        assertNotEquals(stone, newStone);
+        Stone newWhiteStone = new Stone(Color.WHITE);
+        Stone newBlackStone = new Stone(Color.BLACK);
+        assertEquals(blackStone, newBlackStone);
+        assertNotEquals(blackStone, newWhiteStone);
     }
 
 }
