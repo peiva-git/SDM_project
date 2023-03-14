@@ -92,9 +92,12 @@ public class Position implements Comparable<Position> {
      */
     @Override
     public int compareTo(@NotNull Position position) {
-        if (column == position.getColumn()) {
+        if (column < position.getColumn()) {
+            return 1;
+        } else if (column > position.getColumn()) {
+            return -1;
+        } else {
             return position.getRow() - row;
         }
-        return Integer.compare(position.getColumn(), column);
     }
 }
