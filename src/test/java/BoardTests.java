@@ -35,8 +35,8 @@ public class BoardTests {
                 Arguments.of(1, 0, InvalidBoardSizeException.class),
                 Arguments.of(0, 0, InvalidBoardSizeException.class),
                 Arguments.of(-1, -1, InvalidBoardSizeException.class),
-                Arguments.of(1, 1, null),
-                Arguments.of(2, 3, null)
+                Arguments.of(2, 3, InvalidBoardSizeException.class),
+                Arguments.of(1, 1, null)
         );
     }
 
@@ -101,6 +101,7 @@ public class BoardTests {
         Position position = new Position(row, column);
         assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
     }
+
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillTheEntireBoardWithWhiteStones(board);

@@ -22,7 +22,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     private boolean isSizeOfBoardValid(int numberOfRows, int numberOfColumns) {
-        return numberOfRows > 0 && numberOfColumns > 0;
+        return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }
 
     @NotNull
@@ -48,7 +48,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
-    public void putStone(@NotNull Stone stone,@NotNull Position position) throws InvalidPositionException {
+    public void putStone(@NotNull Stone stone, @NotNull Position position) throws InvalidPositionException {
         Cell cell = cells.get(position);
         if (cell == null) {
             throw new InvalidPositionException("Invalid board position");
