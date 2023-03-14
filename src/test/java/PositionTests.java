@@ -65,8 +65,10 @@ public class PositionTests {
     void testPositionOrdering(Position first, Position second, int expectedResult) {
         if (expectedResult == 1) {
             assertTrue(first.compareTo(second) > 0);
+            assertNotEquals(first, second);
         } else if (expectedResult == -1) {
             assertTrue(first.compareTo(second) < 0);
+            assertNotEquals(first, second);
         } else {
             assertEquals(0, first.compareTo(second));
             assertEquals(first, second);

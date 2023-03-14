@@ -94,6 +94,7 @@ public class Position implements Comparable<Position> {
     public int compareTo(@NotNull Position position) {
         if (column == position.getColumn()) {
             return position.getRow() - row;
-        } else return Integer.compare(position.getColumn(), column);
+        }
+        return Integer.compare(position.getColumn(), column);
     }
 }
