@@ -1,10 +1,10 @@
 public class Game {
 
-    private enum GameStatus {NOTSTARTED, STARTED, FINISHED}
+    private enum GameStatus {NOT_STARTED, STARTED, FINISHED}
     private final Player whitePlayer;
     private final Player blackPlayer;
     private final Board board;
-    private GameStatus gameStatus = GameStatus.NOTSTARTED;
+    private GameStatus gameStatus = GameStatus.NOT_STARTED;
 
     public Game(Board board, Player player1, Player player2) {
         this.whitePlayer = player1;
