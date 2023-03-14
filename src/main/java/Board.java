@@ -64,4 +64,8 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
+    public boolean hasMoreThanOneFreeCell() {
+        // TODO
+        return false;
+    }
 }
