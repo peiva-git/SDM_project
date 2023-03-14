@@ -1,10 +1,10 @@
 public class Game {
 
     private enum GameStatus {NOTSTARTED, STARTED, FINISHED}
-    Player whitePlayer;
-    Player blackPlayer;
-    Board board;
-    GameStatus gameStatus = GameStatus.NOTSTARTED;
+    private final Player whitePlayer;
+    private final Player blackPlayer;
+    private final Board board;
+    private GameStatus gameStatus = GameStatus.NOTSTARTED;
 
     public Game(Board board, Player player1, Player player2) {
         this.whitePlayer = player1;
@@ -23,7 +23,7 @@ public class Game {
         end();
     }
 
-    void turn(Player player) {
+    public void turn(Player player) {
         if(board.hasMoreThanOneFreeCell()) {
             player.putStone(board);
         } else {
