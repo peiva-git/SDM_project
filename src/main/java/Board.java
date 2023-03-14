@@ -13,7 +13,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
     public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isSizeOfBoardValid(numberOfRows, numberOfColumns))
-            throw new InvalidBoardSizeException("The size of the board must be 8x8 or 10x10.");
+            throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
@@ -22,7 +22,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     private boolean isSizeOfBoardValid(int numberOfRows, int numberOfColumns) {
-        return (numberOfRows == numberOfColumns) && ((numberOfRows == 8) || (numberOfRows == 10));
+        return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }
 
     @NotNull
@@ -48,7 +48,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
-    public void putStone(@NotNull Stone stone,@NotNull Position position) throws InvalidPositionException {
+    public void putStone(@NotNull Stone stone, @NotNull Position position) throws InvalidPositionException {
         Cell cell = cells.get(position);
         if (cell == null) {
             throw new InvalidPositionException("Invalid board position");

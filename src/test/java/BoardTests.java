@@ -31,12 +31,12 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideBoardSizes() {
         return Stream.of(
-                Arguments.of(11, 11, InvalidBoardSizeException.class),
-                Arguments.of(8, 3, InvalidBoardSizeException.class),
-                Arguments.of(7, 7, InvalidBoardSizeException.class),
-                Arguments.of(9, 9, InvalidBoardSizeException.class),
-                Arguments.of(10, 10, null),
-                Arguments.of(8, 8, null)
+                Arguments.of(0, 1, InvalidBoardSizeException.class),
+                Arguments.of(1, 0, InvalidBoardSizeException.class),
+                Arguments.of(0, 0, InvalidBoardSizeException.class),
+                Arguments.of(-1, -1, InvalidBoardSizeException.class),
+                Arguments.of(2, 3, InvalidBoardSizeException.class),
+                Arguments.of(1, 1, null)
         );
     }
 
@@ -101,6 +101,7 @@ public class BoardTests {
         Position position = new Position(row, column);
         assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
     }
+
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillTheEntireBoardWithWhiteStones(board);
