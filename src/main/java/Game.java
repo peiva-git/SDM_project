@@ -17,6 +17,7 @@ public class Game {
         gameStatus = GameStatus.STARTED;
         while (gameStatus == GameStatus.STARTED) {
             turn(whitePlayer);
+            if(gameStatus == GameStatus.FINISHED) break;
             turn(blackPlayer);
         }
         end();
