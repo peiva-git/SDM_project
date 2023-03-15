@@ -12,4 +12,7 @@ public class Move {
         return player;
     }
 
+    public Position getPosition() {
+        return position;
+    }
 }
