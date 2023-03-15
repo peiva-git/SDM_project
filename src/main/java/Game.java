@@ -1,12 +1,11 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Game {
 
-    public enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, FINISHED}
+    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, FINISHED}
 
     @NotNull
     private final Player whitePlayer;
