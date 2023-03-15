@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 public class Player {
 
     private Stone.Color color;
@@ -10,11 +12,11 @@ public class Player {
         this.color = color;
     }
 
-    public void putStone(Board board) {
+    public void putStone(@NotNull Board board) {
         // TODO
     }
 
-    public void lastMove(Board board) {
+    public void lastMove(@NotNull Board board) {
         // TODO
     }
 

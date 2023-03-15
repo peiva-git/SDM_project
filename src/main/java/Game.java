@@ -1,12 +1,17 @@
+import org.jetbrains.annotations.NotNull;
+
 public class Game {
 
     private enum GameStatus {NOT_STARTED, STARTED, FINISHED}
+    @NotNull
     private final Player whitePlayer;
+    @NotNull
     private final Player blackPlayer;
+    @NotNull
     private final Board board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
 
-    public Game(Board board, Player player1, Player player2) {
+    public Game(@NotNull Board board,@NotNull Player player1,@NotNull Player player2) {
         this.whitePlayer = player1;
         this.blackPlayer = player2;
         this.board = board;
@@ -23,7 +28,7 @@ public class Game {
         end();
     }
 
-    public void turn(Player player) {
+    public void turn(@NotNull Player player) {
         if(board.hasMoreThanOneFreeCell()) {
             player.putStone(board);
         } else {
