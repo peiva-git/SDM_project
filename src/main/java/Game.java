@@ -62,7 +62,16 @@ public class Game {
     }
 
     private void checkCurrentGameStatus() {
-        // TODO
+        BoardAnalyzer boardAnalyzer = new BoardAnalyzer(board);
+        if(boardAnalyzer.hasBoardMoreThanOneFreeCell()) {
+            if(boardAnalyzer.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
+                gameStatus = GameStatus.FREEDOM;
+            } else {
+                gameStatus = GameStatus.NO_FREEDOM;
+            }
+        } else {
+            gameStatus = GameStatus.LAST_MOVE;
+        }
     }
 
     private Position getPositionWithFreedom(Player player) {
