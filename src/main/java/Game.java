@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class Game {
 
-    public enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, FINISHED}
+    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, FINISHED}
 
     @NotNull
     private final Player whitePlayer;
@@ -20,10 +20,6 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
-    }
-
-    public GameStatus getCurrentGameStatus() {
-        return gameStatus;
     }
 
     public void start() {
