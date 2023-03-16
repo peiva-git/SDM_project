@@ -1,17 +1,21 @@
+import org.jetbrains.annotations.NotNull;
+
 public class Player {
 
-    private Stone.Color color;
+    private final Stone.Color color;
+    @NotNull
+    private final String name;
+    @NotNull
+    private final String surname;
 
-    public Player(Stone.Color color) {
+    public Player(Stone.Color color, @NotNull String name, @NotNull String surname) {
         this.color = color;
+        this.name = name;
+        this.surname = surname;
     }
 
     public Stone.Color getColor() {
         return color;
-    }
-
-    public void setColor(Stone.Color color) {
-        this.color = color;
     }
 
     @Override

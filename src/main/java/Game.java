@@ -16,9 +16,9 @@ public class Game {
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
 
-    public Game(@NotNull Board board, @NotNull Player player1, @NotNull Player player2) {
-        this.whitePlayer = player1;
-        this.blackPlayer = player2;
+    public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
         this.board = board;
     }
 

@@ -5,10 +5,10 @@ public class PlayerTests {
 
     @Test
     void testPlayerEquals() {
-        Player player1 = new Player(Stone.Color.BLACK);
-        Player player2 = new Player(Stone.Color.WHITE);
-        Assertions.assertNotEquals(player1, player2);
-        Assertions.assertEquals(player1, player1);
+        Player blackPlayer = new Player(Stone.Color.BLACK, "Name", "Surname");
+        Player whitePlayer = new Player(Stone.Color.WHITE, "Name", "Surname");
+        Assertions.assertNotEquals(blackPlayer, whitePlayer);
+        Assertions.assertEquals(blackPlayer, blackPlayer);
     }
 
 }
