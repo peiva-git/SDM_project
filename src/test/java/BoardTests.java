@@ -68,40 +68,6 @@ public class BoardTests {
             assertThrows(InvalidPositionException.class, () -> board.getCell(position));
         }
     }
-
-    @ParameterizedTest
-    @MethodSource("provideBoardPositions")
-    void testGetStoneMethodOnFreePosition(int row, int column, Class<Exception> expectedException) {
-        Position position = new Position(row, column);
-        if (expectedException == null) {
-            assertDoesNotThrow(() -> board.getStone(position));
-        } else {
-            assertThrows(InvalidPositionException.class, () -> board.getStone(position));
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideBoardPositions")
-    void testPutStoneMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
-        Stone blackStone = new Stone(Stone.Color.BLACK);
-        Position position = new Position(row, column);
-        if (expectedException == null) {
-            assertDoesNotThrow(() -> board.putStone(blackStone, position));
-            assertEquals(blackStone, board.getStone(position));
-        } else {
-            assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideBoardPositions")
-    void testPutStoneMethodOnAnOccupiedPosition(int row, int column, Class<Exception> expectedException) {
-        testPutStoneMethodOnAFreePosition(row, column, expectedException);
-        Stone blackStone = new Stone(Stone.Color.BLACK);
-        Position position = new Position(row, column);
-        assertThrows(InvalidPositionException.class, () -> board.putStone(blackStone, position));
-    }
-
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillTheEntireBoardWithWhiteStones(board);

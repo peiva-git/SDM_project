@@ -20,7 +20,7 @@ public class CellTests {
     }
 
     @Test
-    void testSetStone() {
+    void testPutStone() {
         Stone newStone = new Stone(Stone.Color.WHITE);
         cell.putStone(newStone);
         Assertions.assertEquals(cell.getStone(), newStone);

@@ -1,7 +1,6 @@
 import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,36 +25,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     @NotNull
-    @Override
-    public Iterator<Map.Entry<Position, Cell>> iterator() {
-        return this.cells.entrySet().iterator();
-    }
-
-    @NotNull
     public Cell getCell(@NotNull Position position) throws InvalidPositionException {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell;
-    }
-
-    @Nullable
-    public Stone getStone(@NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
-        if (cell == null) {
-            throw new InvalidPositionException("Invalid board position");
-        } else {
-            return cell.getStone();
-        }
-    }
-
-    public void putStone(@NotNull Stone stone, @NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
-        if (cell == null) {
-            throw new InvalidPositionException("Invalid board position");
-        } else {
-            if (cell.isOccupied()) throw new InvalidPositionException("The cell is already occupied");
-            cell.putStone(stone);
-        }
     }
 
     public void clearBoard() {
@@ -64,8 +37,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
-    public boolean hasMoreThanOneFreeCell() {
-        // TODO
-        return false;
+    @NotNull
+    @Override
+    public Iterator<Map.Entry<Position, Cell>> iterator() {
+        return this.cells.entrySet().iterator();
     }
+
 }
