@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.sonarqube' version '3.5.0.2730'
+    id 'jacoco'
 }
 
 group 'it.units'
@@ -18,4 +20,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }

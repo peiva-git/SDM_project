@@ -7,9 +7,13 @@ import java.util.*;
 public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
     private final Map<Position, Cell> cells = new HashMap<>();
+    private final int numberOfRows;
+    private final int numberOfColumns;
 
     public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
-        if (!isSizeOfBoardValid(numberOfRows, numberOfColumns))
+        this.numberOfRows = numberOfRows;
+        this.numberOfColumns = numberOfColumns;
+        if (!isSizeOfBoardValid(this.numberOfRows, this.numberOfColumns))
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
@@ -36,7 +40,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     @NotNull
-    public List<Cell> getAdjacentCells(@NotNull Position cellPosition) {
+    public List<Cell> getAdjacentCells(@NotNull Position cellPosition) throws InvalidPositionException {
+        if (cellPosition.getRow() > numberOfRows || cellPosition.getColumn() > numberOfColumns) {
+            throw new InvalidPositionException("The specified position is outside the board");
+        }
         List<Cell> adjacentCells = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -45,13 +52,14 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
                     Position adjacentCellPosition = new Position(cellPosition.getRow() + i, cellPosition.getColumn() + j);
                     adjacentCells.add(cells.get(adjacentCellPosition));
                 } catch (InvalidPositionException ignored) {
+                    // if there are no adjacent cells in one direction, simply don't add them to the list
                 }
             }
         }
         return adjacentCells;
     }
 
-    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) {
+    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
         List<Cell> adjacentCell = getAdjacentCells(cellPosition);
         for(Cell cell : adjacentCell) {
             if(!cell.isOccupied()) return false;
