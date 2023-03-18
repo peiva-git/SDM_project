@@ -70,15 +70,15 @@ public class BoardTests {
         }
     }
 
-    private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            cellWithPosition.getValue().putStone(new Stone(Stone.Color.WHITE));
+    private void fillBoardWithWhiteStones() {
+        for (Map.Entry<Position, Cell> boardCell : board) {
+            boardCell.getValue().putStone(new Stone(Stone.Color.WHITE));
         }
     }
 
     @Test
     void testClearBoardByRemovingAllTheStones() {
-        fillTheEntireBoardWithWhiteStones(board);
+        fillBoardWithWhiteStones();
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
             assertTrue(cellWithPosition.getValue().isOccupied());
         }
@@ -90,7 +90,7 @@ public class BoardTests {
 
     @Test
     void testHasBoardMoreThanOneFreeCell() {
-        fillTheBoardWithWhiteStones();
+        fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
         board.getCell(new Position(1,1)).clear();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
@@ -98,18 +98,17 @@ public class BoardTests {
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
     }
 
-    private void fillTheBoardWithWhiteStones() {
-        for (Map.Entry<Position, Cell> boardCell : board) {
-            boardCell.getValue().putStone(new Stone(Stone.Color.WHITE));
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            fillBoardWithWhiteStones();
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
+            board.getCell(new Position(row,column)).clear();
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
+            Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(row,column + 1)));
+        } else {
+            assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(new Position(row, column)));
         }
     }
-    @Test
-    void testAreAdjacentCellsOccupied() {
-        fillTheBoardWithWhiteStones();
-        Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(1,1)));
-        board.getCell(new Position(1,1)).clear();
-        Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(1,1)));
-        Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(1,2)));
-    }
-
 }
