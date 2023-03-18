@@ -2,9 +2,7 @@ import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
@@ -35,6 +33,39 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         for (Cell cell : cells.values()) {
             cell.clear();
         }
+    }
+
+    @NotNull
+    public List<Cell> getAdjacentCells(@NotNull Position cellPosition) {
+        List<Cell> adjacentCells = new ArrayList<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                try {
+                    if (j == 0 && i == 0) continue;
+                    Position adjacentCellPosition = new Position(cellPosition.getRow() + i, cellPosition.getColumn() + j);
+                    adjacentCells.add(cells.get(adjacentCellPosition));
+                } catch (InvalidPositionException ignored) {
+                }
+            }
+        }
+        return adjacentCells;
+    }
+
+    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) {
+        List<Cell> adjacentCell = getAdjacentCells(cellPosition);
+        for(Cell cell : adjacentCell) {
+            if(!cell.isOccupied()) return false;
+        }
+        return true;
+    }
+
+    public boolean hasBoardMoreThanOneFreeCell() {
+        int numberOfFreeCellsOnBoard = 0;
+        for (Map.Entry<Position, Cell> cellOnBoard : cells.entrySet()) {
+            if (!cellOnBoard.getValue().isOccupied()) numberOfFreeCellsOnBoard++;
+            if (numberOfFreeCellsOnBoard > 1) return true;
+        }
+        return false;
     }
 
     @NotNull

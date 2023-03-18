@@ -2,6 +2,7 @@ import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -84,6 +85,30 @@ public class BoardTests {
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
             cellWithPosition.getValue().putStone(new Stone(Stone.Color.WHITE));
         }
+    }
+
+    @Test
+    void testHasBoardMoreThanOneFreeCell() {
+        fillTheBoardWithWhiteStones();
+        Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
+        board.getCell(new Position(1,1)).clear();
+        Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
+        board.getCell(new Position(1,2)).clear();
+        Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
+    }
+
+    private void fillTheBoardWithWhiteStones() {
+        for (Map.Entry<Position, Cell> boardCell : board) {
+            boardCell.getValue().putStone(new Stone(Stone.Color.WHITE));
+        }
+    }
+    @Test
+    void testAreAdjacentCellsOccupied() {
+        fillTheBoardWithWhiteStones();
+        Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(1,1)));
+        board.getCell(new Position(1,1)).clear();
+        Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(1,1)));
+        Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(1,2)));
     }
 
 }
