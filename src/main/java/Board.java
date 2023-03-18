@@ -1,11 +1,8 @@
 import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
@@ -26,36 +23,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     @NotNull
-    @Override
-    public Iterator<Map.Entry<Position, Cell>> iterator() {
-        return this.cells.entrySet().iterator();
-    }
-
-    @NotNull
     public Cell getCell(@NotNull Position position) throws InvalidPositionException {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell;
-    }
-
-    @Nullable
-    public Stone getStone(@NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
-        if (cell == null) {
-            throw new InvalidPositionException("Invalid board position");
-        } else {
-            return cell.getStone();
-        }
-    }
-
-    public void putStone(@NotNull Stone stone, @NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
-        if (cell == null) {
-            throw new InvalidPositionException("Invalid board position");
-        } else {
-            if (cell.isOccupied()) throw new InvalidPositionException("The cell is already occupied");
-            cell.putStone(stone);
-        }
     }
 
     public void clearBoard() {
@@ -64,8 +35,43 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
-    public boolean hasMoreThanOneFreeCell() {
-        // TODO
+    @NotNull
+    public List<Cell> getAdjacentCells(@NotNull Position cellPosition) {
+        List<Cell> adjacentCells = new ArrayList<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                try {
+                    if (j == 0 && i == 0) continue;
+                    Position adjacentCellPosition = new Position(cellPosition.getRow() + i, cellPosition.getColumn() + j);
+                    adjacentCells.add(cells.get(adjacentCellPosition));
+                } catch (InvalidPositionException ignored) {
+                }
+            }
+        }
+        return adjacentCells;
+    }
+
+    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) {
+        List<Cell> adjacentCell = getAdjacentCells(cellPosition);
+        for(Cell cell : adjacentCell) {
+            if(!cell.isOccupied()) return false;
+        }
+        return true;
+    }
+
+    public boolean hasBoardMoreThanOneFreeCell() {
+        int numberOfFreeCellsOnBoard = 0;
+        for (Map.Entry<Position, Cell> cellOnBoard : cells.entrySet()) {
+            if (!cellOnBoard.getValue().isOccupied()) numberOfFreeCellsOnBoard++;
+            if (numberOfFreeCellsOnBoard > 1) return true;
+        }
         return false;
     }
+
+    @NotNull
+    @Override
+    public Iterator<Map.Entry<Position, Cell>> iterator() {
+        return this.cells.entrySet().iterator();
+    }
+
 }

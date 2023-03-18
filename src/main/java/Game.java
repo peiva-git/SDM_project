@@ -1,7 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Game {
 
@@ -62,7 +61,15 @@ public class Game {
     }
 
     private void checkCurrentGameStatus() {
-        // TODO
+        if(board.hasBoardMoreThanOneFreeCell()) {
+            if(board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
+                gameStatus = GameStatus.FREEDOM;
+            } else {
+                gameStatus = GameStatus.NO_FREEDOM;
+            }
+        } else {
+            gameStatus = GameStatus.LAST_MOVE;
+        }
     }
 
     private Position getPositionWithFreedom(Player player) {
