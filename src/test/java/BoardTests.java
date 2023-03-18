@@ -69,6 +69,13 @@ public class BoardTests {
             assertThrows(InvalidPositionException.class, () -> board.getCell(position));
         }
     }
+
+    private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
+        for (Map.Entry<Position, Cell> cellWithPosition : board) {
+            cellWithPosition.getValue().putStone(new Stone(Stone.Color.WHITE));
+        }
+    }
+
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillTheEntireBoardWithWhiteStones(board);
@@ -78,12 +85,6 @@ public class BoardTests {
         board.clearBoard();
         for (Map.Entry<Position, Cell> cellWithPosition : board) {
             assertFalse(cellWithPosition.getValue().isOccupied());
-        }
-    }
-
-    private void fillTheEntireBoardWithWhiteStones(@NotNull Board board) {
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            cellWithPosition.getValue().putStone(new Stone(Stone.Color.WHITE));
         }
     }
 
