@@ -11,6 +11,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
+      - image: sonarqube:9-community
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -41,14 +42,19 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      - run:
+          name: Waiting for Sonarqube to be ready
+          command: |
+            for i in `seq 1 10`
+            do
+              nc -z localhost 9000 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Sonarqube && exit 1
+
       # run tests!
       - run: gradle test
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
-      - run: docker run -d -p 9000:9000 --name sonarqube-server sonarqube:9-community
-      - run: docker exec sonarqube-server curl --retry 10 --retry-connrefused http://localhost:9000
       - run: gradle -Dsonar.host.url=http://localhost:9000 sonar
       - store_artifacts:
           path: /jacocoHtml
-
