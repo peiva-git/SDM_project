@@ -55,6 +55,6 @@ jobs:
 
       # run tests!
       - run: gradle test
-      - run: gradle -Dsonar.host.url=http://localhost:9000 sonar
+      - run: gradle -Dsonar.host.url=http://localhost:9000 --debug --stacktrace sonar
       - store_artifacts:
           path: /jacocoHtml
