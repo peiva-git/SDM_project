@@ -69,6 +69,7 @@ public class Game {
                 + "2 -  -  -  -  -  -  -  -\n"
                 + "1 -  -  -  -  -  -  -  -\n"
                 + "  A  B  C  D  E  F  G  H");
+
     }
 
     @NotNull

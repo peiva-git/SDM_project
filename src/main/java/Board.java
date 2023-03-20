@@ -6,15 +6,16 @@ import java.util.*;
 
 public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
-    private final Map<Position, Cell> cells = new HashMap<>();
+    private final Map<Position, Cell> cells;
     private final int numberOfRows;
     private final int numberOfColumns;
 
     public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
+        if (!isBoardSizeValid(numberOfRows, numberOfColumns))
+            throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-        if (!isBoardSizeValid(this.numberOfRows, this.numberOfColumns))
-            throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
+        cells = new HashMap<>(numberOfColumns * numberOfRows);
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
