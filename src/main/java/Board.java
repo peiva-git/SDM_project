@@ -13,7 +13,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-        if (!isSizeOfBoardValid(this.numberOfRows, this.numberOfColumns))
+        if (!isBoardSizeValid(this.numberOfRows, this.numberOfColumns))
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
@@ -22,7 +22,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
-    private boolean isSizeOfBoardValid(int numberOfRows, int numberOfColumns) {
+    private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
         return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }
 
