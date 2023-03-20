@@ -100,9 +100,17 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = allPlayersMoves.getLast().getPosition();
-        Set<Cell> adjacentCells = board.getAdjacentCells(lastPosition);
-
-        return getPositionFromUser();
+        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
+        System.out.print("Yuo can pick one of the following positions: ");
+        for (Position adjacentPosition : adjacentPositions) {
+            int row = adjacentPosition.getRow();
+            char column = (char) ('A' + adjacentPosition.getColumn() - 1);
+            System.out.print(column);
+            System.out.print(row);
+            System.out.print(" ");
+        }
+        System.out.println();
+        return getPositionFromUserFromSuggestedSet(adjacentPositions);
     }
 
     @NotNull
@@ -127,6 +135,34 @@ public class Game {
             } else {
                 System.out.print("Wrong input format, try again: ");
                 input = userInput.nextLine();
+            }
+        }
+    }
+
+    @Contract("_ -> new")
+    private @NotNull Position getPositionFromUserFromSuggestedSet(@NotNull Set<Position> suggestedPositions) {
+        System.out.print("Insert the cell name: ");
+        String input = userInput.nextLine();
+        while (true) {
+            if (input.matches("[A-Z][0-9]")) {
+                int row = Integer.parseInt(input.substring(1));
+                int column = input.charAt(0) - 'A' + 1;
+                if (board.getNumberOfRows() >= row && board.getNumberOfColumns() >= column) {
+                    if (suggestedPositions.contains(new Position(row, column))) {
+                        if (!board.getCell(new Position(row, column)).isOccupied()) {
+                            return new Position(row, column);
+                        } else {
+                            System.out.print("The picked cell is already occupied! Pick again: ");
+                            input = userInput.nextLine();
+                        }
+                    } else {
+                        System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
+                        input = userInput.nextLine();
+                    }
+                } else {
+                    System.out.print("The specified cell is outside of the board range! Pick again: ");
+                    input = userInput.nextLine();
+                }
             }
         }
     }
