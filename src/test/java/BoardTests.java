@@ -134,7 +134,7 @@ public class BoardTests {
         if (expectedException != null) {
             assertThrows(expectedException, () -> board.getAdjacentCells(position));
         } else {
-            Set<Cell> adjacentCells = new HashSet<>(4);
+            Set<Cell> adjacentCells = new HashSet<>(8);
             for (Position adjacentPosition : adjacentPositions) {
                 adjacentCells.add(board.getCell(adjacentPosition));
             }
