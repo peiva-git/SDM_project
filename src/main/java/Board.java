@@ -22,6 +22,14 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public int getNumberOfColumns() {
+        return numberOfColumns;
+    }
+
     private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
         return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }

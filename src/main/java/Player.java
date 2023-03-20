@@ -18,6 +18,14 @@ public class Player {
         return color;
     }
 
+    public @NotNull String getName() {
+        return name;
+    }
+
+    public @NotNull String getSurname() {
+        return surname;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
