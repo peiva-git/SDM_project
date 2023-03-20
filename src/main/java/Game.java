@@ -1,5 +1,6 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -36,7 +37,30 @@ public class Game {
     public void turn() {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
-        System.out.println("8 -  -  -  -  -  -  -  -\n"
+        printBoardStatus();
+        switch (getCurrentGameStatus()) {
+            case FREEDOM:
+                chosenPosition = getPositionWithFreedom(currentPlayer);
+                board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                break;
+            case NO_FREEDOM:
+                chosenPosition = getPositionWithNoFreedom(currentPlayer);
+                board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                break;
+            case LAST_MOVE:
+                chosenPosition = playLastMove(currentPlayer);
+                if (chosenPosition != null) {
+                    board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                }
+                gameStatus = GameStatus.GAME_OVER;
+                break;
+        }
+        allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
+    }
+
+    private static void printBoardStatus() {
+        System.out.println(
+                  "8 -  -  -  -  -  -  -  -\n"
                 + "7 -  -  -  -  -  -  -  -\n"
                 + "6 -  -  -  -  -  -  -  -\n"
                 + "5 -  -  -  -  -  -  -  -\n"
@@ -45,19 +69,6 @@ public class Game {
                 + "2 -  -  -  -  -  -  -  -\n"
                 + "1 -  -  -  -  -  -  -  -\n"
                 + "  A  B  C  D  E  F  G  H");
-        switch (getCurrentGameStatus()) {
-            case FREEDOM:
-                chosenPosition = getPositionWithFreedom(currentPlayer);
-                break;
-            case NO_FREEDOM:
-                chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                break;
-            case LAST_MOVE:
-                chosenPosition = playLastMove(currentPlayer);
-                gameStatus = GameStatus.GAME_OVER;
-                break;
-        }
-        allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
     }
 
     @NotNull
@@ -112,9 +123,20 @@ public class Game {
         return getPositionFromUserFromSuggestedSet(adjacentPositions);
     }
 
-    private Position playLastMove(Player player) {
-        // TODO
-        return null;
+    private @Nullable Position playLastMove(@NotNull Player player) {
+        System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
+        System.out.println("Last move! You can decide to either play or pass");
+        System.out.print("Do you want to pass? (Yes/No): ");
+        String input = userInput.nextLine();
+        while (!input.matches("Yes|No")) {
+            System.out.print("Wrong input format, answer either Yes or No, try again: ");
+            input = userInput.nextLine();
+        }
+        if (input.equals("Yes")) {
+            return null;
+        } else {
+            return getPositionFromUser();
+        }
     }
 
     private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
