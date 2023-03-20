@@ -91,7 +91,7 @@ public class BoardTests {
 
     @ParameterizedTest
     @MethodSource("provideBoardPositions")
-    void testGetCellMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
+    void testGetCell(int row, int column, Class<Exception> expectedException) {
         Position position = new Position(row, column);
         if (expectedException == null) {
             assertDoesNotThrow(() -> board.getCell(position));
