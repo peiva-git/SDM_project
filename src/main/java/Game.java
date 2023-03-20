@@ -2,9 +2,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -21,18 +19,10 @@ public class Game {
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
     private final Scanner userInput = new Scanner(System.in);
 
-    private final MainLogger logger;
-
     public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
-        try {
-            logger = new MainLogger("debug.log");
-        } catch (IOException e) {
-            System.out.println("Unable to start logger: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
     }
 
     public void start() {
@@ -70,16 +60,6 @@ public class Game {
     }
 
     private void printBoardStatus() {
-        System.out.println(
-                  "8 -  -  -  -  -  -  -  -\n"
-                + "7 -  -  -  -  -  -  -  -\n"
-                + "6 -  -  -  -  -  -  -  -\n"
-                + "5 -  -  -  -  -  -  -  -\n"
-                + "4 -  -  -  -  -  -  -  -\n"
-                + "3 -  -  -  -  -  -  -  -\n"
-                + "2 -  -  -  -  -  -  -  -\n"
-                + "1 -  -  -  -  -  -  -  -\n"
-                + "  A  B  C  D  E  F  G  H");
         StringBuilder sb = new StringBuilder();
         Set<Position> customSortedPositions = board.getCells().keySet().stream().sorted((firstPosition, secondPosition) -> {
             if (firstPosition.getRow() == secondPosition.getRow()) {
@@ -88,8 +68,14 @@ public class Game {
                 return Integer.compare(secondPosition.getRow(), firstPosition.getRow());
             }
         }).collect(Collectors.toCollection(LinkedHashSet::new));
+
         int columnCounter = 0;
+        int rowCounter = 8;
         for (Position position : customSortedPositions) {
+            if (columnCounter == 0 && rowCounter > 0) {
+                sb.append(rowCounter).append(" ");
+                rowCounter--;
+            }
             if (board.getCell(position).isOccupied()) {
                 if (board.getCell(position).getStone().getColor() == Stone.Color.WHITE) {
                     sb.append("W");
@@ -107,6 +93,7 @@ public class Game {
                 columnCounter = 0;
             }
         }
+        sb.append("  A  B  C  D  E  F  G  H");
         System.out.println(sb);
     }
 
