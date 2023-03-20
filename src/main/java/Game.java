@@ -92,29 +92,21 @@ public class Game {
     private @NotNull Position getPositionWithFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Freeedom! You can place a stone on any unoccupied cell");
-        System.out.print("Insert the cell name, for example A5: ");
-        String input = userInput.nextLine();
-        while (true) {
-            if (input.matches("[A-Z][0-9]")) {
-                int row = Integer.parseInt(input.substring(1));
-                int column = input.charAt(0) - 'A' + 1;
-                if (board.getNumberOfRows() >= row && board.getNumberOfColumns() >= column) {
-                    return new Position(row, column);
-                } else {
-                    System.out.print("The specified cell is outside of the board range! Pick again: ");
-                    input = userInput.nextLine();
-                }
-            } else {
-                System.out.print("Wrong input format, try again: ");
-                input = userInput.nextLine();
-            }
-        }
+        return getPositionFromUser();
     }
 
     @Contract("_ -> new")
     private @NotNull Position getPositionWithNoFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
+        Position lastPosition = allPlayersMoves.getLast().getPosition();
+        Set<Cell> adjacentCells = board.getAdjacentCells(lastPosition);
+
+        return getPositionFromUser();
+    }
+
+    @NotNull
+    private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         String input = userInput.nextLine();
         while (true) {
@@ -122,7 +114,12 @@ public class Game {
                 int row = Integer.parseInt(input.substring(1));
                 int column = input.charAt(0) - 'A' + 1;
                 if (board.getNumberOfRows() >= row && board.getNumberOfColumns() >= column) {
-                    return new Position(row, column);
+                    if (board.getCell(new Position(row, column)).isOccupied()) {
+                        System.out.print("The picked cell is already occupied! Pick again: ");
+                        input = userInput.nextLine();
+                    } else {
+                        return new Position(row, column);
+                    }
                 } else {
                     System.out.print("The specified cell is outside of the board range! Pick again: ");
                     input = userInput.nextLine();

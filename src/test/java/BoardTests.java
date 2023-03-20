@@ -143,6 +143,16 @@ public class BoardTests {
     }
 
     @ParameterizedTest
+    @MethodSource("provideAdjacentBoardPositions")
+    void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
+        if (expectedException != null) {
+            assertThrows(expectedException, () -> board.getAdjacentPositions(position));
+        } else {
+            assertEquals(adjacentPositions, board.getAdjacentPositions(position));
+        }
+    }
+
+    @ParameterizedTest
     @MethodSource("provideBoardPositions")
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
