@@ -2,7 +2,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class Game {
 
@@ -18,10 +21,18 @@ public class Game {
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
     private final Scanner userInput = new Scanner(System.in);
 
+    private final MainLogger logger;
+
     public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
+        try {
+            logger = new MainLogger("debug.log");
+        } catch (IOException e) {
+            System.out.println("Unable to start logger: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public void start() {
@@ -58,7 +69,7 @@ public class Game {
         allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
     }
 
-    private static void printBoardStatus() {
+    private void printBoardStatus() {
         System.out.println(
                   "8 -  -  -  -  -  -  -  -\n"
                 + "7 -  -  -  -  -  -  -  -\n"
@@ -69,7 +80,17 @@ public class Game {
                 + "2 -  -  -  -  -  -  -  -\n"
                 + "1 -  -  -  -  -  -  -  -\n"
                 + "  A  B  C  D  E  F  G  H");
-
+        StringBuilder sb = new StringBuilder();
+        Set<Position> customSortedPositions = board.getCells().keySet().stream().sorted((firstPosition, secondPosition) -> {
+            if (firstPosition.getRow() == secondPosition.getRow()) {
+                return firstPosition.getColumn() - secondPosition.getColumn();
+            } else {
+                return Integer.compare(secondPosition.getRow(), firstPosition.getRow());
+            }
+        }).collect(Collectors.toCollection(LinkedHashSet::new));
+        for (Position position : customSortedPositions) {
+            logger.log(Level.INFO, "Current position; row: " + position.getRow() + ", column: " + position.getColumn());
+        }
     }
 
     @NotNull
