@@ -39,6 +39,12 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         }
     }
 
+    /**
+     * Cells are considered adjacent in all directions, even diagonally
+     * @param cellPosition find cells adjacent to the given cellPosition
+     * @return a Set containing all the cells adjacent to the given position
+     * @throws InvalidPositionException when the given position is invalid
+     */
     @NotNull
     public Set<Cell> getAdjacentCells(@NotNull Position cellPosition) throws InvalidPositionException {
         if (cellPosition.getRow() > numberOfRows || cellPosition.getColumn() > numberOfColumns) {

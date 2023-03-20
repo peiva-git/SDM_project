@@ -9,7 +9,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,6 +48,34 @@ public class BoardTests {
                 Arguments.of(1, 1, null),
                 Arguments.of(5, 3, null),
                 Arguments.of(9, 8, InvalidPositionException.class)
+        );
+    }
+
+    private static @NotNull Stream<Arguments> provideAdjacentBoardPositions() {
+        return Stream.of(
+                Arguments.of(new Position(1, 1), Set.of(
+                        new Position(2, 1),
+                        new Position(1, 2),
+                        new Position(2, 2)
+                ), null),
+                Arguments.of(new Position(3, 1), Set.of(
+                        new Position(2, 1),
+                        new Position(4, 1),
+                        new Position(3, 2),
+                        new Position(2, 2),
+                        new Position(4, 2)
+                ), null),
+                Arguments.of(new Position(5, 3), Set.of(
+                        new Position(5, 2),
+                        new Position(5, 4),
+                        new Position(4, 3),
+                        new Position(6, 3),
+                        new Position(6, 4),
+                        new Position(6, 2),
+                        new Position(4, 2),
+                        new Position(4, 4)
+                ), null),
+                Arguments.of(new Position(9, 8), null, InvalidPositionException.class)
         );
     }
 
@@ -96,6 +126,20 @@ public class BoardTests {
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
         board.getCell(new Position(1,2)).clear();
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideAdjacentBoardPositions")
+    void testGetAdjacentCells(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
+        if (expectedException != null) {
+            assertThrows(expectedException, () -> board.getAdjacentCells(position));
+        } else {
+            Set<Cell> adjacentCells = new HashSet<>(4);
+            for (Position adjacentPosition : adjacentPositions) {
+                adjacentCells.add(board.getCell(adjacentPosition));
+            }
+            assertEquals(adjacentCells, board.getAdjacentCells(position));
+        }
     }
 
     @ParameterizedTest
