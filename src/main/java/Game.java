@@ -57,7 +57,6 @@ public class Game {
                 gameStatus = GameStatus.GAME_OVER;
                 break;
         }
-        System.out.println("Last chosen position, row: " + chosenPosition.getRow() + ", column: " + chosenPosition.getColumn());
         allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
     }
 
