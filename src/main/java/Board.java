@@ -40,11 +40,11 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     @NotNull
-    public List<Cell> getAdjacentCells(@NotNull Position cellPosition) throws InvalidPositionException {
+    public Set<Cell> getAdjacentCells(@NotNull Position cellPosition) throws InvalidPositionException {
         if (cellPosition.getRow() > numberOfRows || cellPosition.getColumn() > numberOfColumns) {
             throw new InvalidPositionException("The specified position is outside the board");
         }
-        List<Cell> adjacentCells = new ArrayList<>();
+        Set<Cell> adjacentCells = new HashSet<>(4);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
@@ -52,7 +52,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
                     Position adjacentCellPosition = new Position(cellPosition.getRow() + i, cellPosition.getColumn() + j);
                     adjacentCells.add(cells.get(adjacentCellPosition));
                 } catch (InvalidPositionException ignored) {
-                    // if there are no adjacent cells in one direction, simply don't add them to the list
+                    // if there are no adjacent cells in one direction, simply don't add them to the set
                 }
             }
         }
@@ -60,8 +60,8 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     }
 
     public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
-        List<Cell> adjacentCell = getAdjacentCells(cellPosition);
-        for(Cell cell : adjacentCell) {
+        Set<Cell> adjacentCells = getAdjacentCells(cellPosition);
+        for(Cell cell : adjacentCells) {
             if(!cell.isOccupied()) return false;
         }
         return true;
