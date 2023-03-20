@@ -204,7 +204,7 @@ public class Game {
     }
 
     private void end() {
-        // TODO
+        userInput.close();
     }
 
 }
