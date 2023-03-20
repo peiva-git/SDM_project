@@ -88,9 +88,26 @@ public class Game {
                 return Integer.compare(secondPosition.getRow(), firstPosition.getRow());
             }
         }).collect(Collectors.toCollection(LinkedHashSet::new));
+        int columnCounter = 0;
         for (Position position : customSortedPositions) {
-            logger.log(Level.INFO, "Current position; row: " + position.getRow() + ", column: " + position.getColumn());
+            if (board.getCell(position).isOccupied()) {
+                if (board.getCell(position).getStone().getColor() == Stone.Color.WHITE) {
+                    sb.append("W");
+                } else {
+                    sb.append("B");
+                }
+            } else {
+                sb.append("-");
+            }
+            columnCounter++;
+            if (columnCounter < board.getNumberOfColumns()) {
+                sb.append("  ");
+            } else {
+                sb.append("\n");
+                columnCounter = 0;
+            }
         }
+        System.out.println(sb);
     }
 
     @NotNull
