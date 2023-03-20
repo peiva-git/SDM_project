@@ -112,6 +112,11 @@ public class Game {
         return getPositionFromUserFromSuggestedSet(adjacentPositions);
     }
 
+    private Position playLastMove(Player player) {
+        // TODO
+        return null;
+    }
+
     private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
         return board.getNumberOfRows() >= chosenPosition.getRow() && board.getNumberOfColumns() >= chosenPosition.getColumn();
     }
@@ -174,11 +179,6 @@ public class Game {
                 input = userInput.nextLine();
             }
         }
-    }
-
-    private Position playLastMove(Player player) {
-        // TODO
-        return null;
     }
 
     private void end() {

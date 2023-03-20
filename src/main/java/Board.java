@@ -58,7 +58,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         if (cellPosition.getRow() > numberOfRows || cellPosition.getColumn() > numberOfColumns) {
             throw new InvalidPositionException("The specified position is outside the board");
         }
-        Set<Cell> adjacentCells = new HashSet<>(4);
+        Set<Cell> adjacentCells = new HashSet<>(8);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
@@ -77,7 +77,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         if (position.getRow() > numberOfRows || position.getColumn() > numberOfColumns) {
             throw new InvalidPositionException("The specified position is outside the board");
         }
-        Set<Position> adjacentPositions = new HashSet<>(4);
+        Set<Position> adjacentPositions = new HashSet<>(8);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
