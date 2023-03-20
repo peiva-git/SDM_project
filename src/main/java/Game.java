@@ -113,20 +113,28 @@ public class Game {
         return getPositionFromUserFromSuggestedSet(adjacentPositions);
     }
 
+    private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
+        return board.getNumberOfRows() >= chosenPosition.getRow() && board.getNumberOfColumns() >= chosenPosition.getColumn();
+    }
+
+    @Contract("_ -> new")
+    private static @NotNull Position parsePositionFromUserInput(@NotNull String input) {
+        return new Position(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
+    }
+
     @NotNull
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         String input = userInput.nextLine();
         while (true) {
             if (input.matches("[A-Z][0-9]")) {
-                int row = Integer.parseInt(input.substring(1));
-                int column = input.charAt(0) - 'A' + 1;
-                if (board.getNumberOfRows() >= row && board.getNumberOfColumns() >= column) {
-                    if (board.getCell(new Position(row, column)).isOccupied()) {
+                Position chosenPosition = parsePositionFromUserInput(input);
+                if (isPositionInsideBoardRange(chosenPosition)) {
+                    if (board.getCell(chosenPosition).isOccupied()) {
                         System.out.print("The picked cell is already occupied! Pick again: ");
                         input = userInput.nextLine();
                     } else {
-                        return new Position(row, column);
+                        return chosenPosition;
                     }
                 } else {
                     System.out.print("The specified cell is outside of the board range! Pick again: ");
@@ -145,12 +153,11 @@ public class Game {
         String input = userInput.nextLine();
         while (true) {
             if (input.matches("[A-Z][0-9]")) {
-                int row = Integer.parseInt(input.substring(1));
-                int column = input.charAt(0) - 'A' + 1;
-                if (board.getNumberOfRows() >= row && board.getNumberOfColumns() >= column) {
-                    if (suggestedPositions.contains(new Position(row, column))) {
-                        if (!board.getCell(new Position(row, column)).isOccupied()) {
-                            return new Position(row, column);
+                Position chosenPosition = parsePositionFromUserInput(input);
+                if (isPositionInsideBoardRange(chosenPosition)) {
+                    if (suggestedPositions.contains(chosenPosition)) {
+                        if (!board.getCell(chosenPosition).isOccupied()) {
+                            return chosenPosition;
                         } else {
                             System.out.print("The picked cell is already occupied! Pick again: ");
                             input = userInput.nextLine();
@@ -163,6 +170,9 @@ public class Game {
                     System.out.print("The specified cell is outside of the board range! Pick again: ");
                     input = userInput.nextLine();
                 }
+            } else {
+                System.out.print("Wrong input format, try again: ");
+                input = userInput.nextLine();
             }
         }
     }
