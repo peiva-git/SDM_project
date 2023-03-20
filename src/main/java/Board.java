@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
-    private final Map<Position, Cell> cells;
+    private final SortedMap<Position, Cell> cells;
     private final int numberOfRows;
     private final int numberOfColumns;
 
@@ -15,7 +15,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-        cells = new HashMap<>(numberOfColumns * numberOfRows);
+        cells = new TreeMap<>();
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
