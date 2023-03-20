@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Game {
 
-    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, FINISHED}
+    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
     @NotNull
     private final Player whitePlayer;
@@ -22,9 +22,10 @@ public class Game {
     }
 
     public void start() {
+        System.out.println("Game starting up, clearing board...");
         board.clearBoard();
         gameStatus = GameStatus.STARTED;
-        while (gameStatus != GameStatus.FINISHED) {
+        while (gameStatus != GameStatus.GAME_OVER) {
             turn();
         }
         end();
@@ -33,8 +34,7 @@ public class Game {
     public void turn() {
         Player currentPlayer = nextPlayer();
         Position position = null;
-        checkCurrentGameStatus();
-        switch (gameStatus) {
+        switch (getCurrentGameStatus()) {
             case FREEDOM:
                 position = getPositionWithFreedom(currentPlayer);
                 break;
@@ -43,7 +43,7 @@ public class Game {
                 break;
             case LAST_MOVE:
                 position = playLastMove(currentPlayer);
-                gameStatus = GameStatus.FINISHED;
+                gameStatus = GameStatus.GAME_OVER;
                 break;
         }
         allPlayersMoves.add(new Move(currentPlayer, position));
@@ -60,15 +60,15 @@ public class Game {
         }
     }
 
-    private void checkCurrentGameStatus() {
+    private GameStatus getCurrentGameStatus() {
         if(board.hasBoardMoreThanOneFreeCell()) {
             if(board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
-                gameStatus = GameStatus.FREEDOM;
+                return GameStatus.FREEDOM;
             } else {
-                gameStatus = GameStatus.NO_FREEDOM;
+                return GameStatus.NO_FREEDOM;
             }
         } else {
-            gameStatus = GameStatus.LAST_MOVE;
+            return GameStatus.LAST_MOVE;
         }
     }
 
