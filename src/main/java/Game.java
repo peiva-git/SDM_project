@@ -112,13 +112,13 @@ public class Game {
         Position lastPosition = allPlayersMoves.getLast().getPosition();
         Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
-        for (Position adjacentPosition : adjacentPositions) {
+        adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int row = adjacentPosition.getRow();
             char column = (char) ('A' + adjacentPosition.getColumn() - 1);
             System.out.print(column);
             System.out.print(row);
             System.out.print(" ");
-        }
+        });
         System.out.println();
         return getPositionFromUserFromSuggestedSet(adjacentPositions);
     }
@@ -144,7 +144,7 @@ public class Game {
     }
 
     @Contract("_ -> new")
-    private static @NotNull Position parsePositionFromUserInput(@NotNull String input) {
+    private static @NotNull Position parsePositionFromFormattedUserInput(@NotNull String input) {
         return new Position(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
     }
 
@@ -154,7 +154,7 @@ public class Game {
         String input = userInput.nextLine();
         while (true) {
             if (input.matches("[A-Z][0-9]")) {
-                Position chosenPosition = parsePositionFromUserInput(input);
+                Position chosenPosition = parsePositionFromFormattedUserInput(input);
                 if (isPositionInsideBoardRange(chosenPosition)) {
                     if (board.getCell(chosenPosition).isOccupied()) {
                         System.out.print("The picked cell is already occupied! Pick again: ");
@@ -179,7 +179,7 @@ public class Game {
         String input = userInput.nextLine();
         while (true) {
             if (input.matches("[A-Z][0-9]")) {
-                Position chosenPosition = parsePositionFromUserInput(input);
+                Position chosenPosition = parsePositionFromFormattedUserInput(input);
                 if (isPositionInsideBoardRange(chosenPosition)) {
                     if (suggestedPositions.contains(chosenPosition)) {
                         if (!board.getCell(chosenPosition).isOccupied()) {
