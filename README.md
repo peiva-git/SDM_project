@@ -17,3 +17,23 @@ From: https://boardgamegeek.com/boardgame/100480/freedom
 - **Objective**: The objective of Freedom is to have more "live" stones at the end of the game, than your opponent. A stone is considered to be "live" if it is a part of some horizontal, vertical or diagonal row of exactly 4 stones of the same color.
 
 - **Play**: A game begins with an empty board. Each player has an allocated color: White and Black. White plays first, putting one white stone anywhere on the board. After this move players take turns placing their stones on empty cells adjacent to the last opponent's stone. If all cells adjacent to the last opponent's stone are occupied then the player gets the right ("freedom") to place his stone on any empty cell of the board. The game ends when the board is filled with stones. The last player has the right to pass on his last turn (and leave the last cell empty) if placing his stone reduces his score.
+
+## Project configuration
+
+### Unit testing and code analysis
+
+A dockerized SonarQube server with persistent storage is provided to enable code analysis.
+To start the server, simply run the following command:
+```shell
+docker compose -f path/to/docker-compose.yml up -d
+```
+
+To use the Sonarqube Scanner run:
+```shell
+./gradlew -Dsonar.login=[auth_token] sonar
+```
+
+To generate a code coverage report with [JaCoCo](https://github.com/jacoco/jacoco) run:
+```shell
+./gradlew -Dsonar.login=[auth_token] test jacocoTestReport sonar
+```

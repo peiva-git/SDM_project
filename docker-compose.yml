@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  # prevent max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144] error
+  # prevent "max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]" error
   # by running sysctl -w vm.max_map_count=262144 on host
   sonarqube:
     image: sonarqube:lts-community
