@@ -3,7 +3,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
 
-public class TerminalInput implements UserInput {
+public class TextInput implements UserInput {
     Scanner userInput = new Scanner(System.in);
     @Override
     public @NotNull Position getPosition() {
@@ -22,7 +22,7 @@ public class TerminalInput implements UserInput {
     }
 
     @Override
-    public boolean playLastMove() {
+    public boolean isLastMoveAPass() {
         String input = userInput.nextLine();
         while (true){
             if (!input.matches("Yes|No")) continue;
