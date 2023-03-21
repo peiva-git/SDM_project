@@ -3,7 +3,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
 
@@ -42,16 +41,16 @@ public class Game {
         switch (getCurrentGameStatus()) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
-                board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                board.putStone(chosenPosition, currentPlayer.getColor());
                 break;
             case NO_FREEDOM:
                 chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                board.putStone(chosenPosition, currentPlayer.getColor());
                 break;
             case LAST_MOVE:
                 chosenPosition = playLastMove(currentPlayer);
                 if (chosenPosition != null) {
-                    board.getCell(chosenPosition).putStone(new Stone(currentPlayer.getColor()));
+                    board.putStone(chosenPosition, currentPlayer.getColor());
                 }
                 gameStatus = GameStatus.GAME_OVER;
                 break;
@@ -61,36 +60,25 @@ public class Game {
 
     private void printBoardStatus() {
         StringBuilder sb = new StringBuilder();
-        Set<Position> customSortedPositions = board.getCells().keySet().stream().sorted((firstPosition, secondPosition) -> {
-            if (firstPosition.getRow() == secondPosition.getRow()) {
-                return firstPosition.getColumn() - secondPosition.getColumn();
-            } else {
-                return Integer.compare(secondPosition.getRow(), firstPosition.getRow());
-            }
-        }).collect(Collectors.toCollection(LinkedHashSet::new));
-
-        int columnCounter = 0;
-        int rowCounter = 8;
-        for (Position position : customSortedPositions) {
-            if (columnCounter == 0 && rowCounter > 0) {
-                sb.append(rowCounter).append(" ");
-                rowCounter--;
-            }
-            if (board.getCell(position).isOccupied()) {
-                if (board.getCell(position).getStone().getColor() == Stone.Color.WHITE) {
-                    sb.append("W");
-                } else {
-                    sb.append("B");
+        for (int i = board.getNumberOfRows(); i > 0; i--) {
+            for (int j = 1; j <= board.getNumberOfColumns(); j++) {
+                if (j == 1) {
+                    sb.append(i).append(" ");
                 }
-            } else {
-                sb.append("-");
-            }
-            columnCounter++;
-            if (columnCounter < board.getNumberOfColumns()) {
-                sb.append("  ");
-            } else {
-                sb.append("\n");
-                columnCounter = 0;
+                if (board.isCellOccupied(new Position(i,j))) {
+                    if (board.getStone(new Position(i,j)).getColor() == Stone.Color.WHITE) {
+                        sb.append("W");
+                    } else {
+                        sb.append("B");
+                    }
+                } else {
+                    sb.append("-");
+                }
+                if (j < board.getNumberOfColumns()) {
+                    sb.append("  ");
+                } else {
+                    sb.append("\n");
+                }
             }
         }
         sb.append("  A  B  C  D  E  F  G  H");
@@ -109,15 +97,11 @@ public class Game {
     }
 
     private GameStatus getCurrentGameStatus() {
-        if(board.hasBoardMoreThanOneFreeCell()) {
-            try {
-                if (board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
-                    return GameStatus.FREEDOM;
-                } else {
-                    return GameStatus.NO_FREEDOM;
-                }
-            } catch (NoSuchElementException exception) {
+        if (board.hasBoardMoreThanOneFreeCell()) {
+            if (allPlayersMoves.isEmpty() || board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
                 return GameStatus.FREEDOM;
+            } else {
+                return GameStatus.NO_FREEDOM;
             }
         } else {
             return GameStatus.LAST_MOVE;
@@ -182,7 +166,7 @@ public class Game {
             if (input.matches("[A-Z][0-9]")) {
                 Position chosenPosition = parsePositionFromFormattedUserInput(input);
                 if (isPositionInsideBoardRange(chosenPosition)) {
-                    if (board.getCell(chosenPosition).isOccupied()) {
+                    if (board.isCellOccupied(chosenPosition)) {
                         System.out.print("The picked cell is already occupied! Pick again: ");
                         input = userInput.nextLine();
                     } else {
@@ -208,7 +192,7 @@ public class Game {
                 Position chosenPosition = parsePositionFromFormattedUserInput(input);
                 if (isPositionInsideBoardRange(chosenPosition)) {
                     if (suggestedPositions.contains(chosenPosition)) {
-                        if (!board.getCell(chosenPosition).isOccupied()) {
+                        if (!board.isCellOccupied(chosenPosition)) {
                             return chosenPosition;
                         } else {
                             System.out.print("The picked cell is already occupied! Pick again: ");

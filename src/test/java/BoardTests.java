@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -89,17 +88,6 @@ public class BoardTests {
         }
     }
 
-    @ParameterizedTest
-    @MethodSource("provideBoardPositions")
-    void testGetCell(int row, int column, Class<Exception> expectedException) {
-        Position position = new Position(row, column);
-        if (expectedException == null) {
-            assertDoesNotThrow(() -> board.getCell(position));
-        } else {
-            assertThrows(InvalidPositionException.class, () -> board.getCell(position));
-        }
-    }
-
     private void fillBoardWithWhiteStones() {
         for (Map.Entry<Position, Cell> boardCell : board) {
             boardCell.getValue().putStone(new Stone(Stone.Color.WHITE));
@@ -122,24 +110,10 @@ public class BoardTests {
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.getCell(new Position(1,1)).clear();
+        board.clearCell(new Position(1,1));
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.getCell(new Position(1,2)).clear();
+        board.clearCell(new Position(1,2));
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideAdjacentBoardPositions")
-    void testGetAdjacentCells(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
-        if (expectedException != null) {
-            assertThrows(expectedException, () -> board.getAdjacentCells(position));
-        } else {
-            Set<Cell> adjacentCells = new HashSet<>(8);
-            for (Position adjacentPosition : adjacentPositions) {
-                adjacentCells.add(board.getCell(adjacentPosition));
-            }
-            assertEquals(adjacentCells, board.getAdjacentCells(position));
-        }
     }
 
     @ParameterizedTest
@@ -158,7 +132,7 @@ public class BoardTests {
         if (expectedException == null) {
             fillBoardWithWhiteStones();
             Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
-            board.getCell(new Position(row,column)).clear();
+            board.clearCell(new Position(row,column));
             Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
             Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(row,column + 1)));
         } else {
