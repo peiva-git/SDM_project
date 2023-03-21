@@ -16,7 +16,7 @@ public class Game {
     private final Board board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
-    private final Scanner userInput = new Scanner(System.in);
+    private final UserInput userInput = new TerminalInput();
 
     public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -31,7 +31,6 @@ public class Game {
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
         }
-        end();
     }
 
     public void turn() {
@@ -65,8 +64,8 @@ public class Game {
                 if (j == 1) {
                     sb.append(i).append(" ");
                 }
-                if (board.isCellOccupied(new Position(i,j))) {
-                    if (board.getStone(new Position(i,j)).getColor() == Stone.Color.WHITE) {
+                if (board.isCellOccupied(new Position(i, j))) {
+                    if (board.getStone(new Position(i, j)).getColor() == Stone.Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
@@ -137,84 +136,52 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        String input = userInput.nextLine();
-        while (!input.matches("Yes|No")) {
-            System.out.print("Wrong input format, answer either Yes or No, try again: ");
-            input = userInput.nextLine();
+        if(userInput.playLastMove()) {
+            return userInput.getPosition();
         }
-        if (input.equals("Yes")) {
-            return null;
-        } else {
-            return getPositionFromUser();
-        }
+        return null;
     }
 
     private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
         return board.getNumberOfRows() >= chosenPosition.getRow() && board.getNumberOfColumns() >= chosenPosition.getColumn();
     }
 
-    @Contract("_ -> new")
-    private static @NotNull Position parsePositionFromFormattedUserInput(@NotNull String input) {
-        return new Position(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
-    }
-
     @NotNull
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
-        String input = userInput.nextLine();
         while (true) {
-            if (input.matches("[A-Z][0-9]")) {
-                Position chosenPosition = parsePositionFromFormattedUserInput(input);
+                Position chosenPosition = userInput.getPosition();
                 if (isPositionInsideBoardRange(chosenPosition)) {
                     if (board.isCellOccupied(chosenPosition)) {
                         System.out.print("The picked cell is already occupied! Pick again: ");
-                        input = userInput.nextLine();
                     } else {
                         return chosenPosition;
                     }
                 } else {
                     System.out.print("The specified cell is outside of the board range! Pick again: ");
-                    input = userInput.nextLine();
                 }
-            } else {
-                System.out.print("Wrong input format, try again: ");
-                input = userInput.nextLine();
-            }
         }
     }
 
     @Contract("_ -> new")
     private @NotNull Position getPositionFromUserFromSuggestedSet(@NotNull Set<Position> suggestedPositions) {
         System.out.print("Insert the cell name: ");
-        String input = userInput.nextLine();
         while (true) {
-            if (input.matches("[A-Z][0-9]")) {
-                Position chosenPosition = parsePositionFromFormattedUserInput(input);
-                if (isPositionInsideBoardRange(chosenPosition)) {
-                    if (suggestedPositions.contains(chosenPosition)) {
-                        if (!board.isCellOccupied(chosenPosition)) {
-                            return chosenPosition;
-                        } else {
-                            System.out.print("The picked cell is already occupied! Pick again: ");
-                            input = userInput.nextLine();
-                        }
+            Position chosenPosition = userInput.getPosition();
+            if (isPositionInsideBoardRange(chosenPosition)) {
+                if (suggestedPositions.contains(chosenPosition)) {
+                    if (!board.isCellOccupied(chosenPosition)) {
+                        return chosenPosition;
                     } else {
-                        System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
-                        input = userInput.nextLine();
+                        System.out.print("The picked cell is already occupied! Pick again: ");
                     }
                 } else {
-                    System.out.print("The specified cell is outside of the board range! Pick again: ");
-                    input = userInput.nextLine();
+                    System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
                 }
             } else {
-                System.out.print("Wrong input format, try again: ");
-                input = userInput.nextLine();
+                System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
-    }
-
-    private void end() {
-        userInput.close();
     }
 
 }
