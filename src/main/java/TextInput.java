@@ -21,12 +21,15 @@ public class TextInput implements UserInput {
         return chosenPosition;
     }
 
-    @Override
     public boolean isLastMoveAPass() {
         String input = userInput.nextLine();
-        while (true){
-            if (!input.matches("Yes|No")) continue;
-            return input.equals("Yes");
+        while (true) {
+            if (input.matches("Yes|No")) {
+                return input.equals("Yes");
+            } else {
+                System.out.print("Wrong input format, try again: ");
+                input = userInput.nextLine();
+            }
         }
     }
 

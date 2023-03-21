@@ -16,7 +16,7 @@ public class Game {
     private final Board board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
-    private final UserInput userInput = new TextInput();
+    private final TextInput userInput = new TextInput();
 
     public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -109,7 +109,7 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        if(userInput.isLastMoveAPass()) {
+        if(!userInput.isLastMoveAPass()) {
             return userInput.getPosition();
         }
         return null;
