@@ -15,6 +15,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+        createBoardWithEmptyCells();
+    }
+
+    private void createBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
