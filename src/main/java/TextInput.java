@@ -1,9 +1,10 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Closeable;
 import java.util.Scanner;
 
-public class TextInput implements UserInput {
+public class TextInput implements UserInput, Closeable {
     Scanner userInput = new Scanner(System.in);
     @Override
     public @NotNull Position getPosition() {
@@ -38,4 +39,8 @@ public class TextInput implements UserInput {
         return new Position(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
     }
 
+    @Override
+    public void close() {
+        userInput.close();
+    }
 }

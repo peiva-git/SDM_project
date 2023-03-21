@@ -31,6 +31,11 @@ public class Game {
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
         }
+        end();
+    }
+
+    private void end() {
+        userInput.close();
     }
 
     public void turn() {
