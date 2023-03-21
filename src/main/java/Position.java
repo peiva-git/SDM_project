@@ -42,7 +42,8 @@ public class Position implements Comparable<Position> {
 
     @Override
     public String toString() {
-        return "[" + row + "," + column + "]";
+        char column = (char) ('A' + this.column - 1);
+        return String.format("%c%d", column, row);
     }
 
     /**
