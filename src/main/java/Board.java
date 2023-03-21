@@ -1,6 +1,7 @@
 import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -15,10 +16,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-        createBoardWithEmptyCells();
+        initBoardWithEmptyCells();
     }
 
-    private void createBoardWithEmptyCells() {
+    private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 cells.put(new Position(i, j), new Cell());
@@ -51,6 +52,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         cell.putStone(stone);
     }
 
+    @Nullable
     public Stone getStone(@NotNull Position position) {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
@@ -86,7 +88,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         return adjacentPositions;
     }
 
-    private boolean isPositionOutOfBoardBounds(Position position) {
+    private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
         return position.getRow() > numberOfRows || position.getColumn() > numberOfColumns;
     }
 
@@ -100,8 +102,8 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
     public boolean hasBoardMoreThanOneFreeCell() {
         int numberOfFreeCellsOnBoard = 0;
-        for (Map.Entry<Position, Cell> cellOnBoard : cells.entrySet()) {
-            if (!isCellOccupied(cellOnBoard.getKey())) numberOfFreeCellsOnBoard++;
+        for (Position position : cells.keySet()) {
+            if (!isCellOccupied(position)) numberOfFreeCellsOnBoard++;
             if (numberOfFreeCellsOnBoard > 1) return true;
         }
         return false;
@@ -110,8 +112,8 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = getNumberOfRows(); i > 0; i--) {
-            for (int j = 1; j <= getNumberOfColumns(); j++) {
+        for (int i = numberOfRows; i > 0; i--) {
+            for (int j = 1; j <= numberOfColumns; j++) {
                 if (j == 1) {
                     sb.append(i).append(" ");
                 }
@@ -124,7 +126,7 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
                 } else {
                     sb.append("-");
                 }
-                if (j < getNumberOfColumns()) {
+                if (j < numberOfColumns) {
                     sb.append("  ");
                 } else {
                     sb.append("\n");
