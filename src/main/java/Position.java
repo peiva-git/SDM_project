@@ -40,40 +40,18 @@ public class Position implements Comparable<Position> {
         return Objects.hash(row, column);
     }
 
-    public boolean isPositionAdjacentTo(@NotNull Position otherPosition) {
-        if (isPositionOneColumnToTheRight(otherPosition)) {
-            return true;
-        } else if (isPositionOneColumnToTheLeft(otherPosition)) {
-            return true;
-        } else if (isPositionOneRowDown(otherPosition)) {
-            return true;
-        } else {
-            return isPositionOneRowUp(otherPosition);
-        }
-    }
-
-    private boolean isPositionOneRowUp(@NotNull Position otherPosition) {
-        return otherPosition.getColumn() == column && otherPosition.getRow() == row - 1;
-    }
-
-    private boolean isPositionOneRowDown(@NotNull Position otherPosition) {
-        return otherPosition.getColumn() == column && otherPosition.getRow() == row + 1;
-    }
-
-    private boolean isPositionOneColumnToTheLeft(@NotNull Position otherPosition) {
-        return otherPosition.getRow() == row && otherPosition.getColumn() == column - 1;
-    }
-
-    private boolean isPositionOneColumnToTheRight(@NotNull Position otherPosition) {
-        return otherPosition.getRow() == row && otherPosition.getColumn() == column + 1;
+    @Override
+    public String toString() {
+        char column = (char) ('A' + this.column - 1);
+        return String.format("%c%d", column, row);
     }
 
     /**
-     *
      * The assumed ordering is that of a chess board: assuming to be looking from the white player's side,
      * the columns are ordered from A to H starting on the left to the right,
      * while the rows are ordered from 1 to 8 from the bottom to the top.
      * We're therefore ordering all the board positions starting from numbers first and then letters
+     *
      * @param position the position to compare this instance with
      * @return 0 if the positions are the same, < 0 if position comes before this position,
      * > 0 if position comes after this position
@@ -92,9 +70,9 @@ public class Position implements Comparable<Position> {
      */
     @Override
     public int compareTo(@NotNull Position position) {
-        if (column == position.getColumn()) {
-            return position.getRow() - row;
+        if (row == position.getRow()) {
+            return Integer.compare(column, position.getColumn());
         }
-        return Integer.compare(position.getColumn(), column);
+        return Integer.compare(row, position.getRow());
     }
 }

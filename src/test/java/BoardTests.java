@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +50,34 @@ public class BoardTests {
         );
     }
 
+    private static @NotNull Stream<Arguments> provideAdjacentBoardPositions() {
+        return Stream.of(
+                Arguments.of(new Position(1, 1), Set.of(
+                        new Position(2, 1),
+                        new Position(1, 2),
+                        new Position(2, 2)
+                ), null),
+                Arguments.of(new Position(3, 1), Set.of(
+                        new Position(2, 1),
+                        new Position(4, 1),
+                        new Position(3, 2),
+                        new Position(2, 2),
+                        new Position(4, 2)
+                ), null),
+                Arguments.of(new Position(5, 3), Set.of(
+                        new Position(5, 2),
+                        new Position(5, 4),
+                        new Position(4, 3),
+                        new Position(6, 3),
+                        new Position(6, 4),
+                        new Position(6, 2),
+                        new Position(4, 2),
+                        new Position(4, 4)
+                ), null),
+                Arguments.of(new Position(9, 8), null, InvalidPositionException.class)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
@@ -56,17 +85,6 @@ public class BoardTests {
             assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
         } else {
             assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideBoardPositions")
-    void testGetCellMethodOnAFreePosition(int row, int column, Class<Exception> expectedException) {
-        Position position = new Position(row, column);
-        if (expectedException == null) {
-            assertDoesNotThrow(() -> board.getCell(position));
-        } else {
-            assertThrows(InvalidPositionException.class, () -> board.getCell(position));
         }
     }
 
@@ -92,10 +110,20 @@ public class BoardTests {
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.getCell(new Position(1,1)).clear();
+        board.clearCell(new Position(1,1));
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.getCell(new Position(1,2)).clear();
+        board.clearCell(new Position(1,2));
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideAdjacentBoardPositions")
+    void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
+        if (expectedException != null) {
+            assertThrows(expectedException, () -> board.getAdjacentPositions(position));
+        } else {
+            assertEquals(adjacentPositions, board.getAdjacentPositions(position));
+        }
     }
 
     @ParameterizedTest
@@ -104,7 +132,7 @@ public class BoardTests {
         if (expectedException == null) {
             fillBoardWithWhiteStones();
             Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
-            board.getCell(new Position(row,column)).clear();
+            board.clearCell(new Position(row,column));
             Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
             Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(row,column + 1)));
         } else {
