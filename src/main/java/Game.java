@@ -36,7 +36,7 @@ public class Game {
     public void turn() {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
-        printBoardStatus();
+        System.out.println(board);
         switch (getCurrentGameStatus()) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
@@ -55,33 +55,6 @@ public class Game {
                 break;
         }
         allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
-    }
-
-    private void printBoardStatus() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = board.getNumberOfRows(); i > 0; i--) {
-            for (int j = 1; j <= board.getNumberOfColumns(); j++) {
-                if (j == 1) {
-                    sb.append(i).append(" ");
-                }
-                if (board.isCellOccupied(new Position(i, j))) {
-                    if (board.getStone(new Position(i, j)).getColor() == Stone.Color.WHITE) {
-                        sb.append("W");
-                    } else {
-                        sb.append("B");
-                    }
-                } else {
-                    sb.append("-");
-                }
-                if (j < board.getNumberOfColumns()) {
-                    sb.append("  ");
-                } else {
-                    sb.append("\n");
-                }
-            }
-        }
-        sb.append("  A  B  C  D  E  F  G  H");
-        System.out.println(sb);
     }
 
     @NotNull

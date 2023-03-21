@@ -107,6 +107,34 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         return false;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = getNumberOfRows(); i > 0; i--) {
+            for (int j = 1; j <= getNumberOfColumns(); j++) {
+                if (j == 1) {
+                    sb.append(i).append(" ");
+                }
+                if (isCellOccupied(new Position(i, j))) {
+                    if (getStone(new Position(i, j)).getColor() == Stone.Color.WHITE) {
+                        sb.append("W");
+                    } else {
+                        sb.append("B");
+                    }
+                } else {
+                    sb.append("-");
+                }
+                if (j < getNumberOfColumns()) {
+                    sb.append("  ");
+                } else {
+                    sb.append("\n");
+                }
+            }
+        }
+        sb.append("  A  B  C  D  E  F  G  H");
+        return sb.toString();
+    }
+
     @NotNull
     @Override
     public Iterator<Map.Entry<Position, Cell>> iterator() {
