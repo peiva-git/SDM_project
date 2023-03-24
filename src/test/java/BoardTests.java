@@ -1,7 +1,6 @@
 import exceptions.InvalidBoardSizeException;
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,17 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTests {
 
-    private Board board;
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
+    private final Board board = new Board(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
-        board = new Board(numberOfRows, numberOfColumns);
-    }
-
-    @AfterEach
-    void clearBoard() {
         board.clearBoard();
     }
 
