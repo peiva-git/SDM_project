@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Board implements Iterable<Map.Entry<Position, Cell>> {
+public class Board implements Iterable<Position> {
 
     private final SortedMap<Position, Cell> cells = new TreeMap<>();
     private final int numberOfRows;
@@ -146,8 +146,8 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
 
     @NotNull
     @Override
-    public Iterator<Map.Entry<Position, Cell>> iterator() {
-        return this.cells.entrySet().iterator();
+    public Iterator<Position> iterator() {
+        return this.cells.keySet().iterator();
     }
 
 }
