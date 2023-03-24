@@ -52,11 +52,28 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideAdjacentBoardPositions() {
         return Stream.of(
+                // corners positions
                 Arguments.of(new Position(1, 1), Set.of(
                         new Position(2, 1),
                         new Position(1, 2),
                         new Position(2, 2)
                 ), null),
+                Arguments.of(new Position(8, 1), Set.of(
+                        new Position(8, 2),
+                        new Position(7, 1),
+                        new Position(7, 2)
+                ), null),
+                Arguments.of(new Position(8, 8), Set.of(
+                        new Position(8, 7),
+                        new Position(7, 8),
+                        new Position(7, 7)
+                ), null),
+                Arguments.of(new Position(1, 8), Set.of(
+                        new Position(1, 7),
+                        new Position(2, 8),
+                        new Position(2, 7)
+                ), null),
+                // position on the board sides
                 Arguments.of(new Position(3, 1), Set.of(
                         new Position(2, 1),
                         new Position(4, 1),
@@ -64,6 +81,14 @@ public class BoardTests {
                         new Position(2, 2),
                         new Position(4, 2)
                 ), null),
+                Arguments.of(new Position(8, 2), Set.of(
+                        new Position(8, 1),
+                        new Position(8, 3),
+                        new Position(7, 2),
+                        new Position(7, 1),
+                        new Position(7, 3)
+                ), null),
+                // position in the board center
                 Arguments.of(new Position(5, 3), Set.of(
                         new Position(5, 2),
                         new Position(5, 4),
