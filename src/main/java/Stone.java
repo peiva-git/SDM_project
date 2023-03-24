@@ -1,10 +1,13 @@
+import org.jetbrains.annotations.NotNull;
+
 public class Stone {
 
     public enum Color {WHITE, BLACK}
     private boolean live = false;
+    @NotNull
     private final Color color;
 
-    public Stone(Color color) {
+    public Stone(@NotNull Color color) {
         this.color = color;
     }
 
@@ -12,6 +15,7 @@ public class Stone {
         return this.live;
     }
 
+    @NotNull
     public Color getColor() {
         return this.color;
     }
