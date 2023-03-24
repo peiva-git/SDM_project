@@ -38,8 +38,8 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideBoardPositions() {
         return Stream.of(
-                Arguments.of(1, 1, null),
-                Arguments.of(5, 3, null),
+                Arguments.of(8, 1, null),
+                Arguments.of(8, 2, null),
                 Arguments.of(9, 8, InvalidPositionException.class)
         );
     }
@@ -69,6 +69,33 @@ public class BoardTests {
                         new Position(4, 4)
                 ), null),
                 Arguments.of(new Position(9, 8), null, InvalidPositionException.class)
+        );
+    }
+
+    private static @NotNull Stream<Arguments> provideEmptyPrintedBoards() {
+        return Stream.of(
+                Arguments.of(8, 8,
+                         " 8 -  -  -  -  -  -  -  -\n"
+                        +" 7 -  -  -  -  -  -  -  -\n"
+                        +" 6 -  -  -  -  -  -  -  -\n"
+                        +" 5 -  -  -  -  -  -  -  -\n"
+                        +" 4 -  -  -  -  -  -  -  -\n"
+                        +" 3 -  -  -  -  -  -  -  -\n"
+                        +" 2 -  -  -  -  -  -  -  -\n"
+                        +" 1 -  -  -  -  -  -  -  -\n"
+                        +"   A  B  C  D  E  F  G  H"),
+                Arguments.of(10, 10,
+                         "10 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 9 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 8 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 7 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 6 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 5 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 4 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 3 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 2 -  -  -  -  -  -  -  -  -  -\n"
+                        +" 1 -  -  -  -  -  -  -  -  -  -\n"
+                        +"   A  B  C  D  E  F  G  H  I  J")
         );
     }
 
@@ -132,5 +159,38 @@ public class BoardTests {
         } else {
             assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(new Position(row, column)));
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
+        String expectedEmptyBoard =
+                 " 8 -  -  -  -  -  -  -  -\n"
+                +" 7 -  -  -  -  -  -  -  -\n"
+                +" 6 -  -  -  -  -  -  -  -\n"
+                +" 5 -  -  -  -  -  -  -  -\n"
+                +" 4 -  -  -  -  -  -  -  -\n"
+                +" 3 -  -  -  -  -  -  -  -\n"
+                +" 2 -  -  -  -  -  -  -  -\n"
+                +" 1 -  -  -  -  -  -  -  -\n"
+                +"   A  B  C  D  E  F  G  H";
+        assertEquals(expectedEmptyBoard, board.toString());
+        if (expectedException == null) {
+            board.putStone(new Position(row, column), Stone.Color.WHITE);
+            board.putStone(new Position(row, column + 1), Stone.Color.BLACK);
+            StringBuilder expectedBoard = new StringBuilder(expectedEmptyBoard);
+            expectedBoard.setCharAt(column * 3, 'W');
+            expectedBoard.setCharAt((column + 1) * 3, 'B');
+            assertEquals(expectedBoard.toString(), board.toString());
+        } else {
+            assertThrows(expectedException, () -> board.putStone(new Position(row, column), Stone.Color.WHITE));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideEmptyPrintedBoards")
+    void printEmptyBoard(int numberOfRows, int numberOfColumns, String expectedResult) {
+        Board board = new Board(numberOfRows, numberOfColumns);
+        assertEquals(expectedResult, board.toString());
     }
 }

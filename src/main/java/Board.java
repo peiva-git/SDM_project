@@ -115,7 +115,11 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
         for (int i = numberOfRows; i > 0; i--) {
             for (int j = 1; j <= numberOfColumns; j++) {
                 if (j == 1) {
-                    sb.append(i).append(" ");
+                    if (i < 10) {
+                        sb.append(" ").append(i).append(" ");
+                    } else {
+                        sb.append(i).append(" ");
+                    }
                 }
                 if (isCellOccupied(new Position(i, j))) {
                     if (getStone(new Position(i, j)).getColor() == Stone.Color.WHITE) {
@@ -133,7 +137,10 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
                 }
             }
         }
-        sb.append("  A  B  C  D  E  F  G  H");
+        sb.append(" ");
+        for (int j = 0; j < numberOfColumns; j++) {
+            sb.append("  ").append((char) ('A' + j));
+        }
         return sb.toString();
     }
 
