@@ -107,7 +107,7 @@ public class Game {
             System.out.print(" ");
         });
         System.out.println();
-        return getPositionFromUserFromSuggestedSet(adjacentPositions);
+        return getPositionFromUserWithinSuggestedSet(adjacentPositions);
     }
 
     private @Nullable Position playLastMove(@NotNull Player player) {
@@ -142,7 +142,7 @@ public class Game {
     }
 
     @Contract("_ -> new")
-    private @NotNull Position getPositionFromUserFromSuggestedSet(@NotNull Set<Position> suggestedPositions) {
+    private @NotNull Position getPositionFromUserWithinSuggestedSet(@NotNull Set<Position> suggestedPositions) {
         System.out.print("Insert the cell name: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
