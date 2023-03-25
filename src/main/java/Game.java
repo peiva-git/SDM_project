@@ -39,7 +39,8 @@ public class Game {
             turn();
         }
         System.out.println("The winner is: " + getTheWinner());
-        System.out.println(whiteScore.getNumberOfFreedomLines());
+        System.out.println("White score: " + whiteScore.getNumberOfFreedomLines());
+        System.out.println("Black score" + blackScore.getNumberOfFreedomLines());
         end();
     }
 
