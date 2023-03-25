@@ -33,7 +33,7 @@ public class Game {
 
     public void start() {
         System.out.println("Game starting up, clearing board...");
-        // board.clearBoard();
+        board.clearBoard();
         gameStatus = GameStatus.STARTED;
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
