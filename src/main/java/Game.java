@@ -1,3 +1,4 @@
+import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,10 +19,16 @@ public class Game {
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
+    private final Score whiteScore;
+
+    private final Score blackScore;
+
     public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
+        this.whiteScore = new Score(this.whitePlayer);
+        this.blackScore = new Score(this.blackPlayer);
     }
 
     public void start() {
@@ -31,6 +38,7 @@ public class Game {
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
         }
+        System.out.println("The winner is: " + getTheWinner());
         end();
     }
 
@@ -114,7 +122,7 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        if(!userInput.isLastMoveAPass()) {
+        if (!userInput.isLastMoveAPass()) {
             return userInput.getPosition();
         }
         return null;
@@ -128,16 +136,16 @@ public class Game {
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         while (true) {
-                Position chosenPosition = userInput.getPosition();
-                if (isPositionInsideBoardRange(chosenPosition)) {
-                    if (board.isCellOccupied(chosenPosition)) {
-                        System.out.print("The picked cell is already occupied! Pick again: ");
-                    } else {
-                        return chosenPosition;
-                    }
+            Position chosenPosition = userInput.getPosition();
+            if (isPositionInsideBoardRange(chosenPosition)) {
+                if (board.isCellOccupied(chosenPosition)) {
+                    System.out.print("The picked cell is already occupied! Pick again: ");
                 } else {
-                    System.out.print("The specified cell is outside of the board range! Pick again: ");
+                    return chosenPosition;
                 }
+            } else {
+                System.out.print("The specified cell is outside of the board range! Pick again: ");
+            }
         }
     }
 
@@ -159,6 +167,136 @@ public class Game {
             } else {
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
+        }
+    }
+
+    @NotNull
+    private Player getTheWinner() {
+        for (Map.Entry<Position, Cell> entry : board) {
+            Position currentPosition = entry.getKey();
+            checkFreedomLine(currentPosition);
+        }
+        if(blackScore.getNumberOfFreedomLines() > whiteScore.getNumberOfFreedomLines()) {
+            return blackPlayer;
+        }
+        return whitePlayer;
+    }
+
+
+    private void checkFreedomLine(@NotNull Position position) {
+        Stone.Color color = board.getStone(position).getColor();
+        if (countHorizontally(position, 1) == 4) {
+            if(color == Stone.Color.BLACK) {
+                blackScore.incrementNumberOfFreedomLines();
+            } else {
+                whiteScore.incrementNumberOfFreedomLines();
+            }
+        }
+        if (countVertically(position, 1) == 4) {
+            if(color == Stone.Color.BLACK) {
+                blackScore.incrementNumberOfFreedomLines();
+            } else {
+                whiteScore.incrementNumberOfFreedomLines();
+            }
+        }
+        if (countDiagonallyRight(position, 1) == 4) {
+            if(color == Stone.Color.BLACK) {
+                blackScore.incrementNumberOfFreedomLines();
+            } else {
+                whiteScore.incrementNumberOfFreedomLines();
+            }
+        }
+        if (countDiagonallyLeft(position, 1) == 4) {
+            if(color == Stone.Color.BLACK) {
+                blackScore.incrementNumberOfFreedomLines();
+            } else {
+                whiteScore.incrementNumberOfFreedomLines();
+            }
+        }
+    }
+
+    private int countVertically(Position currentPosition, int currentStoneCount) {
+        if(currentStoneCount == 1) {
+            try {
+                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn())).getColor() == board.getStone(currentPosition).getColor()) {
+                    return currentStoneCount;
+                }
+            } catch (InvalidPositionException ignored) {
+            }
+        }
+
+        try {
+            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn());
+            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
+                return countVertically(nextPosition, currentStoneCount + 1);
+            } else {
+                return currentStoneCount;
+            }
+        } catch (InvalidPositionException ignored) {
+            return currentStoneCount;
+        }
+    }
+
+    private int countHorizontally(Position currentPosition, int currentStoneCount) {
+        if(currentStoneCount == 1) {
+            try {
+                if (board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
+                    return currentStoneCount;
+                }
+            } catch (InvalidPositionException ignored) {
+            }
+        }
+        try {
+            Position nextPosition = new Position(currentPosition.getRow(), currentPosition.getColumn() + 1);
+            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
+                return countHorizontally(nextPosition, currentStoneCount + 1);
+            } else {
+                return currentStoneCount;
+            }
+        } catch (InvalidPositionException ignored) {
+            return currentStoneCount;
+        }
+    }
+
+    private int countDiagonallyLeft(Position currentPosition, int currentStoneCount) {
+        if(currentStoneCount == 1) {
+            try {
+                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1)).getColor() == board.getStone(currentPosition).getColor()) {
+                    return currentStoneCount;
+                }
+            } catch (InvalidPositionException ignored) {
+            }
+        }
+        try {
+            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() - 1);
+            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
+                return countDiagonallyLeft(nextPosition, currentStoneCount + 1);
+            } else {
+                return currentStoneCount;
+            }
+        } catch (InvalidPositionException ignored) {
+            return currentStoneCount;
+        }
+    }
+
+    private int countDiagonallyRight(Position currentPosition, int currentStoneCount) {
+        if(currentStoneCount == 1) {
+            try {
+                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
+                    return currentStoneCount;
+                }
+            } catch (InvalidPositionException ignored) {
+            }
+        }
+        try {
+            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
+            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
+                return countDiagonallyRight(nextPosition, currentStoneCount + 1);
+            } else {
+                return currentStoneCount;
+            }
+        } catch (InvalidPositionException ignored) {
+            return currentStoneCount;
         }
     }
 
