@@ -80,7 +80,9 @@ public class Board implements Iterable<Map.Entry<Position, Cell>> {
             for (int j = -1; j <= 1; j++) {
                 try {
                     if (i == 0 && j == 0) continue;
-                    adjacentPositions.add(new Position(position.getRow() + i, position.getColumn() + j));
+                    if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
+                        adjacentPositions.add(new Position(position.getRow() + i, position.getColumn() + j));
+                    }
                 } catch (InvalidPositionException ignored) {
                 }
             }
