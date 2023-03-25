@@ -39,6 +39,7 @@ public class Game {
             turn();
         }
         System.out.println("The winner is: " + getTheWinner());
+        System.out.println(whiteScore.getNumberOfFreedomLines());
         end();
     }
 
@@ -122,7 +123,7 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        if (userInput.isLastMoveAPass()) {
+        if (!userInput.isLastMoveAPass()) {
             return userInput.getPosition();
         }
         return null;
