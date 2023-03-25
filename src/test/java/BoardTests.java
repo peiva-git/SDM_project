@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -18,6 +17,7 @@ public class BoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
+    private final Board board = new Board(numberOfRows, numberOfColumns);
 
     private final Board board = new Board(numberOfRows, numberOfColumns);
 
@@ -40,8 +40,8 @@ public class BoardTests {
 
     private static @NotNull Stream<Arguments> provideBoardPositions() {
         return Stream.of(
-                Arguments.of(1, 1, null),
-                Arguments.of(5, 3, null),
+                Arguments.of(8, 1, null),
+                Arguments.of(8, 2, null),
                 Arguments.of(9, 8, InvalidPositionException.class)
         );
     }
@@ -113,6 +113,33 @@ public class BoardTests {
         );
     }
 
+    private static @NotNull Stream<Arguments> provideEmptyPrintedBoards() {
+        return Stream.of(
+                Arguments.of(8, 8,
+                        " 8 -  -  -  -  -  -  -  -\n"
+                                + " 7 -  -  -  -  -  -  -  -\n"
+                                + " 6 -  -  -  -  -  -  -  -\n"
+                                + " 5 -  -  -  -  -  -  -  -\n"
+                                + " 4 -  -  -  -  -  -  -  -\n"
+                                + " 3 -  -  -  -  -  -  -  -\n"
+                                + " 2 -  -  -  -  -  -  -  -\n"
+                                + " 1 -  -  -  -  -  -  -  -\n"
+                                + "   A  B  C  D  E  F  G  H"),
+                Arguments.of(10, 10,
+                        "10 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 9 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 8 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 7 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 6 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 5 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 4 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 3 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 2 -  -  -  -  -  -  -  -  -  -\n"
+                                + " 1 -  -  -  -  -  -  -  -  -  -\n"
+                                + "   A  B  C  D  E  F  G  H  I  J")
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
@@ -124,20 +151,20 @@ public class BoardTests {
     }
 
     private void fillBoardWithWhiteStones() {
-        for (Map.Entry<Position, Cell> boardCell : board) {
-            boardCell.getValue().putStone(new Stone(Stone.Color.WHITE));
+        for (Position position : board) {
+            board.putStone(position, Stone.Color.WHITE);
         }
     }
 
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillBoardWithWhiteStones();
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            assertTrue(cellWithPosition.getValue().isOccupied());
+        for (Position position : board) {
+            assertTrue(board.isCellOccupied(position));
         }
         board.clearBoard();
-        for (Map.Entry<Position, Cell> cellWithPosition : board) {
-            assertFalse(cellWithPosition.getValue().isOccupied());
+        for (Position position : board) {
+            assertFalse(board.isCellOccupied(position));
         }
     }
 
@@ -145,9 +172,9 @@ public class BoardTests {
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(new Position(1,1));
+        board.clearCell(new Position(1, 1));
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(new Position(1,2));
+        board.clearCell(new Position(1, 2));
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
     }
 
@@ -166,12 +193,45 @@ public class BoardTests {
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             fillBoardWithWhiteStones();
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
-            board.clearCell(new Position(row,column));
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row,column)));
-            Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(row,column + 1)));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row, column)));
+            board.clearCell(new Position(row, column));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(new Position(row, column)));
+            Assertions.assertFalse(board.areAdjacentCellsOccupied(new Position(row, column + 1)));
         } else {
             assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(new Position(row, column)));
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideBoardPositions")
+    void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
+        String expectedEmptyBoard =
+                " 8 -  -  -  -  -  -  -  -\n"
+                        + " 7 -  -  -  -  -  -  -  -\n"
+                        + " 6 -  -  -  -  -  -  -  -\n"
+                        + " 5 -  -  -  -  -  -  -  -\n"
+                        + " 4 -  -  -  -  -  -  -  -\n"
+                        + " 3 -  -  -  -  -  -  -  -\n"
+                        + " 2 -  -  -  -  -  -  -  -\n"
+                        + " 1 -  -  -  -  -  -  -  -\n"
+                        + "   A  B  C  D  E  F  G  H";
+        assertEquals(expectedEmptyBoard, board.toString());
+        if (expectedException == null) {
+            board.putStone(new Position(row, column), Stone.Color.WHITE);
+            board.putStone(new Position(row, column + 1), Stone.Color.BLACK);
+            StringBuilder expectedBoard = new StringBuilder(expectedEmptyBoard);
+            expectedBoard.setCharAt(column * 3, 'W');
+            expectedBoard.setCharAt((column + 1) * 3, 'B');
+            assertEquals(expectedBoard.toString(), board.toString());
+        } else {
+            assertThrows(expectedException, () -> board.putStone(new Position(row, column), Stone.Color.WHITE));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideEmptyPrintedBoards")
+    void printEmptyBoard(int numberOfRows, int numberOfColumns, String expectedResult) {
+        Board board = new Board(numberOfRows, numberOfColumns);
+        assertEquals(expectedResult, board.toString());
     }
 }

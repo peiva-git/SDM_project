@@ -107,14 +107,14 @@ public class Game {
             System.out.print(" ");
         });
         System.out.println();
-        return getPositionFromUserFromSuggestedSet(adjacentPositions);
+        return getPositionFromUserWithinSuggestedSet(adjacentPositions);
     }
 
     private @Nullable Position playLastMove(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        if(!userInput.isLastMoveAPass()) {
+        if (!userInput.isLastMoveAPass()) {
             return userInput.getPosition();
         }
         return null;
@@ -128,21 +128,21 @@ public class Game {
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         while (true) {
-                Position chosenPosition = userInput.getPosition();
-                if (isPositionInsideBoardRange(chosenPosition)) {
-                    if (board.isCellOccupied(chosenPosition)) {
-                        System.out.print("The picked cell is already occupied! Pick again: ");
-                    } else {
-                        return chosenPosition;
-                    }
+            Position chosenPosition = userInput.getPosition();
+            if (isPositionInsideBoardRange(chosenPosition)) {
+                if (board.isCellOccupied(chosenPosition)) {
+                    System.out.print("The picked cell is already occupied! Pick again: ");
                 } else {
-                    System.out.print("The specified cell is outside of the board range! Pick again: ");
+                    return chosenPosition;
                 }
+            } else {
+                System.out.print("The specified cell is outside of the board range! Pick again: ");
+            }
         }
     }
 
     @Contract("_ -> new")
-    private @NotNull Position getPositionFromUserFromSuggestedSet(@NotNull Set<Position> suggestedPositions) {
+    private @NotNull Position getPositionFromUserWithinSuggestedSet(@NotNull Set<Position> suggestedPositions) {
         System.out.print("Insert the cell name: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
