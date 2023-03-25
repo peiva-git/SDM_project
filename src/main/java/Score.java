@@ -20,6 +20,6 @@ public class Score {
     }
 
     public void incrementNumberOfFreedomLines() {
-        this.numberOfFreedomLines =+ 1;
+        this.numberOfFreedomLines = this.numberOfFreedomLines + 1;
     }
 }

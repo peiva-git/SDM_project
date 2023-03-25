@@ -9,6 +9,8 @@ public class ScoreTests {
         Assertions.assertEquals(score.getNumberOfFreedomLines(), 0);
         score.incrementNumberOfFreedomLines();
         Assertions.assertEquals(score.getNumberOfFreedomLines(), 1);
+        score.incrementNumberOfFreedomLines();
+        Assertions.assertEquals(score.getNumberOfFreedomLines(), 2);
     }
 
 }
