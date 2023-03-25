@@ -33,7 +33,7 @@ public class Game {
 
     public void start() {
         System.out.println("Game starting up, clearing board...");
-        board.clearBoard();
+        // board.clearBoard();
         gameStatus = GameStatus.STARTED;
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
@@ -122,7 +122,7 @@ public class Game {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
-        if (!userInput.isLastMoveAPass()) {
+        if (userInput.isLastMoveAPass()) {
             return userInput.getPosition();
         }
         return null;
