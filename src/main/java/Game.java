@@ -215,7 +215,7 @@ public class Game {
         }
     }
 
-    private int countVertically(Position currentPosition, int currentStoneCount) {
+    private int countVertically(@NotNull Position currentPosition, int currentStoneCount) {
         if(currentStoneCount == 1) {
             try {
                 if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn())).getColor() == board.getStone(currentPosition).getColor()) {
@@ -237,7 +237,7 @@ public class Game {
         }
     }
 
-    private int countHorizontally(Position currentPosition, int currentStoneCount) {
+    private int countHorizontally(@NotNull Position currentPosition, int currentStoneCount) {
         if(currentStoneCount == 1) {
             try {
                 if (board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
@@ -258,7 +258,7 @@ public class Game {
         }
     }
 
-    private int countDiagonallyLeft(Position currentPosition, int currentStoneCount) {
+    private int countDiagonallyLeft(@NotNull Position currentPosition, int currentStoneCount) {
         if(currentStoneCount == 1) {
             try {
                 if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1)).getColor() == board.getStone(currentPosition).getColor()) {
@@ -279,7 +279,7 @@ public class Game {
         }
     }
 
-    private int countDiagonallyRight(Position currentPosition, int currentStoneCount) {
+    private int countDiagonallyRight(@NotNull Position currentPosition, int currentStoneCount) {
         if(currentStoneCount == 1) {
             try {
                 if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
