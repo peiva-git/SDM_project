@@ -33,4 +33,8 @@ public class Player {
         return ((Player) obj).getColor() == color;
     }
 
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
 }
