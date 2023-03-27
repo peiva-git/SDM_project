@@ -51,7 +51,7 @@ public class FreedomPointsCounterTests {
     @Test
     void testGetWinner() {
         String printedBoard =
-                "8 -  -  -  -  -  -  -  -\n"
+                "8 W  W  W  W  W  W  W  W\n"
                         + "7 W  B  W  W  W  W  W  W\n"
                         + "6 W  B  B  W  B  W  B  B\n"
                         + "5 W  B  B  W  B  W  B  W\n"
@@ -65,7 +65,21 @@ public class FreedomPointsCounterTests {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         Assertions.assertEquals(freedomPointsCounter.getBlackPlayerScore(),2);
-        Assertions.assertEquals(freedomPointsCounter.getWhitePlayerScore(), 3);
+        Assertions.assertEquals(freedomPointsCounter.getWhitePlayerScore(), 2);
+        printedBoard =
+                "8 W  W  W  W  W  W  W  W\n"
+                        + "7 W  B  W  W  W  W  W  W\n"
+                        + "6 W  B  B  W  B  W  B  B\n"
+                        + "5 W  B  B  W  B  W  B  W\n"
+                        + "4 W  W  B  W  B  W  B  W\n"
+                        + "3 B  W  W  B  B  W  B  W\n"
+                        + "2 B  W  W  W  B  W  W  W\n"
+                        + "1 B  W  W  W  W  W  W  W\n"
+                        + "  A  B  C  D  E  F  G  H";
+        freedomPointsCounter.setBoard(parseBoardFromString(printedBoard, 8, 8));
+        freedomPointsCounter.count();
+        Assertions.assertEquals(freedomPointsCounter.getBlackPlayerScore(),2);
+        Assertions.assertEquals(freedomPointsCounter.getWhitePlayerScore(), 2);
     }
 
 }

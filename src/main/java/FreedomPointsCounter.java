@@ -8,7 +8,7 @@ public class FreedomPointsCounter {
     private enum Direction {HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT}
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private final Board board;
+    private Board board;
     private int whitePlayerScore = 0;
     private int blackPlayerScore = 0;
 
@@ -24,7 +24,13 @@ public class FreedomPointsCounter {
         return blackPlayerScore;
     }
 
+    public void setBoard(@NotNull Board board) {
+        this.board = board;
+    }
+
     public void count() {
+        this.blackPlayerScore = 0;
+        this.whitePlayerScore = 0;
         for (Map.Entry<Position, Cell> entry : board) {
             Position currentPosition = entry.getKey();
             checkFreedomLineFrom(currentPosition);
