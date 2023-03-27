@@ -38,13 +38,13 @@ public class FreedomPointsCounter {
         Stone.Color playerColor = stone.getColor();
 
         int currentStoneCount = 1;
-        if (countStonesOfTheSameColor(position, currentStoneCount, Direction.HORIZONTAL) == MAX_NUMBER_OF_STONES) {
+        if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.HORIZONTAL) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.VERTICAL) == MAX_NUMBER_OF_STONES) {
+        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.VERTICAL) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.DIAGONAL_LEFT) == MAX_NUMBER_OF_STONES) {
+        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.DIAGONAL_LEFT) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.DIAGONAL_RIGHT) == MAX_NUMBER_OF_STONES) {
+        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.DIAGONAL_RIGHT) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
         }
 
@@ -58,7 +58,7 @@ public class FreedomPointsCounter {
         }
     }
 
-    private int countStonesOfTheSameColor(@NotNull Position currentPosition, int currentStoneCount, @NotNull Direction direction) {
+    private int countStonesOfTheSameColorFrom(@NotNull Position currentPosition, int currentStoneCount, @NotNull Direction direction) {
         Position nextPosition;
         if (currentStoneCount == 1) {
             try {
@@ -85,7 +85,7 @@ public class FreedomPointsCounter {
             }
             Stone nextStone = board.getStone(nextPosition);
             if (nextStone != null && board.getStone(currentPosition).getColor() == nextStone.getColor()) {
-                return countStonesOfTheSameColor(nextPosition, currentStoneCount + 1, direction);
+                return countStonesOfTheSameColorFrom(nextPosition, currentStoneCount + 1, direction);
             } else {
                 return currentStoneCount;
             }
