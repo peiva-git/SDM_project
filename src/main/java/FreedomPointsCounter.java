@@ -1,5 +1,6 @@
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -68,7 +69,8 @@ public class FreedomPointsCounter {
         Position nextPosition;
         if (currentStoneCount == 1) {
             try {
-                if (getThePreviousStoneColor(currentPosition, direction) == board.getStone(currentPosition).getColor()) {
+                Stone previousStone = getThePreviousStone(currentPosition, direction);
+                if (previousStone != null && previousStone.getColor() == board.getStone(currentPosition).getColor()) {
                     return currentStoneCount;
                 }
             } catch (InvalidPositionException ignored) {
@@ -100,16 +102,17 @@ public class FreedomPointsCounter {
         }
     }
 
-    private Stone.Color getThePreviousStoneColor(Position currentPosition, Direction direction) throws InvalidPositionException {
+    @Nullable
+    private Stone getThePreviousStone(Position currentPosition, Direction direction) throws InvalidPositionException {
         switch (direction) {
             case HORIZONTAL:
-                return board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1)).getColor();
+                return board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1));
             case VERTICAL:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn())).getColor();
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn()));
             case DIAGONAL_LEFT:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1)).getColor();
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
             default:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1)).getColor();
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
         }
     }
 
