@@ -6,7 +6,7 @@ import java.util.Map;
 public class FreedomPointsCounter {
 
     private enum Direction {HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT}
-
+    private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
     private final Board board;
     private int whitePlayerScore = 0;
@@ -35,16 +35,14 @@ public class FreedomPointsCounter {
         if (!board.isCellOccupied(position)) return;
         Stone.Color playerColor = board.getStone(position).getColor();
 
-        if (countStonesOfTheSameColor(position, 1, Direction.HORIZONTAL) == 4) {
+        int currentStoneCount = 1;
+        if (countStonesOfTheSameColor(position, currentStoneCount, Direction.HORIZONTAL) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        }
-        if (countStonesOfTheSameColor(position, 1, Direction.VERTICAL) == 4) {
+        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.VERTICAL) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        }
-        if (countStonesOfTheSameColor(position, 1, Direction.DIAGONAL_LEFT) == 4) {
+        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.DIAGONAL_LEFT) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
-        }
-        if (countStonesOfTheSameColor(position, 1, Direction.DIAGONAL_RIGHT) == 4) {
+        } else if (countStonesOfTheSameColor(position, currentStoneCount, Direction.DIAGONAL_RIGHT) == MAX_NUMBER_OF_STONES) {
             incrementScoreOf(playerColor);
         }
 
@@ -54,7 +52,7 @@ public class FreedomPointsCounter {
         if (playerColor == Stone.Color.WHITE) {
             whitePlayerScore = whitePlayerScore + 1;
         } else {
-            blackPlayerScore = blackPlayerScore +1;
+            blackPlayerScore = blackPlayerScore + 1;
         }
     }
 
