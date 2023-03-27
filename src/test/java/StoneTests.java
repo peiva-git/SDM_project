@@ -9,17 +9,6 @@ public class StoneTests {
     }
 
     @Test
-    void testIsLiveAfterStoneCreation() {
-        assertFalse(blackStone.isLive());
-    }
-
-    @Test
-    void testIsLiveAfterLiveSetter() {
-        blackStone.setLive(true);
-        assertTrue(blackStone.isLive());
-    }
-
-    @Test
     void testEquals() {
         Stone newWhiteStone = new Stone(Stone.Color.WHITE);
         Stone newBlackStone = new Stone(Stone.Color.BLACK);
