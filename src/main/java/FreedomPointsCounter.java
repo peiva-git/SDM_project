@@ -9,9 +9,7 @@ public class FreedomPointsCounter {
 
     @NotNull
     private final Board board;
-    @NotNull
     private int whitePlayerScore = 0;
-    @NotNull
     private int blackPlayerScore = 0;
 
     public FreedomPointsCounter(@NotNull Board board) {
@@ -26,7 +24,6 @@ public class FreedomPointsCounter {
         return blackPlayerScore;
     }
 
-    @NotNull
     public void count() {
         for (Map.Entry<Position, Cell> entry : board) {
             Position currentPosition = entry.getKey();
