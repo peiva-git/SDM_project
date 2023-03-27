@@ -173,133 +173,87 @@ public class Game {
     }
 
     @NotNull
-    private Player getTheWinner() {
+    public Player getTheWinner() {
         for (Map.Entry<Position, Cell> entry : board) {
             Position currentPosition = entry.getKey();
-            checkFreedomLine(currentPosition);
+            checkFreedomLineFrom(currentPosition);
         }
-        if(blackScore.getNumberOfFreedomLines() > whiteScore.getNumberOfFreedomLines()) {
+        if (blackScore.getNumberOfFreedomLines() > whiteScore.getNumberOfFreedomLines()) {
             return blackPlayer;
         }
         return whitePlayer;
     }
 
 
-    private void checkFreedomLine(@NotNull Position position) {
-        Stone.Color color = board.getStone(position).getColor();
-        if (countHorizontally(position, 1) == 4) {
-            if(color == Stone.Color.BLACK) {
-                blackScore.incrementNumberOfFreedomLines();
-            } else {
-                whiteScore.incrementNumberOfFreedomLines();
-            }
+    private void checkFreedomLineFrom(@NotNull Position position) {
+        if (!board.isCellOccupied(position)) return;
+        Stone.Color playerColor = board.getStone(position).getColor();
+
+        if (countStonesOfTheSameColor(position,1,"HORIZONTAL") == 4) {
+            incrementScoreOf(playerColor);
         }
-        if (countVertically(position, 1) == 4) {
-            if(color == Stone.Color.BLACK) {
-                blackScore.incrementNumberOfFreedomLines();
-            } else {
-                whiteScore.incrementNumberOfFreedomLines();
-            }
+        if (countStonesOfTheSameColor(position,1,"VERTICAL") == 4) {
+            incrementScoreOf(playerColor);
         }
-        if (countDiagonallyRight(position, 1) == 4) {
-            if(color == Stone.Color.BLACK) {
-                blackScore.incrementNumberOfFreedomLines();
-            } else {
-                whiteScore.incrementNumberOfFreedomLines();
-            }
+        if (countStonesOfTheSameColor(position,1,"DIAGONAL-LEFT") == 4) {
+            incrementScoreOf(playerColor);
         }
-        if (countDiagonallyLeft(position, 1) == 4) {
-            if(color == Stone.Color.BLACK) {
-                blackScore.incrementNumberOfFreedomLines();
-            } else {
-                whiteScore.incrementNumberOfFreedomLines();
-            }
+        if (countStonesOfTheSameColor(position,1,"DIAGONAL-RIGHT") == 4) {
+            incrementScoreOf(playerColor);
+        }
+
+    }
+
+    private void incrementScoreOf(Stone.Color playerColor) {
+        if (playerColor == Stone.Color.BLACK) {
+            blackScore.incrementNumberOfFreedomLines();
+        } else {
+            whiteScore.incrementNumberOfFreedomLines();
         }
     }
 
-    private int countVertically(@NotNull Position currentPosition, int currentStoneCount) {
-        if(currentStoneCount == 1) {
-            try {
-                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn())).getColor() == board.getStone(currentPosition).getColor()) {
-                    return currentStoneCount;
-                }
-            } catch (InvalidPositionException ignored) {
-            }
+    private int countStonesOfTheSameColor(@NotNull Position currentPosition, int currentStoneCount, String direction) {
+        Position nextPosition;
+        if(getThePreviousStoneColor(currentPosition,direction) == board.getStone(currentPosition).getColor()) {
+            return currentStoneCount;
         }
-
         try {
-            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn());
-            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
-                return countVertically(nextPosition, currentStoneCount + 1);
-            } else {
-                return currentStoneCount;
+            switch (direction) {
+                case "HORIZONTAL":
+                    nextPosition = new Position(currentPosition.getRow(), currentPosition.getColumn() + 1);
+                    break;
+                case "VERTICAL":
+                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn());
+                    break;
+                case "DIAGONAL-LEFT":
+                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() - 1);
+                    break;
+                default:
+                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
             }
-        } catch (InvalidPositionException ignored) {
+        } catch (InvalidPositionException exception) {
+            return currentStoneCount;
+        }
+        if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
+            return countStonesOfTheSameColor(nextPosition, currentStoneCount + 1, direction);
+        } else {
             return currentStoneCount;
         }
     }
 
-    private int countHorizontally(@NotNull Position currentPosition, int currentStoneCount) {
-        if(currentStoneCount == 1) {
-            try {
-                if (board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
-                    return currentStoneCount;
-                }
-            } catch (InvalidPositionException ignored) {
-            }
-        }
-        try {
-            Position nextPosition = new Position(currentPosition.getRow(), currentPosition.getColumn() + 1);
-            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
-                return countHorizontally(nextPosition, currentStoneCount + 1);
-            } else {
-                return currentStoneCount;
-            }
-        } catch (InvalidPositionException ignored) {
-            return currentStoneCount;
+    private Stone.Color getThePreviousStoneColor(Position currentPosition, String direction) throws InvalidPositionException {
+        switch (direction) {
+            case "HORIZONTAL":
+                return board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1)).getColor();
+            case "VERTICAL":
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn())).getColor();
+            case "DIAGONAL-LEFT":
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1)).getColor();
+            default:
+                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1)).getColor();
         }
     }
 
-    private int countDiagonallyLeft(@NotNull Position currentPosition, int currentStoneCount) {
-        if(currentStoneCount == 1) {
-            try {
-                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1)).getColor() == board.getStone(currentPosition).getColor()) {
-                    return currentStoneCount;
-                }
-            } catch (InvalidPositionException ignored) {
-            }
-        }
-        try {
-            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() - 1);
-            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
-                return countDiagonallyLeft(nextPosition, currentStoneCount + 1);
-            } else {
-                return currentStoneCount;
-            }
-        } catch (InvalidPositionException ignored) {
-            return currentStoneCount;
-        }
-    }
 
-    private int countDiagonallyRight(@NotNull Position currentPosition, int currentStoneCount) {
-        if(currentStoneCount == 1) {
-            try {
-                if (board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1)).getColor() == board.getStone(currentPosition).getColor()) {
-                    return currentStoneCount;
-                }
-            } catch (InvalidPositionException ignored) {
-            }
-        }
-        try {
-            Position nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
-            if (board.getStone(currentPosition).getColor() == board.getStone(nextPosition).getColor()) {
-                return countDiagonallyRight(nextPosition, currentStoneCount + 1);
-            } else {
-                return currentStoneCount;
-            }
-        } catch (InvalidPositionException ignored) {
-            return currentStoneCount;
-        }
-    }
 
 }
