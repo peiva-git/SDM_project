@@ -32,8 +32,10 @@ public class FreedomPointsCounter {
     }
 
     private void checkFreedomLineFrom(@NotNull Position position) {
-        if (!board.isCellOccupied(position)) return;
-        Stone.Color playerColor = board.getStone(position).getColor();
+
+        Stone stone = board.getStone(position);
+        if(stone == null) return;
+        Stone.Color playerColor = stone.getColor();
 
         int currentStoneCount = 1;
         if (countStonesOfTheSameColor(position, currentStoneCount, Direction.HORIZONTAL) == MAX_NUMBER_OF_STONES) {
@@ -48,7 +50,7 @@ public class FreedomPointsCounter {
 
     }
 
-    private void incrementScoreOf(Stone.Color playerColor) {
+    private void incrementScoreOf(@NotNull Stone.Color playerColor) {
         if (playerColor == Stone.Color.WHITE) {
             whitePlayerScore = whitePlayerScore + 1;
         } else {
@@ -56,7 +58,7 @@ public class FreedomPointsCounter {
         }
     }
 
-    private int countStonesOfTheSameColor(@NotNull Position currentPosition, int currentStoneCount, Direction direction) {
+    private int countStonesOfTheSameColor(@NotNull Position currentPosition, int currentStoneCount, @NotNull Direction direction) {
         Position nextPosition;
         if (currentStoneCount == 1) {
             try {
