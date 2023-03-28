@@ -1,5 +1,4 @@
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -25,12 +24,10 @@ public class FreedomLine {
         return cellPositions;
     }
 
-    @Nullable
     public Position first() {
         return cellPositions.first();
     }
 
-    @Nullable
     public Position last() {
         return cellPositions.last();
     }
