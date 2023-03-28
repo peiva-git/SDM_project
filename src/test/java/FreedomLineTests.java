@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class LineTests {
+public class FreedomLineTests {
 
     @Test
     void testEquals() {
-        Line line1 = new Line(Stone.Color.WHITE);
-        Line line2 = new Line(Stone.Color.WHITE);
+        FreedomLine line1 = new FreedomLine(Stone.Color.WHITE);
+        FreedomLine line2 = new FreedomLine(Stone.Color.WHITE);
         line1.addPosition(new Position(2,3));
         line1.addPosition(new Position(3,4));
         line1.addPosition(new Position(4,4));

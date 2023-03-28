@@ -2,27 +2,30 @@ import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class FreedomPointsCounter {
 
     private enum Direction {HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT}
+
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
     private Board board;
-    private int whitePlayerScore = 0;
-    private int blackPlayerScore = 0;
+    private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
+    private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
     public FreedomPointsCounter(@NotNull Board board) {
         this.board = board;
     }
 
     public int getWhitePlayerScore() {
-        return whitePlayerScore;
+        return whiteFreedomLines.size();
     }
 
     public int getBlackPlayerScore() {
-        return blackPlayerScore;
+        return blackFreedomLines.size();
     }
 
     public void setBoard(@NotNull Board board) {
@@ -30,53 +33,35 @@ public class FreedomPointsCounter {
     }
 
     public void count() {
-        this.blackPlayerScore = 0;
-        this.whitePlayerScore = 0;
+        this.blackFreedomLines.clear();
+        this.whiteFreedomLines.clear();
         for (Map.Entry<Position, Cell> entry : board) {
             Position currentPosition = entry.getKey();
-            checkFreedomLineFrom(currentPosition);
+            if (board.getStone(currentPosition) == null) continue;
+            checkAllFreedomLinesFrom(currentPosition);
         }
     }
 
-    private void checkFreedomLineFrom(@NotNull Position position) {
-
-        Stone stone = board.getStone(position);
-        if(stone == null) return;
-        Stone.Color playerColor = stone.getColor();
-
-        int currentStoneCount = 1;
-        if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.HORIZONTAL) == MAX_NUMBER_OF_STONES) {
-            incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.VERTICAL) == MAX_NUMBER_OF_STONES) {
-            incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.DIAGONAL_LEFT) == MAX_NUMBER_OF_STONES) {
-            incrementScoreOf(playerColor);
-        } else if (countStonesOfTheSameColorFrom(position, currentStoneCount, Direction.DIAGONAL_RIGHT) == MAX_NUMBER_OF_STONES) {
-            incrementScoreOf(playerColor);
-        }
-
+    private void checkAllFreedomLinesFrom(@NotNull Position position) {
+        checkFreedomLine(position, Direction.HORIZONTAL);
+        checkFreedomLine(position,Direction.VERTICAL);
+        checkFreedomLine(position, Direction.DIAGONAL_LEFT);
+        checkFreedomLine(position, Direction.DIAGONAL_RIGHT);
     }
 
-    private void incrementScoreOf(@NotNull Stone.Color playerColor) {
-        if (playerColor == Stone.Color.WHITE) {
-            whitePlayerScore = whitePlayerScore + 1;
-        } else {
-            blackPlayerScore = blackPlayerScore + 1;
+    private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
+        Stone.Color stoneColor = board.getStone(startingPosition).getColor();
+        FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(stoneColor, startingPosition), direction);
+        if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
+            addFreedomLineTo(stoneColor, line);
         }
     }
 
-    private int countStonesOfTheSameColorFrom(@NotNull Position currentPosition, int currentStoneCount, @NotNull Direction direction) {
+    @NotNull
+    private FreedomLine getLineOfTheSameColorFrom(@NotNull FreedomLine tempLine, @NotNull Direction direction) {
+
         Position nextPosition;
-        if (currentStoneCount == 1) {
-            try {
-                Stone previousStone = getThePreviousStone(currentPosition, direction);
-                if (previousStone != null && previousStone.getColor() == board.getStone(currentPosition).getColor()) {
-                    return currentStoneCount;
-                }
-            } catch (InvalidPositionException ignored) {
-
-            }
-        }
+        Position currentPosition = tempLine.last();
         try {
             switch (direction) {
                 case HORIZONTAL:
@@ -93,14 +78,29 @@ public class FreedomPointsCounter {
             }
             Stone nextStone = board.getStone(nextPosition);
             if (nextStone != null && board.getStone(currentPosition).getColor() == nextStone.getColor()) {
-                return countStonesOfTheSameColorFrom(nextPosition, currentStoneCount + 1, direction);
+                tempLine.addPosition(nextPosition);
+                return getLineOfTheSameColorFrom(tempLine, direction);
             } else {
-                return currentStoneCount;
+                return tempLine;
             }
         } catch (InvalidPositionException exception) {
-            return currentStoneCount;
+            return tempLine;
         }
     }
+    public boolean isPartOfABiggerLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
+        return hasThePreviousStoneTheSameColor(freedomLine.first(), direction);
+    }
+
+    private boolean hasThePreviousStoneTheSameColor(@NotNull Position position, @NotNull Direction direction) {
+        try {
+            Stone previousStone = getThePreviousStone(position, direction);
+            if (previousStone == null) return false;
+            return previousStone.getColor() == board.getStone(position).getColor();
+        } catch (InvalidPositionException exception) {
+            return false;
+        }
+    }
+
 
     @Nullable
     private Stone getThePreviousStone(Position currentPosition, Direction direction) throws InvalidPositionException {
@@ -113,6 +113,14 @@ public class FreedomPointsCounter {
                 return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
             default:
                 return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
+        }
+    }
+
+    private void addFreedomLineTo(@NotNull Stone.Color playerColor, @NotNull FreedomLine freedomLine) {
+        if (playerColor == Stone.Color.WHITE) {
+            whiteFreedomLines.add(freedomLine);
+        } else {
+            blackFreedomLines.add(freedomLine);
         }
     }
 
