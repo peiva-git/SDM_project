@@ -77,7 +77,8 @@ public class FreedomPointsCounter {
                     nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
             }
             Stone nextStone = board.getStone(nextPosition);
-            if (nextStone != null && board.getStone(currentPosition).getColor() == nextStone.getColor()) {
+            Stone currentStone = board.getStone(currentPosition);
+            if (hasTheNextStoneTheSameColorOfTheCurrentStone(currentStone, nextStone)) {
                 tempLine.addPosition(nextPosition);
                 return getLineOfTheSameColorFrom(tempLine, direction);
             } else {
@@ -86,6 +87,10 @@ public class FreedomPointsCounter {
         } catch (InvalidPositionException exception) {
             return tempLine;
         }
+    }
+
+    private boolean hasTheNextStoneTheSameColorOfTheCurrentStone(@NotNull Stone currentStone, @Nullable Stone nextStone) {
+        return nextStone != null && currentStone.getColor() == nextStone.getColor();
     }
 
     public boolean isPartOfABiggerLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
