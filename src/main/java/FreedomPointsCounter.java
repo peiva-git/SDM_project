@@ -44,7 +44,7 @@ public class FreedomPointsCounter {
 
     private void checkAllFreedomLinesFrom(@NotNull Position position) {
         checkFreedomLine(position, Direction.HORIZONTAL);
-        checkFreedomLine(position,Direction.VERTICAL);
+        checkFreedomLine(position, Direction.VERTICAL);
         checkFreedomLine(position, Direction.DIAGONAL_LEFT);
         checkFreedomLine(position, Direction.DIAGONAL_RIGHT);
     }
@@ -87,6 +87,7 @@ public class FreedomPointsCounter {
             return tempLine;
         }
     }
+
     public boolean isPartOfABiggerLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
         return hasThePreviousStoneTheSameColor(freedomLine.first(), direction);
     }
@@ -103,7 +104,7 @@ public class FreedomPointsCounter {
 
 
     @Nullable
-    private Stone getThePreviousStone(Position currentPosition, Direction direction) throws InvalidPositionException {
+    private Stone getThePreviousStone(@NotNull Position currentPosition, @NotNull Direction direction) throws InvalidPositionException {
         switch (direction) {
             case HORIZONTAL:
                 return board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1));
