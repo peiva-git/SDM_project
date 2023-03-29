@@ -31,6 +31,12 @@ public class Game {
         while (gameStatus != GameStatus.GAME_OVER) {
             turn();
         }
+        Player winner = getTheWinner();
+        if (winner != null) {
+            System.out.println("The winner is: " + getTheWinner());
+        } else {
+            System.out.println("Tie!");
+        }
         end();
     }
 
@@ -161,5 +167,18 @@ public class Game {
             }
         }
     }
+
+    @Nullable
+    public Player getTheWinner() {
+        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
+        freedomPointsCounter.count();
+        if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
+            return whitePlayer;
+        } else if (freedomPointsCounter.getBlackPlayerScore() > freedomPointsCounter.getWhitePlayerScore()) {
+            return blackPlayer;
+        }
+        return null;
+    }
+
 
 }
