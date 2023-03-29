@@ -109,7 +109,18 @@ public class FreedomPointsCounterTests {
                                 + " 1 B  W  W  W  W  W  W  W\n"
                                 + "   A  B  C  D  E  F  G  H",
                         8, 8, 3, 1
-                )
+                ),
+                Arguments.of(
+                        " 8 -  -  -  -  -  -  -  -\n"
+                                + " 7 -  -  -  -  -  -  -  -\n"
+                                + " 6 -  -  -  -  W  -  -  -\n"
+                                + " 5 -  -  -  W  B  B  -  -\n"
+                                + " 4 -  -  W  B  W  B  -  -\n"
+                                + " 3 -  -  -  -  -  W  B  -\n"
+                                + " 2 -  -  -  -  -  -  W  B\n"
+                                + " 1 -  -  -  -  -  -  -  -\n"
+                                + "   A  B  C  D  E  F  G  H",
+                        8, 8, 1, 1)
         );
     }
 
