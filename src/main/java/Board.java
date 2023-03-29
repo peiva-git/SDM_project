@@ -22,7 +22,7 @@ public class Board implements Iterable<Position> {
     private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
-                cells.put(new Position(i, j), new Cell());
+                cells.put(Position.valueOf(i, j), new Cell());
             }
         }
     }
@@ -81,7 +81,7 @@ public class Board implements Iterable<Position> {
                 try {
                     if (i == 0 && j == 0) continue;
                     if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
-                        adjacentPositions.add(new Position(position.getRow() + i, position.getColumn() + j));
+                        adjacentPositions.add(Position.valueOf(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
                 }
@@ -123,8 +123,8 @@ public class Board implements Iterable<Position> {
                         sb.append(i).append(" ");
                     }
                 }
-                if (isCellOccupied(new Position(i, j))) {
-                    if (getStone(new Position(i, j)).getColor() == Stone.Color.WHITE) {
+                if (isCellOccupied(Position.valueOf(i, j))) {
+                    if (getStone(Position.valueOf(i, j)).getColor() == Stone.Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
