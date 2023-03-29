@@ -36,7 +36,7 @@ public class TextInput implements UserInput, Closeable {
 
     @Contract("_ -> new")
     private @NotNull Position parsePositionFromFormattedUserInput(@NotNull String input) {
-        return new Position(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
+        return Position.valueOf(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
     }
 
     @Override
