@@ -202,7 +202,7 @@ public class BoardTests {
     @ParameterizedTest
     @MethodSource("provideBoardPositions")
     void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
-        String expectedEmptyBoard =
+        String printedEmptyBoard =
                 " 8 -  -  -  -  -  -  -  -\n"
                         + " 7 -  -  -  -  -  -  -  -\n"
                         + " 6 -  -  -  -  -  -  -  -\n"
@@ -212,14 +212,14 @@ public class BoardTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        assertEquals(expectedEmptyBoard, board.toString());
+        assertEquals(printedEmptyBoard, board.toString());
         if (expectedException == null) {
             board.putStone(new Position(row, column), Stone.Color.WHITE);
             board.putStone(new Position(row, column + 1), Stone.Color.BLACK);
-            StringBuilder expectedBoard = new StringBuilder(expectedEmptyBoard);
-            expectedBoard.setCharAt(column * 3, 'W');
-            expectedBoard.setCharAt((column + 1) * 3, 'B');
-            assertEquals(expectedBoard.toString(), board.toString());
+            StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
+            printedBoard.setCharAt(column * 3, 'W');
+            printedBoard.setCharAt((column + 1) * 3, 'B');
+            assertEquals(printedBoard.toString(), board.toString());
         } else {
             assertThrows(expectedException, () -> board.putStone(new Position(row, column), Stone.Color.WHITE));
         }
@@ -227,8 +227,8 @@ public class BoardTests {
 
     @ParameterizedTest
     @MethodSource("provideEmptyPrintedBoards")
-    void printEmptyBoard(int numberOfRows, int numberOfColumns, String expectedResult) {
+    void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
         Board board = new Board(numberOfRows, numberOfColumns);
-        assertEquals(expectedResult, board.toString());
+        assertEquals(printedBoard, board.toString());
     }
 }
