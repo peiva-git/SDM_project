@@ -42,6 +42,18 @@ public class PositionTests {
     }
 
     @ParameterizedTest
+    @MethodSource("providePositionCoordinates")
+    void testValueOf(int row, int column, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            Position position = assertDoesNotThrow(() -> Position.valueOf(row, column));
+            assertEquals(row, position.getRow());
+            assertEquals(column, position.getColumn());
+        } else {
+            assertThrows(InvalidPositionException.class, () -> Position.valueOf(row, column));
+        }
+    }
+
+    @ParameterizedTest
     @MethodSource("providePositionPairsForComparison")
     void testPositionOrdering(Position first, Position second, int expectedResult) {
         if (expectedResult == 1) {

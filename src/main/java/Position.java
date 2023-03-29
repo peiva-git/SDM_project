@@ -1,5 +1,6 @@
 import exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -75,4 +76,10 @@ public class Position implements Comparable<Position> {
         }
         return Integer.compare(row, position.getRow());
     }
+
+    @NotNull
+    public static Position valueOf(int rowIndex, int columnIndex) throws InvalidPositionException {
+        return new Position(rowIndex, columnIndex);
+    }
+
 }
