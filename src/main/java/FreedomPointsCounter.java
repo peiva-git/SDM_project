@@ -3,7 +3,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class FreedomPointsCounter {
@@ -35,8 +35,7 @@ public class FreedomPointsCounter {
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
-        for (Map.Entry<Position, Cell> entry : board) {
-            Position currentPosition = entry.getKey();
+        for (Position currentPosition : board) {
             if (board.getStone(currentPosition) == null) continue;
             checkAllFreedomLinesFrom(currentPosition);
         }
@@ -50,7 +49,8 @@ public class FreedomPointsCounter {
     }
 
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
-        Stone.Color stoneColor = board.getStone(startingPosition).getColor();
+        Stone startingStone = Objects.requireNonNull(board.getStone(startingPosition), "Should be not-null, checked by count method");
+        Stone.Color stoneColor = startingStone.getColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(stoneColor, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
             addFreedomLineTo(stoneColor, line);

@@ -50,7 +50,7 @@ public class Position implements Comparable<Position> {
      * The assumed ordering is that of a chess board: assuming to be looking from the white player's side,
      * the columns are ordered from A to H starting on the left to the right,
      * while the rows are ordered from 1 to 8 from the bottom to the top.
-     * We're therefore ordering all the board positions starting from numbers first and then letters
+     * We're therefore ordering all the board positions starting from letters first and then numbers
      *
      * @param position the position to compare this instance with
      * @return 0 if the positions are the same, < 0 if position comes before this position,
