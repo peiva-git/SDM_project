@@ -20,12 +20,12 @@ public class PositionTests {
 
     private static @NotNull Stream<Arguments> providePositionPairsForComparison() {
         return Stream.of(
-                Arguments.of(new Position(1, 1), new Position(1, 1), 0),
-                Arguments.of(new Position(2, 1), new Position(3, 1), -1),
-                Arguments.of(new Position(1, 1), new Position(1, 2), -1),
-                Arguments.of(new Position(3, 1), new Position(2, 2), 1),
-                Arguments.of(new Position(3, 1), new Position(2, 5), 1),
-                Arguments.of(new Position(1, 10), new Position(1, 9), 1)
+                Arguments.of(Position.valueOf(1, 1), Position.valueOf(1, 1), 0),
+                Arguments.of(Position.valueOf(2, 1), Position.valueOf(3, 1), -1),
+                Arguments.of(Position.valueOf(1, 1), Position.valueOf(1, 2), -1),
+                Arguments.of(Position.valueOf(3, 1), Position.valueOf(2, 2), 1),
+                Arguments.of(Position.valueOf(3, 1), Position.valueOf(2, 5), 1),
+                Arguments.of(Position.valueOf(1, 10), Position.valueOf(1, 9), 1)
         );
     }
 
