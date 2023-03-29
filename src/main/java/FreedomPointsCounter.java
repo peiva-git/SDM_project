@@ -3,7 +3,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class FreedomPointsCounter {
@@ -35,8 +34,7 @@ public class FreedomPointsCounter {
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
-        for (Map.Entry<Position, Cell> entry : board) {
-            Position currentPosition = entry.getKey();
+        for (Position currentPosition : board) {
             if (board.getStone(currentPosition) == null) continue;
             checkAllFreedomLinesFrom(currentPosition);
         }

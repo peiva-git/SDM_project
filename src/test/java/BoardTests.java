@@ -19,9 +19,6 @@ public class BoardTests {
     private final int numberOfColumns = 8;
     private final Board board = new Board(numberOfRows, numberOfColumns);
 
-    private final Board board = new Board(numberOfRows, numberOfColumns);
-
-
     @BeforeEach
     void initBoard() {
         board.clearBoard();
