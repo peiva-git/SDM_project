@@ -51,7 +51,7 @@ public class FreedomPointsCounterTests {
         assertEquals(printedBoard, board.toString());
     }
 
-    private static @NotNull Stream<Arguments> provideBoards() {
+    private static @NotNull Stream<Arguments> printedBoardsProvider() {
         return Stream.of(
                 Arguments.of("4 W  B  W  B\n"
                                 + "3 W  B  W  B\n"
@@ -115,7 +115,7 @@ public class FreedomPointsCounterTests {
 
 
     @ParameterizedTest
-    @MethodSource("provideBoards")
+    @MethodSource("printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
         Board board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
