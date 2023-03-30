@@ -2,6 +2,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FreedomGame implements Game {
 
@@ -14,8 +15,7 @@ public class FreedomGame implements Game {
     @NotNull
     private final FreedomBoard board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
-    private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
-    private Move lastMove;
+    private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
     public FreedomGame(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
@@ -67,13 +67,21 @@ public class FreedomGame implements Game {
                 gameStatus = GameStatus.GAME_OVER;
                 break;
         }
-        allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
+        if (chosenPosition != null) {
+            playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
+        } else {
+            List<Move> currentPlayersMoves = playersMovesHistory.stream()
+                    .filter(move -> move.getPlayer().equals(currentPlayer))
+                    .collect(Collectors.toList());
+            // the current player chose to skip his move, so the position will stay the same
+            playersMovesHistory.add(currentPlayersMoves.get(currentPlayersMoves.size() - 1));
+        }
     }
 
     @NotNull
     private Player nextPlayer() {
         try {
-            Player previousPlayer = allPlayersMoves.getLast().getPlayer();
+            Player previousPlayer = playersMovesHistory.getLast().getPlayer();
             if (previousPlayer.equals(whitePlayer)) return blackPlayer;
             return whitePlayer;
         } catch (NoSuchElementException exception) {
@@ -83,7 +91,7 @@ public class FreedomGame implements Game {
 
     private GameStatus getCurrentGameStatus() {
         if (board.hasBoardMoreThanOneFreeCell()) {
-            if (allPlayersMoves.isEmpty() || board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
+            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
                 return GameStatus.FREEDOM;
             } else {
                 return GameStatus.NO_FREEDOM;
@@ -102,7 +110,7 @@ public class FreedomGame implements Game {
     private @NotNull Position getPositionWithNoFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
-        Position lastPosition = allPlayersMoves.getLast().getPosition();
+        Position lastPosition = playersMovesHistory.getLast().getPosition();
         Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
@@ -188,7 +196,7 @@ public class FreedomGame implements Game {
         @NotNull
         private final Position position;
 
-        public Move(@NotNull Player player,@NotNull Position position) {
+        public Move(@NotNull Player player, @NotNull Position position) {
             this.player = player;
             this.position = position;
         }
