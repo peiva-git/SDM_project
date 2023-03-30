@@ -46,67 +46,67 @@ public class BoardTests {
     private static @NotNull Stream<Arguments> provideAdjacentBoardPositions() {
         return Stream.of(
                 // corner positions
-                Arguments.of(Position.valueOf(1, 1), Set.of(
-                        Position.valueOf(2, 1),
-                        Position.valueOf(1, 2),
-                        Position.valueOf(2, 2)
+                Arguments.of(Position.fromCoordinates(1, 1), Set.of(
+                        Position.fromCoordinates(2, 1),
+                        Position.fromCoordinates(1, 2),
+                        Position.fromCoordinates(2, 2)
                 ), null),
-                Arguments.of(Position.valueOf(8, 1), Set.of(
-                        Position.valueOf(8, 2),
-                        Position.valueOf(7, 1),
-                        Position.valueOf(7, 2)
+                Arguments.of(Position.fromCoordinates(8, 1), Set.of(
+                        Position.fromCoordinates(8, 2),
+                        Position.fromCoordinates(7, 1),
+                        Position.fromCoordinates(7, 2)
                 ), null),
-                Arguments.of(Position.valueOf(8, 8), Set.of(
-                        Position.valueOf(8, 7),
-                        Position.valueOf(7, 8),
-                        Position.valueOf(7, 7)
+                Arguments.of(Position.fromCoordinates(8, 8), Set.of(
+                        Position.fromCoordinates(8, 7),
+                        Position.fromCoordinates(7, 8),
+                        Position.fromCoordinates(7, 7)
                 ), null),
-                Arguments.of(Position.valueOf(1, 8), Set.of(
-                        Position.valueOf(1, 7),
-                        Position.valueOf(2, 8),
-                        Position.valueOf(2, 7)
+                Arguments.of(Position.fromCoordinates(1, 8), Set.of(
+                        Position.fromCoordinates(1, 7),
+                        Position.fromCoordinates(2, 8),
+                        Position.fromCoordinates(2, 7)
                 ), null),
                 // position on the board sides
-                Arguments.of(Position.valueOf(3, 1), Set.of(
-                        Position.valueOf(2, 1),
-                        Position.valueOf(4, 1),
-                        Position.valueOf(3, 2),
-                        Position.valueOf(2, 2),
-                        Position.valueOf(4, 2)
+                Arguments.of(Position.fromCoordinates(3, 1), Set.of(
+                        Position.fromCoordinates(2, 1),
+                        Position.fromCoordinates(4, 1),
+                        Position.fromCoordinates(3, 2),
+                        Position.fromCoordinates(2, 2),
+                        Position.fromCoordinates(4, 2)
                 ), null),
-                Arguments.of(Position.valueOf(8, 2), Set.of(
-                        Position.valueOf(8, 1),
-                        Position.valueOf(8, 3),
-                        Position.valueOf(7, 2),
-                        Position.valueOf(7, 1),
-                        Position.valueOf(7, 3)
+                Arguments.of(Position.fromCoordinates(8, 2), Set.of(
+                        Position.fromCoordinates(8, 1),
+                        Position.fromCoordinates(8, 3),
+                        Position.fromCoordinates(7, 2),
+                        Position.fromCoordinates(7, 1),
+                        Position.fromCoordinates(7, 3)
                 ), null),
-                Arguments.of(Position.valueOf(3, 8), Set.of(
-                        Position.valueOf(2, 8),
-                        Position.valueOf(4, 8),
-                        Position.valueOf(3, 7),
-                        Position.valueOf(4, 7),
-                        Position.valueOf(2, 7)
+                Arguments.of(Position.fromCoordinates(3, 8), Set.of(
+                        Position.fromCoordinates(2, 8),
+                        Position.fromCoordinates(4, 8),
+                        Position.fromCoordinates(3, 7),
+                        Position.fromCoordinates(4, 7),
+                        Position.fromCoordinates(2, 7)
                 ), null),
-                Arguments.of(Position.valueOf(1, 4), Set.of(
-                        Position.valueOf(1, 3),
-                        Position.valueOf(1, 5),
-                        Position.valueOf(2, 4),
-                        Position.valueOf(2, 3),
-                        Position.valueOf(2, 5)
+                Arguments.of(Position.fromCoordinates(1, 4), Set.of(
+                        Position.fromCoordinates(1, 3),
+                        Position.fromCoordinates(1, 5),
+                        Position.fromCoordinates(2, 4),
+                        Position.fromCoordinates(2, 3),
+                        Position.fromCoordinates(2, 5)
                 ), null),
                 // position in the board center
-                Arguments.of(Position.valueOf(5, 3), Set.of(
-                        Position.valueOf(5, 2),
-                        Position.valueOf(5, 4),
-                        Position.valueOf(4, 3),
-                        Position.valueOf(6, 3),
-                        Position.valueOf(6, 4),
-                        Position.valueOf(6, 2),
-                        Position.valueOf(4, 2),
-                        Position.valueOf(4, 4)
+                Arguments.of(Position.fromCoordinates(5, 3), Set.of(
+                        Position.fromCoordinates(5, 2),
+                        Position.fromCoordinates(5, 4),
+                        Position.fromCoordinates(4, 3),
+                        Position.fromCoordinates(6, 3),
+                        Position.fromCoordinates(6, 4),
+                        Position.fromCoordinates(6, 2),
+                        Position.fromCoordinates(4, 2),
+                        Position.fromCoordinates(4, 4)
                 ), null),
-                Arguments.of(Position.valueOf(9, 8), null, InvalidPositionException.class)
+                Arguments.of(Position.fromCoordinates(9, 8), null, InvalidPositionException.class)
         );
     }
 
@@ -169,9 +169,9 @@ public class BoardTests {
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(Position.valueOf(1, 1));
+        board.clearCell(Position.fromCoordinates(1, 1));
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(Position.valueOf(1, 2));
+        board.clearCell(Position.fromCoordinates(1, 2));
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
     }
 
@@ -190,12 +190,12 @@ public class BoardTests {
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             fillBoardWithWhiteStones();
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.valueOf(row, column)));
-            board.clearCell(Position.valueOf(row, column));
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.valueOf(row, column)));
-            Assertions.assertFalse(board.areAdjacentCellsOccupied(Position.valueOf(row, column + 1)));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
+            board.clearCell(Position.fromCoordinates(row, column));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
+            Assertions.assertFalse(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column + 1)));
         } else {
-            assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(Position.valueOf(row, column)));
+            assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
         }
     }
 
@@ -214,14 +214,14 @@ public class BoardTests {
                         + "   A  B  C  D  E  F  G  H";
         assertEquals(printedEmptyBoard, board.toString());
         if (expectedException == null) {
-            board.putStone(Position.valueOf(row, column), Stone.Color.WHITE);
-            board.putStone(Position.valueOf(row, column + 1), Stone.Color.BLACK);
+            board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE);
+            board.putStone(Position.fromCoordinates(row, column + 1), Stone.Color.BLACK);
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
             printedBoard.setCharAt(column * 3, 'W');
             printedBoard.setCharAt((column + 1) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
-            assertThrows(expectedException, () -> board.putStone(Position.valueOf(row, column), Stone.Color.WHITE));
+            assertThrows(expectedException, () -> board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE));
         }
     }
 

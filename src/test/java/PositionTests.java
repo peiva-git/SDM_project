@@ -20,12 +20,12 @@ public class PositionTests {
 
     private static @NotNull Stream<Arguments> providePositionPairsForComparison() {
         return Stream.of(
-                Arguments.of(Position.valueOf(1, 1), Position.valueOf(1, 1), 0),
-                Arguments.of(Position.valueOf(2, 1), Position.valueOf(3, 1), -1),
-                Arguments.of(Position.valueOf(1, 1), Position.valueOf(1, 2), -1),
-                Arguments.of(Position.valueOf(3, 1), Position.valueOf(2, 2), 1),
-                Arguments.of(Position.valueOf(3, 1), Position.valueOf(2, 5), 1),
-                Arguments.of(Position.valueOf(1, 10), Position.valueOf(1, 9), 1)
+                Arguments.of(Position.fromCoordinates(1, 1), Position.fromCoordinates(1, 1), 0),
+                Arguments.of(Position.fromCoordinates(2, 1), Position.fromCoordinates(3, 1), -1),
+                Arguments.of(Position.fromCoordinates(1, 1), Position.fromCoordinates(1, 2), -1),
+                Arguments.of(Position.fromCoordinates(3, 1), Position.fromCoordinates(2, 2), 1),
+                Arguments.of(Position.fromCoordinates(3, 1), Position.fromCoordinates(2, 5), 1),
+                Arguments.of(Position.fromCoordinates(1, 10), Position.fromCoordinates(1, 9), 1)
         );
     }
 
@@ -33,11 +33,11 @@ public class PositionTests {
     @MethodSource("providePositionCoordinates")
     void testNewPosition(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            Position position = assertDoesNotThrow(() -> new Position(row, column));
+            Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
             assertEquals(row, position.getRow());
             assertEquals(column, position.getColumn());
         } else {
-            assertThrows(InvalidPositionException.class, () -> new Position(row, column));
+            assertThrows(InvalidPositionException.class, () -> Position.fromCoordinates(row, column));
         }
     }
 
@@ -45,11 +45,11 @@ public class PositionTests {
     @MethodSource("providePositionCoordinates")
     void testValueOf(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            Position position = assertDoesNotThrow(() -> Position.valueOf(row, column));
+            Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
             assertEquals(row, position.getRow());
             assertEquals(column, position.getColumn());
         } else {
-            assertThrows(InvalidPositionException.class, () -> Position.valueOf(row, column));
+            assertThrows(InvalidPositionException.class, () -> Position.fromCoordinates(row, column));
         }
     }
 
