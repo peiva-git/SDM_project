@@ -157,7 +157,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
         return this.cells.keySet().iterator();
     }
 
-    private static class FreedomCell {
+    private static class FreedomCell implements Cell {
         @Nullable
         private Stone stone;
 
@@ -169,6 +169,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
             return stone;
         }
 
+        @Override
         public boolean isOccupied() {
             return stone != null;
         }
@@ -177,6 +178,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
             this.stone = stone;
         }
 
+        @Override
         public void clear() {
             this.stone = null;
         }

@@ -8,4 +8,9 @@ public interface Board {
     void clearCell(@NotNull Position position);
     void clearBoard();
 
+    interface Cell {
+        boolean isOccupied();
+        void clear();
+    }
+
 }
