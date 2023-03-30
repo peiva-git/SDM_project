@@ -3,7 +3,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class FreedomGame {
+public class FreedomGame implements Game {
 
     private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
@@ -23,16 +23,17 @@ public class FreedomGame {
         this.board = board;
     }
 
+    @Override
     public void start() {
         System.out.println("Game starting up, clearing board...");
         board.clearBoard();
         gameStatus = GameStatus.STARTED;
         while (gameStatus != GameStatus.GAME_OVER) {
-            turn();
+            playTurn();
         }
-        Player winner = getTheWinner();
+        Player winner = getWinner();
         if (winner != null) {
-            System.out.println("The winner is: " + getTheWinner());
+            System.out.println("The winner is: " + getWinner());
         } else {
             System.out.println("Tie!");
         }
@@ -43,7 +44,8 @@ public class FreedomGame {
         userInput.close();
     }
 
-    public void turn() {
+    @Override
+    public void playTurn() {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
@@ -164,8 +166,9 @@ public class FreedomGame {
         }
     }
 
+    @Override
     @Nullable
-    public Player getTheWinner() {
+    public Player getWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
