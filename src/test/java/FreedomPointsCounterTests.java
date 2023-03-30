@@ -1,5 +1,5 @@
-import it.units.sdm.project.FreedomBoard;
-import it.units.sdm.project.FreedomPointsCounter;
+import it.units.sdm.project.core.FreedomBoard;
+import it.units.sdm.project.core.FreedomPointsCounter;
 import it.units.sdm.project.Position;
 import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;

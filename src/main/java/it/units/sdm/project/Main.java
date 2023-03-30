@@ -1,5 +1,8 @@
 package it.units.sdm.project;
 
+import it.units.sdm.project.core.FreedomBoard;
+import it.units.sdm.project.core.FreedomGame;
+
 public class Main {
     public static void main(String[] args) {
         Player white = new Player(Stone.Color.WHITE, "Mario", "Rossi");

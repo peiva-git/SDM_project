@@ -1,6 +1,6 @@
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.FreedomBoard;
+import it.units.sdm.project.core.FreedomBoard;
 import it.units.sdm.project.Position;
 import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
