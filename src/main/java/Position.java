@@ -7,7 +7,7 @@ public class Position implements Comparable<Position> {
     private final int row;
     private final int column;
 
-    public Position(int row, int column) throws InvalidPositionException {
+    private Position(int row, int column) throws InvalidPositionException {
         if (arePositionCoordinatesInvalid(row, column)) {
             throw new InvalidPositionException("Invalid paramater: position row and column must be > 1");
         }
@@ -75,4 +75,10 @@ public class Position implements Comparable<Position> {
         }
         return Integer.compare(row, position.getRow());
     }
+
+    @NotNull
+    public static Position fromCoordinates(int row, int column) throws InvalidPositionException {
+        return new Position(row, column);
+    }
+
 }

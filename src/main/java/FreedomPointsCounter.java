@@ -65,16 +65,16 @@ public class FreedomPointsCounter {
         try {
             switch (direction) {
                 case HORIZONTAL:
-                    nextPosition = new Position(currentPosition.getRow(), currentPosition.getColumn() + 1);
+                    nextPosition = Position.fromCoordinates(currentPosition.getRow(), currentPosition.getColumn() + 1);
                     break;
                 case VERTICAL:
-                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn());
+                    nextPosition = Position.fromCoordinates(currentPosition.getRow() + 1, currentPosition.getColumn());
                     break;
                 case DIAGONAL_LEFT:
-                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() - 1);
+                    nextPosition = Position.fromCoordinates(currentPosition.getRow() + 1, currentPosition.getColumn() - 1);
                     break;
                 default:
-                    nextPosition = new Position(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
+                    nextPosition = Position.fromCoordinates(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
             }
             Stone nextStone = board.getStone(nextPosition);
             Stone currentStone = board.getStone(currentPosition);
@@ -112,13 +112,13 @@ public class FreedomPointsCounter {
     private Stone getThePreviousStone(@NotNull Position currentPosition, @NotNull Direction direction) throws InvalidPositionException {
         switch (direction) {
             case HORIZONTAL:
-                return board.getStone(new Position(currentPosition.getRow(), currentPosition.getColumn() - 1));
+                return board.getStone(Position.fromCoordinates(currentPosition.getRow(), currentPosition.getColumn() - 1));
             case VERTICAL:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn()));
+                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn()));
             case DIAGONAL_LEFT:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
+                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
             default:
-                return board.getStone(new Position(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
+                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
         }
     }
 
