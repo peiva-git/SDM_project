@@ -31,19 +31,7 @@ public class PositionTests {
 
     @ParameterizedTest
     @MethodSource("providePositionCoordinates")
-    void testNewPosition(int row, int column, Class<Exception> expectedException) {
-        if (expectedException == null) {
-            Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
-            assertEquals(row, position.getRow());
-            assertEquals(column, position.getColumn());
-        } else {
-            assertThrows(InvalidPositionException.class, () -> Position.fromCoordinates(row, column));
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("providePositionCoordinates")
-    void testValueOf(int row, int column, Class<Exception> expectedException) {
+    void testInstancingNewPositionFromCoordinates(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
             assertEquals(row, position.getRow());
