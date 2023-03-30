@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class FreedomBoard implements Iterable<Position> {
+public class FreedomBoard implements Iterable<Position>, Board {
 
     private final SortedMap<Position, Cell> cells = new TreeMap<>();
     private final int numberOfRows;
@@ -31,14 +31,17 @@ public class FreedomBoard implements Iterable<Position> {
         return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }
 
+    @Override
     public int getNumberOfRows() {
         return numberOfRows;
     }
 
+    @Override
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
 
+    @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
@@ -59,12 +62,14 @@ public class FreedomBoard implements Iterable<Position> {
         return cell.getStone();
     }
 
+    @Override
     public void clearCell(@NotNull Position position) {
         Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
+    @Override
     public void clearBoard() {
         for (Cell cell : cells.values()) {
             cell.clear();
