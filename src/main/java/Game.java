@@ -1,4 +1,3 @@
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -91,14 +90,12 @@ public class Game {
         }
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionWithFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Freeedom! You can place a stone on any unoccupied cell");
         return getPositionFromUser();
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionWithNoFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
@@ -147,7 +144,6 @@ public class Game {
         }
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionFromUserWithinSuggestedSet(@NotNull Set<Position> suggestedPositions) {
         System.out.print("Insert the cell name: ");
         while (true) {
@@ -181,4 +177,22 @@ public class Game {
     }
 
 
+    private static class Move {
+
+        private final Player player;
+        private final Position position;
+
+        public Move(Player player, Position position) {
+            this.player = player;
+            this.position = position;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public Position getPosition() {
+            return position;
+        }
+    }
 }
