@@ -13,12 +13,12 @@ public class Game {
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final Board board;
+    private final FreedomBoard board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
-    public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public Game(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;

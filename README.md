@@ -12,7 +12,7 @@ From: https://boardgamegeek.com/boardgame/100480/freedom
 
 ### Rules:
 
-- **Board**: Freedom is played on a 10×10 square board. Beginners can try the game on a 8×8 board. Other board sizes may be also used.
+- **FreedomBoard**: Freedom is played on a 10×10 square board. Beginners can try the game on a 8×8 board. Other board sizes may be also used.
 
 - **Objective**: The objective of Freedom is to have more "live" stones at the end of the game, than your opponent. A stone is considered to be "live" if it is a part of some horizontal, vertical or diagonal row of exactly 4 stones of the same color.
 

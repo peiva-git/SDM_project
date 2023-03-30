@@ -5,13 +5,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Board implements Iterable<Position> {
+public class FreedomBoard implements Iterable<Position> {
 
     private final SortedMap<Position, Cell> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
-    public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
+    public FreedomBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns))
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;

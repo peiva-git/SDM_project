@@ -13,11 +13,11 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTests {
+public class FreedomBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final Board board = new Board(numberOfRows, numberOfColumns);
+    private final FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
@@ -141,9 +141,9 @@ public class BoardTests {
     @MethodSource("provideBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
+            assertThrows(expectedException, () -> new FreedomBoard(numberOfRows, numberOfColumns));
         } else {
-            assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
+            assertDoesNotThrow(() -> new FreedomBoard(numberOfRows, numberOfColumns));
         }
     }
 
@@ -228,7 +228,7 @@ public class BoardTests {
     @ParameterizedTest
     @MethodSource("provideEmptyPrintedBoards")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
-        Board board = new Board(numberOfRows, numberOfColumns);
+        FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
 }

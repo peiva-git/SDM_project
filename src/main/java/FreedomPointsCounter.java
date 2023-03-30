@@ -12,11 +12,11 @@ public class FreedomPointsCounter {
 
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private Board board;
+    private FreedomBoard board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
-    public FreedomPointsCounter(@NotNull Board board) {
+    public FreedomPointsCounter(@NotNull FreedomBoard board) {
         this.board = board;
     }
 
@@ -28,7 +28,7 @@ public class FreedomPointsCounter {
         return blackFreedomLines.size();
     }
 
-    public void setBoard(@NotNull Board board) {
+    public void setBoard(@NotNull FreedomBoard board) {
         this.board = board;
     }
 

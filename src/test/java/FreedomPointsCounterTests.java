@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FreedomPointsCounterTests {
 
-    private static @NotNull Board parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+    private static @NotNull FreedomBoard parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
         Scanner scanner = new Scanner(printedBoard);
-        Board board = new Board(numberOfRows, numberOfColumns);
+        FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt();
@@ -47,7 +47,7 @@ public class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        Board board = parseBoardFromString(printedBoard, 8, 8);
+        FreedomBoard board = parseBoardFromString(printedBoard, 8, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -128,7 +128,7 @@ public class FreedomPointsCounterTests {
     @ParameterizedTest
     @MethodSource("printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
-        Board board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
+        FreedomBoard board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         Assertions.assertEquals(freedomPointsCounter.getBlackPlayerScore(), blackScore);
