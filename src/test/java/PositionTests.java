@@ -1,4 +1,5 @@
-import exceptions.InvalidPositionException;
+import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.Position;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,5 +1,8 @@
-import exceptions.InvalidBoardSizeException;
-import exceptions.InvalidPositionException;
+import it.units.sdm.project.exceptions.InvalidBoardSizeException;
+import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.FreedomBoard;
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

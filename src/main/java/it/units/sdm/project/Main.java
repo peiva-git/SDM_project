@@ -1,3 +1,5 @@
+package it.units.sdm.project;
+
 public class Main {
     public static void main(String[] args) {
         Player white = new Player(Stone.Color.WHITE, "Mario", "Rossi");

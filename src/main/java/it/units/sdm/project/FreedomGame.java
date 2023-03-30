@@ -1,3 +1,6 @@
+package it.units.sdm.project;
+
+import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +29,7 @@ public class FreedomGame implements Game {
 
     @Override
     public void start() {
-        System.out.println("Game starting up, clearing board...");
+        System.out.println("it.units.sdm.project.interfaces.Game starting up, clearing board...");
         board.clearBoard();
         gameStatus = GameStatus.STARTED;
         while (gameStatus != GameStatus.GAME_OVER) {
