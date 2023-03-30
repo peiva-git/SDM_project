@@ -15,6 +15,7 @@ public class FreedomGame implements Game {
     private final FreedomBoard board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
+    private Move lastMove;
     private final TextInput userInput = new TextInput();
 
     public FreedomGame(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
@@ -182,19 +183,21 @@ public class FreedomGame implements Game {
 
     private static class Move {
 
+        @NotNull
         private final Player player;
+        @NotNull
         private final Position position;
 
-        public Move(Player player, Position position) {
+        public Move(@NotNull Player player,@NotNull Position position) {
             this.player = player;
             this.position = position;
         }
 
-        public Player getPlayer() {
+        public @NotNull Player getPlayer() {
             return player;
         }
 
-        public Position getPosition() {
+        public @NotNull Position getPosition() {
             return position;
         }
     }
