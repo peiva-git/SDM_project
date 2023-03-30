@@ -3,7 +3,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Game {
+public class FreedomGame {
 
     private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
@@ -17,7 +17,7 @@ public class Game {
     private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
-    public Game(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;

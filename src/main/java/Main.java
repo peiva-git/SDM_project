@@ -3,7 +3,7 @@ public class Main {
         Player white = new Player(Stone.Color.WHITE, "Mario", "Rossi");
         Player black = new Player(Stone.Color.BLACK, "Marco", "Neri");
         FreedomBoard board = new FreedomBoard(8, 8);
-        Game game = new Game(board, white, black);
+        FreedomGame game = new FreedomGame(board, white, black);
         game.start();
     }
 }
