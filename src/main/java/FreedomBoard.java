@@ -7,7 +7,7 @@ import java.util.*;
 
 public class FreedomBoard implements Iterable<Position>, Board {
 
-    private final SortedMap<Position, Cell> cells = new TreeMap<>();
+    private final SortedMap<Position, FreedomCell> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
@@ -22,7 +22,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
     private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
-                cells.put(Position.fromCoordinates(i, j), new Cell());
+                cells.put(Position.fromCoordinates(i, j), new FreedomCell());
             }
         }
     }
@@ -43,13 +43,13 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
+        FreedomCell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.isOccupied();
     }
 
     public void putStone(@NotNull Position position, @NotNull Stone.Color stoneColor) {
-        Cell cell = cells.get(position);
+        FreedomCell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         Stone stone = new Stone(stoneColor);
         cell.putStone(stone);
@@ -57,21 +57,21 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     @Nullable
     public Stone getStone(@NotNull Position position) {
-        Cell cell = cells.get(position);
+        FreedomCell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.getStone();
     }
 
     @Override
     public void clearCell(@NotNull Position position) {
-        Cell cell = cells.get(position);
+        FreedomCell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
     @Override
     public void clearBoard() {
-        for (Cell cell : cells.values()) {
+        for (FreedomCell cell : cells.values()) {
             cell.clear();
         }
     }
@@ -157,4 +157,29 @@ public class FreedomBoard implements Iterable<Position>, Board {
         return this.cells.keySet().iterator();
     }
 
+    private static class FreedomCell {
+        @Nullable
+        private Stone stone;
+
+        public FreedomCell() {
+        }
+
+        @Nullable
+        public Stone getStone() {
+            return stone;
+        }
+
+        public boolean isOccupied() {
+            return stone != null;
+        }
+
+        public void putStone(@NotNull Stone stone) {
+            this.stone = stone;
+        }
+
+        public void clear() {
+            this.stone = null;
+        }
+
+    }
 }

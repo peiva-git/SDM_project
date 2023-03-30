@@ -7,4 +7,5 @@ public interface Board {
     boolean isCellOccupied(@NotNull Position position);
     void clearCell(@NotNull Position position);
     void clearBoard();
+
 }
