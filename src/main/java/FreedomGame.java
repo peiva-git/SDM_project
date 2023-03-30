@@ -70,11 +70,11 @@ public class FreedomGame implements Game {
         if (chosenPosition != null) {
             playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
         } else {
-            List<Move> currentPlayersMoves = playersMovesHistory.stream()
+            LinkedList<Move> currentPlayersMoves = (LinkedList<Move>) playersMovesHistory.stream()
                     .filter(move -> move.getPlayer().equals(currentPlayer))
                     .collect(Collectors.toList());
             // the current player chose to skip his move, so the position will stay the same
-            playersMovesHistory.add(currentPlayersMoves.get(currentPlayersMoves.size() - 1));
+            playersMovesHistory.add(currentPlayersMoves.getLast());
         }
     }
 
