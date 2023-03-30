@@ -208,5 +208,18 @@ public class FreedomGame implements Game {
         public @NotNull Position getPosition() {
             return position;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Move move = (Move) o;
+            return player.equals(move.player) && position.equals(move.position);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(player, position);
+        }
     }
 }
