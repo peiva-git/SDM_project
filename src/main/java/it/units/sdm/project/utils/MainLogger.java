@@ -1,4 +1,4 @@
-package it.units.sdm.project;
+package it.units.sdm.project.utils;
 
 import org.jetbrains.annotations.NotNull;
 
