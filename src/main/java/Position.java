@@ -77,8 +77,8 @@ public class Position implements Comparable<Position> {
     }
 
     @NotNull
-    public static Position fromCoordinates(int rowIndex, int columnIndex) throws InvalidPositionException {
-        return new Position(rowIndex, columnIndex);
+    public static Position fromCoordinates(int row, int column) throws InvalidPositionException {
+        return new Position(row, column);
     }
 
 }
