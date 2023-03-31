@@ -25,9 +25,9 @@ public class FreedomPointsCounterTests {
                 for (int currentColumn = 1; currentColumn <= numberOfColumns; currentColumn++) {
                     String placeholder = scanner.next("[WB-]");
                     if (placeholder.equals("W")) {
-                        board.putStone(Position.fromCoordinates(currentRow, currentColumn), Stone.Color.WHITE);
+                        board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
                     } else if (placeholder.equals("B")) {
-                        board.putStone(Position.fromCoordinates(currentRow, currentColumn), Stone.Color.BLACK);
+                        board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
                     }
                 }
                 scanner.nextLine();

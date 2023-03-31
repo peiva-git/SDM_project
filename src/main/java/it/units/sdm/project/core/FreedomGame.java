@@ -2,6 +2,7 @@ package it.units.sdm.project.core;
 
 import it.units.sdm.project.Player;
 import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import it.units.sdm.project.TextInput;
 import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
@@ -58,16 +59,16 @@ public class FreedomGame implements Game {
         switch (getCurrentGameStatus()) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
-                board.putStone(chosenPosition, currentPlayer.getColor());
+                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 break;
             case NO_FREEDOM:
                 chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                board.putStone(chosenPosition, currentPlayer.getColor());
+                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 break;
             case LAST_MOVE:
                 chosenPosition = playLastMove(currentPlayer);
                 if (chosenPosition != null) {
-                    board.putStone(chosenPosition, currentPlayer.getColor());
+                    board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
                 gameStatus = GameStatus.GAME_OVER;
                 break;

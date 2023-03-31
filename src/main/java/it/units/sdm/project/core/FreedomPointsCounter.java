@@ -16,7 +16,7 @@ public class FreedomPointsCounter {
 
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private FreedomBoard board;
+    private final FreedomBoard board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
@@ -32,15 +32,11 @@ public class FreedomPointsCounter {
         return blackFreedomLines.size();
     }
 
-    public void setBoard(@NotNull FreedomBoard board) {
-        this.board = board;
-    }
-
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
         for (Position currentPosition : board) {
-            if (board.getStone(currentPosition) == null) continue;
+            if (board.getPiece(currentPosition) == null) continue;
             checkAllFreedomLinesFrom(currentPosition);
         }
     }
@@ -53,7 +49,7 @@ public class FreedomPointsCounter {
     }
 
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
-        Stone startingStone = Objects.requireNonNull(board.getStone(startingPosition), "Should be not-null, checked by count method");
+        Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
         Stone.Color stoneColor = startingStone.getColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(stoneColor, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
@@ -80,8 +76,8 @@ public class FreedomPointsCounter {
                 default:
                     nextPosition = Position.fromCoordinates(currentPosition.getRow() + 1, currentPosition.getColumn() + 1);
             }
-            Stone nextStone = board.getStone(nextPosition);
-            Stone currentStone = board.getStone(currentPosition);
+            Stone nextStone = board.getPiece(nextPosition);
+            Stone currentStone = board.getPiece(currentPosition);
             if (hasTheNextStoneTheSameColorOfTheCurrentStone(currentStone, nextStone)) {
                 tempLine.addPosition(nextPosition);
                 return getLineOfTheSameColorFrom(tempLine, direction);
@@ -105,7 +101,7 @@ public class FreedomPointsCounter {
         try {
             Stone previousStone = getThePreviousStone(position, direction);
             if (previousStone == null) return false;
-            return previousStone.getColor() == board.getStone(position).getColor();
+            return previousStone.getColor() == board.getPiece(position).getColor();
         } catch (InvalidPositionException exception) {
             return false;
         }
@@ -116,13 +112,13 @@ public class FreedomPointsCounter {
     private Stone getThePreviousStone(@NotNull Position currentPosition, @NotNull Direction direction) throws InvalidPositionException {
         switch (direction) {
             case HORIZONTAL:
-                return board.getStone(Position.fromCoordinates(currentPosition.getRow(), currentPosition.getColumn() - 1));
+                return board.getPiece(Position.fromCoordinates(currentPosition.getRow(), currentPosition.getColumn() - 1));
             case VERTICAL:
-                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn()));
+                return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn()));
             case DIAGONAL_LEFT:
-                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
+                return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
             default:
-                return board.getStone(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
+                return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
         }
     }
 

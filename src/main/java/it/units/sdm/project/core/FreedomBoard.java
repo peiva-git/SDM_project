@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class FreedomBoard implements Iterable<Position>, Board {
+public class FreedomBoard implements Iterable<Position>, Board<Stone> {
 
     private final SortedMap<Position, FreedomCell> cells = new TreeMap<>();
     private final int numberOfRows;
@@ -48,37 +48,38 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
+        Cell<Stone> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.isOccupied();
     }
 
-    public void putStone(@NotNull Position position, @NotNull Stone.Color stoneColor) {
-        FreedomCell cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
-        Stone stone = new Stone(stoneColor);
-        cell.putStone(stone);
-    }
-
-    @Nullable
-    public Stone getStone(@NotNull Position position) {
-        FreedomCell cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
-        return cell.getStone();
-    }
-
     @Override
     public void clearCell(@NotNull Position position) {
-        Cell cell = cells.get(position);
+        Cell<Stone> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
     @Override
     public void clearBoard() {
-        for (Cell cell : cells.values()) {
+        for (Cell<Stone> cell : cells.values()) {
             cell.clear();
         }
+    }
+
+    @Override
+    public void putPiece(Stone stone, Position position) throws InvalidPositionException {
+        Cell<Stone> cell = cells.get(position);
+        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        cell.putPiece(stone);
+    }
+
+    @Override
+    @Nullable
+    public Stone getPiece(Position position) throws InvalidPositionException {
+        Cell<Stone> cell = cells.get(position);
+        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        return cell.getPiece();
     }
 
     public Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
@@ -114,7 +115,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     public boolean hasBoardMoreThanOneFreeCell() {
         int numberOfFreeCellsOnBoard = 0;
-        for (Cell cell : cells.values()) {
+        for (Cell<Stone> cell : cells.values()) {
             if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
             if (numberOfFreeCellsOnBoard > 1) return true;
         }
@@ -134,7 +135,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    if (getStone(Position.fromCoordinates(i, j)).getColor() == Stone.Color.WHITE) {
+                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Stone.Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
@@ -162,25 +163,28 @@ public class FreedomBoard implements Iterable<Position>, Board {
         return this.cells.keySet().iterator();
     }
 
-    private static class FreedomCell implements Cell {
+    private static class FreedomCell implements Cell<Stone> {
+
         @Nullable
         private Stone stone;
 
         public FreedomCell() {
         }
 
+        @Override
+        public void putPiece(Stone stone) {
+            this.stone = stone;
+        }
+
+        @Override
         @Nullable
-        public Stone getStone() {
+        public Stone getPiece() {
             return stone;
         }
 
         @Override
         public boolean isOccupied() {
             return stone != null;
-        }
-
-        public void putStone(@NotNull Stone stone) {
-            this.stone = stone;
         }
 
         @Override

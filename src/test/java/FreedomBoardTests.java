@@ -152,7 +152,7 @@ public class FreedomBoardTests {
 
     private void fillBoardWithWhiteStones() {
         for (Position position : board) {
-            board.putStone(position, Stone.Color.WHITE);
+            board.putPiece(new Stone(Stone.Color.WHITE), position);
         }
     }
 
@@ -217,14 +217,14 @@ public class FreedomBoardTests {
                         + "   A  B  C  D  E  F  G  H";
         assertEquals(printedEmptyBoard, board.toString());
         if (expectedException == null) {
-            board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE);
-            board.putStone(Position.fromCoordinates(row, column + 1), Stone.Color.BLACK);
+            board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column));
+            board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(row, column + 1));
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
             printedBoard.setCharAt(column * 3, 'W');
             printedBoard.setCharAt((column + 1) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
-            assertThrows(expectedException, () -> board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE));
+            assertThrows(expectedException, () -> board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column)));
         }
     }
 

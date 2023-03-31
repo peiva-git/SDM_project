@@ -4,14 +4,18 @@ import it.units.sdm.project.Position;
 import org.jetbrains.annotations.NotNull;
 
 
-public interface Board {
+public interface Board<P> {
     int getNumberOfRows();
     int getNumberOfColumns();
     boolean isCellOccupied(@NotNull Position position);
     void clearCell(@NotNull Position position);
     void clearBoard();
+    void putPiece(P piece, Position position);
+    P getPiece(Position position);
 
-    interface Cell {
+    interface Cell<P> {
+        void putPiece(P piece);
+        P getPiece();
         boolean isOccupied();
         void clear();
     }
