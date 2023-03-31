@@ -51,8 +51,7 @@ public class FreedomGame implements Game {
         userInput.close();
     }
 
-    @Override
-    public void playTurn() {
+    private void playTurn() {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
