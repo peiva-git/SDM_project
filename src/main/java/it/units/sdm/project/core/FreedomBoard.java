@@ -48,7 +48,7 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        FreedomCell cell = cells.get(position);
+        Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.isOccupied();
     }
@@ -69,14 +69,14 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     @Override
     public void clearCell(@NotNull Position position) {
-        FreedomCell cell = cells.get(position);
+        Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
     @Override
     public void clearBoard() {
-        for (FreedomCell cell : cells.values()) {
+        for (Cell cell : cells.values()) {
             cell.clear();
         }
     }
