@@ -1,3 +1,7 @@
+import it.units.sdm.project.core.MapBoard;
+import it.units.sdm.project.core.FreedomPointsCounter;
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,18 +16,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FreedomPointsCounterTests {
 
-    private static @NotNull Board parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+    private static @NotNull MapBoard<Stone> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
         Scanner scanner = new Scanner(printedBoard);
-        Board board = new Board(numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt();
                 for (int currentColumn = 1; currentColumn <= numberOfColumns; currentColumn++) {
                     String placeholder = scanner.next("[WB-]");
                     if (placeholder.equals("W")) {
-                        board.putStone(Position.fromCoordinates(currentRow, currentColumn), Stone.Color.WHITE);
+                        board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
                     } else if (placeholder.equals("B")) {
-                        board.putStone(Position.fromCoordinates(currentRow, currentColumn), Stone.Color.BLACK);
+                        board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
                     }
                 }
                 scanner.nextLine();
@@ -47,7 +51,7 @@ public class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        Board board = parseBoardFromString(printedBoard, 8, 8);
+        MapBoard<Stone> board = parseBoardFromString(printedBoard, 8, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -128,7 +132,7 @@ public class FreedomPointsCounterTests {
     @ParameterizedTest
     @MethodSource("printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
-        Board board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         Assertions.assertEquals(freedomPointsCounter.getBlackPlayerScore(), blackScore);

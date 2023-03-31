@@ -1,10 +1,17 @@
-import org.jetbrains.annotations.Contract;
+package it.units.sdm.project.core;
+
+import it.units.sdm.project.Player;
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
+import it.units.sdm.project.TextInput;
+import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class Game {
+public class FreedomGame implements Game {
 
     private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
@@ -13,27 +20,28 @@ public class Game {
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final Board board;
+    private final MapBoard<Stone> board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
-    private final LinkedList<Move> allPlayersMoves = new LinkedList<>();
+    private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
-    public Game(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull MapBoard<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
     }
 
+    @Override
     public void start() {
-        System.out.println("Game starting up, clearing board...");
+        System.out.println("it.units.sdm.project.interfaces.Game starting up, clearing board...");
         board.clearBoard();
         gameStatus = GameStatus.STARTED;
         while (gameStatus != GameStatus.GAME_OVER) {
-            turn();
+            playTurn();
         }
-        Player winner = getTheWinner();
+        Player winner = getWinner();
         if (winner != null) {
-            System.out.println("The winner is: " + getTheWinner());
+            System.out.println("The winner is: " + getWinner());
         } else {
             System.out.println("Tie!");
         }
@@ -44,34 +52,42 @@ public class Game {
         userInput.close();
     }
 
-    public void turn() {
+    private void playTurn() {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
         switch (getCurrentGameStatus()) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
-                board.putStone(chosenPosition, currentPlayer.getColor());
+                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 break;
             case NO_FREEDOM:
                 chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                board.putStone(chosenPosition, currentPlayer.getColor());
+                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 break;
             case LAST_MOVE:
                 chosenPosition = playLastMove(currentPlayer);
                 if (chosenPosition != null) {
-                    board.putStone(chosenPosition, currentPlayer.getColor());
+                    board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
                 gameStatus = GameStatus.GAME_OVER;
                 break;
         }
-        allPlayersMoves.add(new Move(currentPlayer, chosenPosition));
+        if (chosenPosition != null) {
+            playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
+        } else {
+            LinkedList<Move> currentPlayersMoves = (LinkedList<Move>) playersMovesHistory.stream()
+                    .filter(move -> move.getPlayer().equals(currentPlayer))
+                    .collect(Collectors.toList());
+            // the current player chose to skip his move, so the position will stay the same
+            playersMovesHistory.add(currentPlayersMoves.getLast());
+        }
     }
 
     @NotNull
     private Player nextPlayer() {
         try {
-            Player previousPlayer = allPlayersMoves.getLast().getPlayer();
+            Player previousPlayer = playersMovesHistory.getLast().getPlayer();
             if (previousPlayer.equals(whitePlayer)) return blackPlayer;
             return whitePlayer;
         } catch (NoSuchElementException exception) {
@@ -81,7 +97,7 @@ public class Game {
 
     private GameStatus getCurrentGameStatus() {
         if (board.hasBoardMoreThanOneFreeCell()) {
-            if (allPlayersMoves.isEmpty() || board.areAdjacentCellsOccupied(allPlayersMoves.getLast().getPosition())) {
+            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
                 return GameStatus.FREEDOM;
             } else {
                 return GameStatus.NO_FREEDOM;
@@ -91,18 +107,16 @@ public class Game {
         }
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionWithFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Freeedom! You can place a stone on any unoccupied cell");
         return getPositionFromUser();
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionWithNoFreedom(@NotNull Player player) {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
-        Position lastPosition = allPlayersMoves.getLast().getPosition();
+        Position lastPosition = playersMovesHistory.getLast().getPosition();
         Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
@@ -147,7 +161,6 @@ public class Game {
         }
     }
 
-    @Contract("_ -> new")
     private @NotNull Position getPositionFromUserWithinSuggestedSet(@NotNull Set<Position> suggestedPositions) {
         System.out.print("Insert the cell name: ");
         while (true) {
@@ -168,8 +181,9 @@ public class Game {
         }
     }
 
+    @Override
     @Nullable
-    public Player getTheWinner() {
+    public Player getWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
@@ -181,4 +195,37 @@ public class Game {
     }
 
 
+    private static class Move {
+
+        @NotNull
+        private final Player player;
+        @NotNull
+        private final Position position;
+
+        public Move(@NotNull Player player, @NotNull Position position) {
+            this.player = player;
+            this.position = position;
+        }
+
+        public @NotNull Player getPlayer() {
+            return player;
+        }
+
+        public @NotNull Position getPosition() {
+            return position;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Move move = (Move) o;
+            return player.equals(move.player) && position.equals(move.position);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(player, position);
+        }
+    }
 }

@@ -1,17 +1,22 @@
-import exceptions.InvalidBoardSizeException;
-import exceptions.InvalidPositionException;
+package it.units.sdm.project.core;
+
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
+import it.units.sdm.project.exceptions.InvalidBoardSizeException;
+import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Board implements Iterable<Position> {
+public class MapBoard<P extends Stone> implements Iterable<Position>, Board<P> {
 
-    private final SortedMap<Position, Cell> cells = new TreeMap<>();
+    private final SortedMap<Position, MapBoardCell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
-    public Board(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
+    public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns))
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
@@ -22,7 +27,7 @@ public class Board implements Iterable<Position> {
     private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
-                cells.put(Position.fromCoordinates(i, j), new Cell());
+                cells.put(Position.fromCoordinates(i, j), new MapBoardCell<>());
             }
         }
     }
@@ -31,44 +36,50 @@ public class Board implements Iterable<Position> {
         return numberOfRows > 0 && (numberOfRows == numberOfColumns);
     }
 
+    @Override
     public int getNumberOfRows() {
         return numberOfRows;
     }
 
+    @Override
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
 
+    @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        Cell cell = cells.get(position);
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.isOccupied();
     }
 
-    public void putStone(@NotNull Position position, @NotNull Stone.Color stoneColor) {
-        Cell cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
-        Stone stone = new Stone(stoneColor);
-        cell.putStone(stone);
-    }
-
-    @Nullable
-    public Stone getStone(@NotNull Position position) {
-        Cell cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
-        return cell.getStone();
-    }
-
+    @Override
     public void clearCell(@NotNull Position position) {
-        Cell cell = cells.get(position);
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
+    @Override
     public void clearBoard() {
-        for (Cell cell : cells.values()) {
+        for (Cell<P> cell : cells.values()) {
             cell.clear();
         }
+    }
+
+    @Override
+    public void putPiece(P piece, Position position) throws InvalidPositionException {
+        Cell<P> cell = cells.get(position);
+        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        cell.putPiece(piece);
+    }
+
+    @Override
+    @Nullable
+    public P getPiece(Position position) throws InvalidPositionException {
+        Cell<P> cell = cells.get(position);
+        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        return cell.getPiece();
     }
 
     public Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
@@ -104,8 +115,8 @@ public class Board implements Iterable<Position> {
 
     public boolean hasBoardMoreThanOneFreeCell() {
         int numberOfFreeCellsOnBoard = 0;
-        for (Position position : cells.keySet()) {
-            if (!isCellOccupied(position)) numberOfFreeCellsOnBoard++;
+        for (Cell<P> cell : cells.values()) {
+            if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
             if (numberOfFreeCellsOnBoard > 1) return true;
         }
         return false;
@@ -124,7 +135,7 @@ public class Board implements Iterable<Position> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    if (getStone(Position.fromCoordinates(i, j)).getColor() == Stone.Color.WHITE) {
+                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Stone.Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
@@ -152,4 +163,34 @@ public class Board implements Iterable<Position> {
         return this.cells.keySet().iterator();
     }
 
+    private static class MapBoardCell<P> implements Cell<P> {
+
+        @Nullable
+        private P piece;
+
+        public MapBoardCell() {
+        }
+
+        @Override
+        public void putPiece(P piece) {
+            this.piece = piece;
+        }
+
+        @Override
+        @Nullable
+        public P getPiece() {
+            return piece;
+        }
+
+        @Override
+        public boolean isOccupied() {
+            return piece != null;
+        }
+
+        @Override
+        public void clear() {
+            this.piece = null;
+        }
+
+    }
 }

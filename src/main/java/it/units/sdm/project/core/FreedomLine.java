@@ -1,3 +1,7 @@
+package it.units.sdm.project.core;
+
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;

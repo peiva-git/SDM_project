@@ -1,3 +1,6 @@
+import it.units.sdm.project.core.FreedomLine;
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,8 @@
-import exceptions.InvalidBoardSizeException;
-import exceptions.InvalidPositionException;
+import it.units.sdm.project.core.MapBoard;
+import it.units.sdm.project.exceptions.InvalidBoardSizeException;
+import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.Position;
+import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +16,11 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTests {
+public class MapBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final Board board = new Board(numberOfRows, numberOfColumns);
+    private final MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
@@ -141,15 +144,15 @@ public class BoardTests {
     @MethodSource("provideBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> new Board(numberOfRows, numberOfColumns));
+            assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));
         } else {
-            assertDoesNotThrow(() -> new Board(numberOfRows, numberOfColumns));
+            assertDoesNotThrow(() -> new MapBoard<>(numberOfRows, numberOfColumns));
         }
     }
 
     private void fillBoardWithWhiteStones() {
         for (Position position : board) {
-            board.putStone(position, Stone.Color.WHITE);
+            board.putPiece(new Stone(Stone.Color.WHITE), position);
         }
     }
 
@@ -214,21 +217,21 @@ public class BoardTests {
                         + "   A  B  C  D  E  F  G  H";
         assertEquals(printedEmptyBoard, board.toString());
         if (expectedException == null) {
-            board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE);
-            board.putStone(Position.fromCoordinates(row, column + 1), Stone.Color.BLACK);
+            board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column));
+            board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(row, column + 1));
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
             printedBoard.setCharAt(column * 3, 'W');
             printedBoard.setCharAt((column + 1) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
-            assertThrows(expectedException, () -> board.putStone(Position.fromCoordinates(row, column), Stone.Color.WHITE));
+            assertThrows(expectedException, () -> board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column)));
         }
     }
 
     @ParameterizedTest
     @MethodSource("provideEmptyPrintedBoards")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
-        Board board = new Board(numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
 }

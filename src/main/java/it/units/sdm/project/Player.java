@@ -1,3 +1,5 @@
+package it.units.sdm.project;
+
 import org.jetbrains.annotations.NotNull;
 
 public class Player {
