@@ -114,8 +114,8 @@ public class FreedomBoard implements Iterable<Position>, Board {
 
     public boolean hasBoardMoreThanOneFreeCell() {
         int numberOfFreeCellsOnBoard = 0;
-        for (Position position : cells.keySet()) {
-            if (!isCellOccupied(position)) numberOfFreeCellsOnBoard++;
+        for (Cell cell : cells.values()) {
+            if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
             if (numberOfFreeCellsOnBoard > 1) return true;
         }
         return false;
