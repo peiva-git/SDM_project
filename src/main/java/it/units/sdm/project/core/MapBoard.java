@@ -10,13 +10,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class FreedomBoard implements Iterable<Position>, Board<Stone> {
+public class MapBoard<P extends Stone> implements Iterable<Position>, Board<P> {
 
-    private final SortedMap<Position, FreedomCell> cells = new TreeMap<>();
+    private final SortedMap<Position, MapBoardCell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
-    public FreedomBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
+    public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns))
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
         this.numberOfRows = numberOfRows;
@@ -27,7 +27,7 @@ public class FreedomBoard implements Iterable<Position>, Board<Stone> {
     private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
-                cells.put(Position.fromCoordinates(i, j), new FreedomCell());
+                cells.put(Position.fromCoordinates(i, j), new MapBoardCell<>());
             }
         }
     }
@@ -48,36 +48,36 @@ public class FreedomBoard implements Iterable<Position>, Board<Stone> {
 
     @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        Cell<Stone> cell = cells.get(position);
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.isOccupied();
     }
 
     @Override
     public void clearCell(@NotNull Position position) {
-        Cell<Stone> cell = cells.get(position);
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
     @Override
     public void clearBoard() {
-        for (Cell<Stone> cell : cells.values()) {
+        for (Cell<P> cell : cells.values()) {
             cell.clear();
         }
     }
 
     @Override
-    public void putPiece(Stone stone, Position position) throws InvalidPositionException {
-        Cell<Stone> cell = cells.get(position);
+    public void putPiece(P piece, Position position) throws InvalidPositionException {
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
-        cell.putPiece(stone);
+        cell.putPiece(piece);
     }
 
     @Override
     @Nullable
-    public Stone getPiece(Position position) throws InvalidPositionException {
-        Cell<Stone> cell = cells.get(position);
+    public P getPiece(Position position) throws InvalidPositionException {
+        Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.getPiece();
     }
@@ -115,7 +115,7 @@ public class FreedomBoard implements Iterable<Position>, Board<Stone> {
 
     public boolean hasBoardMoreThanOneFreeCell() {
         int numberOfFreeCellsOnBoard = 0;
-        for (Cell<Stone> cell : cells.values()) {
+        for (Cell<P> cell : cells.values()) {
             if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
             if (numberOfFreeCellsOnBoard > 1) return true;
         }
@@ -163,33 +163,33 @@ public class FreedomBoard implements Iterable<Position>, Board<Stone> {
         return this.cells.keySet().iterator();
     }
 
-    private static class FreedomCell implements Cell<Stone> {
+    private static class MapBoardCell<P> implements Cell<P> {
 
         @Nullable
-        private Stone stone;
+        private P piece;
 
-        public FreedomCell() {
+        public MapBoardCell() {
         }
 
         @Override
-        public void putPiece(Stone stone) {
-            this.stone = stone;
+        public void putPiece(P piece) {
+            this.piece = piece;
         }
 
         @Override
         @Nullable
-        public Stone getPiece() {
-            return stone;
+        public P getPiece() {
+            return piece;
         }
 
         @Override
         public boolean isOccupied() {
-            return stone != null;
+            return piece != null;
         }
 
         @Override
         public void clear() {
-            this.stone = null;
+            this.piece = null;
         }
 
     }

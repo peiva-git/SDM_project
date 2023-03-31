@@ -16,11 +16,11 @@ public class FreedomPointsCounter {
 
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private final FreedomBoard board;
+    private final MapBoard<Stone> board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
-    public FreedomPointsCounter(@NotNull FreedomBoard board) {
+    public FreedomPointsCounter(@NotNull MapBoard<Stone> board) {
         this.board = board;
     }
 

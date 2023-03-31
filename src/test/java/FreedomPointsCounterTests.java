@@ -1,4 +1,4 @@
-import it.units.sdm.project.core.FreedomBoard;
+import it.units.sdm.project.core.MapBoard;
 import it.units.sdm.project.core.FreedomPointsCounter;
 import it.units.sdm.project.Position;
 import it.units.sdm.project.Stone;
@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FreedomPointsCounterTests {
 
-    private static @NotNull FreedomBoard parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+    private static @NotNull MapBoard<Stone> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
         Scanner scanner = new Scanner(printedBoard);
-        FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt();
@@ -51,7 +51,7 @@ public class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        FreedomBoard board = parseBoardFromString(printedBoard, 8, 8);
+        MapBoard<Stone> board = parseBoardFromString(printedBoard, 8, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -132,7 +132,7 @@ public class FreedomPointsCounterTests {
     @ParameterizedTest
     @MethodSource("printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
-        FreedomBoard board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         Assertions.assertEquals(freedomPointsCounter.getBlackPlayerScore(), blackScore);

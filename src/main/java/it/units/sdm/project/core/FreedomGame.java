@@ -20,12 +20,12 @@ public class FreedomGame implements Game {
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final FreedomBoard board;
+    private final MapBoard<Stone> board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
-    public FreedomGame(@NotNull FreedomBoard board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull MapBoard<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;

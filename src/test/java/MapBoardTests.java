@@ -1,6 +1,6 @@
+import it.units.sdm.project.core.MapBoard;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.core.FreedomBoard;
 import it.units.sdm.project.Position;
 import it.units.sdm.project.Stone;
 import org.jetbrains.annotations.NotNull;
@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FreedomBoardTests {
+public class MapBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
+    private final MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
@@ -144,9 +144,9 @@ public class FreedomBoardTests {
     @MethodSource("provideBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> new FreedomBoard(numberOfRows, numberOfColumns));
+            assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));
         } else {
-            assertDoesNotThrow(() -> new FreedomBoard(numberOfRows, numberOfColumns));
+            assertDoesNotThrow(() -> new MapBoard<>(numberOfRows, numberOfColumns));
         }
     }
 
@@ -231,7 +231,7 @@ public class FreedomBoardTests {
     @ParameterizedTest
     @MethodSource("provideEmptyPrintedBoards")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
-        FreedomBoard board = new FreedomBoard(numberOfRows, numberOfColumns);
+        MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
 }
