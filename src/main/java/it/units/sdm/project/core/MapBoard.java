@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MapBoard<P extends Stone> implements Iterable<Position>, Board<P> {
+public class MapBoard<P extends Stone> implements Board<P> {
 
     private final SortedMap<Position, MapBoardCell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
