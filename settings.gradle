@@ -1,1 +1,2 @@
 rootProject.name = 'SDM_project'
+include 'desktop', 'core'
