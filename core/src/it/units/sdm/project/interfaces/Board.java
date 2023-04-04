@@ -4,7 +4,7 @@ import it.units.sdm.project.Position;
 import org.jetbrains.annotations.NotNull;
 
 
-public interface Board<P> {
+public interface Board<P> extends Iterable<Position> {
     int getNumberOfRows();
     int getNumberOfColumns();
     boolean isCellOccupied(@NotNull Position position);

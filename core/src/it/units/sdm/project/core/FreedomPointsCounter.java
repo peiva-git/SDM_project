@@ -3,6 +3,7 @@ package it.units.sdm.project.core;
 import it.units.sdm.project.Position;
 import it.units.sdm.project.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,11 +17,11 @@ public class FreedomPointsCounter {
 
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private final MapBoard<Stone> board;
+    private final Board<Stone> board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
-    public FreedomPointsCounter(@NotNull MapBoard<Stone> board) {
+    public FreedomPointsCounter(@NotNull Board<Stone> board) {
         this.board = board;
     }
 
