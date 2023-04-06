@@ -1,4 +1,4 @@
-package it.units.sdm.project;
+package it.units.sdm.project.core.board;
 
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;

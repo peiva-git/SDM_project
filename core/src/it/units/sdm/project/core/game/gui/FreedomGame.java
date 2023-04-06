@@ -1,4 +1,4 @@
-package it.units.sdm.project;
+package it.units.sdm.project.core.game.gui;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;

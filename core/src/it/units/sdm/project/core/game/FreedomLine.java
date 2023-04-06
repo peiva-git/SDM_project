@@ -1,7 +1,7 @@
-package it.units.sdm.project.core;
+package it.units.sdm.project.core.game;
 
-import it.units.sdm.project.Position;
-import it.units.sdm.project.Stone;
+import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.core.board.Stone;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

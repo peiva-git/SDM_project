@@ -1,7 +1,7 @@
-import it.units.sdm.project.core.MapBoard;
-import it.units.sdm.project.core.FreedomPointsCounter;
-import it.units.sdm.project.Position;
-import it.units.sdm.project.Stone;
+import it.units.sdm.project.core.board.MapBoard;
+import it.units.sdm.project.core.game.FreedomPointsCounter;
+import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.core.board.Stone;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;

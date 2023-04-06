@@ -1,7 +1,9 @@
 package it.units.sdm.project;
 
-import it.units.sdm.project.core.FreedomGame;
-import it.units.sdm.project.core.MapBoard;
+import it.units.sdm.project.core.game.terminal.FreedomGame;
+import it.units.sdm.project.core.board.MapBoard;
+import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.core.game.Player;
 
 public class TerminalLauncher {
     public static void main(String[] args) {

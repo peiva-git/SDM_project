@@ -1,9 +1,10 @@
-package it.units.sdm.project.core;
+package it.units.sdm.project.core.game.terminal;
 
-import it.units.sdm.project.Player;
-import it.units.sdm.project.Position;
-import it.units.sdm.project.Stone;
-import it.units.sdm.project.TextInput;
+import it.units.sdm.project.core.game.Player;
+import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.core.board.MapBoard;
+import it.units.sdm.project.core.game.FreedomPointsCounter;
 import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

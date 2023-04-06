@@ -3,8 +3,8 @@
 <module>
 	<source path="it/units/sdm/project">
 		<exclude name="utils/MainLogger.java"/>
-		<exclude name="core/FreedomGame.java" />
-		<exclude name="TextInput.java" />
+		<exclude name="core/game/terminal/FreedomGame.java" />
+		<exclude name="core/game/terminal/TextInput.java" />
 	</source>
 
 </module>
