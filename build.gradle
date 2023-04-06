@@ -53,6 +53,14 @@ project(":desktop") {
     }
 }
 
+project(":terminal") {
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation project(":core")
+    }
+}
+
 project(":html") {
     apply plugin: "java-library"
     apply plugin: "gwt"
