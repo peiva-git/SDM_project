@@ -1,8 +1,8 @@
-import it.units.sdm.project.core.MapBoard;
+import it.units.sdm.project.core.board.MapBoard;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.Position;
-import it.units.sdm.project.Stone;
+import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.core.board.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

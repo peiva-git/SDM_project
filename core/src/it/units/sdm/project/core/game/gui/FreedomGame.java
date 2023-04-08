@@ -1,11 +1,11 @@
-package it.units.sdm.project;
+package it.units.sdm.project.core.game.gui;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class Freedom extends ApplicationAdapter {
+public class FreedomGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	

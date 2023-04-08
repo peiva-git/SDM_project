@@ -1,5 +1,6 @@
-package it.units.sdm.project;
+package it.units.sdm.project.core.game;
 
+import it.units.sdm.project.core.board.Stone;
 import org.jetbrains.annotations.NotNull;
 
 public class Player {

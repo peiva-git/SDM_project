@@ -1,7 +1,6 @@
-group 'it.units'
-version '1.0-SNAPSHOT'
-
 buildscript {
+
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -10,17 +9,19 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.0.0.2929")
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.1.16'
+        classpath 'org.gretty:gretty:3.0.7'
+
+
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
-    apply plugin: "org.sonarqube"
 
     version = '1.0'
     ext {
-        appName = "SDM"
+        appName = "Freedom"
         gdxVersion = '1.11.0'
         roboVMVersion = '2.3.19'
         box2DLightsVersion = '1.5'
@@ -43,10 +44,38 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
+
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+    }
+}
+
+project(":terminal") {
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation project(":core")
+        implementation 'org.jetbrains:annotations:20.1.0'
+    }
+}
+
+project(":html") {
+    apply plugin: "java-library"
+    apply plugin: "gwt"
+    apply plugin: "war"
+    apply plugin: "org.gretty"
+
+
+    dependencies {
+        implementation project(":core")
+        implementation 'org.jetbrains:annotations:20.1.0'
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+
     }
 }
 
@@ -55,9 +84,6 @@ project(":core") {
     apply plugin: "java"
     apply plugin: "jacoco"
 
-    test {
-        useJUnitPlatform()
-    }
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -65,5 +91,10 @@ project(":core") {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
         testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.2'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }

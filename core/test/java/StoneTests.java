@@ -1,4 +1,4 @@
-import it.units.sdm.project.Stone;
+import it.units.sdm.project.core.board.Stone;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class StoneTests {

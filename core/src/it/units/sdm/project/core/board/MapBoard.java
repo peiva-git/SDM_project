@@ -1,7 +1,5 @@
-package it.units.sdm.project.core;
+package it.units.sdm.project.core.board;
 
-import it.units.sdm.project.Position;
-import it.units.sdm.project.Stone;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;

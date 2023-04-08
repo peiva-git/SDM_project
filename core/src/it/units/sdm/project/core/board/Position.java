@@ -1,4 +1,4 @@
-package it.units.sdm.project;
+package it.units.sdm.project.core.board;
 
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public class Position implements Comparable<Position> {
     @Override
     public String toString() {
         char column = (char) ('A' + this.column - 1);
-        return String.format("%c%d", column, row);
+        return column + " " + row;
     }
 
     /**

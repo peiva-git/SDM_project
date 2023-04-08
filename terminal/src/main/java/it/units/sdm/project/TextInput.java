@@ -1,5 +1,6 @@
 package it.units.sdm.project;
 
+import it.units.sdm.project.core.board.Position;
 import it.units.sdm.project.interfaces.UserInput;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

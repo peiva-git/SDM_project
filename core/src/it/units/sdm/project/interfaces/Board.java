@@ -1,6 +1,6 @@
 package it.units.sdm.project.interfaces;
 
-import it.units.sdm.project.Position;
+import it.units.sdm.project.core.board.Position;
 import org.jetbrains.annotations.NotNull;
 
 
