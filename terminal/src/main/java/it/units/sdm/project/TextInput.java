@@ -1,4 +1,4 @@
-package it.units.sdm.project.core.game.terminal;
+package it.units.sdm.project;
 
 import it.units.sdm.project.core.board.Position;
 import it.units.sdm.project.interfaces.UserInput;

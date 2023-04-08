@@ -58,6 +58,7 @@ project(":terminal") {
 
     dependencies {
         implementation project(":core")
+        implementation 'org.jetbrains:annotations:20.1.0'
     }
 }
 
