@@ -36,13 +36,12 @@ public class FreedomPointsCounter {
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
-        for (Position currentPosition : board) {
-            if (board.getPiece(currentPosition) == null) continue;
-            checkAllFreedomLinesFrom(currentPosition);
-        }
+        board.getPositions().stream()
+                .filter(position -> board.getPiece(position) != null)
+                .forEach(this::checkAllFreedomLinesFromPosition);
     }
 
-    private void checkAllFreedomLinesFrom(@NotNull Position position) {
+    private void checkAllFreedomLinesFromPosition(@NotNull Position position) {
         checkFreedomLine(position, Direction.HORIZONTAL);
         checkFreedomLine(position, Direction.VERTICAL);
         checkFreedomLine(position, Direction.DIAGONAL_LEFT);
