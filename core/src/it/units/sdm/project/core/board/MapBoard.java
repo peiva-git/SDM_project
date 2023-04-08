@@ -104,20 +104,14 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
-        Set<Position> adjacentPositions = getAdjacentPositions(cellPosition);
-        for (Position position : adjacentPositions) {
-            if (!isCellOccupied(position)) return false;
-        }
-        return true;
+        return getAdjacentPositions(cellPosition).stream()
+                .allMatch(this::isCellOccupied);
     }
 
     public boolean hasBoardMoreThanOneFreeCell() {
-        int numberOfFreeCellsOnBoard = 0;
-        for (Cell<P> cell : cells.values()) {
-            if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
-            if (numberOfFreeCellsOnBoard > 1) return true;
-        }
-        return false;
+        return cells.values().stream()
+                .filter(boardCell -> !boardCell.isOccupied())
+                .count() > 1;
     }
 
     @Override
