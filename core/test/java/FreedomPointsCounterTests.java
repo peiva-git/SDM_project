@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,14 +24,15 @@ public class FreedomPointsCounterTests {
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt();
-                for (int currentColumn = 1; currentColumn <= numberOfColumns; currentColumn++) {
-                    String placeholder = scanner.next("[WB-]");
-                    if (placeholder.equals("W")) {
-                        board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
-                    } else if (placeholder.equals("B")) {
-                        board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
-                    }
-                }
+                IntStream.rangeClosed(1, numberOfColumns)
+                        .forEach(currentColumn -> {
+                            String placeholder = scanner.next("[WB-]");
+                            if (placeholder.equals("W")) {
+                                board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
+                            } else if (placeholder.equals("B")) {
+                                board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
+                            }
+                        });
                 scanner.nextLine();
             } else {
                 scanner.close();

@@ -66,7 +66,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
-    public void putPiece(P piece, Position position) throws InvalidPositionException {
+    public void putPiece(@NotNull P piece,@NotNull  Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.putPiece(piece);
@@ -74,7 +74,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
 
     @Override
     @Nullable
-    public P getPiece(Position position) throws InvalidPositionException {
+    public P getPiece(@NotNull Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.getPiece();
@@ -104,20 +104,14 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
-        Set<Position> adjacentPositions = getAdjacentPositions(cellPosition);
-        for (Position position : adjacentPositions) {
-            if (!isCellOccupied(position)) return false;
-        }
-        return true;
+        return getAdjacentPositions(cellPosition).stream()
+                .allMatch(this::isCellOccupied);
     }
 
     public boolean hasBoardMoreThanOneFreeCell() {
-        int numberOfFreeCellsOnBoard = 0;
-        for (Cell<P> cell : cells.values()) {
-            if (!cell.isOccupied()) ++numberOfFreeCellsOnBoard;
-            if (numberOfFreeCellsOnBoard > 1) return true;
-        }
-        return false;
+        return cells.values().stream()
+                .filter(boardCell -> !boardCell.isOccupied())
+                .count() > 1;
     }
 
     @Override
@@ -159,6 +153,12 @@ public class MapBoard<P extends Stone> implements Board<P> {
     @Override
     public Iterator<Position> iterator() {
         return this.cells.keySet().iterator();
+    }
+
+    @NotNull
+    @Override
+    public Set<Position> getPositions() {
+        return cells.keySet();
     }
 
     private static class MapBoardCell<P> implements Cell<P> {

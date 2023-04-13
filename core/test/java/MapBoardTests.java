@@ -159,13 +159,9 @@ public class MapBoardTests {
     @Test
     void testClearBoardByRemovingAllTheStones() {
         fillBoardWithWhiteStones();
-        for (Position position : board) {
-            assertTrue(board.isCellOccupied(position));
-        }
+        board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
         board.clearBoard();
-        for (Position position : board) {
-            assertFalse(board.isCellOccupied(position));
-        }
+        board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
     }
 
     @Test

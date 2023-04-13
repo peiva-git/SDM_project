@@ -2,6 +2,7 @@ package it.units.sdm.project.core.game;
 
 import it.units.sdm.project.core.board.Position;
 import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.core.board.Stone.Color;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
@@ -36,13 +37,12 @@ public class FreedomPointsCounter {
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
-        for (Position currentPosition : board) {
-            if (board.getPiece(currentPosition) == null) continue;
-            checkAllFreedomLinesFrom(currentPosition);
-        }
+        board.getPositions().stream()
+                .filter(position -> board.getPiece(position) != null)
+                .forEach(this::checkAllFreedomLinesFromPosition);
     }
 
-    private void checkAllFreedomLinesFrom(@NotNull Position position) {
+    private void checkAllFreedomLinesFromPosition(@NotNull Position position) {
         checkFreedomLine(position, Direction.HORIZONTAL);
         checkFreedomLine(position, Direction.VERTICAL);
         checkFreedomLine(position, Direction.DIAGONAL_LEFT);
@@ -51,7 +51,7 @@ public class FreedomPointsCounter {
 
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
-        Stone.Color stoneColor = startingStone.getColor();
+        Color stoneColor = startingStone.getColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(stoneColor, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
             addFreedomLineTo(stoneColor, line);
@@ -123,8 +123,8 @@ public class FreedomPointsCounter {
         }
     }
 
-    private void addFreedomLineTo(@NotNull Stone.Color playerColor, @NotNull FreedomLine freedomLine) {
-        if (playerColor == Stone.Color.WHITE) {
+    private void addFreedomLineTo(@NotNull Color playerColor, @NotNull FreedomLine freedomLine) {
+        if (playerColor == Color.WHITE) {
             whiteFreedomLines.add(freedomLine);
         } else {
             blackFreedomLines.add(freedomLine);
