@@ -11,12 +11,13 @@ import java.util.*;
 public class MapBoard<P extends Stone> implements Board<P> {
 
     private final Map<Position, MapBoardCell<P>> cells = new TreeMap<>();
+    private final static int MAX_NUMBER_OF_ROWS = 26;
     private final int numberOfRows;
     private final int numberOfColumns;
 
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns))
-            throw new InvalidBoardSizeException("The size of the board must be at least 1x1");
+            throw new InvalidBoardSizeException("The size of the board must be at least 1x1 and at most 26x26");
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         initBoardWithEmptyCells();
@@ -31,7 +32,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
-        return numberOfRows > 0 && (numberOfRows == numberOfColumns);
+        return numberOfRows > 0 && numberOfRows <= MAX_NUMBER_OF_ROWS && (numberOfRows == numberOfColumns);
     }
 
     @Override
