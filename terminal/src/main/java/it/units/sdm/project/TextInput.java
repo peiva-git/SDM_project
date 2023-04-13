@@ -15,7 +15,7 @@ public class TextInput implements UserInput, Closeable {
         Position chosenPosition;
         String input = userInput.nextLine();
         while (true) {
-            if (input.matches("[A-Z][0-9]")) {
+            if (input.matches("[A-Z][1-9][0-9]?")) {
                 chosenPosition = parsePositionFromFormattedUserInput(input);
                 break;
             } else {
