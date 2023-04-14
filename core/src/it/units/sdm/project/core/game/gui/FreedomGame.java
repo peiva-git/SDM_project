@@ -1,31 +1,40 @@
 package it.units.sdm.project.core.game.gui;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import org.jetbrains.annotations.NotNull;
 
-public class FreedomGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class FreedomGame extends Game {
 
-	@Override
-	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+    @NotNull
+    private SpriteBatch batch;
+    @NotNull
+    private BitmapFont font;
+
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        setScreen(new MainMenuScreen(this));
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+    }
+
+    @Override
+    public void render() {
+        super.render();
+    }
+
+    public @NotNull SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public @NotNull BitmapFont getFont() {
+        return font;
+    }
 }
