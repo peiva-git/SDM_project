@@ -19,7 +19,6 @@ public class MapBoard<P extends Stone> implements Board<P> {
 
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
-            Gdx.app.error(MAP_BOARD_TAG, "The size of the board must be at least 1x1 and at most 26x26");
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1 and at most 26x26");
         }
         this.numberOfRows = numberOfRows;
