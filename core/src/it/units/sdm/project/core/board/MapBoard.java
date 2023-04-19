@@ -1,6 +1,5 @@
 package it.units.sdm.project.core.board;
 
-import com.badlogic.gdx.Gdx;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;
@@ -11,7 +10,6 @@ import java.util.*;
 
 public class MapBoard<P extends Stone> implements Board<P> {
 
-    private static final String MAP_BOARD_TAG = "MAP_BOARD";
     private final Map<Position, MapBoardCell<P>> cells = new TreeMap<>();
     private final static int MAX_NUMBER_OF_ROWS = 26;
     private final int numberOfRows;
@@ -94,9 +92,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
                 try {
                     if (i == 0 && j == 0) continue;
                     if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
-                        Position adjacentPosition = Position.fromCoordinates(position.getRow() + i, position.getColumn() + j);
-                        Gdx.app.log(MAP_BOARD_TAG, "Position " + adjacentPosition + " added to adjacent positions set");
-                        adjacentPositions.add(adjacentPosition);
+                        adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
                 }
