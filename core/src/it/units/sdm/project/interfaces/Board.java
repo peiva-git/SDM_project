@@ -16,12 +16,7 @@ public interface Board<P> extends Iterable<Position> {
     void putPiece(@NotNull P piece,@NotNull  Position position);
     @Nullable P getPiece(@NotNull Position position);
     @NotNull Set<Position> getPositions();
-
-    interface Cell<P> {
-        void putPiece(P piece);
-        P getPiece();
-        boolean isOccupied();
-        void clear();
-    }
-
+    boolean hasBoardMoreThanOneFreeCell();
+    boolean areAdjacentCellsOccupied(Position position);
+    @NotNull Set<Position> getAdjacentPositions(Position position);
 }
