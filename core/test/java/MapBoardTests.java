@@ -1,6 +1,7 @@
 import it.units.sdm.project.core.board.MapBoard;
 import it.units.sdm.project.core.board.Position;
 import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.interfaces.Board;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class MapBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+    private final Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
@@ -109,7 +110,7 @@ public class MapBoardTests {
     @ParameterizedTest
     @MethodSource("providers.MapBoardProviders#provideEmptyPrintedBoards")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
-        MapBoard<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+        Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
 }
