@@ -5,6 +5,7 @@ import it.units.sdm.project.core.board.Stone;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -26,7 +27,12 @@ public class FreedomLine {
         return color;
     }
 
-    public SortedSet<Position> getCellPositions() {
+    /**
+     *
+     * @return This method returns all the positions that are in this freedom line,
+     * ordered by the custom ordering defined in the Position class
+     */
+    public Set<Position> getCellPositions() {
         return cellPositions;
     }
 
