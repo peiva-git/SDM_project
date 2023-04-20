@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
 
-public interface Board<P> extends Iterable<Position> {
+public interface Board<P> {
     int getNumberOfRows();
     int getNumberOfColumns();
     boolean isCellOccupied(@NotNull Position position);
