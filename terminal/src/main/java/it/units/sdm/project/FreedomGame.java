@@ -1,10 +1,10 @@
 package it.units.sdm.project;
 
-import it.units.sdm.project.core.game.Player;
 import it.units.sdm.project.core.board.Position;
 import it.units.sdm.project.core.board.Stone;
-import it.units.sdm.project.core.board.MapBoard;
 import it.units.sdm.project.core.game.FreedomPointsCounter;
+import it.units.sdm.project.core.game.Player;
+import it.units.sdm.project.interfaces.Board;
 import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,12 +24,12 @@ public class FreedomGame implements Game {
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final MapBoard<Stone> board;
+    private final Board<Stone> board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TextInput userInput = new TextInput();
 
-    public FreedomGame(@NotNull MapBoard<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;

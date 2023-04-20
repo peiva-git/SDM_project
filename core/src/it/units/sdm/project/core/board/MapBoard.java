@@ -10,7 +10,7 @@ import java.util.*;
 
 public class MapBoard<P extends Stone> implements Board<P> {
 
-    private final Map<Position, MapBoardCell<P>> cells = new TreeMap<>();
+    private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final static int MAX_NUMBER_OF_ROWS = 26;
     private final int numberOfRows;
     private final int numberOfColumns;
@@ -27,7 +27,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     private void initBoardWithEmptyCells() {
         for (int i = 1; i <= numberOfRows; i++) {
             for (int j = 1; j <= numberOfColumns; j++) {
-                cells.put(Position.fromCoordinates(i, j), new MapBoardCell<>());
+                cells.put(Position.fromCoordinates(i, j), new Cell<>());
             }
         }
     }
@@ -82,7 +82,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cell.getPiece();
     }
 
-    public Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
+    @Override
+    public @NotNull Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
         if (isPositionOutOfBoardBounds(position)) {
             throw new InvalidPositionException("The specified position is outside the board");
         }
@@ -105,11 +106,13 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return position.getRow() > numberOfRows || position.getColumn() > numberOfColumns;
     }
 
+    @Override
     public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
         return getAdjacentPositions(cellPosition).stream()
                 .allMatch(this::isCellOccupied);
     }
 
+    @Override
     public boolean hasBoardMoreThanOneFreeCell() {
         return cells.values().stream()
                 .filter(boardCell -> !boardCell.isOccupied())
@@ -163,31 +166,24 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cells.keySet();
     }
 
-    private static class MapBoardCell<P> implements Cell<P> {
+    private static class Cell<P> {
 
         @Nullable
         private P piece;
 
-        public MapBoardCell() {
-        }
-
-        @Override
         public void putPiece(P piece) {
             this.piece = piece;
         }
 
-        @Override
         @Nullable
         public P getPiece() {
             return piece;
         }
 
-        @Override
         public boolean isOccupied() {
             return piece != null;
         }
 
-        @Override
         public void clear() {
             this.piece = null;
         }
