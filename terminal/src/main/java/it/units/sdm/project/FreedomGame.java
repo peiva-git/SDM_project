@@ -45,7 +45,7 @@ public class FreedomGame implements Game {
         }
         Player winner = getWinner();
         if (winner != null) {
-            System.out.println("The winner is: " + getWinner());
+            System.out.println("The winner is: " + winner);
         } else {
             System.out.println("Tie!");
         }

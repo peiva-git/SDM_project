@@ -16,8 +16,9 @@ public class MapBoard<P extends Stone> implements Board<P> {
     private final int numberOfColumns;
 
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
-        if (!isBoardSizeValid(numberOfRows, numberOfColumns))
+        if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
             throw new InvalidBoardSizeException("The size of the board must be at least 1x1 and at most 26x26");
+        }
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         initBoardWithEmptyCells();
