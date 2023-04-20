@@ -1,16 +1,15 @@
 package it.units.sdm.project;
 
 import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.interfaces.UserInput;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.util.Scanner;
 
-public class TextInput implements UserInput, Closeable {
+public class TextInput implements Closeable {
     Scanner userInput = new Scanner(System.in);
-    @Override
+
     public @NotNull Position getPosition() {
         Position chosenPosition;
         String input = userInput.nextLine();
