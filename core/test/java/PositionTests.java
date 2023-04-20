@@ -1,37 +1,14 @@
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.core.board.Position;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTests {
 
-    private static @NotNull Stream<Arguments> providePositionCoordinates() {
-        return Stream.of(
-                Arguments.of(0, 0, InvalidPositionException.class),
-                Arguments.of(-1, -1, InvalidPositionException.class),
-                Arguments.of(5, 8, null)
-        );
-    }
-
-    private static @NotNull Stream<Arguments> providePositionPairsForComparison() {
-        return Stream.of(
-                Arguments.of(Position.fromCoordinates(1, 1), Position.fromCoordinates(1, 1), 0),
-                Arguments.of(Position.fromCoordinates(2, 1), Position.fromCoordinates(3, 1), -1),
-                Arguments.of(Position.fromCoordinates(1, 1), Position.fromCoordinates(1, 2), -1),
-                Arguments.of(Position.fromCoordinates(3, 1), Position.fromCoordinates(2, 2), 1),
-                Arguments.of(Position.fromCoordinates(3, 1), Position.fromCoordinates(2, 5), 1),
-                Arguments.of(Position.fromCoordinates(1, 10), Position.fromCoordinates(1, 9), 1)
-        );
-    }
-
     @ParameterizedTest
-    @MethodSource("providePositionCoordinates")
+    @MethodSource("providers.PositionProviders#providePositionCoordinates")
     void testInstancingNewPositionFromCoordinates(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
@@ -43,7 +20,7 @@ public class PositionTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providePositionPairsForComparison")
+    @MethodSource("providers.PositionProviders#providePositionPairsForComparison")
     void testPositionOrdering(Position first, Position second, int expectedResult) {
         if (expectedResult == 1) {
             assertTrue(first.compareTo(second) > 0);
