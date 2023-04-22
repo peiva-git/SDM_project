@@ -5,7 +5,6 @@ import it.units.sdm.project.core.board.Stone;
 import it.units.sdm.project.core.game.FreedomPointsCounter;
 import it.units.sdm.project.core.game.Player;
 import it.units.sdm.project.interfaces.Board;
-import it.units.sdm.project.interfaces.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class FreedomGame implements Game {
+public class FreedomGame {
 
     private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
@@ -35,7 +34,6 @@ public class FreedomGame implements Game {
         this.board = board;
     }
 
-    @Override
     public void start() {
         System.out.println("it.units.sdm.project.interfaces.Game starting up, clearing board...");
         board.clearBoard();
@@ -185,7 +183,6 @@ public class FreedomGame implements Game {
         }
     }
 
-    @Override
     @Nullable
     public Player getWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
