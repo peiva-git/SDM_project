@@ -156,12 +156,6 @@ public class MapBoard<P extends Stone> implements Board<P> {
 
     @NotNull
     @Override
-    public Iterator<Position> iterator() {
-        return this.cells.keySet().iterator();
-    }
-
-    @NotNull
-    @Override
     public Set<Position> getPositions() {
         return cells.keySet();
     }

@@ -151,7 +151,7 @@ public class MapBoardTests {
     }
 
     private void fillBoardWithWhiteStones() {
-        for (Position position : board) {
+        for (Position position : board.getPositions()) {
             board.putPiece(new Stone(Stone.Color.WHITE), position);
         }
     }
