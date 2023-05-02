@@ -2,6 +2,7 @@ package it.units.sdm.project.core.game.gui;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -160,12 +161,9 @@ public class GameScreen implements Screen {
                 for (int j = 0; j < actor.tiledLayer.getHeight(); j++) {
                     if (actor.cell.equals(actor.tiledLayer.getCell(i, j))) {
                         TiledMapTileLayer piecesLayer = (TiledMapTileLayer) actor.tiledMap.getLayers().get(1);
-                        Pixmap redSquare = new Pixmap(32, 32, Pixmap.Format.RGB565);
-                        redSquare.setColor(Color.RED);
-                        redSquare.fillRectangle(0, 0, 32, 32);
-                        TextureRegion redTextureRegion = new TextureRegion(new Texture(redSquare), 0, 0, 32, 32);
+                        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("./assets/redCircle.png")));
                         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                        cell.setTile(new StaticTiledMapTile(redTextureRegion));
+                        cell.setTile(new StaticTiledMapTile(sprite));
                         piecesLayer.setCell(i, j, cell);
                     }
                 }
