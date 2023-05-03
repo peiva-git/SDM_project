@@ -14,14 +14,15 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ScreenUtils;
 import it.units.sdm.project.core.board.Stone;
 import it.units.sdm.project.core.game.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class GameScreen implements Screen {
 
-    private static final int WIDTH = 150;
-    private static final int HEIGHT = 100;
+    private static final int NUMBER_OF_ROWS = 8;
+    private static final int NUMBER_OF_COLUMNS = 8;
     @NotNull
     private final OrthographicCamera camera;
     @NotNull
@@ -57,9 +58,9 @@ public class GameScreen implements Screen {
 
         board = new TiledMap();
         MapLayers layers = board.getLayers();
-        TiledMapTileLayer layer = new TiledMapTileLayer(WIDTH, HEIGHT, 32, 32);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        TiledMapTileLayer layer = new TiledMapTileLayer(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, 32, 32);
+        for (int x = 0; x < NUMBER_OF_ROWS; x++) {
+            for (int y = 0; y < NUMBER_OF_COLUMNS; y++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 if (y % 2 != 0) {
                     if (x % 2 != 0) {
@@ -78,20 +79,20 @@ public class GameScreen implements Screen {
             }
         }
         layers.add(layer);
-        layers.add(new TiledMapTileLayer(WIDTH, HEIGHT, 32, 32));
+        layers.add(new TiledMapTileLayer(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, 32, 32));
         board.getLayers().get(0).setName("board");
         board.getLayers().get(1).setName("stones");
 
         render = new OrthogonalTiledMapRenderer(board);
         render.setView(camera);
-        camera.translate((float) Gdx.graphics.getWidth() / 2,
-                (float) Gdx.graphics.getHeight() / 2);
+        camera.position.set(32*4,32*4,0);
         stage = new TiledMapStage(board);
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
         camera.update();
         render.setView(camera);
         stage.act();
