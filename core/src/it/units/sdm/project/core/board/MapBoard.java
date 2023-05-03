@@ -37,6 +37,16 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    @Override
+    public int getNumberOfColumns() {
+        return numberOfColumns;
+    }
+
+    @Override
     public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");

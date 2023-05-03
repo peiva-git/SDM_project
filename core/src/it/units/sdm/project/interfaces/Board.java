@@ -8,6 +8,8 @@ import java.util.Set;
 
 
 public interface Board<P> {
+    int getNumberOfRows();
+    int getNumberOfColumns();
     boolean isCellOccupied(@NotNull Position position);
     void clearCell(@NotNull Position position);
     void clearBoard();
