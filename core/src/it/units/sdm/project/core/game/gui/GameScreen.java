@@ -14,21 +14,30 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.core.game.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class GameScreen implements Screen {
 
-    @NotNull
-    private final OrthographicCamera camera;
     private static final int WIDTH = 150;
     private static final int HEIGHT = 100;
-
+    @NotNull
+    private final OrthographicCamera camera;
+    @NotNull
+    private final OrthogonalTiledMapRenderer render;
+    @NotNull
+    private final TiledMap board;
+    @NotNull
     private final Stage stage;
 
     @NotNull
-    private final TiledMap map;
-    private final OrthogonalTiledMapRenderer render;
-    private static final float MOVEMENT_SPEED = 5f;
+    private final Texture blackStoneImage = new Texture(Gdx.files.internal("./assets/circle2.png"));
+    @NotNull
+    private final Texture whiteStoneImage = new Texture(Gdx.files.internal("./assets/redCircle.png"));
+
+
+    private final Player currentPlayer = new Player(Stone.Color.BLACK, "Mario", "Rossi");
 
     public GameScreen() {
         float width = Gdx.graphics.getWidth();
@@ -46,8 +55,8 @@ public class GameScreen implements Screen {
         TextureRegion blackTextureRegion = new TextureRegion(new Texture(blackSquare), 0, 0, 32, 32);
         TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, 32, 32);
 
-        map = new TiledMap();
-        MapLayers layers = map.getLayers();
+        board = new TiledMap();
+        MapLayers layers = board.getLayers();
         TiledMapTileLayer layer = new TiledMapTileLayer(WIDTH, HEIGHT, 32, 32);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -70,15 +79,23 @@ public class GameScreen implements Screen {
         }
         layers.add(layer);
         layers.add(new TiledMapTileLayer(WIDTH, HEIGHT, 32, 32));
-        map.getLayers().get(0).setName("board");
-        map.getLayers().get(1).setName("stones");
+        board.getLayers().get(0).setName("board");
+        board.getLayers().get(1).setName("stones");
 
-        render = new OrthogonalTiledMapRenderer(map);
+        render = new OrthogonalTiledMapRenderer(board);
         render.setView(camera);
         camera.translate((float) Gdx.graphics.getWidth() / 2,
                 (float) Gdx.graphics.getHeight() / 2);
-        stage = new TiledMapStage(map);
+        stage = new TiledMapStage(board);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        camera.update();
+        render.setView(camera);
+        stage.act();
+        render.render();
     }
 
     @Override
@@ -87,28 +104,7 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_TEXTURE10);
-        camera.update();
-        render.setView(camera);
-        stage.act();
-        render.render();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(-MOVEMENT_SPEED, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.translate(MOVEMENT_SPEED, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.translate(0, MOVEMENT_SPEED);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.translate(0, -MOVEMENT_SPEED);
-        }
-    }
-
-    @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
@@ -129,29 +125,32 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         render.dispose();
-        map.dispose();
+        board.dispose();
     }
 
 
     private static class TiledMapActor extends Actor {
 
+        @NotNull
         private final TiledMap tiledMap;
+        @NotNull
         private final TiledMapTileLayer tiledLayer;
-
+        @NotNull
         private final TiledMapTileLayer.Cell cell;
 
-        public TiledMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell) {
+        public TiledMapActor(@NotNull TiledMap tiledMap, @NotNull TiledMapTileLayer tiledLayer, TiledMapTileLayer.@NotNull Cell cell) {
             this.tiledMap = tiledMap;
             this.tiledLayer = tiledLayer;
             this.cell = cell;
         }
     }
 
-    private static class TiledMapClickListener extends ClickListener {
+    private class TiledMapClickListener extends ClickListener {
 
+        @NotNull
         private final TiledMapActor actor;
 
-        public TiledMapClickListener(TiledMapActor actor) {
+        public TiledMapClickListener(@NotNull TiledMapActor actor) {
             this.actor = actor;
         }
 
@@ -160,11 +159,17 @@ public class GameScreen implements Screen {
             for (int i = 0; i < actor.tiledLayer.getWidth(); i++) {
                 for (int j = 0; j < actor.tiledLayer.getHeight(); j++) {
                     if (actor.cell.equals(actor.tiledLayer.getCell(i, j))) {
-                        TiledMapTileLayer piecesLayer = (TiledMapTileLayer) actor.tiledMap.getLayers().get(1);
-                        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("./assets/redCircle.png")));
+                        TiledMapTileLayer stonesLayer = (TiledMapTileLayer) actor.tiledMap.getLayers().get(1);
+                        Sprite stoneImage;
+                        if(currentPlayer.getColor() == Stone.Color.BLACK) {
+                            stoneImage = new Sprite(blackStoneImage);
+                        } else {
+                            stoneImage = new Sprite(whiteStoneImage);
+                        }
                         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                        cell.setTile(new StaticTiledMapTile(sprite));
-                        piecesLayer.setCell(i, j, cell);
+                        cell.setTile(new StaticTiledMapTile(stoneImage));
+                        stonesLayer.setCell(i, j, cell);
+                        break;
                     }
                 }
             }
@@ -178,8 +183,8 @@ public class GameScreen implements Screen {
         public TiledMapStage(TiledMap tiledMap) {
             super.getViewport().setCamera(camera);
             this.tiledMap = tiledMap;
-            TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-            createActorsForLayer(tiledLayer);
+            TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+            createActorsForLayer(boardLayer);
         }
 
         private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
