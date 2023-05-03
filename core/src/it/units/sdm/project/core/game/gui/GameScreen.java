@@ -37,10 +37,15 @@ public class GameScreen implements Screen {
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("./assets/redCircle.png"));
 
-
-    private final Player currentPlayer = new Player(Stone.Color.BLACK, "Mario", "Rossi");
+    @NotNull
+    private final Player whitePlayer = new Player(Stone.Color.WHITE, "Mario", "Rossi");
+    @NotNull
+    private final Player blackPlayer = new Player(Stone.Color.BLACK, "Loll", "Rossi");
+    @NotNull
+    private Player currentPlayer = whitePlayer;
 
     public GameScreen() {
+
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
 
@@ -174,7 +179,17 @@ public class GameScreen implements Screen {
                     }
                 }
             }
+            nextPlayer();
         }
+
+        private void nextPlayer() {
+            if(currentPlayer.getColor() == Stone.Color.BLACK)  {
+                currentPlayer = whitePlayer;
+            } else {
+                currentPlayer = blackPlayer;
+            }
+        }
+
     }
 
     private class TiledMapStage extends Stage {
