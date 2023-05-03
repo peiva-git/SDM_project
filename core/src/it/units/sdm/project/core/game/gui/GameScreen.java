@@ -3,8 +3,6 @@ package it.units.sdm.project.core.game.gui;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -28,9 +26,10 @@ public class GameScreen implements Screen {
     @NotNull
     private final OrthogonalTiledMapRenderer render;
     @NotNull
-    private final TiledMap board;
-    @NotNull
     private final Stage stage;
+
+    @NotNull
+    private final GuiBoard board;
 
     @NotNull
     private final Texture blackStoneImage = new Texture(Gdx.files.internal("./assets/circle2.png"));
@@ -52,46 +51,12 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, width, height);
 
-        Pixmap blackSquare = new Pixmap(32, 32, Pixmap.Format.RGB565);
-        Pixmap whiteSquare = new Pixmap(32, 32, Pixmap.Format.RGB565);
-        whiteSquare.setColor(Color.WHITE);
-        whiteSquare.fillRectangle(0, 0, 32, 32);
-        blackSquare.setColor(Color.BLACK);
-        blackSquare.fillRectangle(0, 0, 32, 32);
-        TextureRegion blackTextureRegion = new TextureRegion(new Texture(blackSquare), 0, 0, 32, 32);
-        TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, 32, 32);
+        board = new GuiBoard(NUMBER_OF_ROWS,NUMBER_OF_COLUMNS);
 
-        board = new TiledMap();
-        MapLayers layers = board.getLayers();
-        TiledMapTileLayer layer = new TiledMapTileLayer(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, 32, 32);
-        for (int x = 0; x < NUMBER_OF_ROWS; x++) {
-            for (int y = 0; y < NUMBER_OF_COLUMNS; y++) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                if (y % 2 != 0) {
-                    if (x % 2 != 0) {
-                        cell.setTile(new StaticTiledMapTile(whiteTextureRegion));
-                    } else {
-                        cell.setTile(new StaticTiledMapTile(blackTextureRegion));
-                    }
-                } else {
-                    if (x % 2 != 0) {
-                        cell.setTile(new StaticTiledMapTile(blackTextureRegion));
-                    } else {
-                        cell.setTile(new StaticTiledMapTile(whiteTextureRegion));
-                    }
-                }
-                layer.setCell(x, y, cell);
-            }
-        }
-        layers.add(layer);
-        layers.add(new TiledMapTileLayer(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, 32, 32));
-        board.getLayers().get(0).setName("board");
-        board.getLayers().get(1).setName("stones");
-
-        render = new OrthogonalTiledMapRenderer(board);
+        render = new OrthogonalTiledMapRenderer(board.getTiledMap());
         render.setView(camera);
         camera.position.set(32*4,32*4,0);
-        stage = new TiledMapStage(board);
+        stage = new TiledMapStage(board.getTiledMap());
         Gdx.input.setInputProcessor(stage);
     }
 
