@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class GuiBoard implements Board {
+public class GuiBoard<P extends StaticTiledMapTile> implements Board<P> {
 
     private final static int MAX_NUMBER_OF_ROWS = 26;
     private final int numberOfRows;
@@ -81,6 +81,16 @@ public class GuiBoard implements Board {
     }
 
     @Override
+    public int getNumberOfRows() {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfColumns() {
+        return 0;
+    }
+
+    @Override
     public boolean isCellOccupied(@NotNull Position position) {
         return false;
     }
@@ -96,13 +106,12 @@ public class GuiBoard implements Board {
     }
 
     @Override
-    public void putPiece(@NotNull Object piece, @NotNull Position position) {
+    public void putPiece(@NotNull P piece, @NotNull Position position) {
 
     }
 
-    @Nullable
     @Override
-    public Object getPiece(@NotNull Position position) {
+    public @Nullable P getPiece(@NotNull Position position) {
         return null;
     }
 
