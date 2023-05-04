@@ -1,9 +1,10 @@
-package it.units.sdm.project;
+package it.units.sdm.project.game.terminal;
 
-import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.core.board.Stone;
-import it.units.sdm.project.core.game.FreedomPointsCounter;
-import it.units.sdm.project.core.game.Player;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.Player;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,8 +16,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FreedomGame {
-
-    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
     @NotNull
     private final Player whitePlayer;
@@ -58,7 +57,7 @@ public class FreedomGame {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
-        switch (getCurrentGameStatus()) {
+        switch (gameStatus) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
                 board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
@@ -84,6 +83,7 @@ public class FreedomGame {
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
+        updateCurrentGameStatus();
     }
 
     @NotNull
@@ -97,15 +97,15 @@ public class FreedomGame {
         }
     }
 
-    private GameStatus getCurrentGameStatus() {
+    private void updateCurrentGameStatus() {
         if (board.hasBoardMoreThanOneFreeCell()) {
             if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                return GameStatus.FREEDOM;
+                gameStatus = GameStatus.FREEDOM;
             } else {
-                return GameStatus.NO_FREEDOM;
+                gameStatus = GameStatus.NO_FREEDOM;
             }
         } else {
-            return GameStatus.LAST_MOVE;
+            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 

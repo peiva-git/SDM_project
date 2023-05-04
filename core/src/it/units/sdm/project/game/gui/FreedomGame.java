@@ -1,4 +1,4 @@
-package it.units.sdm.project.core.game.gui;
+package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,9 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class FreedomGame extends Game {
 
-    @NotNull
     private SpriteBatch batch;
-    @NotNull
+
     private BitmapFont font;
 
     @Override

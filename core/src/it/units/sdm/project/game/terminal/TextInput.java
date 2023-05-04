@@ -1,6 +1,6 @@
-package it.units.sdm.project;
+package it.units.sdm.project.game.terminal;
 
-import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

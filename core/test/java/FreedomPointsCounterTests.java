@@ -1,7 +1,8 @@
-import it.units.sdm.project.core.board.MapBoard;
-import it.units.sdm.project.core.game.FreedomPointsCounter;
-import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.core.board.Stone;
+import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.board.terminal.MapBoard;
+import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -26,9 +27,9 @@ public class FreedomPointsCounterTests {
                         .forEach(currentColumn -> {
                             String placeholder = scanner.next("[WB-]");
                             if (placeholder.equals("W")) {
-                                board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
+                                board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
                             } else if (placeholder.equals("B")) {
-                                board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
+                                board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
                             }
                         });
                 scanner.nextLine();

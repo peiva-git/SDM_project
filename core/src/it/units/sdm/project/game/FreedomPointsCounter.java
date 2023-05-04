@@ -1,8 +1,8 @@
-package it.units.sdm.project.core.game;
+package it.units.sdm.project.game;
 
-import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.core.board.Stone;
-import it.units.sdm.project.core.board.Stone.Color;
+import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
@@ -18,11 +18,11 @@ public class FreedomPointsCounter {
 
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private final Board<Stone> board;
+    private final Board<? extends Stone> board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
-    public FreedomPointsCounter(@NotNull Board<Stone> board) {
+    public FreedomPointsCounter(@NotNull Board<? extends Stone> board) {
         this.board = board;
     }
 

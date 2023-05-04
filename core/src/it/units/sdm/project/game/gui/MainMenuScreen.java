@@ -1,4 +1,4 @@
-package it.units.sdm.project.core.game.gui;
+package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

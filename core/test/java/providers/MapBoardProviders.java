@@ -1,6 +1,6 @@
 package providers;
 
-import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
