@@ -32,6 +32,9 @@ public class FreedomPointsCounter {
         return blackFreedomLines.size();
     }
 
+    /**
+     * The method count() counts all the freedom lines on the board.
+     */
     public void count() {
         this.blackFreedomLines.clear();
         this.whiteFreedomLines.clear();
@@ -40,6 +43,11 @@ public class FreedomPointsCounter {
                 .forEach(this::checkAllFreedomLinesFromPosition);
     }
 
+    /**
+     * This method finds freedom lines with size equal to 4 to all the directions
+     * from a starting position
+     * @param position starting position
+     */
     private void checkAllFreedomLinesFromPosition(@NotNull Position position) {
         checkFreedomLine(position, Direction.HORIZONTAL);
         checkFreedomLine(position, Direction.VERTICAL);
@@ -47,11 +55,18 @@ public class FreedomPointsCounter {
         checkFreedomLine(position, Direction.DIAGONAL_RIGHT);
     }
 
+    /**
+     * This method finds freedom line with size equal to 4 by considering a specific direction from a starting position.
+     * It also checks whether the obtained freedom line is part of a bigger freedom line by checking the color of
+     * the stone that comes before the stone on the startingPosition with respect to the direction of the lines.
+     * @param startingPosition starting position
+     * @param direction direction in which it counts
+     */
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
         Color stoneColor = startingStone.getColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(board, startingPosition), direction);
-        if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
+        if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerFreedomLine(line, direction)) {
             addFreedomLineTo(stoneColor, line);
         }
     }
@@ -82,15 +97,16 @@ public class FreedomPointsCounter {
         }
     }
 
-    public boolean isPartOfABiggerLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
+    public boolean isPartOfABiggerFreedomLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
         return hasThePreviousStoneTheSameColor(freedomLine.first(), direction);
     }
 
     private boolean hasThePreviousStoneTheSameColor(@NotNull Position position, @NotNull Direction direction) {
         try {
+            Stone currentStone = board.getPiece(position);
             Stone previousStone = getThePreviousStone(position, direction);
-            if (previousStone == null) return false;
-            return previousStone.getColor() == board.getPiece(position).getColor();
+            if (previousStone == null || currentStone == null) return false;
+            return previousStone.getColor() == currentStone.getColor();
         } catch (InvalidPositionException exception) {
             return false;
         }
