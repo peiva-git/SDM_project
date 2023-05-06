@@ -1,6 +1,7 @@
 package it.units.sdm.project.game;
 
 import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.enums.Direction;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -13,9 +14,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class FreedomPointsCounter {
-
-    private enum Direction {HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT}
-
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
     private final Board<? extends Stone> board;
@@ -52,7 +50,7 @@ public class FreedomPointsCounter {
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
         Color stoneColor = startingStone.getColor();
-        FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(stoneColor, startingPosition), direction);
+        FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(board, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerLine(line, direction)) {
             addFreedomLineTo(stoneColor, line);
         }

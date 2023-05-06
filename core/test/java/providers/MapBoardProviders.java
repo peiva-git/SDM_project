@@ -122,4 +122,5 @@ public class MapBoardProviders {
                                 + "   A  B  C  D  E  F  G  H  I  J")
         );
     }
+
 }
