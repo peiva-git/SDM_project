@@ -18,16 +18,18 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Set;
 
 public class GameScreen implements Screen {
+
+    private static final int SQUARE_WIDTH_IN_PIXELS = 32;
 
     private static final int NUMBER_OF_ROWS = 8;
     private static final int NUMBER_OF_COLUMNS = 8;
@@ -60,7 +62,7 @@ public class GameScreen implements Screen {
         board = new GuiBoard(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         render = new OrthogonalTiledMapRenderer(board.getTiledMap());
         render.setView(camera);
-        camera.position.set(32 * 4, 32 * 4, 0);
+        camera.position.set((float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, (float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, 0);
         stage = new TiledMapStage(board.getTiledMap());
         Gdx.input.setInputProcessor(stage);
         gameStatus = GameStatus.STARTED;
@@ -82,19 +84,6 @@ public class GameScreen implements Screen {
             case LAST_MOVE:
                 gameStatus = GameStatus.GAME_OVER;
             default:
-        }
-
-    }
-
-    private void updateCurrentGameStatus() {
-        if (board.hasBoardMoreThanOneFreeCell()) {
-            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                gameStatus = GameStatus.FREEDOM;
-            } else {
-                gameStatus = GameStatus.NO_FREEDOM;
-            }
-        } else {
-            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 
@@ -170,6 +159,7 @@ public class GameScreen implements Screen {
         public void clicked(InputEvent event, float x, float y) {
             Player currentPlayer = nextPlayer();
             Position userInputPosition = getUserPosition();
+
             if (userInputPosition == null || board.isCellOccupied(userInputPosition)) return;
 
             if (gameStatus == GameStatus.NO_FREEDOM) {
@@ -201,6 +191,18 @@ public class GameScreen implements Screen {
                 }
             }
             return null;
+        }
+
+        private void updateCurrentGameStatus() {
+            if (board.hasBoardMoreThanOneFreeCell()) {
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                    gameStatus = GameStatus.FREEDOM;
+                } else {
+                    gameStatus = GameStatus.NO_FREEDOM;
+                }
+            } else {
+                gameStatus = GameStatus.LAST_MOVE;
+            }
         }
 
         @NotNull
@@ -241,40 +243,5 @@ public class GameScreen implements Screen {
             }
         }
     }
-
-    private static class Move {
-
-        @NotNull
-        private final Player player;
-        @NotNull
-        private final Position position;
-
-        public Move(@NotNull Player player, @NotNull Position position) {
-            this.player = player;
-            this.position = position;
-        }
-
-        public @NotNull Player getPlayer() {
-            return player;
-        }
-
-        public @NotNull Position getPosition() {
-            return position;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Move move = (Move) o;
-            return player.equals(move.player) && position.equals(move.position);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(player, position);
-        }
-    }
-
 
 }
