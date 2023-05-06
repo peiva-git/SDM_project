@@ -174,7 +174,7 @@ public class GuiBoard implements Board<GuiStone> {
             for (int j = -1; j <= 1; j++) {
                 try {
                     if (i == 0 && j == 0) continue;
-                    if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
+                    if (position.getRow() + i < numberOfRows && position.getColumn() + j < numberOfColumns) {
                         adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
@@ -185,7 +185,7 @@ public class GuiBoard implements Board<GuiStone> {
     }
 
     private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
-        return position.getRow() > numberOfRows || position.getColumn() > numberOfColumns;
+        return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
     }
 
     public void dispose() {
