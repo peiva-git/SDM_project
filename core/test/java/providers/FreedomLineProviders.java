@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
