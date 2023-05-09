@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build:
+  unit-test:
     docker:
       - image: cimg/openjdk:11.0
     working_directory: ~/repo
@@ -38,3 +38,84 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
+
+  desktop-release-build:
+    docker:
+      - image: cimg/openjdk:11.0
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: ./gradlew dependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - run:
+          name: Assemble release desktop build
+          command: |
+            ./gradlew desktop:dist
+      - store_artifacts:
+          path: desktop/build/libs/desktop-1.0.jar
+
+  web_release_build:
+    docker:
+      - image: cimg/openjdk:11.0
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: ./gradlew dependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - run:
+          name: Assemble release web build
+          command: |
+            ./gradlew html:dist
+      - store_artifacts:
+          path: html/build/dist
+
+workflows:
+  test-and-build:
+    jobs:
+      - unit-test
+      - desktop-release-build:
+          requires:
+            - unit-test
+          filters:
+            branches:
+              only:
+                master
+      - web-release-build:
+          requires:
+            - unit-test
+          filters:
+            branches:
+              only:
+                master
