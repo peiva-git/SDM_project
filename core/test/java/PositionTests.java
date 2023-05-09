@@ -1,5 +1,5 @@
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.core.board.Position;
+import it.units.sdm.project.board.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 

@@ -1,10 +1,9 @@
-package it.units.sdm.project.core.board;
+package it.units.sdm.project.board;
 
+import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 public class Stone {
-
-    public enum Color {WHITE, BLACK}
     @NotNull
     private final Color color;
 
@@ -16,7 +15,6 @@ public class Stone {
     public Color getColor() {
         return this.color;
     }
-
 
     @Override
     public boolean equals(Object obj) {

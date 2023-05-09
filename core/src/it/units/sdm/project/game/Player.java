@@ -1,23 +1,23 @@
-package it.units.sdm.project.core.game;
+package it.units.sdm.project.game;
 
-import it.units.sdm.project.core.board.Stone;
+import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 public class Player {
 
-    private final Stone.Color color;
+    private final Color color;
     @NotNull
     private final String name;
     @NotNull
     private final String surname;
 
-    public Player(Stone.Color color, @NotNull String name, @NotNull String surname) {
+    public Player(Color color, @NotNull String name, @NotNull String surname) {
         this.color = color;
         this.name = name;
         this.surname = surname;
     }
 
-    public Stone.Color getColor() {
+    public Color getColor() {
         return color;
     }
 

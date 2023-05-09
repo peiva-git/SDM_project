@@ -1,5 +1,8 @@
-package it.units.sdm.project.core.board;
+package it.units.sdm.project.board.terminal;
 
+import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;
@@ -68,7 +71,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
-    public void putPiece(@NotNull P piece,@NotNull  Position position) throws InvalidPositionException {
+    public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.putPiece(piece);
@@ -91,7 +94,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
-                    if (i == 0 && j == 0) continue;
+                    if ((i == 0 && j == 0) || position.getColumn() + j == 0 || position.getRow() + i == 0) continue;
                     if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
                         adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
@@ -132,7 +135,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Stone.Color.WHITE) {
+                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");

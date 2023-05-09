@@ -1,4 +1,4 @@
-package it.units.sdm.project.core.board;
+package it.units.sdm.project.board;
 
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ public class Position implements Comparable<Position> {
     }
 
     private static boolean arePositionCoordinatesInvalid(int row, int column) {
-        return row < 1 || column < 1;
+        return row < 0 || column < 0;
     }
 
     public int getRow() {

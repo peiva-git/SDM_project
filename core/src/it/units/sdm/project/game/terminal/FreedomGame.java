@@ -1,22 +1,21 @@
-package it.units.sdm.project;
+package it.units.sdm.project.game.terminal;
 
-import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.core.board.Stone;
-import it.units.sdm.project.core.game.FreedomPointsCounter;
-import it.units.sdm.project.core.game.Player;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.Move;
+import it.units.sdm.project.game.Player;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FreedomGame {
-
-    private enum GameStatus {NOT_STARTED, STARTED, FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER}
 
     @NotNull
     private final Player whitePlayer;
@@ -58,7 +57,7 @@ public class FreedomGame {
         Player currentPlayer = nextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
-        switch (getCurrentGameStatus()) {
+        switch (gameStatus) {
             case FREEDOM:
                 chosenPosition = getPositionWithFreedom(currentPlayer);
                 board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
@@ -84,6 +83,7 @@ public class FreedomGame {
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
+        updateCurrentGameStatus();
     }
 
     @NotNull
@@ -97,15 +97,15 @@ public class FreedomGame {
         }
     }
 
-    private GameStatus getCurrentGameStatus() {
+    private void updateCurrentGameStatus() {
         if (board.hasBoardMoreThanOneFreeCell()) {
             if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                return GameStatus.FREEDOM;
+                gameStatus = GameStatus.FREEDOM;
             } else {
-                return GameStatus.NO_FREEDOM;
+                gameStatus = GameStatus.NO_FREEDOM;
             }
         } else {
-            return GameStatus.LAST_MOVE;
+            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 
@@ -193,40 +193,5 @@ public class FreedomGame {
             return blackPlayer;
         }
         return null;
-    }
-
-
-    private static class Move {
-
-        @NotNull
-        private final Player player;
-        @NotNull
-        private final Position position;
-
-        public Move(@NotNull Player player, @NotNull Position position) {
-            this.player = player;
-            this.position = position;
-        }
-
-        public @NotNull Player getPlayer() {
-            return player;
-        }
-
-        public @NotNull Position getPosition() {
-            return position;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Move move = (Move) o;
-            return player.equals(move.player) && position.equals(move.position);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(player, position);
-        }
     }
 }

@@ -1,7 +1,8 @@
-import it.units.sdm.project.core.board.MapBoard;
-import it.units.sdm.project.core.board.Position;
-import it.units.sdm.project.core.board.Stone;
+import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.terminal.MapBoard;
 import it.units.sdm.project.interfaces.Board;
+import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ public class MapBoardTests {
 
     private void fillBoardWithWhiteStones() {
         for (Position position : board.getPositions()) {
-            board.putPiece(new Stone(Stone.Color.WHITE), position);
+            board.putPiece(new Stone(Color.WHITE), position);
         }
     }
 
@@ -96,14 +97,14 @@ public class MapBoardTests {
                         + "   A  B  C  D  E  F  G  H";
         assertEquals(printedEmptyBoard, board.toString());
         if (expectedException == null) {
-            board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column));
-            board.putPiece(new Stone(Stone.Color.BLACK), Position.fromCoordinates(row, column + 1));
+            board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
+            board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(row, column + 1));
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
             printedBoard.setCharAt(column * 3, 'W');
             printedBoard.setCharAt((column + 1) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
-            assertThrows(expectedException, () -> board.putPiece(new Stone(Stone.Color.WHITE), Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
         }
     }
 

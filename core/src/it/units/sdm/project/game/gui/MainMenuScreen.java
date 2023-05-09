@@ -1,4 +1,4 @@
-package it.units.sdm.project.core.game.gui;
+package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
         game.getBatch().end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen());
             dispose();
         }
     }
