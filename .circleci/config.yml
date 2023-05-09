@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  unit-test:
+  build:
     docker:
       - image: cimg/openjdk:11.0
     working_directory: ~/repo
@@ -38,9 +38,3 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
-
-workflows:
-  test:
-    jobs:
-      - unit-test
-
