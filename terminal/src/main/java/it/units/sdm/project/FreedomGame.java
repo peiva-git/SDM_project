@@ -1,4 +1,4 @@
-package it.units.sdm.project.game.terminal;
+package it.units.sdm.project;
 
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
