@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.terminal.MapBoard;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.game.Player;
-import it.units.sdm.project.game.terminal.FreedomGame;
 import it.units.sdm.project.interfaces.Board;
 
 public class TerminalLauncher {
