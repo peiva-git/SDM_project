@@ -70,7 +70,7 @@ jobs:
       - store_artifacts:
           path: desktop/build/libs/desktop-1.0.jar
 
-  web_release_build:
+  web-release-build:
     docker:
       - image: cimg/openjdk:11.0
     working_directory: ~/repo
