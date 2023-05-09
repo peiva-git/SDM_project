@@ -46,9 +46,9 @@ public class GameScreen implements Screen {
     @NotNull
     private final GuiBoard board;
     @NotNull
-    private final Texture blackStoneImage = new Texture(Gdx.files.internal("./assets/circle2.png"));
+    private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
     @NotNull
-    private final Texture whiteStoneImage = new Texture(Gdx.files.internal("./assets/redCircle.png"));
+    private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
     @NotNull
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
     @NotNull
@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         camera.update();
         render.setView(camera);
-        stage.act();
+        stage.act(delta);
         render.render();
         switch (gameStatus) {
             case GAME_OVER:
@@ -182,7 +182,7 @@ public class GameScreen implements Screen {
             nextPlayer();
         }
 
-        private Position getUserPosition() {
+        private @Nullable Position getUserPosition() {
             for (int i = 0; i < actor.tiledLayer.getWidth(); i++) {
                 for (int j = 0; j < actor.tiledLayer.getHeight(); j++) {
                     if (actor.cell.equals(actor.tiledLayer.getCell(i, j))) {
@@ -222,14 +222,14 @@ public class GameScreen implements Screen {
 
         private final TiledMap tiledMap;
 
-        public TiledMapStage(TiledMap tiledMap) {
+        public TiledMapStage(@NotNull TiledMap tiledMap) {
             super.getViewport().setCamera(camera);
             this.tiledMap = tiledMap;
             TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
             createActorsForLayer(boardLayer);
         }
 
-        private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
+        private void createActorsForLayer(@NotNull TiledMapTileLayer tiledLayer) {
             for (int i = 0; i < tiledLayer.getWidth(); i++) {
                 for (int j = 0; j < tiledLayer.getHeight(); j++) {
                     TiledMapTileLayer.Cell cell = tiledLayer.getCell(i, j);
