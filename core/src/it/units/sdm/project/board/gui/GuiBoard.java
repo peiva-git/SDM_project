@@ -22,6 +22,8 @@ import java.util.TreeSet;
 public class GuiBoard implements Board<GuiStone> {
 
     private final static int MAX_NUMBER_OF_ROWS = 26;
+    public static final String STONES_LAYER = "stones";
+    public static final String BOARD_LAYER = "board";
     private final int numberOfRows;
     private final int numberOfColumns;
     @NotNull
@@ -74,8 +76,8 @@ public class GuiBoard implements Board<GuiStone> {
         }
         layers.add(layer);
         layers.add(new TiledMapTileLayer(numberOfColumns, numberOfColumns, 32, 32));
-        tiledMap.getLayers().get(0).setName("board");
-        tiledMap.getLayers().get(1).setName("stones");
+        tiledMap.getLayers().get(0).setName(BOARD_LAYER);
+        tiledMap.getLayers().get(1).setName(STONES_LAYER);
     }
 
     @NotNull

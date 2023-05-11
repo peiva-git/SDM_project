@@ -3,7 +3,6 @@ package it.units.sdm.project.game.gui;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -26,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import static it.units.sdm.project.board.gui.GuiBoard.BOARD_LAYER;
 
 public class GameScreen implements Screen {
 
@@ -63,7 +64,7 @@ public class GameScreen implements Screen {
         render = new OrthogonalTiledMapRenderer(board.getTiledMap());
         render.setView(camera);
         camera.position.set((float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, (float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, 0);
-        stage = new BoardTilesStage(board.getTiledMap(), camera);
+        stage = new BoardTilesStage((TiledMapTileLayer) board.getTiledMap().getLayers().get(BOARD_LAYER), camera);
         Gdx.input.setInputProcessor(stage);
         gameStatus = GameStatus.STARTED;
     }
@@ -217,9 +218,8 @@ public class GameScreen implements Screen {
 
     private class BoardTilesStage extends Stage {
 
-        public BoardTilesStage(@NotNull TiledMap tiledMap, @NotNull Camera camera) {
+        public BoardTilesStage(@NotNull TiledMapTileLayer boardLayer, @NotNull Camera camera) {
             super.getViewport().setCamera(camera);
-            TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
             createActorsForLayer(boardLayer);
         }
 
