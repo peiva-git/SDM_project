@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         render = new OrthogonalTiledMapRenderer(board.getTiledMap());
         render.setView(camera);
         camera.position.set((float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, (float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, 0);
-        stage = new TiledMapStage(board.getTiledMap());
+        stage = new TiledMapStage(board.getTiledMap(), camera);
         Gdx.input.setInputProcessor(stage);
         gameStatus = GameStatus.STARTED;
     }
@@ -222,7 +222,7 @@ public class GameScreen implements Screen {
 
         private final TiledMap tiledMap;
 
-        public TiledMapStage(@NotNull TiledMap tiledMap) {
+        public TiledMapStage(@NotNull TiledMap tiledMap, Camera camera) {
             super.getViewport().setCamera(camera);
             this.tiledMap = tiledMap;
             TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
