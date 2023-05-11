@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
     }
 
     @Nullable
-    public Player getWinner() {
+    private Player getWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
