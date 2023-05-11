@@ -220,9 +220,10 @@ public class GameScreen implements Screen {
 
     private class TiledMapStage extends Stage {
 
+        @NotNull
         private final TiledMap tiledMap;
 
-        public TiledMapStage(@NotNull TiledMap tiledMap, Camera camera) {
+        public TiledMapStage(@NotNull TiledMap tiledMap, @NotNull Camera camera) {
             super.getViewport().setCamera(camera);
             this.tiledMap = tiledMap;
             TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
