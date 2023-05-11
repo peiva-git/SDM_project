@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         render = new OrthogonalTiledMapRenderer(board.getTiledMap());
         render.setView(camera);
         camera.position.set((float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, (float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, 0);
-        stage = new TiledMapStage(board.getTiledMap(), camera);
+        stage = new BoardTilesStage(board.getTiledMap(), camera);
         Gdx.input.setInputProcessor(stage);
         gameStatus = GameStatus.STARTED;
     }
@@ -133,14 +133,11 @@ public class GameScreen implements Screen {
     private static class TiledMapActor extends Actor {
 
         @NotNull
-        private final TiledMap tiledMap;
-        @NotNull
         private final TiledMapTileLayer tiledLayer;
         @NotNull
         private final TiledMapTileLayer.Cell cell;
 
-        public TiledMapActor(@NotNull TiledMap tiledMap, @NotNull TiledMapTileLayer tiledLayer, TiledMapTileLayer.@NotNull Cell cell) {
-            this.tiledMap = tiledMap;
+        public TiledMapActor(@NotNull TiledMapTileLayer tiledLayer, TiledMapTileLayer.@NotNull Cell cell) {
             this.tiledLayer = tiledLayer;
             this.cell = cell;
         }
@@ -218,14 +215,10 @@ public class GameScreen implements Screen {
 
     }
 
-    private class TiledMapStage extends Stage {
+    private class BoardTilesStage extends Stage {
 
-        @NotNull
-        private final TiledMap tiledMap;
-
-        public TiledMapStage(@NotNull TiledMap tiledMap, @NotNull Camera camera) {
+        public BoardTilesStage(@NotNull TiledMap tiledMap, @NotNull Camera camera) {
             super.getViewport().setCamera(camera);
-            this.tiledMap = tiledMap;
             TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
             createActorsForLayer(boardLayer);
         }
@@ -234,7 +227,7 @@ public class GameScreen implements Screen {
             for (int i = 0; i < tiledLayer.getWidth(); i++) {
                 for (int j = 0; j < tiledLayer.getHeight(); j++) {
                     TiledMapTileLayer.Cell cell = tiledLayer.getCell(i, j);
-                    TiledMapActor actor = new TiledMapActor(tiledMap, tiledLayer, cell);
+                    TiledMapActor actor = new TiledMapActor(tiledLayer, cell);
                     actor.setBounds(i * tiledLayer.getTileWidth(), j * tiledLayer.getTileHeight(), tiledLayer.getTileWidth(),
                             tiledLayer.getTileHeight());
                     addActor(actor);
