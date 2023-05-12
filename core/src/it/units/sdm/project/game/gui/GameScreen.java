@@ -1,23 +1,31 @@
 package it.units.sdm.project.game.gui;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import it.units.sdm.project.board.gui.GuiBoard;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.gui.GuiStone;
+import it.units.sdm.project.board.terminal.MapBoard;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
+import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,26 +33,22 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import static it.units.sdm.project.board.gui.GuiBoard.BOARD_LAYER;
-
 public class GameScreen implements Screen {
 
-    private static final int SQUARE_WIDTH_IN_PIXELS = 32;
 
     private static final int NUMBER_OF_ROWS = 8;
     private static final int NUMBER_OF_COLUMNS = 8;
+    public static final int TILE_SIZE = 75;
+    @NotNull
+    private final Table tableLayout;
     @NotNull
     private GameStatus gameStatus;
     @NotNull
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     @NotNull
-    private final OrthographicCamera camera;
-    @NotNull
-    private final OrthogonalTiledMapRenderer render;
-    @NotNull
     private final Stage stage;
     @NotNull
-    private final GuiBoard board;
+    private final Board<Stone> board;
     @NotNull
     private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
     @NotNull
@@ -57,24 +61,28 @@ public class GameScreen implements Screen {
     public GameScreen() {
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, width, height);
-        board = new GuiBoard(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
-        render = new OrthogonalTiledMapRenderer(board.getTiledMap());
-        render.setView(camera);
-        camera.position.set((float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, (float) (SQUARE_WIDTH_IN_PIXELS * NUMBER_OF_COLUMNS) /2, 0);
-        stage = new BoardTilesStage((TiledMapTileLayer) board.getTiledMap().getLayers().get(BOARD_LAYER), camera);
-        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
+        board = new MapBoard<>(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        tableLayout = new Table();
+        tableLayout.setFillParent(true);
+        tableLayout.setDebug(true);
+        for (int i = 0; i < NUMBER_OF_ROWS * NUMBER_OF_COLUMNS; i++) {
+            if (i % NUMBER_OF_COLUMNS == 0) {
+                tableLayout.row();
+            }
+            Image tile = new Image();
+            tile.setColor(Color.BLACK);
+            tableLayout.add(tile).size(TILE_SIZE);
+        }
+        stage.addActor(tableLayout);
         gameStatus = GameStatus.STARTED;
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        camera.update();
-        render.setView(camera);
         stage.act(delta);
-        render.render();
+        stage.draw();
         switch (gameStatus) {
             case GAME_OVER:
                 ScreenUtils.clear(Color.BLACK);
@@ -106,6 +114,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -125,8 +134,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        render.dispose();
-        board.dispose();
+        stage.dispose();
+        stage.getBatch().dispose();
     }
 
 
@@ -143,7 +152,6 @@ public class GameScreen implements Screen {
         public void clicked(InputEvent event, float x, float y) {
             Player currentPlayer = nextPlayer();
             Position userInputPosition = getUserPosition();
-
             if (userInputPosition == null || board.isCellOccupied(userInputPosition)) return;
 
             if (gameStatus == GameStatus.NO_FREEDOM) {
