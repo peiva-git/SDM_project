@@ -142,6 +142,14 @@ public class GameScreen implements Screen {
             this.tiledLayer = tiledLayer;
             this.cell = cell;
         }
+
+        public @NotNull TiledMapTileLayer getTiledLayer() {
+            return tiledLayer;
+        }
+
+        public TiledMapTileLayer.@NotNull Cell getCell() {
+            return cell;
+        }
     }
 
     private class TiledMapClickListener extends ClickListener {
@@ -181,9 +189,9 @@ public class GameScreen implements Screen {
         }
 
         private @Nullable Position getUserPosition() {
-            for (int i = 0; i < actor.tiledLayer.getWidth(); i++) {
-                for (int j = 0; j < actor.tiledLayer.getHeight(); j++) {
-                    if (actor.cell.equals(actor.tiledLayer.getCell(i, j))) {
+            for (int i = 0; i < actor.getTiledLayer().getWidth(); i++) {
+                for (int j = 0; j < actor.getTiledLayer().getHeight(); j++) {
+                    if (actor.getCell().equals(actor.getTiledLayer().getCell(i, j))) {
                         return Position.fromCoordinates(i, j);
                     }
                 }
