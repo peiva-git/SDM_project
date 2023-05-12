@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -130,27 +129,6 @@ public class GameScreen implements Screen {
         board.dispose();
     }
 
-
-    private static class TiledMapActor extends Actor {
-
-        @NotNull
-        private final TiledMapTileLayer tiledLayer;
-        @NotNull
-        private final TiledMapTileLayer.Cell cell;
-
-        public TiledMapActor(@NotNull TiledMapTileLayer tiledLayer, TiledMapTileLayer.@NotNull Cell cell) {
-            this.tiledLayer = tiledLayer;
-            this.cell = cell;
-        }
-
-        public @NotNull TiledMapTileLayer getTiledLayer() {
-            return tiledLayer;
-        }
-
-        public TiledMapTileLayer.@NotNull Cell getCell() {
-            return cell;
-        }
-    }
 
     private class TiledMapClickListener extends ClickListener {
 
