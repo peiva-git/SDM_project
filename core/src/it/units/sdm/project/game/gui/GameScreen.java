@@ -78,30 +78,34 @@ public class GameScreen implements Screen {
         tableLayout.setFillParent(true);
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             tableLayout.row();
-            if (i % 2 == 0) {
+            if (isIndexEven(i)) {
                 for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
-                    if (j % 2 == 0) {
-                        Image tile = new Image(whiteTextureRegion);
-                        tableLayout.add(tile);
+                    Image tile;
+                    if (isIndexEven(j)) {
+                        tile = new Image(whiteTextureRegion);
                     } else {
-                        Image tile = new Image(blackTextureRegion);
-                        tableLayout.add(tile);
+                        tile = new Image(blackTextureRegion);
                     }
+                    tableLayout.add(tile);
                 }
             } else {
                 for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
-                    if (j % 2 == 0) {
-                        Image tile = new Image(blackTextureRegion);
-                        tableLayout.add(tile);
+                    Image tile;
+                    if (isIndexEven(j)) {
+                        tile = new Image(blackTextureRegion);
                     } else {
-                        Image tile = new Image(whiteTextureRegion);
-                        tableLayout.add(tile);
+                        tile = new Image(whiteTextureRegion);
                     }
+                    tableLayout.add(tile);
                 }
             }
         }
         stage.addActor(tableLayout);
         gameStatus = GameStatus.STARTED;
+    }
+
+    private static boolean isIndexEven(int i) {
+        return i % 2 == 0;
     }
 
     @Override
