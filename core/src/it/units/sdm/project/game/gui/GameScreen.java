@@ -240,26 +240,4 @@ public class GameScreen implements Screen {
 
     }
 
-    private class BoardTilesStage extends Stage {
-
-        public BoardTilesStage(@NotNull TiledMapTileLayer boardLayer, @NotNull Camera camera) {
-            super.getViewport().setCamera(camera);
-            createActorsForLayer(boardLayer);
-        }
-
-        private void createActorsForLayer(@NotNull TiledMapTileLayer tiledLayer) {
-            for (int i = 0; i < tiledLayer.getWidth(); i++) {
-                for (int j = 0; j < tiledLayer.getHeight(); j++) {
-                    TiledMapTileLayer.Cell cell = tiledLayer.getCell(i, j);
-                    TiledMapActor actor = new TiledMapActor(tiledLayer, cell);
-                    actor.setBounds(i * tiledLayer.getTileWidth(), j * tiledLayer.getTileHeight(), tiledLayer.getTileWidth(),
-                            tiledLayer.getTileHeight());
-                    addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor);
-                    actor.addListener(eventListener);
-                }
-            }
-        }
-    }
-
 }
