@@ -34,8 +34,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
 
 public class GameScreen implements Screen {
 
@@ -80,9 +78,26 @@ public class GameScreen implements Screen {
         tableLayout.setFillParent(true);
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             tableLayout.row();
-            for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
-                Image tile = new Image(whiteTextureRegion);
-                tableLayout.add(tile);
+            if (i % 2 == 0) {
+                for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
+                    if (j % 2 == 0) {
+                        Image tile = new Image(whiteTextureRegion);
+                        tableLayout.add(tile);
+                    } else {
+                        Image tile = new Image(blackTextureRegion);
+                        tableLayout.add(tile);
+                    }
+                }
+            } else {
+                for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
+                    if (j % 2 == 0) {
+                        Image tile = new Image(blackTextureRegion);
+                        tableLayout.add(tile);
+                    } else {
+                        Image tile = new Image(whiteTextureRegion);
+                        tableLayout.add(tile);
+                    }
+                }
             }
         }
         stage.addActor(tableLayout);
