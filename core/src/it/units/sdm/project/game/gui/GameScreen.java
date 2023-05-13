@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -32,6 +34,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
 
 public class GameScreen implements Screen {
 
@@ -63,16 +67,23 @@ public class GameScreen implements Screen {
         float height = Gdx.graphics.getHeight();
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         board = new MapBoard<>(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
+        Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
+        whiteSquare.setColor(Color.WHITE);
+        whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+        blackSquare.setColor(Color.BLACK);
+        blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+        TextureRegion blackTextureRegion = new TextureRegion(new Texture(blackSquare), 0, 0, TILE_SIZE, TILE_SIZE);
+        TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, TILE_SIZE, TILE_SIZE);
         tableLayout = new Table();
-        tableLayout.setFillParent(true);
         tableLayout.setDebug(true);
-        for (int i = 0; i < NUMBER_OF_ROWS * NUMBER_OF_COLUMNS; i++) {
-            if (i % NUMBER_OF_COLUMNS == 0) {
-                tableLayout.row();
+        tableLayout.setFillParent(true);
+        for (int i = 0; i < NUMBER_OF_ROWS; i++) {
+            tableLayout.row();
+            for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
+                Image tile = new Image(whiteTextureRegion);
+                tableLayout.add(tile);
             }
-            Image tile = new Image();
-            tile.setColor(Color.BLACK);
-            tableLayout.add(tile).size(TILE_SIZE);
         }
         stage.addActor(tableLayout);
         gameStatus = GameStatus.STARTED;
