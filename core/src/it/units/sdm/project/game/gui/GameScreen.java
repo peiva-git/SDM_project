@@ -42,6 +42,8 @@ public class GameScreen implements Screen {
     private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
+    private final Texture blackSquareTexture;
+    private final Texture whiteSquareTexture;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -52,18 +54,20 @@ public class GameScreen implements Screen {
         whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
         blackSquare.setColor(Color.BLACK);
         blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        TextureRegion blackTextureRegion = new TextureRegion(new Texture(blackSquare), 0, 0, TILE_SIZE, TILE_SIZE);
-        TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, TILE_SIZE, TILE_SIZE);
+        blackSquareTexture = new Texture(blackSquare);
+        whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
         tableLayout = new Table();
-        initBoard(blackTextureRegion, whiteTextureRegion);
+        initBoard();
         stage.addActor(tableLayout);
         Gdx.input.setInputProcessor(stage);
     }
 
-    private void initBoard(TextureRegion blackTextureRegion, TextureRegion whiteTextureRegion) {
+    private void initBoard() {
         tableLayout.setFillParent(true);
+        TextureRegion blackTextureRegion = new TextureRegion(blackSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
+        TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         for (int i = 0; i < FreedomGame.NUMBER_OF_ROWS; i++) {
             tableLayout.row();
             if (isIndexEven(i)) {
@@ -74,13 +78,13 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void initBoardColumns(TextureRegion blackTextureRegion, TextureRegion whiteTextureRegion) {
+    private void initBoardColumns(TextureRegion oddTilesColor, TextureRegion evenTilesColor) {
         for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
             Image tile;
             if (isIndexEven(j)) {
-                tile = new Image(whiteTextureRegion);
+                tile = new Image(evenTilesColor);
             } else {
-                tile = new Image(blackTextureRegion);
+                tile = new Image(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
             tileAndPiece.addListener(new TileClickListener(tileAndPiece));
@@ -152,6 +156,8 @@ public class GameScreen implements Screen {
         stage.getBatch().dispose();
         whiteStoneImage.dispose();
         blackStoneImage.dispose();
+        blackSquareTexture.dispose();
+        whiteSquareTexture.dispose();
     }
 
     private class TileClickListener extends ClickListener {
