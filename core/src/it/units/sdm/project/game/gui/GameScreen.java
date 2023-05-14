@@ -191,7 +191,6 @@ public class GameScreen implements Screen {
                 tileAndPiece.addActor(whiteStone);
             }
             game.updateCurrentGameStatus();
-            System.out.println(game.getBoard());
             super.clicked(event, x, y);
         }
     }
