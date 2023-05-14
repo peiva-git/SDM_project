@@ -14,15 +14,15 @@ public class FreedomLineProviders {
     public static @NotNull Stream<Arguments> provideInitialPosition() {
         return Stream.of(
                 Arguments.of(
-                        Position.fromCoordinates(7, 0),
+                        7, 0,
                         null
                 ),
                 Arguments.of(
-                        Position.fromCoordinates(8, 0),
+                        8, 0,
                         InvalidPositionException.class
                 ),
                 Arguments.of(
-                        Position.fromCoordinates(-1, -1),
+                        -1, -1,
                         InvalidPositionException.class
                 )
         );

@@ -25,11 +25,11 @@ public class FreedomLineTests {
 
     @ParameterizedTest
     @MethodSource("providers.FreedomLineProviders#provideInitialPosition")
-    void testFreedomLineCustomConstructor(Position position, Class<Exception> expectedException) {
+    void testFreedomLineCustomConstructor(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            Assertions.assertDoesNotThrow(() -> new FreedomLine(board, position));
+            Assertions.assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         } else {
-            Assertions.assertThrows(expectedException, () -> new FreedomLine(board, position));
+            Assertions.assertThrows(expectedException, () -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         }
     }
 
