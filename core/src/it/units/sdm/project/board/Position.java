@@ -11,7 +11,7 @@ public class Position implements Comparable<Position> {
 
     private Position(int row, int column) throws InvalidPositionException {
         if (arePositionCoordinatesInvalid(row, column)) {
-            throw new InvalidPositionException("Invalid paramater: position row and column must be > 1");
+            throw new InvalidPositionException("Invalid paramater: position row and column must be >= 0");
         }
         this.row = row;
         this.column = column;
@@ -44,8 +44,8 @@ public class Position implements Comparable<Position> {
 
     @Override
     public String toString() {
-        char column = (char) ('A' + this.column - 1);
-        return column + " " + row;
+        char column = (char) ('A' + this.column);
+        return column + "" + (row + 1);
     }
 
     /**
