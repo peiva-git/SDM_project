@@ -169,7 +169,7 @@ public class GameScreen implements Screen {
             Cell<Actor> clickedTile = tableLayout.getCell(clickedActor);
             System.out.println("Row: " + clickedTile.getRow());
             System.out.println("Column: " + clickedTile.getColumn());
-            Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow(), clickedTile.getColumn());
+            Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
             System.out.println(inputPosition);
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
