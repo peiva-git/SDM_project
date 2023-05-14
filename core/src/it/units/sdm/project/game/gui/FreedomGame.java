@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
@@ -67,6 +68,18 @@ public class FreedomGame extends Game {
             }
         } else {
             gameStatus = GameStatus.LAST_MOVE;
+        }
+    }
+
+    public int getCurrentScore(@NotNull Color playerColor) throws RuntimeException {
+        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
+        freedomPointsCounter.count();
+        if (playerColor == Color.WHITE) {
+            return freedomPointsCounter.getWhitePlayerScore();
+        } else if (playerColor == Color.BLACK) {
+            return freedomPointsCounter.getBlackPlayerScore();
+        } else {
+            throw new RuntimeException("Invalid player color, must be either black or white");
         }
     }
 

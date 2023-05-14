@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
-import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
@@ -107,7 +106,7 @@ public class GameScreen implements Screen {
         switch (game.getGameStatus()) {
             case GAME_OVER:
                 ScreenUtils.clear(Color.BLACK);
-                Player winner = getWinner();
+                Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
                 System.out.println(winner);
                 return;
             case LAST_MOVE:
@@ -117,12 +116,10 @@ public class GameScreen implements Screen {
     }
 
     @Nullable
-    private Player getWinner() {
-        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(game.getBoard());
-        freedomPointsCounter.count();
-        if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
+    private Player getWinner(int whitePlayerScore, int blackPlayerScore) {
+        if (whitePlayerScore > blackPlayerScore) {
             return game.getWhitePlayer();
-        } else if (freedomPointsCounter.getBlackPlayerScore() > freedomPointsCounter.getWhitePlayerScore()) {
+        } else if (blackPlayerScore > whitePlayerScore) {
             return game.getBlackPlayer();
         }
         return null;
