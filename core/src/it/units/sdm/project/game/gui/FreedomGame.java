@@ -15,11 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-import static it.units.sdm.project.game.gui.GameScreen.NUMBER_OF_COLUMNS;
-import static it.units.sdm.project.game.gui.GameScreen.NUMBER_OF_ROWS;
-
 public class FreedomGame extends Game {
 
+    public static final int NUMBER_OF_ROWS = 8;
+    public static final int NUMBER_OF_COLUMNS = 8;
     private SpriteBatch batch;
     private BitmapFont font;
     private Board<Stone> board;

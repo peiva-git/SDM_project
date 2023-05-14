@@ -31,8 +31,6 @@ import java.util.Set;
 public class GameScreen implements Screen {
 
 
-    public static final int NUMBER_OF_ROWS = 8;
-    public static final int NUMBER_OF_COLUMNS = 8;
     public static final int TILE_SIZE = 75;
     @NotNull
     private final Table tableLayout;
@@ -60,10 +58,10 @@ public class GameScreen implements Screen {
         TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, TILE_SIZE, TILE_SIZE);
         tableLayout = new Table();
         tableLayout.setFillParent(true);
-        for (int i = 0; i < NUMBER_OF_ROWS; i++) {
+        for (int i = 0; i < FreedomGame.NUMBER_OF_ROWS; i++) {
             tableLayout.row();
             if (isIndexEven(i)) {
-                for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
+                for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
                     Image tile;
                     if (isIndexEven(j)) {
                         tile = new Image(whiteTextureRegion);
@@ -74,7 +72,7 @@ public class GameScreen implements Screen {
                     tableLayout.add(tile);
                 }
             } else {
-                for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
+                for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
                     Image tile;
                     if (isIndexEven(j)) {
                         tile = new Image(blackTextureRegion);
@@ -167,7 +165,7 @@ public class GameScreen implements Screen {
             Player currentPlayer = game.nextPlayer();
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = tableLayout.getCell(clickedActor);
-            Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
+            Position inputPosition = Position.fromCoordinates(FreedomGame.NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
                 if (!validPositions.contains(inputPosition)) return;
