@@ -28,8 +28,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private void initBoardWithEmptyCells() {
-        for (int i = 1; i <= numberOfRows; i++) {
-            for (int j = 1; j <= numberOfColumns; j++) {
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
                 cells.put(Position.fromCoordinates(i, j), new Cell<>());
             }
         }
@@ -134,8 +134,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
                         sb.append(i).append(" ");
                     }
                 }
-                if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Color.WHITE) {
+                if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
+                    if (getPiece(Position.fromCoordinates(i - 1, j - 1)).getColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");

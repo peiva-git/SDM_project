@@ -16,8 +16,8 @@ public class TestUtilities {
         Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
-                int currentRow = scanner.nextInt();
-                IntStream.rangeClosed(1, numberOfColumns)
+                int currentRow = scanner.nextInt() - 1;
+                IntStream.rangeClosed(0, numberOfColumns - 1)
                         .forEach(currentColumn -> {
                             String placeholder = scanner.next("[WB-]");
                             if (placeholder.equals("W")) {

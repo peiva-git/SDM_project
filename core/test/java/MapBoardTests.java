@@ -52,9 +52,9 @@ public class MapBoardTests {
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(Position.fromCoordinates(1, 1));
+        board.clearCell(Position.fromCoordinates(0, 0));
         Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
-        board.clearCell(Position.fromCoordinates(1, 2));
+        board.clearCell(Position.fromCoordinates(0, 1));
         Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
     }
 
@@ -100,8 +100,8 @@ public class MapBoardTests {
             board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
             board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(row, column + 1));
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
-            printedBoard.setCharAt(column * 3, 'W');
-            printedBoard.setCharAt((column + 1) * 3, 'B');
+            printedBoard.setCharAt((column + 1)* 3, 'W');
+            printedBoard.setCharAt((column + 2) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
             assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
