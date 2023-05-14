@@ -1,10 +1,10 @@
 package it.units.sdm.project;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.terminal.MapBoard;
+import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.game.Player;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 
 public class TerminalLauncher {
     public static void main(String[] args) {

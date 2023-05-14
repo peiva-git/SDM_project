@@ -1,6 +1,6 @@
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

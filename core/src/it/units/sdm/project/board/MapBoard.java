@@ -1,15 +1,15 @@
-package it.units.sdm.project.board.terminal;
+package it.units.sdm.project.board;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class MapBoard<P extends Stone> implements Board<P> {
 
@@ -28,8 +28,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private void initBoardWithEmptyCells() {
-        for (int i = 1; i <= numberOfRows; i++) {
-            for (int j = 1; j <= numberOfColumns; j++) {
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
                 cells.put(Position.fromCoordinates(i, j), new Cell<>());
             }
         }
@@ -94,8 +94,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
-                    if ((i == 0 && j == 0) || position.getColumn() + j == 0 || position.getRow() + i == 0) continue;
-                    if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
+                    if ((i == 0 && j == 0) || position.getColumn() + j == -1 || position.getRow() + i == -1) continue;
+                    if (position.getRow() + i < numberOfRows && position.getColumn() + j < numberOfColumns) {
                         adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
@@ -106,7 +106,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
-        return position.getRow() > numberOfRows || position.getColumn() > numberOfColumns;
+        return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
     }
 
     @Override
@@ -134,8 +134,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
                         sb.append(i).append(" ");
                     }
                 }
-                if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    if (getPiece(Position.fromCoordinates(i, j)).getColor() == Color.WHITE) {
+                if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
+                    if (getPiece(Position.fromCoordinates(i - 1, j - 1)).getColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");

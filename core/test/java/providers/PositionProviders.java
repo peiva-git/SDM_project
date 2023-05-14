@@ -26,4 +26,14 @@ public class PositionProviders {
                 Arguments.of(Position.fromCoordinates(1, 10), Position.fromCoordinates(1, 9), 1)
         );
     }
+
+    public static @NotNull Stream<Arguments> providePositionStringRepresentations() {
+        return Stream.of(
+                Arguments.of(0, 0, "A1"),
+                Arguments.of(9, 9, "J10"),
+                Arguments.of(0, 9, "J1"),
+                Arguments.of(9, 0, "A10"),
+                Arguments.of(3, 7, "H4")
+        );
+    }
 }

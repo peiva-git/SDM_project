@@ -3,8 +3,8 @@ package utility;
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.board.terminal.MapBoard;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.MapBoard;
+import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
@@ -16,8 +16,8 @@ public class TestUtilities {
         Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
-                int currentRow = scanner.nextInt();
-                IntStream.rangeClosed(1, numberOfColumns)
+                int currentRow = scanner.nextInt() - 1;
+                IntStream.rangeClosed(0, numberOfColumns - 1)
                         .forEach(currentColumn -> {
                             String placeholder = scanner.next("[WB-]");
                             if (placeholder.equals("W")) {

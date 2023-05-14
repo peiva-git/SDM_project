@@ -2,7 +2,7 @@
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.game.FreedomLine;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,11 +25,11 @@ public class FreedomLineTests {
 
     @ParameterizedTest
     @MethodSource("providers.FreedomLineProviders#provideInitialPosition")
-    void testFreedomLineCustomConstructor(Position position, Class<Exception> expectedException) {
+    void testFreedomLineCustomConstructor(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            Assertions.assertDoesNotThrow(() -> new FreedomLine(board, position));
+            Assertions.assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         } else {
-            Assertions.assertThrows(expectedException, () -> new FreedomLine(board, position));
+            Assertions.assertThrows(expectedException, () -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         }
     }
 

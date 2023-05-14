@@ -33,4 +33,10 @@ public class PositionTests {
             assertEquals(first, second);
         }
     }
+
+    @ParameterizedTest
+    @MethodSource("providers.PositionProviders#providePositionStringRepresentations")
+    void testPositionStringRepresentation(int row, int column, String positionRepresentation) {
+        assertEquals(Position.fromCoordinates(row, column).toString(), positionRepresentation);
+    }
 }

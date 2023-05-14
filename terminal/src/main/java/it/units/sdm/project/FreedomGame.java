@@ -6,7 +6,7 @@ import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
