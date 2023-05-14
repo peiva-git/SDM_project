@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.MapBoard;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;

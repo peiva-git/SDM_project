@@ -3,7 +3,6 @@ package it.units.sdm.project.board;
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

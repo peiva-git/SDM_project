@@ -1,7 +1,7 @@
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.MapBoard;
-import it.units.sdm.project.interfaces.Board;
+import it.units.sdm.project.board.Board;
 import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
