@@ -94,8 +94,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
-                    if ((i == 0 && j == 0) || position.getColumn() + j == 0 || position.getRow() + i == 0) continue;
-                    if (position.getRow() + i <= numberOfRows && position.getColumn() + j <= numberOfColumns) {
+                    if ((i == 0 && j == 0) || position.getColumn() + j == -1 || position.getRow() + i == -1) continue;
+                    if (position.getRow() + i < numberOfRows && position.getColumn() + j < numberOfColumns) {
                         adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
@@ -106,7 +106,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
-        return position.getRow() > numberOfRows || position.getColumn() > numberOfColumns;
+        return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
     }
 
     @Override
