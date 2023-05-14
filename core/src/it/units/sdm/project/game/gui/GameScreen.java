@@ -28,6 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
+import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
+import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
+
 public class GameScreen implements Screen {
 
 
@@ -68,7 +71,7 @@ public class GameScreen implements Screen {
         tableLayout.setFillParent(true);
         TextureRegion blackTextureRegion = new TextureRegion(blackSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
-        for (int i = 0; i < FreedomGame.NUMBER_OF_ROWS; i++) {
+        for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             tableLayout.row();
             if (isIndexEven(i)) {
                 initBoardColumns(blackTextureRegion, whiteTextureRegion);
@@ -79,7 +82,7 @@ public class GameScreen implements Screen {
     }
 
     private void initBoardColumns(TextureRegion oddTilesColor, TextureRegion evenTilesColor) {
-        for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
+        for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
             Image tile;
             if (isIndexEven(j)) {
                 tile = new Image(evenTilesColor);
@@ -173,7 +176,7 @@ public class GameScreen implements Screen {
             Player currentPlayer = game.nextPlayer();
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = tableLayout.getCell(clickedActor);
-            Position inputPosition = Position.fromCoordinates(FreedomGame.NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
+            Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
                 if (!validPositions.contains(inputPosition)) return;
