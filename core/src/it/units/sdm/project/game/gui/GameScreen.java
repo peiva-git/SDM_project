@@ -67,30 +67,24 @@ public class GameScreen implements Screen {
         for (int i = 0; i < FreedomGame.NUMBER_OF_ROWS; i++) {
             tableLayout.row();
             if (isIndexEven(i)) {
-                for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
-                    Image tile;
-                    if (isIndexEven(j)) {
-                        tile = new Image(whiteTextureRegion);
-                    } else {
-                        tile = new Image(blackTextureRegion);
-                    }
-                    Stack tileAndPiece = new Stack(tile);
-                    tileAndPiece.addListener(new TileClickListener(tileAndPiece));
-                    tableLayout.add(tileAndPiece);
-                }
+                initBoardColumns(blackTextureRegion, whiteTextureRegion);
             } else {
-                for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
-                    Image tile;
-                    if (isIndexEven(j)) {
-                        tile = new Image(blackTextureRegion);
-                    } else {
-                        tile = new Image(whiteTextureRegion);
-                    }
-                    Stack tileAndPiece = new Stack(tile);
-                    tileAndPiece.addListener(new TileClickListener(tileAndPiece));
-                    tableLayout.add(tileAndPiece);
-                }
+                initBoardColumns(whiteTextureRegion, blackTextureRegion);
             }
+        }
+    }
+
+    private void initBoardColumns(TextureRegion blackTextureRegion, TextureRegion whiteTextureRegion) {
+        for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
+            Image tile;
+            if (isIndexEven(j)) {
+                tile = new Image(whiteTextureRegion);
+            } else {
+                tile = new Image(blackTextureRegion);
+            }
+            Stack tileAndPiece = new Stack(tile);
+            tileAndPiece.addListener(new TileClickListener(tileAndPiece));
+            tableLayout.add(tileAndPiece);
         }
     }
 
