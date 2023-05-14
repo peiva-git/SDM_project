@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -45,8 +45,6 @@ public class GameScreen implements Screen {
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
-        float width = Gdx.graphics.getWidth();
-        float height = Gdx.graphics.getHeight();
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
@@ -56,7 +54,15 @@ public class GameScreen implements Screen {
         blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
         TextureRegion blackTextureRegion = new TextureRegion(new Texture(blackSquare), 0, 0, TILE_SIZE, TILE_SIZE);
         TextureRegion whiteTextureRegion = new TextureRegion(new Texture(whiteSquare), 0, 0, TILE_SIZE, TILE_SIZE);
+        blackSquare.dispose();
+        whiteSquare.dispose();
         tableLayout = new Table();
+        initBoard(blackTextureRegion, whiteTextureRegion);
+        stage.addActor(tableLayout);
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private void initBoard(TextureRegion blackTextureRegion, TextureRegion whiteTextureRegion) {
         tableLayout.setFillParent(true);
         for (int i = 0; i < FreedomGame.NUMBER_OF_ROWS; i++) {
             tableLayout.row();
@@ -68,8 +74,9 @@ public class GameScreen implements Screen {
                     } else {
                         tile = new Image(blackTextureRegion);
                     }
-                    tile.addListener(new TileClickListener(tile));
-                    tableLayout.add(tile);
+                    Stack tileAndPiece = new Stack(tile);
+                    tileAndPiece.addListener(new TileClickListener(tileAndPiece));
+                    tableLayout.add(tileAndPiece);
                 }
             } else {
                 for (int j = 0; j < FreedomGame.NUMBER_OF_COLUMNS; j++) {
@@ -79,13 +86,12 @@ public class GameScreen implements Screen {
                     } else {
                         tile = new Image(whiteTextureRegion);
                     }
-                    tile.addListener(new TileClickListener(tile));
-                    tableLayout.add(tile);
+                    Stack tileAndPiece = new Stack(tile);
+                    tileAndPiece.addListener(new TileClickListener(tileAndPiece));
+                    tableLayout.add(tileAndPiece);
                 }
             }
         }
-        stage.addActor(tableLayout);
-        Gdx.input.setInputProcessor(stage);
     }
 
     private static boolean isIndexEven(int i) {
@@ -150,15 +156,17 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
+        whiteStoneImage.dispose();
+        blackStoneImage.dispose();
     }
 
     private class TileClickListener extends ClickListener {
         @NotNull
-        private final Image tile;
+        private final Stack tileAndPiece;
 
-        public TileClickListener(@NotNull Image tile) {
-            this.tile = tile;
-        };
+        public TileClickListener(@NotNull Stack tileAndPiece) {
+            this.tileAndPiece = tileAndPiece;
+        }
 
         @Override
         public void clicked(@NotNull InputEvent event, float x, float y) {
@@ -171,15 +179,16 @@ public class GameScreen implements Screen {
                 if (!validPositions.contains(inputPosition)) return;
             }
 
-            Sprite stoneImage;
             if (currentPlayer.getColor() == Color.BLACK) {
-                stoneImage = new Sprite(blackStoneImage);
                 game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
+                Image blackStone = new Image(blackStoneImage);
+                tileAndPiece.addActor(blackStone);
             } else {
-                stoneImage = new Sprite(whiteStoneImage);
                 game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
+                Image whiteStone = new Image(whiteStoneImage);
+                tileAndPiece.addActor(whiteStone);
             }
             game.updateCurrentGameStatus();
             System.out.println(game.getBoard());
