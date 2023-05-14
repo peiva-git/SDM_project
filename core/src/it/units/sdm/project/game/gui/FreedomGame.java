@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.board.terminal.MapBoard;
+import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;

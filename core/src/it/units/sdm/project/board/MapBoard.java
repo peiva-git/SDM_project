@@ -1,15 +1,16 @@
-package it.units.sdm.project.board.terminal;
+package it.units.sdm.project.board;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.interfaces.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class MapBoard<P extends Stone> implements Board<P> {
 
