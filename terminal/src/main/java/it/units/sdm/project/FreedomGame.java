@@ -122,10 +122,10 @@ public class FreedomGame {
         Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
-            int row = adjacentPosition.getRow();
-            char column = (char) ('A' + adjacentPosition.getColumn() - 1);
-            System.out.print(column);
-            System.out.print(row);
+            int displayedRow = adjacentPosition.getRow() + 1;
+            char displayedColumn = (char) ('A' + adjacentPosition.getColumn());
+            System.out.print(displayedColumn);
+            System.out.print(displayedRow);
             System.out.print(" ");
         });
         System.out.println();
@@ -143,7 +143,7 @@ public class FreedomGame {
     }
 
     private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
-        return board.getNumberOfRows() >= chosenPosition.getRow() && board.getNumberOfColumns() >= chosenPosition.getColumn();
+        return board.getNumberOfRows() > chosenPosition.getRow() && board.getNumberOfColumns() > chosenPosition.getColumn();
     }
 
     @NotNull
