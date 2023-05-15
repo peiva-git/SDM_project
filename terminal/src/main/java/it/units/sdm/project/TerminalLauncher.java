@@ -10,19 +10,19 @@ import it.units.sdm.project.game.Player;
 
 public class TerminalLauncher {
 
-    @Parameter(names = {"-s", "--size"}, description = "Square board size", required = true)
+    @Parameter(names = {"-s", "--size"}, description = "Square board size")
     private int boardSize = 8;
 
-    @Parameter(names = {"--white-name"}, description = "White player name", required = true)
+    @Parameter(names = {"--white-name"}, description = "White player name")
     private String whitePlayerName = "Mario";
 
-    @Parameter(names = {"--white-surname"}, description = "White player surname", required = true)
+    @Parameter(names = {"--white-surname"}, description = "White player surname")
     private String whitePlayerSurname = "Rossi";
 
-    @Parameter(names = {"--black-name"}, description = "Black player name", required = true)
+    @Parameter(names = {"--black-name"}, description = "Black player name")
     private String blackPlayerName = "Lollo";
 
-    @Parameter(names = {"--black-surname"}, description = "Black player surname", required = true)
+    @Parameter(names = {"--black-surname"}, description = "Black player surname")
     private String blackPlayerSurname = "Rossi";
 
     public static void main(String[] args) {
@@ -32,9 +32,9 @@ public class TerminalLauncher {
                 .build()
                 .parse(args);
 
-        Board<Stone> board = new MapBoard<>(8,8);
-        Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
-        Player blackPlayer = new Player(Color.BLACK, "Lollo", "Rossi");
+        Board<Stone> board = new MapBoard<>(launcher.boardSize, launcher.boardSize);
+        Player whitePlayer = new Player(Color.WHITE, launcher.whitePlayerName, launcher.whitePlayerSurname);
+        Player blackPlayer = new Player(Color.BLACK, launcher.blackPlayerName, launcher.blackPlayerSurname);
         FreedomGame freedomGame = new FreedomGame(board, whitePlayer, blackPlayer);
         String welcomeText = " ________                                  __                       \n" +
                 "|        \\                                |  \\                      \n" +
