@@ -34,7 +34,8 @@ public class FreedomGame {
     }
 
     public void start() {
-        System.out.println("Game starting up, clearing board...");
+        System.out.println("Welcome to Freedom!");
+        System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
         gameStatus = GameStatus.FREEDOM;
         while (gameStatus != GameStatus.GAME_OVER) {
