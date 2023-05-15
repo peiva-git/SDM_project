@@ -14,3 +14,18 @@ tasks.register('run', JavaExec) {
     standardOutput = System.out
     workingDir = project.assetsDir
 }
+
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    with jar
+}
+
+dist.dependsOn classes
+eclipse.project.name = appName + "-terminal"
