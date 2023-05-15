@@ -34,9 +34,9 @@ public class FreedomGame {
     }
 
     public void start() {
-        System.out.println("it.units.sdm.project.interfaces.Game starting up, clearing board...");
+        System.out.println("Game starting up, clearing board...");
         board.clearBoard();
-        gameStatus = GameStatus.STARTED;
+        gameStatus = GameStatus.FREEDOM;
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
@@ -77,9 +77,9 @@ public class FreedomGame {
         if (chosenPosition != null) {
             playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
         } else {
-            LinkedList<Move> currentPlayersMoves = (LinkedList<Move>) playersMovesHistory.stream()
+            LinkedList<Move> currentPlayersMoves = playersMovesHistory.stream()
                     .filter(move -> move.getPlayer().equals(currentPlayer))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toCollection(LinkedList::new));
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
