@@ -1,19 +1,16 @@
-plugins {
-    id 'java'
-}
+sourceCompatibility = 1.11
+sourceSets.main.java.srcDirs = ["src/"]
+sourceSets.main.resources.srcDirs = ["../assets"]
+sourceSets.test.java.srcDirs = ["test/java"]
 
-group = 'it.units.sdm.project'
-version = '1.0'
+project.ext.mainClassName = "it.units.sdm.project.TerminalLauncher"
+project.ext.assetsDir = new File("../assets")
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
+tasks.register('run', JavaExec) {
+    dependsOn classes
+    mainClass = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    standardOutput = System.out
+    workingDir = project.assetsDir
 }
