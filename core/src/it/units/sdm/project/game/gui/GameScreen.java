@@ -73,6 +73,10 @@ public class GameScreen implements Screen {
         boardLayout = new Table();
         tableLayout.add(boardLayout);
         initBoard();
+        Label secondLabel = new Label("Welcome to the Freedom board game!", skin);
+        secondLabel.setDebug(true);
+        secondLabel.setAlignment(Align.topLeft);
+        tableLayout.add(secondLabel).expand(true, true).fill();
     }
 
     private void initBoard() {
