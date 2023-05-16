@@ -44,15 +44,22 @@ public class GameScreen implements Screen {
     private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
+    @NotNull
     private final Texture blackSquareTexture;
+    @NotNull
     private final Texture whiteSquareTexture;
+    @NotNull
     private final Skin skin;
+    @NotNull
     private final Table tableLayout;
+    @NotNull
     private final TextureAtlas atlas;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
+        boardLayout = new Table();
+        tableLayout = new Table();
         Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         whiteSquare.setColor(Color.WHITE);
@@ -63,14 +70,13 @@ public class GameScreen implements Screen {
         whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
-        tableLayout = new Table();
-        tableLayout.setFillParent(true);
-        tableLayout.setDebug(true);
-        stage.addActor(tableLayout);
-        Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         skin.addRegions(atlas);
+        stage.addActor(tableLayout);
+        Gdx.input.setInputProcessor(stage);
+        tableLayout.setFillParent(true);
+        tableLayout.setDebug(true);
         Drawable background = skin.getDrawable("default-window");
         tableLayout.setBackground(background);
         Label firstLabel = new Label("test first label", skin);
@@ -78,7 +84,6 @@ public class GameScreen implements Screen {
         firstLabel.setAlignment(Align.topLeft);
         firstLabel.setWrap(true);
         tableLayout.add(firstLabel).expand().fill();
-        boardLayout = new Table();
         tableLayout.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
         Label secondLabel = new Label("Welcome to the Freedom board game!", skin);
