@@ -34,9 +34,10 @@ public class FreedomGame {
     }
 
     public void start() {
-        System.out.println("it.units.sdm.project.interfaces.Game starting up, clearing board...");
+        System.out.println("Welcome to Freedom!");
+        System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = GameStatus.STARTED;
+        gameStatus = GameStatus.FREEDOM;
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
@@ -77,9 +78,9 @@ public class FreedomGame {
         if (chosenPosition != null) {
             playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
         } else {
-            LinkedList<Move> currentPlayersMoves = (LinkedList<Move>) playersMovesHistory.stream()
+            LinkedList<Move> currentPlayersMoves = playersMovesHistory.stream()
                     .filter(move -> move.getPlayer().equals(currentPlayer))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toCollection(LinkedList::new));
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
@@ -122,10 +123,10 @@ public class FreedomGame {
         Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
-            int row = adjacentPosition.getRow();
-            char column = (char) ('A' + adjacentPosition.getColumn() - 1);
-            System.out.print(column);
-            System.out.print(row);
+            int displayedRow = adjacentPosition.getRow() + 1;
+            char displayedColumn = (char) ('A' + adjacentPosition.getColumn());
+            System.out.print(displayedColumn);
+            System.out.print(displayedRow);
             System.out.print(" ");
         });
         System.out.println();
@@ -143,7 +144,7 @@ public class FreedomGame {
     }
 
     private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
-        return board.getNumberOfRows() >= chosenPosition.getRow() && board.getNumberOfColumns() >= chosenPosition.getColumn();
+        return board.getNumberOfRows() > chosenPosition.getRow() && board.getNumberOfColumns() > chosenPosition.getColumn();
     }
 
     @NotNull

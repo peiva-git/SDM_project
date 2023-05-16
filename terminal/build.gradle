@@ -1,19 +1,31 @@
-plugins {
-    id 'java'
+sourceCompatibility = 1.11
+sourceSets.main.java.srcDirs = ["src/main/java"]
+sourceSets.main.resources.srcDirs = ["../assets"]
+sourceSets.test.java.srcDirs = ["test/java"]
+
+project.ext.mainClassName = "it.units.sdm.project.TerminalLauncher"
+project.ext.assetsDir = new File("../assets")
+
+tasks.register('run', JavaExec) {
+    dependsOn classes
+    mainClass = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    standardOutput = System.out
+    workingDir = project.assetsDir
 }
 
-group = 'it.units.sdm.project'
-version = '1.0'
-
-repositories {
-    mavenCentral()
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    with jar
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
-}
+dist.dependsOn classes
+eclipse.project.name = appName + "-terminal"

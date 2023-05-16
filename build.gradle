@@ -12,7 +12,6 @@ buildscript {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.1.16'
         classpath 'org.gretty:gretty:3.0.7'
 
-
     }
 }
 
@@ -55,10 +54,12 @@ project(":desktop") {
 
 project(":terminal") {
     apply plugin: "java-library"
+    apply plugin: "java"
 
     dependencies {
         implementation project(":core")
         implementation 'org.jetbrains:annotations:20.1.0'
+        implementation 'com.beust:jcommander:1.82'
     }
 }
 

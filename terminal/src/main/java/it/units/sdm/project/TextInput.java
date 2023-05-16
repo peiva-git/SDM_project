@@ -39,7 +39,7 @@ public class TextInput implements Closeable {
 
     @Contract("_ -> new")
     private @NotNull Position parsePositionFromFormattedUserInput(@NotNull String input) {
-        return Position.fromCoordinates(Integer.parseInt(input.substring(1)), input.charAt(0) - 'A' + 1);
+        return Position.fromCoordinates(Integer.parseInt(input.substring(1)) - 1, input.charAt(0) - 'A');
     }
 
     @Override
