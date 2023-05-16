@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
@@ -32,7 +33,7 @@ public class GameScreen implements Screen {
 
     public static final int TILE_SIZE = 75;
     @NotNull
-    private final Table tableLayout;
+    private final Table boardLayout;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -44,6 +45,7 @@ public class GameScreen implements Screen {
     private final Texture blackSquareTexture;
     private final Texture whiteSquareTexture;
     private final Skin skin;
+    private final Table tableLayout;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -58,29 +60,26 @@ public class GameScreen implements Screen {
         whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
-        HorizontalGroup group = new HorizontalGroup();
-        group.setDebug(true);
-        group.setFillParent(true);
-        group.expand();
-        stage.addActor(group);
+        tableLayout = new Table();
+        tableLayout.setFillParent(true);
+        tableLayout.setDebug(true);
+        stage.addActor(tableLayout);
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         Label firstLabel = new Label("test first label", skin);
         firstLabel.setDebug(true);
-        group.addActor(firstLabel);
-        tableLayout = new Table();
-        group.addActor(tableLayout);
+        firstLabel.setAlignment(Align.topLeft);
+        tableLayout.add(firstLabel).expand(true, true).fill();
+        boardLayout = new Table();
+        tableLayout.add(boardLayout);
         initBoard();
-        Label secondLabel = new Label("test second label", skin);
-        secondLabel.setDebug(true);
-        group.addActor(secondLabel);
     }
 
     private void initBoard() {
         TextureRegion blackTextureRegion = new TextureRegion(blackSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
-            tableLayout.row();
+            boardLayout.row();
             if (isIndexEven(i)) {
                 initBoardColumns(blackTextureRegion, whiteTextureRegion);
             } else {
@@ -99,7 +98,7 @@ public class GameScreen implements Screen {
             }
             Stack tileAndPiece = new Stack(tile);
             tileAndPiece.addListener(new TileClickListener(tileAndPiece));
-            tableLayout.add(tileAndPiece);
+            boardLayout.add(tileAndPiece);
         }
     }
 
@@ -182,7 +181,7 @@ public class GameScreen implements Screen {
         public void clicked(@NotNull InputEvent event, float x, float y) {
             Player currentPlayer = game.nextPlayer();
             Actor clickedActor = event.getListenerActor();
-            Cell<Actor> clickedTile = tableLayout.getCell(clickedActor);
+            Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
             Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
