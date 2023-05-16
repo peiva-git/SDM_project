@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -46,6 +48,7 @@ public class GameScreen implements Screen {
     private final Texture whiteSquareTexture;
     private final Skin skin;
     private final Table tableLayout;
+    private final TextureAtlas atlas;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -65,23 +68,24 @@ public class GameScreen implements Screen {
         tableLayout.setDebug(true);
         stage.addActor(tableLayout);
         Gdx.input.setInputProcessor(stage);
+        atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin.addRegions(atlas);
+        Drawable background = skin.getDrawable("default-window");
+        tableLayout.setBackground(background);
         Label firstLabel = new Label("test first label", skin);
         firstLabel.setDebug(true);
         firstLabel.setAlignment(Align.topLeft);
-        firstLabel.setWidth(400f);
         firstLabel.setWrap(true);
-        tableLayout.add(firstLabel).expand(true, true).fill();
+        tableLayout.add(firstLabel).expand().fill();
         boardLayout = new Table();
-        boardLayout.setWidth(400f);
-        tableLayout.add(boardLayout);
+        tableLayout.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
         Label secondLabel = new Label("Welcome to the Freedom board game!", skin);
         secondLabel.setDebug(true);
         secondLabel.setAlignment(Align.topLeft);
         secondLabel.setWrap(true);
-        firstLabel.setWidth(400f);
-        tableLayout.add(secondLabel).expand(true, true).fill();
+        tableLayout.add(secondLabel).expand().fill();
     }
 
     private void initBoard() {
@@ -176,6 +180,7 @@ public class GameScreen implements Screen {
         blackSquareTexture.dispose();
         whiteSquareTexture.dispose();
         skin.dispose();
+        atlas.dispose();
     }
 
     private class TileClickListener extends ClickListener {
