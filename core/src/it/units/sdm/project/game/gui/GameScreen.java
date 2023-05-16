@@ -6,14 +6,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -46,6 +44,8 @@ public class GameScreen implements Screen {
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
     private final Texture blackSquareTexture;
     private final Texture whiteSquareTexture;
+    private final TextureAtlas atlas;
+    private final Skin skin;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -60,10 +60,18 @@ public class GameScreen implements Screen {
         whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
-        tableLayout = new Table();
-        initBoard();
-        stage.addActor(tableLayout);
+        HorizontalGroup group = new HorizontalGroup();
+        group.setFillParent(true);
+        stage.addActor(group);
         Gdx.input.setInputProcessor(stage);
+        atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
+        skin = new Skin(atlas);
+        group.addActor(new Label("test first label", skin));
+        tableLayout = new Table();
+        tableLayout.setDebug(true);
+        initBoard();
+        group.addActor(tableLayout);
+        group.addActor(new Label("test second label", skin));
     }
 
     private void initBoard() {
@@ -158,6 +166,7 @@ public class GameScreen implements Screen {
         blackStoneImage.dispose();
         blackSquareTexture.dispose();
         whiteSquareTexture.dispose();
+        skin.dispose();
     }
 
     private class TileClickListener extends ClickListener {
