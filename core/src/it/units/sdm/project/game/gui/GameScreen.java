@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -44,7 +43,6 @@ public class GameScreen implements Screen {
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
     private final Texture blackSquareTexture;
     private final Texture whiteSquareTexture;
-    private final TextureAtlas atlas;
     private final Skin skin;
 
     public GameScreen(@NotNull FreedomGame game) {
@@ -61,21 +59,24 @@ public class GameScreen implements Screen {
         blackSquare.dispose();
         whiteSquare.dispose();
         HorizontalGroup group = new HorizontalGroup();
+        group.setDebug(true);
         group.setFillParent(true);
+        group.expand();
         stage.addActor(group);
         Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
-        skin = new Skin(atlas);
-        group.addActor(new Label("test first label", skin));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Label firstLabel = new Label("test first label", skin);
+        firstLabel.setDebug(true);
+        group.addActor(firstLabel);
         tableLayout = new Table();
-        tableLayout.setDebug(true);
-        initBoard();
         group.addActor(tableLayout);
-        group.addActor(new Label("test second label", skin));
+        initBoard();
+        Label secondLabel = new Label("test second label", skin);
+        secondLabel.setDebug(true);
+        group.addActor(secondLabel);
     }
 
     private void initBoard() {
-        tableLayout.setFillParent(true);
         TextureRegion blackTextureRegion = new TextureRegion(blackSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
