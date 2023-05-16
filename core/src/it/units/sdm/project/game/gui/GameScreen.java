@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
@@ -54,6 +55,8 @@ public class GameScreen implements Screen {
     private final Table container;
     @NotNull
     private final TextureAtlas atlas;
+    @NotNull
+    private final Label firstLabel;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -62,6 +65,7 @@ public class GameScreen implements Screen {
         container = new Table();
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        firstLabel = new Label("The game is ready! " + game.getWhitePlayer() + ", click on the board to begin!\n", skin);
         // init tile textures //
         Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
@@ -80,7 +84,6 @@ public class GameScreen implements Screen {
         container.setFillParent(true);
         Drawable background = skin.getDrawable("default-window");
         container.setBackground(background);
-        Label firstLabel = new Label("test first label", skin);
         firstLabel.setAlignment(Align.topLeft);
         firstLabel.setWrap(true);
         container.add(firstLabel).expand().fill();
@@ -210,7 +213,13 @@ public class GameScreen implements Screen {
             Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
-                if (!validPositions.contains(inputPosition)) return;
+                if (!validPositions.contains(inputPosition)) {
+                    StringBuilder builder = firstLabel.getText();
+                    builder.append("You must choose a position adjacent to the last stone that was placed on the board!\n");
+                    builder.append("Valid positions are: ").append(validPositions).append("\n");
+                    firstLabel.setText(builder.toString());
+                    return;
+                }
             }
 
             if (currentPlayer.getColor() == Color.BLACK) {
