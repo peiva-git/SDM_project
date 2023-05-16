@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final Skin skin;
     @NotNull
-    private final Table tableLayout;
+    private final Table container;
     @NotNull
     private final TextureAtlas atlas;
 
@@ -59,7 +59,10 @@ public class GameScreen implements Screen {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         boardLayout = new Table();
-        tableLayout = new Table();
+        container = new Table();
+        atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // init tile textures //
         Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         whiteSquare.setColor(Color.WHITE);
@@ -70,27 +73,29 @@ public class GameScreen implements Screen {
         whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
-        atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // this part may be incorporated in a custom texture pack //
         skin.addRegions(atlas);
-        stage.addActor(tableLayout);
+        stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
-        tableLayout.setFillParent(true);
-        tableLayout.setDebug(true);
+        container.setFillParent(true);
         Drawable background = skin.getDrawable("default-window");
-        tableLayout.setBackground(background);
+        container.setBackground(background);
         Label firstLabel = new Label("test first label", skin);
-        firstLabel.setDebug(true);
         firstLabel.setAlignment(Align.topLeft);
         firstLabel.setWrap(true);
-        tableLayout.add(firstLabel).expand().fill();
-        tableLayout.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
+        container.add(firstLabel).expand().fill();
+        container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
         Label secondLabel = new Label("Welcome to the Freedom board game!", skin);
-        secondLabel.setDebug(true);
         secondLabel.setAlignment(Align.topLeft);
         secondLabel.setWrap(true);
-        tableLayout.add(secondLabel).expand().fill();
+        container.add(secondLabel).expand().fill();
+
+        // debugging
+        container.setDebug(true);
+        firstLabel.setDebug(true);
+        secondLabel.setDebug(true);
+
     }
 
     private void initBoard() {
@@ -185,6 +190,7 @@ public class GameScreen implements Screen {
         blackSquareTexture.dispose();
         whiteSquareTexture.dispose();
         skin.dispose();
+        // the skin disposes of the atlas
         atlas.dispose();
     }
 
