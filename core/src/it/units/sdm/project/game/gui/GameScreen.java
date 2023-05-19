@@ -84,6 +84,7 @@ public class GameScreen implements Screen {
         Drawable background = skin.getDrawable("default-window");
         container.setBackground(background);
         firstTextArea.setAlignment(Align.topLeft);
+        firstTextArea.setDisabled(true);
         container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
@@ -219,13 +220,19 @@ public class GameScreen implements Screen {
                 long currentStep = game.getPlayersMovesHistory().stream()
                         .filter(move -> move.getPlayer().getColor() == Color.WHITE)
                         .count();
-                firstTextArea.appendText(currentStep + ". " + inputPosition);
+                if (currentStep < 10) {
+                    firstTextArea.appendText("  " + currentStep + ". " + inputPosition);
+                } else if (currentStep < 100) {
+                    firstTextArea.appendText(" " + currentStep + ". " + inputPosition);
+                } else {
+                    firstTextArea.appendText(currentStep + ". " + inputPosition);
+                }
             } else {
                 game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
                 Image blackStone = new Image(blackStoneImage);
                 tileAndPiece.addActor(blackStone);
-                firstTextArea.appendText("  |  " + inputPosition + "\n");
+                firstTextArea.appendText("     " + inputPosition + "\n");
             }
             game.updateCurrentGameStatus();
             super.clicked(event, x, y);
