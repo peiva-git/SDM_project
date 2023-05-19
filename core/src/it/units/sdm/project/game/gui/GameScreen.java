@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
@@ -56,7 +55,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final TextureAtlas atlas;
     @NotNull
-    private final Label firstLabel;
+    private final TextArea firstTextArea;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -65,7 +64,7 @@ public class GameScreen implements Screen {
         container = new Table();
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        firstLabel = new Label("The game is ready! " + game.getWhitePlayer() + ", click on the board to begin!\n", skin);
+        firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         // init tile textures //
         Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
@@ -77,27 +76,21 @@ public class GameScreen implements Screen {
         whiteSquareTexture = new Texture(whiteSquare);
         blackSquare.dispose();
         whiteSquare.dispose();
-        // this part may be incorporated in a custom texture pack //
+        // the above part may be incorporated in a custom texture pack //
         skin.addRegions(atlas);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
         Drawable background = skin.getDrawable("default-window");
         container.setBackground(background);
-        firstLabel.setAlignment(Align.topLeft);
-        firstLabel.setWrap(true);
-        container.add(firstLabel).expand().fill();
+        firstTextArea.setAlignment(Align.topLeft);
+        container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
-        Label secondLabel = new Label("Welcome to the Freedom board game!", skin);
-        secondLabel.setAlignment(Align.topLeft);
-        secondLabel.setWrap(true);
-        container.add(secondLabel).expand().fill();
 
         // debugging
         container.setDebug(true);
-        firstLabel.setDebug(true);
-        secondLabel.setDebug(true);
+        firstTextArea.setDebug(true);
 
     }
 
@@ -214,24 +207,25 @@ public class GameScreen implements Screen {
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
                 Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
                 if (!validPositions.contains(inputPosition)) {
-                    StringBuilder builder = firstLabel.getText();
-                    builder.append("You must choose a position adjacent to the last stone that was placed on the board!\n");
-                    builder.append("Valid positions are: ").append(validPositions).append("\n");
-                    firstLabel.setText(builder.toString());
                     return;
                 }
             }
 
-            if (currentPlayer.getColor() == Color.BLACK) {
-                game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
-                game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
-                Image blackStone = new Image(blackStoneImage);
-                tileAndPiece.addActor(blackStone);
-            } else {
+            if (currentPlayer.getColor() == Color.WHITE) {
                 game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
                 Image whiteStone = new Image(whiteStoneImage);
                 tileAndPiece.addActor(whiteStone);
+                long currentStep = game.getPlayersMovesHistory().stream()
+                        .filter(move -> move.getPlayer().getColor() == Color.WHITE)
+                        .count();
+                firstTextArea.appendText(currentStep + ". " + inputPosition);
+            } else {
+                game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
+                game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
+                Image blackStone = new Image(blackStoneImage);
+                tileAndPiece.addActor(blackStone);
+                firstTextArea.appendText("  |  " + inputPosition + "\n");
             }
             game.updateCurrentGameStatus();
             super.clicked(event, x, y);
