@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -25,10 +26,14 @@ import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
+import static java.util.List.*;
 
 public class GameScreen implements Screen {
 
@@ -204,9 +209,16 @@ public class GameScreen implements Screen {
             Player currentPlayer = game.nextPlayer();
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
-            Position inputPosition = Position.fromCoordinates(NUMBER_OF_ROWS - clickedTile.getRow() - 1, clickedTile.getColumn());
+            Position inputPosition = getPositionFromTile(clickedTile);
+            Set<Position> validPositions;
+            try {
+                validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                        .filter(position -> !game.getBoard().isCellOccupied(position))
+                        .collect(Collectors.toSet());
+            } catch (NoSuchElementException e) {
+                validPositions = Collections.emptySet();
+            }
             if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
-                Set<Position> validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition());
                 if (!validPositions.contains(inputPosition)) {
                     return;
                 }
@@ -227,15 +239,35 @@ public class GameScreen implements Screen {
                 } else {
                     firstTextArea.appendText(currentStep + ". " + inputPosition);
                 }
+                highlightValidPositions(validPositions);
             } else {
                 game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
                 Image blackStone = new Image(blackStoneImage);
                 tileAndPiece.addActor(blackStone);
                 firstTextArea.appendText("     " + inputPosition + "\n");
+                highlightValidPositions(validPositions);
             }
             game.updateCurrentGameStatus();
             super.clicked(event, x, y);
+        }
+
+        @NotNull
+        private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
+            return Position.fromCoordinates(NUMBER_OF_ROWS - tile.getRow() - 1, tile.getColumn());
+        }
+
+        private void highlightValidPositions(Set<Position> validPositions) {
+            List<Cell<Actor>> validCells = new ArrayList<>();
+            for (int i = 0; i < boardLayout.getCells().size; i++) {
+                Cell<Actor> cell = boardLayout.getCells().get(i);
+                if (validPositions.contains(getPositionFromTile(cell))) {
+                    validCells.add(cell);
+                }
+            }
+            for (Cell<Actor> validCell : validCells) {
+                Stack tileAndPiece = (Stack) validCell.getActor();
+            }
         }
     }
 }
