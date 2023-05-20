@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
         blackSquareTexture = new Texture(blackSquare);
         whiteSquareTexture = new Texture(whiteSquare);
         Pixmap highlightedSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
-        highlightedSquare.setColor(0, 1, 0, 50 / 255f);
+        highlightedSquare.setColor(154 / 255f, 200 / 255f, 50 / 255f, 50 / 255f);
         highlightedSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
         highlightedSquareTexture = new Texture(highlightedSquare);
         highlightedSquare.dispose();
@@ -289,6 +289,8 @@ public class GameScreen implements Screen {
             System.out.println(game.getBoard());
             for (Cell<Actor> validCell : validCells) {
                 Stack tileAndPiece = (Stack) validCell.getActor();
+                Image tile = (Image) tileAndPiece.getChild(0);
+                tile.setColor(204 / 255f, 0 / 255f, 0 / 255f, 50 / 255f);
             }
         }
     }
