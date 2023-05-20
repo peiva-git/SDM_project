@@ -20,11 +20,14 @@ public class MainMenuScreen implements Screen {
     private final Skin skin;
     @NotNull
     private final Stage stage;
+    @NotNull
+    private final Texture logo;
 
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        logo = new Texture(Gdx.files.internal("freedom_logo.png"));
         initialMenu = new Table();
         initMenu();
         stage.addActor(initialMenu);
@@ -33,7 +36,7 @@ public class MainMenuScreen implements Screen {
 
     private void initMenu() {
         initialMenu.setFillParent(true);
-        Image image = new Image(new Texture(Gdx.files.internal("freedom_logo.png")));
+        Image image = new Image(logo);
         Label nameLabel = new Label("Tap anywhere to begin!", skin);
         nameLabel.setColor(Color.BLACK);
         nameLabel.setFontScale(1.5f);
@@ -78,5 +81,6 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
+        logo.dispose();
     }
 }
