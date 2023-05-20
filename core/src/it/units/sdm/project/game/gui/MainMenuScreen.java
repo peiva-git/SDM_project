@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
         Image image = new Image(new Texture(Gdx.files.internal("freedom_logo.png")));
         Label nameLabel = new Label("Tap anywhere to begin!", skin);
         nameLabel.setColor(Color.BLACK);
-        nameLabel.setFontScale((float) 1.5);
+        nameLabel.setFontScale(1.5f);
         initialMenu.add(image);
         initialMenu.row();
         initialMenu.add(nameLabel);
