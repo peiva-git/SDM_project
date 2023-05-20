@@ -52,8 +52,6 @@ public class GameScreen implements Screen {
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
     @NotNull
-    private Texture blackSquareTexture;
-    @NotNull
     private Texture whiteSquareTexture;
     @NotNull
     private final Skin skin;
@@ -63,7 +61,6 @@ public class GameScreen implements Screen {
     private final TextureAtlas atlas;
     @NotNull
     private final TextArea firstTextArea;
-    private Texture highlightedSquareTexture;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -94,44 +91,31 @@ public class GameScreen implements Screen {
     }
 
     private void initTextures() {
-        Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
         whiteSquare.setColor(Color.WHITE);
         whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        blackSquare.setColor(Color.BLACK);
-        blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        blackSquareTexture = new Texture(blackSquare);
         whiteSquareTexture = new Texture(whiteSquare);
-        Pixmap highlightedSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
-        highlightedSquare.setColor(154 / 255f, 200 / 255f, 50 / 255f, 50 / 255f);
-        highlightedSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        highlightedSquareTexture = new Texture(highlightedSquare);
-        highlightedSquare.dispose();
-        blackSquare.dispose();
         whiteSquare.dispose();
     }
 
     private void initBoard() {
-        TextureRegion blackTextureRegion = new TextureRegion(blackSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
-        TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             boardLayout.row();
             if (isIndexEven(i)) {
-                initBoardColumns(blackTextureRegion, whiteTextureRegion, DARK_TILE, LIGHT_TILE);
+                initBoardColumns(DARK_TILE, LIGHT_TILE);
             } else {
-                initBoardColumns(whiteTextureRegion, blackTextureRegion, LIGHT_TILE, DARK_TILE);
+                initBoardColumns(LIGHT_TILE, DARK_TILE);
             }
         }
     }
 
-    private void initBoardColumns(TextureRegion oddTilesTexture, TextureRegion evenTilesTexture, Color oddTilesColor, Color evenTilesColor) {
+    private void initBoardColumns(Color oddTilesColor, Color evenTilesColor) {
         for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
-            Image tile;
+            TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
+            Image tile = new Image(whiteTextureRegion);
             if (isIndexEven(j)) {
-                tile = new Image(evenTilesTexture);
                 tile.setColor(evenTilesColor);
             } else {
-                tile = new Image(oddTilesTexture);
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
@@ -202,9 +186,7 @@ public class GameScreen implements Screen {
         stage.getBatch().dispose();
         whiteStoneImage.dispose();
         blackStoneImage.dispose();
-        blackSquareTexture.dispose();
         whiteSquareTexture.dispose();
-        highlightedSquareTexture.dispose();
         skin.dispose();
         // the skin disposes of the atlas
         atlas.dispose();
