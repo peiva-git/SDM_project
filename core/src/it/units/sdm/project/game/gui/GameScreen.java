@@ -48,9 +48,9 @@ public class GameScreen implements Screen {
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
     @NotNull
-    private final Texture blackSquareTexture;
+    private Texture blackSquareTexture;
     @NotNull
-    private final Texture whiteSquareTexture;
+    private Texture whiteSquareTexture;
     @NotNull
     private final Skin skin;
     @NotNull
@@ -59,6 +59,7 @@ public class GameScreen implements Screen {
     private final TextureAtlas atlas;
     @NotNull
     private final TextArea firstTextArea;
+    private Texture highlightedSquareTexture;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -69,16 +70,7 @@ public class GameScreen implements Screen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         // init tile textures //
-        Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
-        Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
-        whiteSquare.setColor(Color.WHITE);
-        whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        blackSquare.setColor(Color.BLACK);
-        blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        blackSquareTexture = new Texture(blackSquare);
-        whiteSquareTexture = new Texture(whiteSquare);
-        blackSquare.dispose();
-        whiteSquare.dispose();
+        initTextures();
         // the above part may be incorporated in a custom texture pack //
         skin.addRegions(atlas);
         stage.addActor(container);
@@ -95,6 +87,24 @@ public class GameScreen implements Screen {
         // debugging
         container.setDebug(true);
         firstTextArea.setDebug(true);
+    }
+
+    private void initTextures() {
+        Pixmap blackSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
+        Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
+        whiteSquare.setColor(Color.WHITE);
+        whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+        blackSquare.setColor(Color.BLACK);
+        blackSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+        blackSquareTexture = new Texture(blackSquare);
+        whiteSquareTexture = new Texture(whiteSquare);
+        Pixmap highlightedSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
+        highlightedSquare.setColor(0, 1, 0, 50 / 255f);
+        highlightedSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+        highlightedSquareTexture = new Texture(highlightedSquare);
+        highlightedSquare.dispose();
+        blackSquare.dispose();
+        whiteSquare.dispose();
     }
 
     private void initBoard() {
@@ -188,6 +198,7 @@ public class GameScreen implements Screen {
         blackStoneImage.dispose();
         blackSquareTexture.dispose();
         whiteSquareTexture.dispose();
+        highlightedSquareTexture.dispose();
         skin.dispose();
         // the skin disposes of the atlas
         atlas.dispose();
@@ -207,20 +218,30 @@ public class GameScreen implements Screen {
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
             Position inputPosition = getPositionFromTile(clickedTile);
-            Set<Position> validPositions;
-            try {
-                validPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
+            if (game.getGameStatus() == GameStatus.FREEDOM || game.getGameStatus() == GameStatus.STARTED) {
+                if (game.getBoard().isCellOccupied(inputPosition)) {
+                    System.out.println(inputPosition + " is occupied!");
+                    return;
+                } else {
+                    putStoneOnTheBoard(currentPlayer, inputPosition);
+                    highlightValidPositionsForNextMove();
+                }
+            } else if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
+                Set<Position> allowedPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
                         .filter(position -> !game.getBoard().isCellOccupied(position))
                         .collect(Collectors.toSet());
-            } catch (NoSuchElementException e) {
-                validPositions = Collections.emptySet();
-            }
-            if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
-                if (!validPositions.contains(inputPosition)) {
+                if (!allowedPositions.contains(inputPosition)) {
+                    System.out.println(inputPosition + " is occupied!");
                     return;
+                } else {
+                    putStoneOnTheBoard(currentPlayer, inputPosition);
+                    highlightValidPositionsForNextMove();
                 }
             }
+            super.clicked(event, x, y);
+        }
 
+        private void putStoneOnTheBoard(Player currentPlayer, Position inputPosition) {
             if (currentPlayer.getColor() == Color.WHITE) {
                 game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
@@ -236,17 +257,14 @@ public class GameScreen implements Screen {
                 } else {
                     firstTextArea.appendText(currentStep + ". " + inputPosition);
                 }
-                highlightValidPositions(validPositions);
             } else {
                 game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
                 Image blackStone = new Image(blackStoneImage);
                 tileAndPiece.addActor(blackStone);
                 firstTextArea.appendText("     " + inputPosition + "\n");
-                highlightValidPositions(validPositions);
             }
             game.updateCurrentGameStatus();
-            super.clicked(event, x, y);
         }
 
         @NotNull
@@ -254,14 +272,21 @@ public class GameScreen implements Screen {
             return Position.fromCoordinates(NUMBER_OF_ROWS - tile.getRow() - 1, tile.getColumn());
         }
 
-        private void highlightValidPositions(Set<Position> validPositions) {
+        private void highlightValidPositionsForNextMove() {
+            // TODO reset previously highlighted positions
+            Set<Position> positionsToHighlight = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                    .filter(position -> !game.getBoard().isCellOccupied(position))
+                    .collect(Collectors.toSet());
             List<Cell<Actor>> validCells = new ArrayList<>();
             for (int i = 0; i < boardLayout.getCells().size; i++) {
                 Cell<Actor> cell = boardLayout.getCells().get(i);
-                if (validPositions.contains(getPositionFromTile(cell))) {
+                if (positionsToHighlight.contains(getPositionFromTile(cell))) {
                     validCells.add(cell);
                 }
             }
+            System.out.println("Valid positions for the next move: " + positionsToHighlight);
+            System.out.println("Valid cells for the next move: " + validCells);
+            System.out.println(game.getBoard());
             for (Cell<Actor> validCell : validCells) {
                 Stack tileAndPiece = (Stack) validCell.getActor();
             }
