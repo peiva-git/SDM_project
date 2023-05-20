@@ -208,9 +208,9 @@ public class GameScreen implements Screen {
             Position inputPosition = getPositionFromTile(clickedTile);
             if (game.getGameStatus() == GameStatus.FREEDOM || game.getGameStatus() == GameStatus.STARTED) {
                 if (game.getBoard().isCellOccupied(inputPosition)) {
-                    System.out.println(inputPosition + " is occupied!");
                     return;
                 } else {
+                    resetCurrentlyHighlightedCells();
                     putStoneOnTheBoard(currentPlayer, inputPosition);
                     highlightValidPositionsForNextMove();
                 }
@@ -219,9 +219,9 @@ public class GameScreen implements Screen {
                         .filter(position -> !game.getBoard().isCellOccupied(position))
                         .collect(Collectors.toSet());
                 if (!allowedPositions.contains(inputPosition)) {
-                    System.out.println(inputPosition + " is occupied!");
                     return;
                 } else {
+                    resetCurrentlyHighlightedCells();
                     putStoneOnTheBoard(currentPlayer, inputPosition);
                     highlightValidPositionsForNextMove();
                 }
@@ -229,7 +229,7 @@ public class GameScreen implements Screen {
             super.clicked(event, x, y);
         }
 
-        private void putStoneOnTheBoard(Player currentPlayer, Position inputPosition) {
+        private void putStoneOnTheBoard(@NotNull Player currentPlayer, @NotNull Position inputPosition) {
             if (currentPlayer.getColor() == Color.WHITE) {
                 game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
@@ -261,35 +261,44 @@ public class GameScreen implements Screen {
         }
 
         private void highlightValidPositionsForNextMove() {
-            // TODO reset previously highlighted positions
             Set<Position> positionsToHighlight = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
                     .filter(position -> !game.getBoard().isCellOccupied(position))
                     .collect(Collectors.toSet());
-            List<Cell<Actor>> validCells = new ArrayList<>();
+            List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
             for (int i = 0; i < boardLayout.getCells().size; i++) {
                 Cell<Actor> cell = boardLayout.getCells().get(i);
                 if (positionsToHighlight.contains(getPositionFromTile(cell))) {
-                    validCells.add(cell);
+                    cellsToHighlight.add(cell);
                 }
             }
-            System.out.println("Valid positions for the next move: " + positionsToHighlight);
-            System.out.println("Valid cells for the next move: " + validCells);
-            System.out.println(game.getBoard());
-            for (Cell<Actor> validCell : validCells) {
-                Stack tileAndPiece = (Stack) validCell.getActor();
+            for (Cell<Actor> cellToHighlight : cellsToHighlight) {
+                Stack tileAndPiece = (Stack) cellToHighlight.getActor();
                 Actor tile = tileAndPiece.getChild(0);
-                if (isIndexEven(validCell.getRow())) {
-                    if (isIndexEven(validCell.getColumn())) {
-                        tile.setColor(HIGHLIGHT_DARK_TILE);
-                    } else {
+                if (isIndexEven(cellToHighlight.getRow())) {
+                    if (isIndexEven(cellToHighlight.getColumn())) {
                         tile.setColor(HIGHLIGHT_LIGHT_TILE);
+                    } else {
+                        tile.setColor(HIGHLIGHT_DARK_TILE);
                     }
                 } else {
-                    if (isIndexEven(validCell.getColumn())) {
-                        tile.setColor(HIGHLIGHT_LIGHT_TILE);
-                    } else {
+                    if (isIndexEven(cellToHighlight.getColumn())) {
                         tile.setColor(HIGHLIGHT_DARK_TILE);
+                    } else {
+                        tile.setColor(HIGHLIGHT_LIGHT_TILE);
                     }
+                }
+            }
+        }
+
+        private void resetCurrentlyHighlightedCells() {
+            for (int i = 0; i < boardLayout.getCells().size; i++) {
+                Cell<Actor> cell = boardLayout.getCells().get(i);
+                Stack tileAndPiece = (Stack) cell.getActor();
+                Actor tile = tileAndPiece.getChild(0);
+                if (tile.getColor().equals(HIGHLIGHT_DARK_TILE)) {
+                    tile.setColor(DARK_TILE);
+                } else if (tile.getColor().equals(HIGHLIGHT_LIGHT_TILE)) {
+                    tile.setColor(LIGHT_TILE);
                 }
             }
         }
