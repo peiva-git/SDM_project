@@ -37,6 +37,10 @@ public class GameScreen implements Screen {
 
 
     public static final int TILE_SIZE = 75;
+    public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
+    public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
+    public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
+    public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     @NotNull
     private final Table boardLayout;
     @NotNull
@@ -113,20 +117,22 @@ public class GameScreen implements Screen {
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             boardLayout.row();
             if (isIndexEven(i)) {
-                initBoardColumns(blackTextureRegion, whiteTextureRegion);
+                initBoardColumns(blackTextureRegion, whiteTextureRegion, DARK_TILE, LIGHT_TILE);
             } else {
-                initBoardColumns(whiteTextureRegion, blackTextureRegion);
+                initBoardColumns(whiteTextureRegion, blackTextureRegion, LIGHT_TILE, DARK_TILE);
             }
         }
     }
 
-    private void initBoardColumns(TextureRegion oddTilesColor, TextureRegion evenTilesColor) {
+    private void initBoardColumns(TextureRegion oddTilesTexture, TextureRegion evenTilesTexture, Color oddTilesColor, Color evenTilesColor) {
         for (int j = 0; j < NUMBER_OF_COLUMNS; j++) {
             Image tile;
             if (isIndexEven(j)) {
-                tile = new Image(evenTilesColor);
+                tile = new Image(evenTilesTexture);
+                tile.setColor(evenTilesColor);
             } else {
-                tile = new Image(oddTilesColor);
+                tile = new Image(oddTilesTexture);
+                tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
             tileAndPiece.addListener(new TileClickListener(tileAndPiece));
@@ -289,8 +295,20 @@ public class GameScreen implements Screen {
             System.out.println(game.getBoard());
             for (Cell<Actor> validCell : validCells) {
                 Stack tileAndPiece = (Stack) validCell.getActor();
-                Image tile = (Image) tileAndPiece.getChild(0);
-                tile.setColor(204 / 255f, 0 / 255f, 0 / 255f, 50 / 255f);
+                Actor tile = tileAndPiece.getChild(0);
+                if (isIndexEven(validCell.getRow())) {
+                    if (isIndexEven(validCell.getColumn())) {
+                        tile.setColor(HIGHLIGHT_DARK_TILE);
+                    } else {
+                        tile.setColor(HIGHLIGHT_LIGHT_TILE);
+                    }
+                } else {
+                    if (isIndexEven(validCell.getColumn())) {
+                        tile.setColor(HIGHLIGHT_LIGHT_TILE);
+                    } else {
+                        tile.setColor(HIGHLIGHT_DARK_TILE);
+                    }
+                }
             }
         }
     }
