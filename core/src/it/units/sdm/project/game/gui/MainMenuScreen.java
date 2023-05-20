@@ -2,23 +2,44 @@ package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.jetbrains.annotations.NotNull;
 
 public class MainMenuScreen implements Screen {
-
-    private static final int VIEWPORT_WIDTH = 800;
-    private static final int VIEWPORT_HEIGHT = 400;
-    @NotNull
-    private final OrthographicCamera camera;
     @NotNull
     private final FreedomGame game;
+    @NotNull
+    private final Table initialMenu;
+    @NotNull
+    private final Skin skin;
+    @NotNull
+    private final Stage stage;
 
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        initialMenu = new Table();
+        initMenu();
+        stage.addActor(initialMenu);
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private void initMenu() {
+        initialMenu.setFillParent(true);
+        Image image = new Image(new Texture(Gdx.files.internal("freedom_logo.png")));
+        Label nameLabel = new Label("Tap anywhere to begin!", skin);
+        nameLabel.setColor(Color.BLACK);
+        nameLabel.setFontScale((float) 1.5);
+        initialMenu.add(image);
+        initialMenu.row();
+        initialMenu.add(nameLabel);
     }
 
     @Override
@@ -28,14 +49,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0.2f, 1);
-
-        camera.update();
-        game.getBatch().begin();
-        game.getFont().draw(game.getBatch(), "Welcome to th Freedom game!", 100, 150);
-        game.getFont().draw(game.getBatch(), "Tap anywhere to begin!", 100, 100);
-        game.getBatch().end();
-
+        ScreenUtils.clear(Color.WHITE);
+        stage.act(delta);
+        stage.draw();
         if (Gdx.input.isTouched()) {
             game.setScreen(new GameScreen(game));
             dispose();
@@ -60,5 +76,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        stage.getBatch().dispose();
     }
 }
