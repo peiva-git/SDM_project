@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -26,14 +26,12 @@ import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
-import static java.util.List.*;
 
 public class GameScreen implements Screen {
 
@@ -97,7 +95,6 @@ public class GameScreen implements Screen {
         // debugging
         container.setDebug(true);
         firstTextArea.setDebug(true);
-
     }
 
     private void initBoard() {
@@ -123,7 +120,7 @@ public class GameScreen implements Screen {
             }
             Stack tileAndPiece = new Stack(tile);
             tileAndPiece.addListener(new TileClickListener(tileAndPiece));
-            boardLayout.add(tileAndPiece);
+            boardLayout.add(tileAndPiece).size(TILE_SIZE);
         }
     }
 
