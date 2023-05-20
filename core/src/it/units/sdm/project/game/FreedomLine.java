@@ -151,7 +151,7 @@ public class FreedomLine {
         if (this == o) return true;
         if (!(o instanceof FreedomLine)) return false;
         FreedomLine that = (FreedomLine) o;
-        return Objects.equals(board, that.board) && Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
+        return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
     }
 
     @Override
