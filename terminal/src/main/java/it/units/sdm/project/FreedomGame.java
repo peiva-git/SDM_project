@@ -42,6 +42,7 @@ public class FreedomGame {
             playTurn();
         }
         Player winner = getCurrentWinner();
+        System.out.println(board);
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
@@ -72,7 +73,6 @@ public class FreedomGame {
                 if (chosenPosition != null) {
                     board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
-                System.out.println(board);
                 gameStatus = GameStatus.GAME_OVER;
                 break;
         }
