@@ -25,7 +25,7 @@ public class FreedomGame {
     private final Board<Stone> board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private final TextInput userInput = new TextInput();
+    private final TerminalInputReader userInput = new TerminalInputReader();
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -41,7 +41,7 @@ public class FreedomGame {
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
-        Player winner = getWinner();
+        Player winner = getCurrentWinner();
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
@@ -185,7 +185,7 @@ public class FreedomGame {
     }
 
     @Nullable
-    public Player getWinner() {
+    public Player getCurrentWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
