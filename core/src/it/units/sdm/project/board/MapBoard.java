@@ -13,7 +13,7 @@ import java.util.TreeMap;
 
 public class MapBoard<P extends Stone> implements Board<P> {
 
-    public static final int MIN_BOARD_SIZE = 1;
+    public static final int MIN_BOARD_SIZE = 2;
     public final static int MAX_BOARD_SIZE = 26;
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final int numberOfRows;

@@ -72,6 +72,7 @@ public class FreedomGame {
                 if (chosenPosition != null) {
                     board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
+                System.out.println(board);
                 gameStatus = GameStatus.GAME_OVER;
                 break;
         }
@@ -99,14 +100,16 @@ public class FreedomGame {
     }
 
     private void updateCurrentGameStatus() {
-        if (board.hasBoardMoreThanOneFreeCell()) {
-            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                gameStatus = GameStatus.FREEDOM;
+        if (gameStatus != GameStatus.GAME_OVER) {
+            if (board.hasBoardMoreThanOneFreeCell()) {
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                    gameStatus = GameStatus.FREEDOM;
+                } else {
+                    gameStatus = GameStatus.NO_FREEDOM;
+                }
             } else {
-                gameStatus = GameStatus.NO_FREEDOM;
+                gameStatus = GameStatus.LAST_MOVE;
             }
-        } else {
-            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 
@@ -133,12 +136,17 @@ public class FreedomGame {
         return getPositionFromUserWithinSuggestedSet(adjacentPositions);
     }
 
-    private @Nullable Position playLastMove(@NotNull Player player) {
+    private @Nullable Position playLastMove(@NotNull Player player) throws RuntimeException {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
         if (!userInput.isLastMoveAPass()) {
-            return userInput.getPosition();
+            Set<Position> freePositions = board.getPositions().stream()
+                    .filter(position -> !board.isCellOccupied(position))
+                    .collect(Collectors.toSet());
+            if (freePositions.size() != 1)
+                throw new RuntimeException("When playing the last move, there should be only one free cell left on the board");
+            return freePositions.iterator().next();
         }
         return null;
     }
