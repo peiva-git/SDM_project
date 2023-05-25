@@ -17,7 +17,8 @@ public class MapBoardProviders {
                 Arguments.of(0, 0, InvalidBoardSizeException.class),
                 Arguments.of(-1, -1, InvalidBoardSizeException.class),
                 Arguments.of(2, 3, InvalidBoardSizeException.class),
-                Arguments.of(1, 1, null)
+                Arguments.of(1, 1, InvalidBoardSizeException.class),
+                Arguments.of(2, 2, null)
         );
     }
 
