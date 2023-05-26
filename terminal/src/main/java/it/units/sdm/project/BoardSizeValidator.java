@@ -4,10 +4,10 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 import org.jetbrains.annotations.NotNull;
 
-public class BoardSizeValidator implements IParameterValidator {
+import static it.units.sdm.project.board.MapBoard.MAX_BOARD_SIZE;
+import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
 
-    public static final int MIN_BOARD_SIZE = 1;
-    public static final int MAX_BOARD_SIZE = 99;
+public class BoardSizeValidator implements IParameterValidator {
 
     @Override
     public void validate(@NotNull String name, @NotNull String value) throws ParameterException {

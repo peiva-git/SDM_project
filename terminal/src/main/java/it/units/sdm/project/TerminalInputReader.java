@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Closeable;
 import java.util.Scanner;
 
-public class TextInput implements Closeable {
+public class TerminalInputReader implements Closeable {
     Scanner userInput = new Scanner(System.in);
 
     public @NotNull Position getPosition() {

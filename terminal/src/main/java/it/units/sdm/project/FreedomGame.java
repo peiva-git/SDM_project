@@ -25,7 +25,7 @@ public class FreedomGame {
     private final Board<Stone> board;
     private GameStatus gameStatus = GameStatus.NOT_STARTED;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private final TextInput userInput = new TextInput();
+    private final TerminalInputReader userInput = new TerminalInputReader();
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -41,7 +41,8 @@ public class FreedomGame {
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
-        Player winner = getWinner();
+        Player winner = getCurrentWinner();
+        System.out.println(board);
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
@@ -99,14 +100,16 @@ public class FreedomGame {
     }
 
     private void updateCurrentGameStatus() {
-        if (board.hasBoardMoreThanOneFreeCell()) {
-            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                gameStatus = GameStatus.FREEDOM;
+        if (gameStatus != GameStatus.GAME_OVER) {
+            if (board.hasBoardMoreThanOneFreeCell()) {
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                    gameStatus = GameStatus.FREEDOM;
+                } else {
+                    gameStatus = GameStatus.NO_FREEDOM;
+                }
             } else {
-                gameStatus = GameStatus.NO_FREEDOM;
+                gameStatus = GameStatus.LAST_MOVE;
             }
-        } else {
-            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 
@@ -133,12 +136,17 @@ public class FreedomGame {
         return getPositionFromUserWithinSuggestedSet(adjacentPositions);
     }
 
-    private @Nullable Position playLastMove(@NotNull Player player) {
+    private @Nullable Position playLastMove(@NotNull Player player) throws RuntimeException {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
         if (!userInput.isLastMoveAPass()) {
-            return userInput.getPosition();
+            Set<Position> freePositions = board.getPositions().stream()
+                    .filter(position -> !board.isCellOccupied(position))
+                    .collect(Collectors.toSet());
+            if (freePositions.size() != 1)
+                throw new RuntimeException("When playing the last move, there should be only one free cell left on the board");
+            return freePositions.iterator().next();
         }
         return null;
     }
@@ -185,7 +193,7 @@ public class FreedomGame {
     }
 
     @Nullable
-    public Player getWinner() {
+    public Player getCurrentWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         freedomPointsCounter.count();
         if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
