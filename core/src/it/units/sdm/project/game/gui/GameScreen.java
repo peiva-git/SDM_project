@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -137,6 +135,13 @@ public class GameScreen implements Screen {
             case GAME_OVER:
                 ScreenUtils.clear(Color.BLACK);
                 Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
+                Dialog dialog = new DialogBuilder("Game over dialog", skin)
+                        .setModal(true)
+                        .setMovable(false)
+                        .setResizable(false)
+                        .setPositiveButtonLabel("Quit")
+                        .setNegativeButtonLabel("Play again")
+                        .build();
                 System.out.println(winner);
                 return;
             case LAST_MOVE:

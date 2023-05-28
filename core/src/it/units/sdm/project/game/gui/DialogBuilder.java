@@ -1,7 +1,7 @@
 package it.units.sdm.project.game.gui;
 
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,13 +69,13 @@ public class DialogBuilder {
     }
 
     @NotNull
-    public DialogBuilder addPositiveButtonListener(@NotNull EventListener listener) {
+    public DialogBuilder addPositiveButtonListener(@NotNull ClickListener listener) {
         positiveButton.addListener(listener);
         return this;
     }
 
     @NotNull
-    public DialogBuilder addNegativeButtonListener(@NotNull EventListener listener) {
+    public DialogBuilder addNegativeButtonListener(@NotNull ClickListener listener) {
         negativeButton.addListener(listener);
         return this;
     }
