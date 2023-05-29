@@ -90,6 +90,8 @@ public class GameScreen implements Screen {
         initBoard();
         lastMoveDialog = new FreedomGameDialog("Do you want to put the last stone?", "Yes", "No", skin);
         gameOverDialog = new FreedomGameDialog("", "Play again", "Exit", skin);
+        lastMoveDialog.setSize(500, 200);
+        gameOverDialog.setSize(500,200);
         addDialogListeners();
     }
 
@@ -179,13 +181,11 @@ public class GameScreen implements Screen {
                 } else {
                     gameOverDialog.setMainLabel("The winner is: " + winner);
                 }
-                gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);
-                gameOverDialog.setSize(500, 200);
+                gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);                stage.addActor(gameOverDialog);
                 stage.addActor(gameOverDialog);
                 break;
             case LAST_MOVE:
                 lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
-                lastMoveDialog.setSize(500, 200);
                 stage.addActor(lastMoveDialog);
         }
     }
