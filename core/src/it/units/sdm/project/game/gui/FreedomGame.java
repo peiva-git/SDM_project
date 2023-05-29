@@ -18,8 +18,8 @@ import java.util.NoSuchElementException;
 
 public class FreedomGame extends Game {
 
-    public static final int NUMBER_OF_ROWS = 8;
-    public static final int NUMBER_OF_COLUMNS = 8;
+    public static final int NUMBER_OF_ROWS = 2;
+    public static final int NUMBER_OF_COLUMNS = 2;
     private SpriteBatch batch;
     private BitmapFont font;
     private Board<Stone> board;

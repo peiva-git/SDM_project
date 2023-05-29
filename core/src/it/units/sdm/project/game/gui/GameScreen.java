@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -59,6 +62,10 @@ public class GameScreen implements Screen {
     private final TextureAtlas atlas;
     @NotNull
     private final TextArea firstTextArea;
+    @NotNull
+    private FreedomGameDialog lastMoveDialog;
+    @NotNull
+    private FreedomGameDialog gameOverDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -82,10 +89,28 @@ public class GameScreen implements Screen {
         container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
+        lastMoveDialog = new FreedomGameDialog("Do you want to put the last stone?", "Yes", "No", skin);
+        gameOverDialog = new FreedomGameDialog("The winner is: ", "Play again", "Exit", skin);
+        addDialogListeners();
+    }
 
-        // debugging
-        container.setDebug(true);
-        firstTextArea.setDebug(true);
+    private void addDialogListeners() {
+        lastMoveDialog.addPositiveButtonListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setGameStatus(GameStatus.FREEDOM);
+                lastMoveDialog.hide();
+                super.clicked(event, x, y);
+            }
+        });
+        lastMoveDialog.addNegativeButtonListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setGameStatus(GameStatus.GAME_OVER);
+                lastMoveDialog.hide();
+                super.clicked(event, x, y);
+            }
+        });
     }
 
     private void initTextures() {
@@ -129,25 +154,35 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        stage.act(delta);
         stage.draw();
+        stage.act(delta);
         switch (game.getGameStatus()) {
             case GAME_OVER:
-                ScreenUtils.clear(Color.BLACK);
+                drawFreedomLines();
                 Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
-                Dialog dialog = new DialogBuilder("Game over dialog", skin)
-                        .setModal(true)
-                        .setMovable(false)
-                        .setResizable(false)
-                        .setPositiveButtonLabel("Quit")
-                        .setNegativeButtonLabel("Play again")
-                        .build();
-                System.out.println(winner);
-                return;
+                // gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);
+                // gameOverDialog.setSize(500, 200);
+                // stage.addActor(gameOverDialog);
+                break;
             case LAST_MOVE:
-                game.setGameStatus(GameStatus.GAME_OVER);
+                lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
+                lastMoveDialog.setSize(500, 200);
+                stage.addActor(lastMoveDialog);
             default:
         }
+
+
+    }
+
+    private void drawFreedomLines() {
+        stage.getBatch().begin();
+        Gdx.gl.glLineWidth(10);
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.line(2, 2, 100, 100);
+        shapeRenderer.end();
+        stage.getBatch().end();
     }
 
     @Nullable
