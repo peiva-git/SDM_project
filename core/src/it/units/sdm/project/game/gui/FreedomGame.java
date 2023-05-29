@@ -60,14 +60,19 @@ public class FreedomGame extends Game {
     }
 
     public void updateCurrentGameStatus() {
-        if (board.hasBoardMoreThanOneFreeCell()) {
-            if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                gameStatus = GameStatus.FREEDOM;
+        if (gameStatus != GameStatus.GAME_OVER) {
+            long numberOfFreeCells = board.getNumberOfFreeCells();
+            if (numberOfFreeCells > 1) {
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                    gameStatus = GameStatus.FREEDOM;
+                } else {
+                    gameStatus = GameStatus.NO_FREEDOM;
+                }
+            } else if(numberOfFreeCells == 1){
+                gameStatus = GameStatus.LAST_MOVE;
             } else {
-                gameStatus = GameStatus.NO_FREEDOM;
+                gameStatus = GameStatus.GAME_OVER;
             }
-        } else {
-            gameStatus = GameStatus.LAST_MOVE;
         }
     }
 

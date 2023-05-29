@@ -51,11 +51,11 @@ public class MapBoardTests {
     @Test
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
-        Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
+        Assertions.assertEquals(board.getNumberOfFreeCells(),0);
         board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertFalse(board.hasBoardMoreThanOneFreeCell());
+        Assertions.assertEquals(board.getNumberOfFreeCells(),1);
         board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertTrue(board.hasBoardMoreThanOneFreeCell());
+        Assertions.assertEquals(board.getNumberOfFreeCells(),2);
     }
 
     @ParameterizedTest

@@ -102,14 +102,17 @@ public class FreedomGame {
 
     private void updateCurrentGameStatus() {
         if (gameStatus != GameStatus.GAME_OVER) {
-            if (board.hasBoardMoreThanOneFreeCell()) {
+            long numberOfFreeCells = board.getNumberOfFreeCells();
+            if (numberOfFreeCells > 1) {
                 if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
                     gameStatus = GameStatus.FREEDOM;
                 } else {
                     gameStatus = GameStatus.NO_FREEDOM;
                 }
-            } else {
+            } else if(numberOfFreeCells == 1){
                 gameStatus = GameStatus.LAST_MOVE;
+            } else {
+                gameStatus = GameStatus.GAME_OVER;
             }
         }
     }

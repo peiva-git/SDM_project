@@ -109,10 +109,10 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
-    public boolean hasBoardMoreThanOneFreeCell() {
+    public long getNumberOfFreeCells() {
         return cells.values().stream()
                 .filter(boardCell -> !boardCell.isOccupied())
-                .count() > 1;
+                .count();
     }
 
     @Override

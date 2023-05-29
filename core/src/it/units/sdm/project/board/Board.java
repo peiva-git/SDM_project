@@ -14,7 +14,7 @@ public interface Board<P> {
     void putPiece(@NotNull P piece,@NotNull  Position position) throws InvalidPositionException;
     @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException;
     @NotNull Set<Position> getPositions();
-    boolean hasBoardMoreThanOneFreeCell();
+    long getNumberOfFreeCells();
     boolean areAdjacentCellsOccupied(Position position) throws InvalidPositionException;
     @NotNull Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException;
 }
