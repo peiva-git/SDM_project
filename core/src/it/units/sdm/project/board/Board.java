@@ -9,12 +9,12 @@ import java.util.Set;
 
 public interface Board<P> {
     boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException;
-    void clearCell(@NotNull Position position);
+    void clearCell(@NotNull Position position) throws InvalidPositionException;
     void clearBoard();
-    void putPiece(@NotNull P piece,@NotNull  Position position);
-    @Nullable P getPiece(@NotNull Position position);
+    void putPiece(@NotNull P piece,@NotNull  Position position) throws InvalidPositionException;
+    @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException;
     @NotNull Set<Position> getPositions();
     boolean hasBoardMoreThanOneFreeCell();
-    boolean areAdjacentCellsOccupied(Position position);
-    @NotNull Set<Position> getAdjacentPositions(Position position);
+    boolean areAdjacentCellsOccupied(Position position) throws InvalidPositionException;
+    @NotNull Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException;
 }
