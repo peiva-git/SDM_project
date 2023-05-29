@@ -11,6 +11,13 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class TestUtilities {
+
+    public static void fillBoardWithWhiteStones(@NotNull Board<Stone> board) {
+        for (Position position : board.getPositions()) {
+            board.putPiece(new Stone(Color.WHITE), position);
+        }
+    }
+
     public static @NotNull Board<Stone> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
         Scanner scanner = new Scanner(printedBoard);
         Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);

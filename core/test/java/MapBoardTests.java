@@ -2,6 +2,7 @@ import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import utility.TestUtilities;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,15 +32,9 @@ public class MapBoardTests {
         }
     }
 
-    private void fillBoardWithWhiteStones() {
-        for (Position position : board.getPositions()) {
-            board.putPiece(new Stone(Color.WHITE), position);
-        }
-    }
-
     @Test
     void testClearBoardByRemovingAllTheStones() {
-        fillBoardWithWhiteStones();
+        TestUtilities.fillBoardWithWhiteStones(board);
         board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
         board.clearBoard();
         board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
@@ -47,36 +42,12 @@ public class MapBoardTests {
 
     @Test
     void testHasBoardMoreThanOneFreeCell() {
-        fillBoardWithWhiteStones();
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),0);
+        TestUtilities.fillBoardWithWhiteStones(board);
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 0);
         board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),1);
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 1);
         board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),2);
-    }
-
-    @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideAdjacentBoardPositions")
-    void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
-        if (expectedException != null) {
-            assertThrows(expectedException, () -> FreedomBoardHelper.getAdjacentPositions(board, position));
-        } else {
-            assertEquals(adjacentPositions, FreedomBoardHelper.getAdjacentPositions(board, position));
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideBoardPositions")
-    void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
-        if (expectedException == null) {
-            fillBoardWithWhiteStones();
-            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
-            board.clearCell(Position.fromCoordinates(row, column));
-            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
-            Assertions.assertFalse(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column + 1)));
-        } else {
-            assertThrows(expectedException, () -> FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
-        }
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 2);
     }
 
     @ParameterizedTest
@@ -97,7 +68,7 @@ public class MapBoardTests {
             board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
             board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(row, column + 1));
             StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
-            printedBoard.setCharAt((column + 1)* 3, 'W');
+            printedBoard.setCharAt((column + 1) * 3, 'W');
             printedBoard.setCharAt((column + 2) * 3, 'B');
             assertEquals(printedBoard.toString(), board.toString());
         } else {
