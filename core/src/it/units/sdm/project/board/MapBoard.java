@@ -6,8 +6,8 @@ import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -78,10 +78,6 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cell.getPiece();
     }
 
-    private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
-        return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -95,7 +91,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (getPiece(Position.fromCoordinates(i - 1, j - 1)).getColor() == Color.WHITE) {
+                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
