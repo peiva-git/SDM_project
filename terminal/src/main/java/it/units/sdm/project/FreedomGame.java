@@ -1,5 +1,6 @@
 package it.units.sdm.project;
 
+import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
@@ -102,9 +103,9 @@ public class FreedomGame {
 
     private void updateCurrentGameStatus() {
         if (gameStatus != GameStatus.GAME_OVER) {
-            long numberOfFreeCells = board.getNumberOfFreeCells();
+            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
             if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
                     gameStatus = GameStatus.FREEDOM;
                 } else {
                     gameStatus = GameStatus.NO_FREEDOM;
@@ -127,7 +128,7 @@ public class FreedomGame {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
+        Set<Position> adjacentPositions = FreedomBoardHelper.getAdjacentPositions(board, lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int displayedRow = adjacentPosition.getRow() + 1;

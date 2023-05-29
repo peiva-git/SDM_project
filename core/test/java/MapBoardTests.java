@@ -1,7 +1,4 @@
-import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.board.MapBoard;
-import it.units.sdm.project.board.Board;
+import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,20 +48,20 @@ public class MapBoardTests {
     @Test
     void testHasBoardMoreThanOneFreeCell() {
         fillBoardWithWhiteStones();
-        Assertions.assertEquals(board.getNumberOfFreeCells(),0);
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),0);
         board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(board.getNumberOfFreeCells(),1);
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),1);
         board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(board.getNumberOfFreeCells(),2);
+        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board),2);
     }
 
     @ParameterizedTest
     @MethodSource("providers.MapBoardProviders#provideAdjacentBoardPositions")
     void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> board.getAdjacentPositions(position));
+            assertThrows(expectedException, () -> FreedomBoardHelper.getAdjacentPositions(board, position));
         } else {
-            assertEquals(adjacentPositions, board.getAdjacentPositions(position));
+            assertEquals(adjacentPositions, FreedomBoardHelper.getAdjacentPositions(board, position));
         }
     }
 
@@ -73,12 +70,12 @@ public class MapBoardTests {
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             fillBoardWithWhiteStones();
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
+            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
             board.clearCell(Position.fromCoordinates(row, column));
-            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
-            Assertions.assertFalse(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column + 1)));
+            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
+            Assertions.assertFalse(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column + 1)));
         } else {
-            assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
         }
     }
 

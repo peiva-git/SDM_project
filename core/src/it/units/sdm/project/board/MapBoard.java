@@ -78,41 +78,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cell.getPiece();
     }
 
-    @Override
-    public @NotNull Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
-        if (isPositionOutOfBoardBounds(position)) {
-            throw new InvalidPositionException("The specified position is outside the board");
-        }
-        Set<Position> adjacentPositions = new HashSet<>(8);
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                try {
-                    if ((i == 0 && j == 0) || position.getColumn() + j == -1 || position.getRow() + i == -1) continue;
-                    if (position.getRow() + i < numberOfRows && position.getColumn() + j < numberOfColumns) {
-                        adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
-                    }
-                } catch (InvalidPositionException ignored) {
-                }
-            }
-        }
-        return adjacentPositions;
-    }
-
     private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
         return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
-    }
-
-    @Override
-    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
-        return getAdjacentPositions(cellPosition).stream()
-                .allMatch(this::isCellOccupied);
-    }
-
-    @Override
-    public long getNumberOfFreeCells() {
-        return cells.values().stream()
-                .filter(boardCell -> !boardCell.isOccupied())
-                .count();
     }
 
     @Override
