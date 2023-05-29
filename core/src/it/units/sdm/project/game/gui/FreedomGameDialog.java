@@ -1,6 +1,7 @@
 package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +43,14 @@ public class FreedomGameDialog extends Dialog {
 
     public void setNegativeButton(@NotNull String negativeButtonLabel) {
         this.negativeButton.setText(negativeButtonLabel);
+    }
+
+    public void addPositiveButtonListener(@NotNull ClickListener listener) {
+        positiveButton.addListener(listener);
+    }
+
+    public void addNegativeButtonListener(@NotNull ClickListener listener) {
+        negativeButton.addListener(listener);
     }
 
 }
