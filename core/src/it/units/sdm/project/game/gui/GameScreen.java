@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -17,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.Position;
@@ -63,9 +62,9 @@ public class GameScreen implements Screen {
     @NotNull
     private final TextArea firstTextArea;
     @NotNull
-    private FreedomGameDialog lastMoveDialog;
+    private final FreedomGameDialog lastMoveDialog;
     @NotNull
-    private FreedomGameDialog gameOverDialog;
+    private final FreedomGameDialog gameOverDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -90,7 +89,7 @@ public class GameScreen implements Screen {
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
         lastMoveDialog = new FreedomGameDialog("Do you want to put the last stone?", "Yes", "No", skin);
-        gameOverDialog = new FreedomGameDialog("The winner is: ", "Play again", "Exit", skin);
+        gameOverDialog = new FreedomGameDialog("", "Play again", "Exit", skin);
         addDialogListeners();
     }
 
@@ -109,6 +108,22 @@ public class GameScreen implements Screen {
                 game.setGameStatus(GameStatus.GAME_OVER);
                 lastMoveDialog.hide();
                 super.clicked(event, x, y);
+            }
+        });
+        gameOverDialog.addPositiveButtonListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.getBoard().clearBoard();
+                game.getPlayersMovesHistory().clear();
+                game.setGameStatus(GameStatus.STARTED);
+                game.setScreen(new GameScreen(game));
+                dispose();
+            }
+        });
+        gameOverDialog.addNegativeButtonListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
     }
@@ -158,31 +173,21 @@ public class GameScreen implements Screen {
         stage.act(delta);
         switch (game.getGameStatus()) {
             case GAME_OVER:
-                drawFreedomLines();
                 Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
-                // gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);
-                // gameOverDialog.setSize(500, 200);
-                // stage.addActor(gameOverDialog);
+                if(winner == null) {
+                    gameOverDialog.setMainLabel("Tie!");
+                } else {
+                    gameOverDialog.setMainLabel("The winner is: " + winner);
+                }
+                gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);
+                gameOverDialog.setSize(500, 200);
+                stage.addActor(gameOverDialog);
                 break;
             case LAST_MOVE:
                 lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
                 lastMoveDialog.setSize(500, 200);
                 stage.addActor(lastMoveDialog);
-            default:
         }
-
-
-    }
-
-    private void drawFreedomLines() {
-        stage.getBatch().begin();
-        Gdx.gl.glLineWidth(10);
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.line(2, 2, 100, 100);
-        shapeRenderer.end();
-        stage.getBatch().end();
     }
 
     @Nullable
