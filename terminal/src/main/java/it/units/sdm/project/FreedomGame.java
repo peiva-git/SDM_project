@@ -3,6 +3,7 @@ package it.units.sdm.project;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
@@ -151,22 +152,18 @@ public class FreedomGame {
         return null;
     }
 
-    private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
-        return board.getNumberOfRows() > chosenPosition.getRow() && board.getNumberOfColumns() > chosenPosition.getColumn();
-    }
-
     @NotNull
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
-            if (isPositionInsideBoardRange(chosenPosition)) {
+            try {
                 if (board.isCellOccupied(chosenPosition)) {
                     System.out.print("The picked cell is already occupied! Pick again: ");
                 } else {
                     return chosenPosition;
                 }
-            } else {
+            } catch (InvalidPositionException exception){
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
@@ -176,7 +173,7 @@ public class FreedomGame {
         System.out.print("Insert the cell name: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
-            if (isPositionInsideBoardRange(chosenPosition)) {
+            try {
                 if (suggestedPositions.contains(chosenPosition)) {
                     if (!board.isCellOccupied(chosenPosition)) {
                         return chosenPosition;
@@ -186,7 +183,7 @@ public class FreedomGame {
                 } else {
                     System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
                 }
-            } else {
+            } catch(InvalidPositionException exception) {
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
