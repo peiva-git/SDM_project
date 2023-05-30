@@ -10,14 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public class GuiStone extends Stone {
 
     @NotNull
-    private Image tile;
+    private final Image tile;
 
     public GuiStone(@NotNull Color color) {
         super(color);
-        initTile(color);
-    }
-
-    private void initTile(Color color) {
         Texture stoneTexture;
         if(color == Color.WHITE) {
             stoneTexture =  new Texture(Gdx.files.internal("redCircle.png"));
@@ -26,6 +22,7 @@ public class GuiStone extends Stone {
         }
         this.tile = new Image(stoneTexture);
     }
+
     @NotNull
     public Image getTile() {
         return tile;
