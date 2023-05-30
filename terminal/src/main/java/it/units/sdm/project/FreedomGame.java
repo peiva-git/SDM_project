@@ -1,8 +1,11 @@
 package it.units.sdm.project;
 
+import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
@@ -23,7 +26,7 @@ public class FreedomGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = GameStatus.NOT_STARTED;
+    private GameStatus gameStatus = GameStatus.FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
 
@@ -101,14 +104,17 @@ public class FreedomGame {
 
     private void updateCurrentGameStatus() {
         if (gameStatus != GameStatus.GAME_OVER) {
-            if (board.hasBoardMoreThanOneFreeCell()) {
-                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
+            if (numberOfFreeCells > 1) {
+                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
                     gameStatus = GameStatus.FREEDOM;
                 } else {
                     gameStatus = GameStatus.NO_FREEDOM;
                 }
-            } else {
+            } else if(numberOfFreeCells == 1){
                 gameStatus = GameStatus.LAST_MOVE;
+            } else {
+                gameStatus = GameStatus.GAME_OVER;
             }
         }
     }
@@ -123,7 +129,7 @@ public class FreedomGame {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
+        Set<Position> adjacentPositions = FreedomBoardHelper.getAdjacentPositions(board, lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int displayedRow = adjacentPosition.getRow() + 1;
@@ -151,22 +157,18 @@ public class FreedomGame {
         return null;
     }
 
-    private boolean isPositionInsideBoardRange(@NotNull Position chosenPosition) {
-        return board.getNumberOfRows() > chosenPosition.getRow() && board.getNumberOfColumns() > chosenPosition.getColumn();
-    }
-
     @NotNull
     private Position getPositionFromUser() {
         System.out.print("Insert the cell name, for example A5: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
-            if (isPositionInsideBoardRange(chosenPosition)) {
+            try {
                 if (board.isCellOccupied(chosenPosition)) {
                     System.out.print("The picked cell is already occupied! Pick again: ");
                 } else {
                     return chosenPosition;
                 }
-            } else {
+            } catch (InvalidPositionException exception){
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
@@ -176,7 +178,7 @@ public class FreedomGame {
         System.out.print("Insert the cell name: ");
         while (true) {
             Position chosenPosition = userInput.getPosition();
-            if (isPositionInsideBoardRange(chosenPosition)) {
+            try {
                 if (suggestedPositions.contains(chosenPosition)) {
                     if (!board.isCellOccupied(chosenPosition)) {
                         return chosenPosition;
@@ -186,7 +188,7 @@ public class FreedomGame {
                 } else {
                     System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
                 }
-            } else {
+            } catch(InvalidPositionException exception) {
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
@@ -195,10 +197,9 @@ public class FreedomGame {
     @Nullable
     public Player getCurrentWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        freedomPointsCounter.count();
-        if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
+        if (freedomPointsCounter.getPlayerScore(Color.WHITE) > freedomPointsCounter.getPlayerScore(Color.BLACK)) {
             return whitePlayer;
-        } else if (freedomPointsCounter.getBlackPlayerScore() > freedomPointsCounter.getWhitePlayerScore()) {
+        } else if (freedomPointsCounter.getPlayerScore(Color.BLACK) > freedomPointsCounter.getPlayerScore(Color.WHITE)) {
             return blackPlayer;
         }
         return null;

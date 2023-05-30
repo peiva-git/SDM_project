@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,13 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.*;
@@ -61,6 +60,10 @@ public class GameScreen implements Screen {
     private final TextureAtlas atlas;
     @NotNull
     private final TextArea firstTextArea;
+    @NotNull
+    private final Dialog lastMoveDialog;
+    @NotNull
+    private final Dialog gameOverDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -70,6 +73,8 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
+        lastMoveDialog = new FreedomGameDialog(game, skin);
+        gameOverDialog = new FreedomGameDialog(game, skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
@@ -84,10 +89,17 @@ public class GameScreen implements Screen {
         container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
+        initDialogs();
+    }
 
-        // debugging
-        container.setDebug(true);
-        firstTextArea.setDebug(true);
+    private void initDialogs() {
+        lastMoveDialog.text("Do you want to put the last stone?");
+        lastMoveDialog.button("Yes", GameStatus.FREEDOM);
+        lastMoveDialog.button("No", GameStatus.GAME_OVER);
+        gameOverDialog.button("Play again", GameStatus.START);
+        gameOverDialog.button("Quit", GameStatus.EXIT);
+        lastMoveDialog.setSize(500, 200);
+        gameOverDialog.setSize(500, 200);
     }
 
     private void initTextures() {
@@ -131,28 +143,36 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        stage.act(delta);
         stage.draw();
+        stage.act(delta);
         switch (game.getGameStatus()) {
             case GAME_OVER:
-                ScreenUtils.clear(Color.BLACK);
-                Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
-                System.out.println(winner);
-                return;
+                gameOverDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
+                Player winner = game.getCurrentWinner();
+                if (winner != null) {
+                    gameOverDialog.text("The winner is " + winner);
+                } else {
+                    gameOverDialog.text("Tie!");
+                }
+                game.setGameStatus(GameStatus.DISPLAY_WINNER);
+                break;
             case LAST_MOVE:
-                game.setGameStatus(GameStatus.GAME_OVER);
-            default:
+                lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
+                stage.addActor(lastMoveDialog);
+                break;
+            case START:
+                game.getBoard().clearBoard();
+                game.getPlayersMovesHistory().clear();
+                game.setGameStatus(GameStatus.FREEDOM);
+                game.setScreen(new GameScreen(game));
+                dispose();
+                break;
+            case DISPLAY_WINNER:
+                stage.addActor(gameOverDialog);
+                break;
+            case EXIT:
+                Gdx.app.exit();
         }
-    }
-
-    @Nullable
-    private Player getWinner(int whitePlayerScore, int blackPlayerScore) {
-        if (whitePlayerScore > blackPlayerScore) {
-            return game.getWhitePlayer();
-        } else if (blackPlayerScore > whitePlayerScore) {
-            return game.getBlackPlayer();
-        }
-        return null;
     }
 
     @Override
@@ -206,7 +226,7 @@ public class GameScreen implements Screen {
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
             Position inputPosition = getPositionFromTile(clickedTile);
-            if (game.getGameStatus() == GameStatus.FREEDOM || game.getGameStatus() == GameStatus.STARTED) {
+            if (game.getGameStatus() == GameStatus.FREEDOM) {
                 if (game.getBoard().isCellOccupied(inputPosition)) {
                     return;
                 } else {
@@ -215,7 +235,7 @@ public class GameScreen implements Screen {
                     highlightValidPositionsForNextMove();
                 }
             } else if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
-                Set<Position> allowedPositions = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                Set<Position> allowedPositions = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
                         .filter(position -> !game.getBoard().isCellOccupied(position))
                         .collect(Collectors.toSet());
                 if (!allowedPositions.contains(inputPosition)) {
@@ -261,7 +281,7 @@ public class GameScreen implements Screen {
         }
 
         private void highlightValidPositionsForNextMove() {
-            Set<Position> positionsToHighlight = game.getBoard().getAdjacentPositions(game.getPlayersMovesHistory().getLast().getPosition()).stream()
+            Set<Position> positionsToHighlight = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
                     .filter(position -> !game.getBoard().isCellOccupied(position))
                     .collect(Collectors.toSet());
             List<Cell<Actor>> cellsToHighlight = new ArrayList<>();

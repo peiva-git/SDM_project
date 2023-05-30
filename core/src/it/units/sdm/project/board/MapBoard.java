@@ -6,8 +6,8 @@ import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -40,16 +40,6 @@ public class MapBoard<P extends Stone> implements Board<P> {
 
     private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
         return numberOfRows > MIN_BOARD_SIZE - 1 && numberOfRows <= MAX_BOARD_SIZE && (numberOfRows == numberOfColumns);
-    }
-
-    @Override
-    public int getNumberOfRows() {
-        return numberOfRows;
-    }
-
-    @Override
-    public int getNumberOfColumns() {
-        return numberOfColumns;
     }
 
     @Override
@@ -89,43 +79,6 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
-    public @NotNull Set<Position> getAdjacentPositions(Position position) throws InvalidPositionException {
-        if (isPositionOutOfBoardBounds(position)) {
-            throw new InvalidPositionException("The specified position is outside the board");
-        }
-        Set<Position> adjacentPositions = new HashSet<>(8);
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                try {
-                    if ((i == 0 && j == 0) || position.getColumn() + j == -1 || position.getRow() + i == -1) continue;
-                    if (position.getRow() + i < numberOfRows && position.getColumn() + j < numberOfColumns) {
-                        adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
-                    }
-                } catch (InvalidPositionException ignored) {
-                }
-            }
-        }
-        return adjacentPositions;
-    }
-
-    private boolean isPositionOutOfBoardBounds(@NotNull Position position) {
-        return position.getRow() >= numberOfRows || position.getColumn() >= numberOfColumns;
-    }
-
-    @Override
-    public boolean areAdjacentCellsOccupied(@NotNull Position cellPosition) throws InvalidPositionException {
-        return getAdjacentPositions(cellPosition).stream()
-                .allMatch(this::isCellOccupied);
-    }
-
-    @Override
-    public boolean hasBoardMoreThanOneFreeCell() {
-        return cells.values().stream()
-                .filter(boardCell -> !boardCell.isOccupied())
-                .count() > 1;
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = numberOfRows; i > 0; i--) {
@@ -138,7 +91,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (getPiece(Position.fromCoordinates(i - 1, j - 1)).getColor() == Color.WHITE) {
+                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");
