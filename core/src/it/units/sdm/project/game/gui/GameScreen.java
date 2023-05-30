@@ -61,8 +61,6 @@ public class GameScreen implements Screen {
     private final TextArea firstTextArea;
     @NotNull
     private final Dialog lastMoveDialog;
-    @NotNull
-    private final Dialog gameOverDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -72,8 +70,7 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        lastMoveDialog = new GameStatusChangeDialog(game, skin);
-        gameOverDialog = new GameStatusChangeDialog(game, skin);
+        lastMoveDialog = new LastMoveDialog(game, skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
@@ -93,12 +90,9 @@ public class GameScreen implements Screen {
 
     private void initDialogs() {
         lastMoveDialog.text("Do you want to put the last stone?");
-        lastMoveDialog.button("Yes", GameStatus.FREEDOM);
-        lastMoveDialog.button("No", GameStatus.GAME_OVER);
-        gameOverDialog.button("Play again", GameStatus.START);
-        gameOverDialog.button("Quit", GameStatus.EXIT);
+        lastMoveDialog.button("Yes", "Yes");
+        lastMoveDialog.button("No", "No");
         lastMoveDialog.setSize(500, 200);
-        gameOverDialog.setSize(500, 200);
     }
 
     private void initTextures() {
@@ -144,41 +138,13 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         stage.draw();
         stage.act(delta);
-        switch (game.getGameStatus()) {
-            case GAME_OVER:
-                gameOverDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
-                Player winner = game.getCurrentWinner();
-                if (winner != null) {
-                    gameOverDialog.text("The winner is " + winner);
-                } else {
-                    gameOverDialog.text("Tie!");
-                }
-                game.setGameStatus(GameStatus.DISPLAY_WINNER);
-                break;
-            case LAST_MOVE:
-                lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
-                stage.addActor(lastMoveDialog);
-                break;
-            case START:
-                game.getBoard().clearBoard();
-                game.getPlayersMovesHistory().clear();
-                game.setGameStatus(GameStatus.FREEDOM);
-                game.setScreen(new GameScreen(game));
-                dispose();
-                break;
-            case DISPLAY_WINNER:
-                if (!gameOverDialog.isVisible()) {
-                    gameOverDialog.show(stage);
-                    stage.addActor(gameOverDialog);
-                }
-                break;
-            case EXIT:
-                Gdx.app.exit();
-        }
     }
 
     @Override
     public void show() {
+        game.getBoard().clearBoard();
+        game.getPlayersMovesHistory().clear();
+        game.getStatusHandler().proceedToNextState();
     }
 
     @Override
@@ -246,6 +212,12 @@ public class GameScreen implements Screen {
                     putStoneOnTheBoard(currentPlayer, inputPosition);
                     highlightValidPositionsForNextMove();
                 }
+            } else if (game.getGameStatus() == GameStatus.LAST_MOVE) {
+
+            }
+
+            if (game.getGameStatus() == GameStatus.LAST_MOVE) {
+                lastMoveDialog.show(stage).setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
             }
             super.clicked(event, x, y);
         }
@@ -273,7 +245,7 @@ public class GameScreen implements Screen {
                 tileAndPiece.addActor(blackStone);
                 firstTextArea.appendText("     " + inputPosition + "\n");
             }
-            game.updateCurrentGameStatus();
+            game.getStatusHandler().proceedToNextState();
         }
 
         @NotNull

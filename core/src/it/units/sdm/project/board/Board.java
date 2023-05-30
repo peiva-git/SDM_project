@@ -15,4 +15,10 @@ public interface Board<P> {
     @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException;
     @NotNull Set<Position> getPositions();
 
+    default long getNumberOfFreeCells() {
+        return getPositions().stream()
+                .filter(position -> !isCellOccupied(position))
+                .count();
+    }
+
 }

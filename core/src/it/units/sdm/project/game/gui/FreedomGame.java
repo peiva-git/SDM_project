@@ -4,11 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
@@ -26,7 +26,7 @@ public class FreedomGame extends Game {
     private BitmapFont font;
     private Board<Stone> board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private GameStatus gameStatus;
+    private GameStatusHandler statusHandler;
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
     private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
 
@@ -35,8 +35,8 @@ public class FreedomGame extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
         board = new MapBoard<>(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        statusHandler = new GameStatusHandler(this);
         setScreen(new MainMenuScreen(this));
-        gameStatus = GameStatus.FREEDOM;
     }
 
     @Override
@@ -58,23 +58,6 @@ public class FreedomGame extends Game {
             return whitePlayer;
         } catch (NoSuchElementException exception) {
             return whitePlayer;
-        }
-    }
-
-    public void updateCurrentGameStatus() {
-        if (gameStatus != GameStatus.GAME_OVER) {
-            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
-            if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = GameStatus.FREEDOM;
-                } else {
-                    gameStatus = GameStatus.NO_FREEDOM;
-                }
-            } else if(numberOfFreeCells == 1){
-                gameStatus = GameStatus.LAST_MOVE;
-            } else {
-                gameStatus = GameStatus.GAME_OVER;
-            }
         }
     }
 
@@ -117,8 +100,12 @@ public class FreedomGame extends Game {
         return playersMovesHistory;
     }
 
+    public GameStatusHandler getStatusHandler() {
+        return statusHandler;
+    }
+
     public GameStatus getGameStatus() {
-        return gameStatus;
+        return statusHandler.getStatus();
     }
 
     public Player getWhitePlayer() {
@@ -127,9 +114,5 @@ public class FreedomGame extends Game {
 
     public Player getBlackPlayer() {
         return blackPlayer;
-    }
-
-    public void setGameStatus(GameStatus gameStatus) {
-        this.gameStatus = gameStatus;
     }
 }
