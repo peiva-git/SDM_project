@@ -35,6 +35,7 @@ public class GameOverDialog extends Dialog {
             Gdx.app.exit();
         } else {
             // play again
+            game.getStatusHandler().proceedToNextState();
             game.setScreen(new GameScreen(game));
         }
     }
