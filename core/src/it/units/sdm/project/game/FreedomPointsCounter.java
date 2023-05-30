@@ -24,28 +24,34 @@ public class FreedomPointsCounter {
         this.board = board;
     }
 
-    public int getWhitePlayerScore() {
-        return whiteFreedomLines.size();
-    }
-
-    public int getBlackPlayerScore() {
-        return blackFreedomLines.size();
+    public int getPlayerScore(@NotNull Color color) {
+        if (color == Color.WHITE) {
+            this.whiteFreedomLines.clear();
+            count(color);
+            return whiteFreedomLines.size();
+        } else {
+            this.blackFreedomLines.clear();
+            count(color);
+            return blackFreedomLines.size();
+        }
     }
 
     /**
      * The method count() counts all the freedom lines on the board.
      */
-    public void count() {
-        this.blackFreedomLines.clear();
-        this.whiteFreedomLines.clear();
+    private void count(@NotNull Color color) {
         board.getPositions().stream()
-                .filter(position -> board.getPiece(position) != null)
+                .filter(position -> {
+                    Stone stone = board.getPiece(position);
+                    return !(stone == null || stone.getColor() != color);
+                })
                 .forEach(this::checkAllFreedomLinesFromPosition);
     }
 
     /**
      * This method finds freedom lines with size equal to 4 to all the directions
      * from a starting position
+     *
      * @param position starting position
      */
     private void checkAllFreedomLinesFromPosition(@NotNull Position position) {
@@ -59,8 +65,9 @@ public class FreedomPointsCounter {
      * This method finds freedom line with size equal to 4 by considering a specific direction from a starting position.
      * It also checks whether the obtained freedom line is part of a bigger freedom line by checking the color of
      * the stone that comes before the stone on the startingPosition with respect to the direction of the lines.
+     *
      * @param startingPosition starting position
-     * @param direction direction in which it counts
+     * @param direction        direction in which it counts
      */
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");

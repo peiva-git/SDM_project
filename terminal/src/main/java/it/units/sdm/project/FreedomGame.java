@@ -1,5 +1,6 @@
 package it.units.sdm.project;
 
+import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
@@ -196,10 +197,9 @@ public class FreedomGame {
     @Nullable
     public Player getCurrentWinner() {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        freedomPointsCounter.count();
-        if (freedomPointsCounter.getWhitePlayerScore() > freedomPointsCounter.getBlackPlayerScore()) {
+        if (freedomPointsCounter.getPlayerScore(Color.WHITE) > freedomPointsCounter.getPlayerScore(Color.BLACK)) {
             return whitePlayer;
-        } else if (freedomPointsCounter.getBlackPlayerScore() > freedomPointsCounter.getWhitePlayerScore()) {
+        } else if (freedomPointsCounter.getPlayerScore(Color.BLACK) > freedomPointsCounter.getPlayerScore(Color.WHITE)) {
             return blackPlayer;
         }
         return null;
