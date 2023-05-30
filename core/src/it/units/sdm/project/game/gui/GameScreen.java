@@ -63,9 +63,9 @@ public class GameScreen implements Screen {
     @NotNull
     private final TextArea firstTextArea;
     @NotNull
-    private final FreedomGameDialog lastMoveDialog;
+    private final Dialog lastMoveDialog;
     @NotNull
-    private final FreedomGameDialog gameOverDialog;
+    private final Dialog gameOverDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -75,6 +75,8 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
+        lastMoveDialog = new FreedomGameDialog(game, skin);
+        gameOverDialog = new FreedomGameDialog(game, skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
@@ -89,46 +91,17 @@ public class GameScreen implements Screen {
         container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
-        lastMoveDialog = new FreedomGameDialog("Do you want to put the last stone?", "Yes", "No", skin);
-        gameOverDialog = new FreedomGameDialog("", "Play again", "Exit", skin);
-        lastMoveDialog.setSize(500, 200);
-        gameOverDialog.setSize(500,200);
-        addDialogListeners();
+        initDialogs();
     }
 
-    private void addDialogListeners() {
-        lastMoveDialog.addPositiveButtonListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setGameStatus(GameStatus.FREEDOM);
-                lastMoveDialog.hide();
-                super.clicked(event, x, y);
-            }
-        });
-        lastMoveDialog.addNegativeButtonListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setGameStatus(GameStatus.GAME_OVER);
-                lastMoveDialog.hide();
-                super.clicked(event, x, y);
-            }
-        });
-        gameOverDialog.addPositiveButtonListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.getBoard().clearBoard();
-                game.getPlayersMovesHistory().clear();
-                game.setGameStatus(GameStatus.FREEDOM);
-                game.setScreen(new GameScreen(game));
-                dispose();
-            }
-        });
-        gameOverDialog.addNegativeButtonListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+    private void initDialogs() {
+        lastMoveDialog.text("Do you want to put the last stone?");
+        lastMoveDialog.button("Yes", GameStatus.FREEDOM);
+        lastMoveDialog.button("No", GameStatus.GAME_OVER);
+        gameOverDialog.button("Play again", GameStatus.START);
+        gameOverDialog.button("Quit", GameStatus.EXIT);
+        lastMoveDialog.setSize(500, 200);
+        gameOverDialog.setSize(500, 200);
     }
 
     private void initTextures() {
@@ -176,29 +149,23 @@ public class GameScreen implements Screen {
         stage.act(delta);
         switch (game.getGameStatus()) {
             case GAME_OVER:
-                Player winner = getWinner(game.getCurrentScore(Color.WHITE), game.getCurrentScore(Color.BLACK));
-                if(winner == null) {
-                    gameOverDialog.setMainLabel("Tie!");
-                } else {
-                    gameOverDialog.setMainLabel("The winner is: " + winner);
-                }
-                gameOverDialog.setPosition(container.getWidth()/2 - lastMoveDialog.getWidth()/2, container.getHeight()/2 - lastMoveDialog.getHeight()/2);                stage.addActor(gameOverDialog);
+                gameOverDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
                 stage.addActor(gameOverDialog);
                 break;
             case LAST_MOVE:
                 lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
                 stage.addActor(lastMoveDialog);
+                break;
+            case START:
+                game.getBoard().clearBoard();
+                game.getPlayersMovesHistory().clear();
+                game.setGameStatus(GameStatus.FREEDOM);
+                game.setScreen(new GameScreen(game));
+                dispose();
+                break;
+            case EXIT:
+                Gdx.app.exit();
         }
-    }
-
-    @Nullable
-    private Player getWinner(int whitePlayerScore, int blackPlayerScore) {
-        if (whitePlayerScore > blackPlayerScore) {
-            return game.getWhitePlayer();
-        } else if (blackPlayerScore > whitePlayerScore) {
-            return game.getBlackPlayer();
-        }
-        return null;
     }
 
     @Override

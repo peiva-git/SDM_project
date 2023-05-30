@@ -13,6 +13,7 @@ import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -77,7 +78,19 @@ public class FreedomGame extends Game {
         }
     }
 
-    public int getCurrentScore(@NotNull Color playerColor) throws RuntimeException {
+    @Nullable
+    public Player getCurrentWinner() {
+        int whiteScore = getCurrentScore(Color.WHITE);
+        int blackScore = getCurrentScore(Color.BLACK);
+        if (whiteScore > blackScore) {
+            return getWhitePlayer();
+        } else if (blackScore > whiteScore) {
+            return getBlackPlayer();
+        }
+        return null;
+    }
+
+    private int getCurrentScore(@NotNull Color playerColor) throws RuntimeException {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         if (playerColor == Color.WHITE) {
             return freedomPointsCounter.getPlayerScore(Color.WHITE);
@@ -86,14 +99,6 @@ public class FreedomGame extends Game {
         } else {
             throw new RuntimeException("Invalid player color, must be either black or white");
         }
-    }
-
-    public @NotNull SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public @NotNull BitmapFont getFont() {
-        return font;
     }
 
     public Board<Stone> getBoard() {
