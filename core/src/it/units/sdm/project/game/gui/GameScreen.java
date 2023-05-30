@@ -59,8 +59,6 @@ public class GameScreen implements Screen {
     private final TextureAtlas atlas;
     @NotNull
     private final TextArea firstTextArea;
-    @NotNull
-    private final Dialog lastMoveDialog;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -70,7 +68,6 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        lastMoveDialog = new LastMoveDialog(game, skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
@@ -89,10 +86,7 @@ public class GameScreen implements Screen {
     }
 
     private void initDialogs() {
-        lastMoveDialog.text("Do you want to put the last stone?");
-        lastMoveDialog.button("Yes", "Yes");
-        lastMoveDialog.button("No", "No");
-        lastMoveDialog.setSize(500, 200);
+
     }
 
     private void initTextures() {
@@ -144,7 +138,6 @@ public class GameScreen implements Screen {
     public void show() {
         game.getBoard().clearBoard();
         game.getPlayersMovesHistory().clear();
-        game.getStatusHandler().proceedToNextState();
     }
 
     @Override
@@ -213,11 +206,21 @@ public class GameScreen implements Screen {
                     highlightValidPositionsForNextMove();
                 }
             } else if (game.getGameStatus() == GameStatus.LAST_MOVE) {
-
-            }
-
-            if (game.getGameStatus() == GameStatus.LAST_MOVE) {
-                lastMoveDialog.show(stage).setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
+                LastMoveDialog lastMoveDialog = new LastMoveDialog(game, skin);
+                lastMoveDialog.show(stage);
+            } else if (game.getGameStatus() == GameStatus.PLAY_LAST_MOVE) {
+                Set<Position> allowedPositions = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                        .filter(position -> !game.getBoard().isCellOccupied(position))
+                        .collect(Collectors.toSet());
+                if (!allowedPositions.contains(inputPosition)) {
+                    return;
+                } else {
+                    resetCurrentlyHighlightedCells();
+                    putStoneOnTheBoard(currentPlayer, inputPosition);
+                    highlightValidPositionsForNextMove();
+                }
+                GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
+                gameOverDialog.show(stage);
             }
             super.clicked(event, x, y);
         }

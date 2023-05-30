@@ -14,6 +14,10 @@ public class LastMoveDialog extends Dialog {
         super("", skin);
         this.game = game;
         this.skin = skin;
+        text("Do you want to put the last stone?");
+        button("Yes", "Yes");
+        button("No", "No");
+        setSize(500, 200);
         padBottom(40f);
     }
     @Override
@@ -24,6 +28,8 @@ public class LastMoveDialog extends Dialog {
         }
         String message = (String) object;
         if (message.equals("Yes")) {
+            game.getStatusHandler().proceedToNextState();
+            hide();
         } else {
             hide();
             GameOverDialog gameOverDialog = new GameOverDialog(game, skin);

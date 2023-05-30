@@ -11,7 +11,7 @@ public class GameStatusHandler {
     @NotNull
     private final FreedomGame game;
     @NotNull
-    private GameStatus status = GameStatus.START;
+    private GameStatus status = GameStatus.FREEDOM;
 
     public GameStatusHandler(@NotNull FreedomGame game) {
         this.game = game;
@@ -24,14 +24,14 @@ public class GameStatusHandler {
 
     public void proceedToNextState() {
         switch (status) {
-            case START:
-                status = GameStatus.FREEDOM;
-                break;
             case LAST_MOVE:
+                status = GameStatus.PLAY_LAST_MOVE;
+                break;
+            case PLAY_LAST_MOVE:
                 status = GameStatus.GAME_OVER;
                 break;
             case GAME_OVER:
-                status = GameStatus.START;
+                status = GameStatus.FREEDOM;
                 break;
             case FREEDOM:
             case NO_FREEDOM:
