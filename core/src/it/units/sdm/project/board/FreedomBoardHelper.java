@@ -10,7 +10,7 @@ public class FreedomBoardHelper {
 
     public static long getNumberOfFreeCells(@NotNull Board<? extends Stone> board) {
         return board.getPositions().stream()
-                .filter(boardCell -> board.getPiece(boardCell) == null)
+                .filter(position -> !board.isCellOccupied(position))
                 .count();
     }
 
