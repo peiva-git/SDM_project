@@ -195,9 +195,7 @@ public class GameScreen implements Screen {
                     highlightValidPositionsForNextMove();
                 }
             } else if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
-                Set<Position> allowedPositions = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
-                        .filter(position -> !game.getBoard().isCellOccupied(position))
-                        .collect(Collectors.toSet());
+                Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
                 if (!allowedPositions.contains(inputPosition)) {
                     return;
                 } else {
@@ -209,9 +207,7 @@ public class GameScreen implements Screen {
                 LastMoveDialog lastMoveDialog = new LastMoveDialog(game, skin);
                 lastMoveDialog.show(stage);
             } else if (game.getGameStatus() == GameStatus.PLAY_LAST_MOVE) {
-                Set<Position> allowedPositions = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
-                        .filter(position -> !game.getBoard().isCellOccupied(position))
-                        .collect(Collectors.toSet());
+                Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
                 if (!allowedPositions.contains(inputPosition)) {
                     return;
                 } else {
@@ -223,6 +219,13 @@ public class GameScreen implements Screen {
                 gameOverDialog.show(stage);
             }
             super.clicked(event, x, y);
+        }
+
+        @NotNull
+        private Set<Position> findAllowedPositionsFromLastPlayedPosition() {
+            return FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                    .filter(position -> !game.getBoard().isCellOccupied(position))
+                    .collect(Collectors.toSet());
         }
 
         private void putStoneOnTheBoard(@NotNull Player currentPlayer, @NotNull Position inputPosition) {
@@ -257,9 +260,7 @@ public class GameScreen implements Screen {
         }
 
         private void highlightValidPositionsForNextMove() {
-            Set<Position> positionsToHighlight = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
-                    .filter(position -> !game.getBoard().isCellOccupied(position))
-                    .collect(Collectors.toSet());
+            Set<Position> positionsToHighlight = findAllowedPositionsFromLastPlayedPosition();
             List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
             for (int i = 0; i < boardLayout.getCells().size; i++) {
                 Cell<Actor> cell = boardLayout.getCells().get(i);
