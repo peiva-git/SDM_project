@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,8 +81,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         for (Cell cell : getCells()) {
             if (cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn()) {
                 Stack stack = (Stack) cell.getActor();
-                stack.setName(null);
-                stack.clearChildren();
+                stack.setUserObject(null);
+                Actor child = stack.getChild(1);
+                if(child != null) {
+                    child.clear();
+                }
             }
         }
     }
@@ -91,8 +94,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public void clearBoard() {
         for (Cell cell : getCells()) {
             Stack stack = (Stack) cell.getActor();
-            stack.setName(null);
-            stack.clearChildren();
+            stack.setUserObject(null);
+            Actor child = stack.getChild(1);
+            if(child != null) {
+                child.clear();
+            }
         }
     }
 
