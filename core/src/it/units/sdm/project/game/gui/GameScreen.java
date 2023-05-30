@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.FreedomBoardHelper;
@@ -25,7 +24,6 @@ import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.*;
@@ -150,7 +148,13 @@ public class GameScreen implements Screen {
         switch (game.getGameStatus()) {
             case GAME_OVER:
                 gameOverDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
-                stage.addActor(gameOverDialog);
+                Player winner = game.getCurrentWinner();
+                if (winner != null) {
+                    gameOverDialog.text("The winner is " + winner);
+                } else {
+                    gameOverDialog.text("Tie!");
+                }
+                game.setGameStatus(GameStatus.DISPLAY_WINNER);
                 break;
             case LAST_MOVE:
                 lastMoveDialog.setPosition(container.getWidth() / 2 - lastMoveDialog.getWidth() / 2, container.getHeight() / 2 - lastMoveDialog.getHeight() / 2);
@@ -162,6 +166,9 @@ public class GameScreen implements Screen {
                 game.setGameStatus(GameStatus.FREEDOM);
                 game.setScreen(new GameScreen(game));
                 dispose();
+                break;
+            case DISPLAY_WINNER:
+                stage.addActor(gameOverDialog);
                 break;
             case EXIT:
                 Gdx.app.exit();
