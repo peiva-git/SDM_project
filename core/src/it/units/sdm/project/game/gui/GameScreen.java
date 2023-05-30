@@ -213,10 +213,9 @@ public class GameScreen implements Screen {
                 } else {
                     resetCurrentlyHighlightedCells();
                     putStoneOnTheBoard(currentPlayer, inputPosition);
-                    highlightValidPositionsForNextMove();
+                    GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
+                    gameOverDialog.show(stage);
                 }
-                GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
-                gameOverDialog.show(stage);
             }
             super.clicked(event, x, y);
         }
