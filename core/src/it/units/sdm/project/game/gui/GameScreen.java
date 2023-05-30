@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -73,8 +72,8 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        lastMoveDialog = new FreedomGameDialog(game, skin);
-        gameOverDialog = new FreedomGameDialog(game, skin);
+        lastMoveDialog = new GameStatusChangeDialog(game, skin);
+        gameOverDialog = new GameStatusChangeDialog(game, skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
