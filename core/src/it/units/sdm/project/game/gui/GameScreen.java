@@ -167,7 +167,10 @@ public class GameScreen implements Screen {
                 dispose();
                 break;
             case DISPLAY_WINNER:
-                stage.addActor(gameOverDialog);
+                if (!gameOverDialog.isVisible()) {
+                    gameOverDialog.show(stage);
+                    stage.addActor(gameOverDialog);
+                }
                 break;
             case EXIT:
                 Gdx.app.exit();
@@ -176,7 +179,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override

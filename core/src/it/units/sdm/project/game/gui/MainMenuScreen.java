@@ -26,7 +26,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         logo = new Texture(Gdx.files.internal("freedom_logo.png"));
         initialMenu = new Table();
         initMenu();

@@ -16,11 +16,11 @@ public class GameStatusChangeDialog extends Dialog {
     }
     @Override
     protected void result(Object object) {
+        super.result(object);
         if(!(object instanceof GameStatus)) {
             return;
         }
         GameStatus gameStatus = (GameStatus) object;
         game.setGameStatus(gameStatus);
     }
-
 }
