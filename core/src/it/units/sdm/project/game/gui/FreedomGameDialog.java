@@ -12,6 +12,7 @@ public class FreedomGameDialog extends Dialog {
     public FreedomGameDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;
+        padBottom(40f);
     }
     @Override
     protected void result(Object object) {
