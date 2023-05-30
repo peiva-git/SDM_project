@@ -10,21 +10,20 @@ import org.jetbrains.annotations.NotNull;
 public class GuiStone extends Stone {
 
     @NotNull
-    private final Image tile;
+    private final Image image;
 
-    public GuiStone(@NotNull Color color) {
+    public GuiStone(@NotNull Color color, @NotNull Image image) {
         super(color);
-        Texture stoneTexture;
-        if(color == Color.WHITE) {
-            stoneTexture =  new Texture(Gdx.files.internal("redCircle.png"));
-        } else {
-            stoneTexture =  new Texture(Gdx.files.internal("circle2.png"));
-        }
-        this.tile = new Image(stoneTexture);
+        this.image = image;
+    }
+
+    public GuiStone(@NotNull Color color, @NotNull Texture texture) {
+        super(color);
+        this.image = new Image(texture);
     }
 
     @NotNull
-    public Image getTile() {
-        return tile;
+    public Image getImage() {
+        return image;
     }
 }
