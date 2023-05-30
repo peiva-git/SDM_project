@@ -118,7 +118,7 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.getBoard().clearBoard();
                 game.getPlayersMovesHistory().clear();
-                game.setGameStatus(GameStatus.STARTED);
+                game.setGameStatus(GameStatus.FREEDOM);
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
@@ -252,7 +252,7 @@ public class GameScreen implements Screen {
             Actor clickedActor = event.getListenerActor();
             Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
             Position inputPosition = getPositionFromTile(clickedTile);
-            if (game.getGameStatus() == GameStatus.FREEDOM || game.getGameStatus() == GameStatus.STARTED) {
+            if (game.getGameStatus() == GameStatus.FREEDOM) {
                 if (game.getBoard().isCellOccupied(inputPosition)) {
                     return;
                 } else {

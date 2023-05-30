@@ -35,7 +35,7 @@ public class FreedomGame extends Game {
         font = new BitmapFont();
         board = new MapBoard<>(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         setScreen(new MainMenuScreen(this));
-        gameStatus = GameStatus.STARTED;
+        gameStatus = GameStatus.FREEDOM;
     }
 
     @Override

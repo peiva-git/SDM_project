@@ -26,7 +26,7 @@ public class FreedomGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = GameStatus.NOT_STARTED;
+    private GameStatus gameStatus = GameStatus.FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
 
