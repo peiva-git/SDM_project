@@ -130,8 +130,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        stage.draw();
         stage.act(delta);
+        stage.draw();
     }
 
     @Override
