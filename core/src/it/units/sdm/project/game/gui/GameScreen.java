@@ -235,16 +235,7 @@ public class GameScreen implements Screen {
                 game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
                 Image whiteStone = new Image(whiteStoneImage);
                 tileAndPiece.addActor(whiteStone);
-                long currentStep = game.getPlayersMovesHistory().stream()
-                        .filter(move -> move.getPlayer().getColor() == Color.WHITE)
-                        .count();
-                if (currentStep < 10) {
-                    firstTextArea.appendText("  " + currentStep + ". " + inputPosition);
-                } else if (currentStep < 100) {
-                    firstTextArea.appendText(" " + currentStep + ". " + inputPosition);
-                } else {
-                    firstTextArea.appendText(currentStep + ". " + inputPosition);
-                }
+                printFormattedMoveOnTheLogArea(inputPosition);
             } else {
                 game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
                 game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
@@ -253,6 +244,19 @@ public class GameScreen implements Screen {
                 firstTextArea.appendText("     " + inputPosition + "\n");
             }
             game.getStatusHandler().proceedToNextState();
+        }
+
+        private void printFormattedMoveOnTheLogArea(@NotNull Position inputPosition) {
+            long currentStep = game.getPlayersMovesHistory().stream()
+                    .filter(move -> move.getPlayer().getColor() == Color.WHITE)
+                    .count();
+            if (currentStep < 10) {
+                firstTextArea.appendText("  " + currentStep + ". " + inputPosition);
+            } else if (currentStep < 100) {
+                firstTextArea.appendText(" " + currentStep + ". " + inputPosition);
+            } else {
+                firstTextArea.appendText(currentStep + ". " + inputPosition);
+            }
         }
 
         @NotNull
