@@ -203,9 +203,6 @@ public class GameScreen implements Screen {
                     putStoneOnTheBoard(currentPlayer, inputPosition);
                     highlightValidPositionsForNextMove();
                 }
-            } else if (game.getGameStatus() == GameStatus.LAST_MOVE) {
-                LastMoveDialog lastMoveDialog = new LastMoveDialog(game, skin);
-                lastMoveDialog.show(stage);
             } else if (game.getGameStatus() == GameStatus.PLAY_LAST_MOVE) {
                 Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
                 if (!allowedPositions.contains(inputPosition)) {
@@ -216,6 +213,11 @@ public class GameScreen implements Screen {
                     GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
                     gameOverDialog.show(stage);
                 }
+            }
+
+            if (game.getGameStatus() == GameStatus.LAST_MOVE) {
+                LastMoveDialog lastMoveDialog = new LastMoveDialog(game, skin);
+                lastMoveDialog.show(stage);
             }
             super.clicked(event, x, y);
         }
