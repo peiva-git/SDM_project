@@ -2,6 +2,7 @@ package it.units.sdm.project.board.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.units.sdm.project.board.Stone;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class GuiStone extends Stone {
     }
 
     @NotNull
-    public Image getImage() {
+    public Actor getActor() {
         return image;
     }
 }
