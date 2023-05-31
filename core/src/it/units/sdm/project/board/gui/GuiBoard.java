@@ -71,7 +71,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(screen.getGame(), screen.getSkin(), screen.getStage(), screen.getContainer()));
+            tileAndPiece.addListener(new TileClickListener(screen.getGame(), screen.getSkin(), screen.getStage(), screen.getFirstTextArea(), this));
             add(tileAndPiece).size(TILE_SIZE);
         }
     }

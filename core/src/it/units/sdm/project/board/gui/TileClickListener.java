@@ -44,12 +44,12 @@ class TileClickListener extends ClickListener {
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
 
-    public TileClickListener(@NotNull FreedomGame game, @NotNull Skin skin, @NotNull Stage stage, @NotNull Table container) {
+    public TileClickListener(@NotNull FreedomGame game, @NotNull Skin skin, @NotNull Stage stage, @NotNull TextArea firstTextArea, @NotNull Table boardLayout) {
         this.game = game;
         this.skin = skin;
         this.stage = stage;
-        firstTextArea = (TextArea) container.getChild(0);
-        boardLayout = (Table) container.getChild(1);
+        this.firstTextArea = firstTextArea;
+        this.boardLayout = boardLayout;
     }
 
     @Override

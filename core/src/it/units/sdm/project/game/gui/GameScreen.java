@@ -29,16 +29,16 @@ public class GameScreen implements Screen {
     @NotNull
     private final Skin skin;
     @NotNull
-    private final Table container;
+    private final TextArea firstTextArea;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
-        container = new Table();
+        Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         GuiBoard boardLayout = new GuiBoard(this, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, DARK_TILE, LIGHT_TILE);
-        TextArea firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         skin.addRegions(atlas);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
         return skin;
     }
 
-    public @NotNull Table getContainer() {
-        return container;
+    public @NotNull TextArea getFirstTextArea() {
+        return firstTextArea;
     }
 }
