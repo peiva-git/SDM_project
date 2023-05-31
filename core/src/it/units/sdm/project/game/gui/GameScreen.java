@@ -48,10 +48,6 @@ public class GameScreen implements Screen {
     @NotNull
     private final Stage stage;
     @NotNull
-    private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
-    @NotNull
-    private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
-    @NotNull
     private Texture whiteSquareTexture;
     @NotNull
     private final Skin skin;
@@ -120,7 +116,7 @@ public class GameScreen implements Screen {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(tileAndPiece));
+            tileAndPiece.addListener(new TileClickListener(game, skin, stage, container));
             boardLayout.add(tileAndPiece).size(TILE_SIZE);
         }
     }
@@ -166,8 +162,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        whiteStoneImage.dispose();
-        blackStoneImage.dispose();
         whiteSquareTexture.dispose();
         skin.dispose();
         // the skin disposes of the atlas
@@ -175,18 +169,35 @@ public class GameScreen implements Screen {
     }
 
     private class TileClickListener extends ClickListener {
+        private final @NotNull TextArea firstTextArea;
+        private final @NotNull Table boardLayout;
+        private Stack tileAndPiece;
         @NotNull
-        private final Stack tileAndPiece;
+        private final FreedomGame game;
+        @NotNull
+        private final Skin skin;
+        @NotNull
+        private final Stage stage;
+        private final Table container;
+        @NotNull
+        private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
+        @NotNull
+        private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
 
-        public TileClickListener(@NotNull Stack tileAndPiece) {
-            this.tileAndPiece = tileAndPiece;
+        public TileClickListener(@NotNull FreedomGame game, @NotNull Skin skin, @NotNull Stage stage, @NotNull Table container) {
+            this.game = game;
+            this.skin = skin;
+            this.stage = stage;
+            this.container = container;
+            firstTextArea = (TextArea) container.getChild(0);
+            boardLayout = (Table) container.getChild(1);
         }
 
         @Override
         public void clicked(@NotNull InputEvent event, float x, float y) {
             Player currentPlayer = game.nextPlayer();
-            Actor clickedActor = event.getListenerActor();
-            Cell<Actor> clickedTile = boardLayout.getCell(clickedActor);
+            tileAndPiece = (Stack) event.getListenerActor();
+            Cell<Actor> clickedTile = boardLayout.getCell(tileAndPiece);
             Position inputPosition = getPositionFromTile(clickedTile);
             if (game.getGameStatus() == GameStatus.FREEDOM) {
                 if (game.getBoard().isCellOccupied(inputPosition)) {
