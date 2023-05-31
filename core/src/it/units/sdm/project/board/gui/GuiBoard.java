@@ -84,7 +84,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 stack.setUserObject(null);
                 Actor child = stack.getChild(1);
                 if(child != null) {
-                    child.clear();
+                    child.remove();
                 }
             }
         }
