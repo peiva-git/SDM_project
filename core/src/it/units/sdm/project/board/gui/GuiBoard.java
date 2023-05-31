@@ -1,12 +1,12 @@
 package it.units.sdm.project.board.gui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.SnapshotArray;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -82,61 +82,71 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
-        for (Cell cell : getCells()) {
-            if (checkCellPosition(position, cell)) {
-                Stack stack = (Stack) cell.getActor();
-                stack.setUserObject(null);
-                Actor child = stack.getChild(1);
-                if(child != null) {
-                    child.remove();
+        for (Cell<Actor> cell : getCells()) {
+            if (isPositionPointingToCell(position, cell)) {
+                Stack tileAndPiece = (Stack) cell.getActor();
+                tileAndPiece.setUserObject(null);
+                if (tileAndPiece.getChildren().size == 2) {
+                    tileAndPiece.removeActorAt(1, false);
+                } else {
+                    Gdx.app.debug("GUI_BOARD", "No piece at position " + position + ", already clear");
                 }
+                return;
             }
         }
+        throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
-    private static boolean checkCellPosition(@NotNull Position position, Cell cell) {
+    private static boolean isPositionPointingToCell(@NotNull Position position, Cell<Actor> cell) {
         return cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn();
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void clearBoard() {
-        for (Cell cell : getCells()) {
+        for (Cell<Actor> cell : getCells()) {
             clearCell(Position.fromCoordinates(cell.getRow(), cell.getColumn()));
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
-        for(Cell cell : getCells()) {
-            if(checkCellPosition(position, cell)) {
-                Stack stack = (Stack) cell.getActor();
-                stack.addActor(piece.getImage());
-                stack.setUserObject(piece.getColor());
-                break;
+        for(Cell<Actor> cell : getCells()) {
+            if(isPositionPointingToCell(position, cell)) {
+                Stack tileAndPiece = (Stack) cell.getActor();
+                tileAndPiece.addActor(piece.getImage());
+                tileAndPiece.setUserObject(piece.getColor());
+                return;
             }
         }
+        throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
-        for(Cell cell : getCells()) {
-            if(checkCellPosition(position, cell)) {
-                Stack stack = (Stack) cell.getActor();
-                SnapshotArray<Actor> actorSnapshotArray = stack.getChildren();
-                if(actorSnapshotArray.size == 1) return null;
-                Image image = (Image) stack.getChild(1);
-                if(image == null) return null;
-                return new GuiStone((Color) stack.getUserObject(), image);
+        for(Cell<Actor> cell : getCells()) {
+            if(isPositionPointingToCell(position, cell)) {
+                Stack tileAndPiece = (Stack) cell.getActor();
+                if (tileAndPiece.getChildren().size < 2) {
+                    return null;
+                } else {
+                    Image image = (Image) tileAndPiece.getChild(1);
+                    return new GuiStone((Color) tileAndPiece.getUserObject(), image);
+                }
             }
         }
-        return null;
+        throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public @NotNull Set<Position> getPositions() {
         Set<Position> positions = new TreeSet<>();
-        for(Cell cell : getCells()) {
+        for(Cell<Actor> cell : getCells()) {
             positions.add(Position.fromCoordinates(cell.getRow(), cell.getColumn()));
         }
         return positions;
