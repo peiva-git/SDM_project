@@ -117,7 +117,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         for(Cell<Actor> cell : getCells()) {
             if(isPositionPointingToCell(position, cell)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
-                tileAndPiece.addActor(piece.getImage());
+                tileAndPiece.addActor(piece.getActor());
                 tileAndPiece.setUserObject(piece.getColor());
                 return;
             }
