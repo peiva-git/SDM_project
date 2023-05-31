@@ -100,13 +100,13 @@ class TileClickListener extends ClickListener {
         if (currentPlayer.getColor() == Color.WHITE) {
             game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
             game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
-            Image whiteStone = new Image(whiteStoneImage);
+            Actor whiteStone = new Image(whiteStoneImage);
             tileAndPiece.addActor(whiteStone);
             printFormattedMoveOnTheLogArea(inputPosition);
         } else {
             game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
             game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
-            Image blackStone = new Image(blackStoneImage);
+            Actor blackStone = new Image(blackStoneImage);
             tileAndPiece.addActor(blackStone);
             firstTextArea.appendText("     " + inputPosition + "\n");
         }
