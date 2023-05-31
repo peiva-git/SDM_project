@@ -43,24 +43,10 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     @Override
-    public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        Cell<P> cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
-        return cell.isOccupied();
-    }
-
-    @Override
     public void clearCell(@NotNull Position position) {
         Cell<P> cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
-    }
-
-    @Override
-    public void clearBoard() {
-        for (Cell<P> cell : cells.values()) {
-            cell.clear();
-        }
     }
 
     @Override
@@ -133,13 +119,8 @@ public class MapBoard<P extends Stone> implements Board<P> {
             return piece;
         }
 
-        public boolean isOccupied() {
-            return piece != null;
-        }
-
         public void clear() {
             this.piece = null;
         }
-
     }
 }
