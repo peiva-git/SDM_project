@@ -42,8 +42,6 @@ public class GameScreen implements Screen {
     private final Table container;
     @NotNull
     private final TextureAtlas atlas;
-    @NotNull
-    private final TextArea firstTextArea;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -52,7 +50,7 @@ public class GameScreen implements Screen {
         container = new Table();
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
+        @NotNull TextArea firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         // init tile textures //
         initTextures();
         // the above part may be incorporated in a custom texture pack //
@@ -67,11 +65,6 @@ public class GameScreen implements Screen {
         container.add(firstTextArea).expand().fill();
         container.add(boardLayout).width(NUMBER_OF_COLUMNS * TILE_SIZE);
         initBoard();
-        initDialogs();
-    }
-
-    private void initDialogs() {
-
     }
 
     private void initTextures() {
