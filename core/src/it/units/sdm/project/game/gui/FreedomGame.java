@@ -101,14 +101,6 @@ public class FreedomGame extends Game {
         }
     }
 
-    public @NotNull SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public @NotNull BitmapFont getFont() {
-        return font;
-    }
-
     public Board<Stone> getBoard() {
         return board;
     }
