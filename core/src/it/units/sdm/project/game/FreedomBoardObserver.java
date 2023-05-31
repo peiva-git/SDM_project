@@ -1,6 +1,5 @@
 package it.units.sdm.project.game;
 
-import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Stone;
@@ -8,27 +7,34 @@ import it.units.sdm.project.enums.GameStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FreedomGameObserver {
+public class FreedomBoardObserver {
+
+    @NotNull
+    Board<? extends Stone> board;
+
+    public FreedomBoardObserver(@NotNull Board<? extends Stone> board) {
+        this.board = board;
+    }
 
     @Nullable
-    public static Color getCurrentWinnerColor(@NotNull Board<? extends Stone> board) {
-        int whiteScore = getCurrentScore(board, Color.WHITE);
-        int blackScore = getCurrentScore(board, Color.BLACK);
+    public Player getCurrentWinner(@NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+        int whiteScore = getCurrentScore(whitePlayer);
+        int blackScore = getCurrentScore(blackPlayer);
         if (whiteScore > blackScore) {
-            return Color.WHITE;
+            return whitePlayer;
         } else if (blackScore > whiteScore) {
-            return Color.BLACK;
+            return blackPlayer;
         }
         return null;
     }
 
-    private static int getCurrentScore(@NotNull Board<? extends Stone> board, @NotNull Color playerColor) {
+    private int getCurrentScore(@NotNull Player player) {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        return freedomPointsCounter.getPlayerScore(playerColor);
+        return freedomPointsCounter.getPlayerScore(player);
     }
 
     @NotNull
-    public static GameStatus getCurrentGameStatus(@NotNull Board<? extends Stone> board, @Nullable Move lastMove) {
+    public GameStatus getCurrentGameStatus(@Nullable Move lastMove) {
         long numberOfFreeCells = BoardUtils.getNumberOfFreeCells(board);
         if (numberOfFreeCells > 1) {
             if (lastMove == null || BoardUtils.areAdjacentCellsOccupied(board, lastMove.getPosition())) {

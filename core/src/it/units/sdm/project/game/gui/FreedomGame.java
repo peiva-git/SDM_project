@@ -93,9 +93,9 @@ public class FreedomGame extends Game {
     private int getCurrentScore(@NotNull Color playerColor) throws RuntimeException {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         if (playerColor == Color.WHITE) {
-            return freedomPointsCounter.getPlayerScore(Color.WHITE);
+            return freedomPointsCounter.getPlayerScore(whitePlayer);
         } else if (playerColor == Color.BLACK) {
-            return freedomPointsCounter.getPlayerScore(Color.BLACK);
+            return freedomPointsCounter.getPlayerScore(blackPlayer);
         } else {
             throw new RuntimeException("Invalid player color, must be either black or white");
         }

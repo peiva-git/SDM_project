@@ -1,12 +1,11 @@
 package it.units.sdm.project;
 
-import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.game.FreedomGameObserver;
+import it.units.sdm.project.game.FreedomBoardObserver;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
@@ -26,6 +25,8 @@ public class FreedomGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
+    @NotNull
+    private final FreedomBoardObserver freedomBoardObserver;
     private GameStatus gameStatus = GameStatus.FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
@@ -34,6 +35,7 @@ public class FreedomGame {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
+        freedomBoardObserver = new FreedomBoardObserver(board);
     }
 
     public void start() {
@@ -44,20 +46,14 @@ public class FreedomGame {
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
-        Color winnerColor = FreedomGameObserver.getCurrentWinnerColor(board);
+        Player winner = freedomBoardObserver.getCurrentWinner(whitePlayer, blackPlayer);
         System.out.println(board);
-        if (winnerColor != null) {
-            System.out.println("The winner is: " + getPlayerFromColor(winnerColor));
+        if (winner != null) {
+            System.out.println("The winner is: " + winner);
         } else {
             System.out.println("Tie!");
         }
         end();
-    }
-
-    @NotNull
-    private Player getPlayerFromColor(@NotNull Color color) {
-        if(color == Color.WHITE) return whitePlayer;
-        return blackPlayer;
     }
 
     private void end() {
@@ -94,7 +90,7 @@ public class FreedomGame {
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
-        gameStatus = FreedomGameObserver.getCurrentGameStatus(board, playersMovesHistory.getLast());
+        gameStatus = freedomBoardObserver.getCurrentGameStatus(playersMovesHistory.getLast());
     }
 
     @NotNull
