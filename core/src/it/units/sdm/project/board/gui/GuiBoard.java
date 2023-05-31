@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.game.gui.GameScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,14 +27,17 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private final Color lightTile;
     private final int numberOfColumns;
     @NotNull
+    private final GameScreen screen;
+    @NotNull
     private Texture whiteSquareTexture;
 
-    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
-        super(skin);
+    public GuiBoard(@NotNull GameScreen screen, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
+        super(screen.getSkin());
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         this.darkTile = darkTile;
         this.lightTile = lightTile;
+        this.screen = screen;
         initTextures();
         initBoard();
     }
@@ -67,7 +71,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(tileAndPiece));
+            tileAndPiece.addListener(new TileClickListener(screen.getGame(), screen.getSkin(), screen.getStage(), screen.getContainer()));
             add(tileAndPiece).size(TILE_SIZE);
         }
     }
