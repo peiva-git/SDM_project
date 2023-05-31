@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.SnapshotArray;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -118,7 +119,10 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         for(Cell cell : getCells()) {
             if(checkCellPosition(position, cell)) {
                 Stack stack = (Stack) cell.getActor();
-                Image image = (Image) stack.getChild(0);
+                SnapshotArray<Actor> actorSnapshotArray = stack.getChildren();
+                if(actorSnapshotArray.size == 1) return null;
+                Image image = (Image) stack.getChild(1);
+                if(image == null) return null;
                 return new GuiStone((Color) stack.getUserObject(), image);
             }
         }
