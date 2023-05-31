@@ -22,6 +22,8 @@ public class FreedomGame extends Game {
 
     public static final int NUMBER_OF_ROWS = 2;
     public static final int NUMBER_OF_COLUMNS = 2;
+    public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
+    public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private SpriteBatch batch;
     private BitmapFont font;
     private Board<Stone> board;
