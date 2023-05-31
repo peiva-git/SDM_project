@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import it.units.sdm.project.board.FreedomBoardHelper;
+import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
@@ -236,7 +236,7 @@ public class GameScreen implements Screen {
                     highlightValidPositionsForNextMove();
                 }
             } else if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
-                Set<Position> allowedPositions = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                Set<Position> allowedPositions = BoardUtils.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
                         .filter(position -> !game.getBoard().isCellOccupied(position))
                         .collect(Collectors.toSet());
                 if (!allowedPositions.contains(inputPosition)) {
@@ -282,7 +282,7 @@ public class GameScreen implements Screen {
         }
 
         private void highlightValidPositionsForNextMove() {
-            Set<Position> positionsToHighlight = FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
+            Set<Position> positionsToHighlight = BoardUtils.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
                     .filter(position -> !game.getBoard().isCellOccupied(position))
                     .collect(Collectors.toSet());
             List<Cell<Actor>> cellsToHighlight = new ArrayList<>();

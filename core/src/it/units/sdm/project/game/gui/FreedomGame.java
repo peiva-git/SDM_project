@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.units.sdm.project.board.FreedomBoardHelper;
+import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.enums.GameStatus;
@@ -63,9 +63,9 @@ public class FreedomGame extends Game {
 
     public void updateCurrentGameStatus() {
         if (gameStatus != GameStatus.GAME_OVER) {
-            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
+            long numberOfFreeCells = BoardUtils.getNumberOfFreeCells(board);
             if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
+                if (playersMovesHistory.isEmpty() || BoardUtils.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
                     gameStatus = GameStatus.FREEDOM;
                 } else {
                     gameStatus = GameStatus.NO_FREEDOM;

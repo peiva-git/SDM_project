@@ -1,7 +1,7 @@
 package it.units.sdm.project;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.FreedomBoardHelper;
+import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
@@ -118,7 +118,7 @@ public class FreedomGame {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = FreedomBoardHelper.getAdjacentPositions(board, lastPosition);
+        Set<Position> adjacentPositions = BoardUtils.getAdjacentPositions(board, lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int displayedRow = adjacentPosition.getRow() + 1;

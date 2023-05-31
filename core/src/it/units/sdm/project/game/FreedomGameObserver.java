@@ -2,7 +2,7 @@ package it.units.sdm.project.game;
 
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Board;
-import it.units.sdm.project.board.FreedomBoardHelper;
+import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import org.jetbrains.annotations.NotNull;
@@ -29,9 +29,9 @@ public class FreedomGameObserver {
 
     @NotNull
     public static GameStatus getCurrentGameStatus(@NotNull Board<? extends Stone> board, @Nullable Move lastMove) {
-        long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
+        long numberOfFreeCells = BoardUtils.getNumberOfFreeCells(board);
         if (numberOfFreeCells > 1) {
-            if (lastMove == null || FreedomBoardHelper.areAdjacentCellsOccupied(board, lastMove.getPosition())) {
+            if (lastMove == null || BoardUtils.areAdjacentCellsOccupied(board, lastMove.getPosition())) {
                 return GameStatus.FREEDOM;
             } else {
                 return GameStatus.NO_FREEDOM;
