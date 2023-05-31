@@ -24,16 +24,17 @@ public class FreedomPointsCounter {
         this.board = board;
     }
 
-    public int getPlayerScore(@NotNull Color color) {
-        if (color == Color.WHITE) {
+    public int getPlayerScore(@NotNull Color color) throws IllegalArgumentException {
+        if (color.equals(Color.WHITE)) {
             this.whiteFreedomLines.clear();
             count(color);
             return whiteFreedomLines.size();
-        } else {
+        } else if(color.equals(Color.BLACK)) {
             this.blackFreedomLines.clear();
             count(color);
             return blackFreedomLines.size();
         }
+        throw new IllegalArgumentException("The color must be either black or white");
     }
 
     /**
