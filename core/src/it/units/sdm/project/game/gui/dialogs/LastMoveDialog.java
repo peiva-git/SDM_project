@@ -1,6 +1,7 @@
-package it.units.sdm.project.game.gui;
+package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 public class LastMoveDialog extends Dialog {

@@ -22,6 +22,8 @@ import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
+import it.units.sdm.project.game.gui.dialogs.GameOverDialog;
+import it.units.sdm.project.game.gui.dialogs.LastMoveDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
