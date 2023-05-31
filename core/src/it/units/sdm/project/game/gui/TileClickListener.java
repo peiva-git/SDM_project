@@ -19,6 +19,7 @@ import it.units.sdm.project.game.gui.dialogs.LastMoveDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -134,7 +135,7 @@ class TileClickListener extends ClickListener {
     @SuppressWarnings("unchecked")
     private void highlightValidPositionsForNextMove() {
         Set<Position> positionsToHighlight = findAllowedPositionsFromLastPlayedPosition();
-        java.util.List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
+        List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < boardLayout.getCells().size; i++) {
             Cell<Actor> cell = boardLayout.getCells().get(i);
             if (positionsToHighlight.contains(getPositionFromTile(cell))) {

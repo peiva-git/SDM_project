@@ -44,8 +44,6 @@ public class GameStatusHandler {
                     status = GameStatus.NO_FREEDOM;
                 }
                 break;
-            default:
-                break;
         }
     }
 }
