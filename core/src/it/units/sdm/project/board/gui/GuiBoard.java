@@ -19,17 +19,21 @@ import java.util.TreeSet;
 public class GuiBoard extends Table implements Board<GuiStone> {
 
     public static final int TILE_SIZE = 75;
-    public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
-    public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private final int numberOfRows;
+    @NotNull
+    private final Color darkTile;
+    @NotNull
+    private final Color lightTile;
     private final int numberOfColumns;
     @NotNull
     private Texture whiteSquareTexture;
 
-    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
+    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
         super(skin);
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
+        this.darkTile = darkTile;
+        this.lightTile = lightTile;
         initTextures();
         initBoard();
     }
@@ -46,9 +50,9 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         for (int i = 0; i < numberOfRows; i++) {
             row();
             if (isIndexEven(i)) {
-                initBoardColumns(DARK_TILE, LIGHT_TILE);
+                initBoardColumns(darkTile, lightTile);
             } else {
-                initBoardColumns(LIGHT_TILE, DARK_TILE);
+                initBoardColumns(lightTile, darkTile);
             }
         }
     }
@@ -56,7 +60,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private void initBoardColumns(Color oddTilesColor, Color evenTilesColor) {
         for (int j = 0; j < numberOfColumns; j++) {
             TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
-            Image tile = new Image(whiteTextureRegion);
+            Actor tile = new Image(whiteTextureRegion);
             if (isIndexEven(j)) {
                 tile.setColor(evenTilesColor);
             } else {
