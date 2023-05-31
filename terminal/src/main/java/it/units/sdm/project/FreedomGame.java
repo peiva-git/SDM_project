@@ -6,7 +6,7 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.FreedomGameObserver;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
@@ -44,14 +44,20 @@ public class FreedomGame {
         while (gameStatus != GameStatus.GAME_OVER) {
             playTurn();
         }
-        Player winner = getCurrentWinner();
+        Color winnerColor = FreedomGameObserver.getCurrentWinnerColor(board);
         System.out.println(board);
-        if (winner != null) {
-            System.out.println("The winner is: " + winner);
+        if (winnerColor != null) {
+            System.out.println("The winner is: " + getPlayerFromColor(winnerColor));
         } else {
             System.out.println("Tie!");
         }
         end();
+    }
+
+    @NotNull
+    private Player getPlayerFromColor(@NotNull Color color) {
+        if(color == Color.WHITE) return whitePlayer;
+        return blackPlayer;
     }
 
     private void end() {
@@ -88,7 +94,7 @@ public class FreedomGame {
             // the current player chose to skip his move, so the position will stay the same
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
-        updateCurrentGameStatus();
+        gameStatus = FreedomGameObserver.getCurrentGameStatus(board, playersMovesHistory.getLast());
     }
 
     @NotNull
@@ -99,23 +105,6 @@ public class FreedomGame {
             return whitePlayer;
         } catch (NoSuchElementException exception) {
             return this.whitePlayer;
-        }
-    }
-
-    private void updateCurrentGameStatus() {
-        if (gameStatus != GameStatus.GAME_OVER) {
-            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
-            if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = GameStatus.FREEDOM;
-                } else {
-                    gameStatus = GameStatus.NO_FREEDOM;
-                }
-            } else if(numberOfFreeCells == 1){
-                gameStatus = GameStatus.LAST_MOVE;
-            } else {
-                gameStatus = GameStatus.GAME_OVER;
-            }
         }
     }
 
@@ -192,16 +181,5 @@ public class FreedomGame {
                 System.out.print("The specified cell is outside of the board range! Pick again: ");
             }
         }
-    }
-
-    @Nullable
-    public Player getCurrentWinner() {
-        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        if (freedomPointsCounter.getPlayerScore(Color.WHITE) > freedomPointsCounter.getPlayerScore(Color.BLACK)) {
-            return whitePlayer;
-        } else if (freedomPointsCounter.getPlayerScore(Color.BLACK) > freedomPointsCounter.getPlayerScore(Color.WHITE)) {
-            return blackPlayer;
-        }
-        return null;
     }
 }
