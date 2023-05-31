@@ -79,7 +79,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     @Override
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell cell : getCells()) {
-            if (cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn()) {
+            if (checkCellPosition(position, cell)) {
                 Stack stack = (Stack) cell.getActor();
                 stack.setUserObject(null);
                 Actor child = stack.getChild(1);
@@ -90,22 +90,21 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         }
     }
 
+    private static boolean checkCellPosition(@NotNull Position position, Cell cell) {
+        return cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn();
+    }
+
     @Override
     public void clearBoard() {
         for (Cell cell : getCells()) {
-            Stack stack = (Stack) cell.getActor();
-            stack.setUserObject(null);
-            Actor child = stack.getChild(1);
-            if(child != null) {
-                child.clear();
-            }
+            clearCell(Position.fromCoordinates(cell.getRow(), cell.getColumn()));
         }
     }
 
     @Override
     public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell cell : getCells()) {
-            if(cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn()) {
+            if(checkCellPosition(position, cell)) {
                 Stack stack = (Stack) cell.getActor();
                 stack.addActor(piece.getImage());
                 stack.setUserObject(piece.getColor());
@@ -117,7 +116,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     @Override
     public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell cell : getCells()) {
-            if(cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn()) {
+            if(checkCellPosition(position, cell)) {
                 Stack stack = (Stack) cell.getActor();
                 Image image = (Image) stack.getChild(0);
                 return new GuiStone((Color) stack.getUserObject(), image);
