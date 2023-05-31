@@ -99,7 +99,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
-    private static boolean isPositionPointingToCell(@NotNull Position position, Cell<Actor> cell) {
+    private static boolean isPositionPointingToCell(@NotNull Position position, @NotNull Cell<Actor> cell) {
         return cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn();
     }
 
