@@ -36,9 +36,9 @@ public class GameStatusHandler {
             case FREEDOM:
             case NO_FREEDOM:
                 Position lastChosenPosition = game.getPlayersMovesHistory().getLast().getPosition();
-                if (FreedomBoardHelper.areAdjacentCellsOccupied(game.getBoard(), lastChosenPosition)) {
+                if (FreedomBoardHelper.getNumberOfFreeCells(game.getBoard()) == 1) {
                     status = GameStatus.FREEDOM;
-                } else if (FreedomBoardHelper.getNumberOfFreeCells(game.getBoard()) == 1) {
+                } else if (FreedomBoardHelper.areAdjacentCellsOccupied(game.getBoard(), lastChosenPosition)) {
                     status = GameStatus.LAST_MOVE;
                 } else {
                     status = GameStatus.NO_FREEDOM;
