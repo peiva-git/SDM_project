@@ -2,6 +2,7 @@ package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
@@ -11,10 +12,13 @@ public class GameStatusHandler {
     @NotNull
     private final FreedomGame game;
     @NotNull
+    private final GuiBoard board;
+    @NotNull
     private GameStatus status = GameStatus.FREEDOM;
 
-    public GameStatusHandler(@NotNull FreedomGame game) {
+    public GameStatusHandler(@NotNull FreedomGame game, @NotNull GuiBoard board) {
         this.game = game;
+        this.board = board;
     }
 
     @NotNull
@@ -36,9 +40,9 @@ public class GameStatusHandler {
             case FREEDOM:
             case NO_FREEDOM:
                 Position lastChosenPosition = game.getPlayersMovesHistory().getLast().getPosition();
-                if (FreedomBoardHelper.getNumberOfFreeCells(game.getBoard()) == 1) {
+                if (FreedomBoardHelper.getNumberOfFreeCells(board) == 1) {
                     status = GameStatus.FREEDOM;
-                } else if (FreedomBoardHelper.areAdjacentCellsOccupied(game.getBoard(), lastChosenPosition)) {
+                } else if (FreedomBoardHelper.areAdjacentCellsOccupied(board, lastChosenPosition)) {
                     status = GameStatus.LAST_MOVE;
                 } else {
                     status = GameStatus.NO_FREEDOM;

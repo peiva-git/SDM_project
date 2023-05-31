@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
     private final Skin skin;
     @NotNull
     private final TextArea firstTextArea;
+    @NotNull
+    private final GuiBoard boardLayout;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -38,7 +40,7 @@ public class GameScreen implements Screen {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        GuiBoard boardLayout = new GuiBoard(this, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, DARK_TILE, LIGHT_TILE);
+        boardLayout = new GuiBoard(game, skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, DARK_TILE, LIGHT_TILE);
         skin.addRegions(atlas);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
@@ -60,7 +62,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        game.getBoard().clearBoard();
+        boardLayout.clearBoard();
         game.getPlayersMovesHistory().clear();
     }
 
@@ -92,19 +94,12 @@ public class GameScreen implements Screen {
         // the skin disposes of the atlas
     }
 
-    public @NotNull FreedomGame getGame() {
-        return game;
-    }
-
-    public @NotNull Stage getStage() {
-        return stage;
-    }
-
-    public @NotNull Skin getSkin() {
-        return skin;
-    }
-
     public @NotNull TextArea getFirstTextArea() {
         return firstTextArea;
+    }
+
+    @NotNull
+    public GuiBoard getBoard() {
+        return boardLayout;
     }
 }

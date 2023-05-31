@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.game.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -30,43 +29,37 @@ import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 class TileClickListener extends ClickListener {
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
-    private final @NotNull TextArea firstTextArea;
-    private final @NotNull Table boardLayout;
-    private Stack tileAndPiece;
+    private final @NotNull GuiBoard board;
     @NotNull
     private final FreedomGame game;
-    @NotNull
-    private final Skin skin;
-    @NotNull
-    private final Stage stage;
     @NotNull
     private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
     @NotNull
     private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
+    @NotNull
+    private final GameStatusHandler statusHandler;
 
-    public TileClickListener(@NotNull FreedomGame game, @NotNull Skin skin, @NotNull Stage stage, @NotNull TextArea firstTextArea, @NotNull Table boardLayout) {
+    public TileClickListener(@NotNull FreedomGame game, @NotNull GuiBoard board) {
+        this.board = board;
         this.game = game;
-        this.skin = skin;
-        this.stage = stage;
-        this.firstTextArea = firstTextArea;
-        this.boardLayout = boardLayout;
+        this.statusHandler = new GameStatusHandler(game, board);
     }
 
     @Override
     public void clicked(@NotNull InputEvent event, float x, float y) {
         Player currentPlayer = game.nextPlayer();
-        tileAndPiece = (Stack) event.getListenerActor();
-        Cell<Actor> clickedTile = boardLayout.getCell(tileAndPiece);
+        Stack tileAndPiece = (Stack) event.getListenerActor();
+        Cell<Actor> clickedTile = board.getCell(tileAndPiece);
         Position inputPosition = getPositionFromTile(clickedTile);
-        if (game.getGameStatus() == GameStatus.FREEDOM) {
-            if (game.getBoard().isCellOccupied(inputPosition)) {
+        if (statusHandler.getStatus() == GameStatus.FREEDOM) {
+            if (board.isCellOccupied(inputPosition)) {
                 return;
             } else {
                 resetCurrentlyHighlightedCells();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
-        } else if (game.getGameStatus() == GameStatus.NO_FREEDOM) {
+        } else if (statusHandler.getStatus() == GameStatus.NO_FREEDOM) {
             Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
@@ -75,47 +68,45 @@ class TileClickListener extends ClickListener {
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
-        } else if (game.getGameStatus() == GameStatus.PLAY_LAST_MOVE) {
+        } else if (statusHandler.getStatus() == GameStatus.PLAY_LAST_MOVE) {
             Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
             } else {
                 resetCurrentlyHighlightedCells();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
-                GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
-                gameOverDialog.show(stage);
+                GameOverDialog gameOverDialog = new GameOverDialog(game, board.getSkin(), statusHandler);
+                gameOverDialog.show(board.getStage());
             }
         }
 
-        if (game.getGameStatus() == GameStatus.LAST_MOVE) {
-            LastMoveDialog lastMoveDialog = new LastMoveDialog(game, skin);
-            lastMoveDialog.show(stage);
+        if (statusHandler.getStatus() == GameStatus.LAST_MOVE) {
+            LastMoveDialog lastMoveDialog = new LastMoveDialog(game, board.getSkin(), statusHandler);
+            lastMoveDialog.show(board.getStage());
         }
         super.clicked(event, x, y);
     }
 
     @NotNull
     private Set<Position> findAllowedPositionsFromLastPlayedPosition() {
-        return FreedomBoardHelper.getAdjacentPositions(game.getBoard(), game.getPlayersMovesHistory().getLast().getPosition()).stream()
-                .filter(position -> !game.getBoard().isCellOccupied(position))
+        return FreedomBoardHelper.getAdjacentPositions(board, game.getPlayersMovesHistory().getLast().getPosition()).stream()
+                .filter(position -> !board.isCellOccupied(position))
                 .collect(Collectors.toSet());
     }
 
     private void putStoneOnTheBoard(@NotNull Player currentPlayer, @NotNull Position inputPosition) {
         if (currentPlayer.getColor() == Color.WHITE) {
-            game.getBoard().putPiece(new Stone(Color.WHITE), inputPosition);
+            Image whiteStone = new Image(whiteStoneImage);
+            board.putPiece(new GuiStone(Color.WHITE, whiteStone), inputPosition);
             game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
-            Actor whiteStone = new Image(whiteStoneImage);
-            tileAndPiece.addActor(whiteStone);
             printFormattedMoveOnTheLogArea(inputPosition);
         } else {
-            game.getBoard().putPiece(new Stone(Color.BLACK), inputPosition);
+            Image blackStone = new Image(blackStoneImage);
+            board.putPiece(new GuiStone(Color.BLACK, blackStone), inputPosition);
             game.getPlayersMovesHistory().add(new Move(game.getBlackPlayer(), inputPosition));
-            Actor blackStone = new Image(blackStoneImage);
-            tileAndPiece.addActor(blackStone);
-            firstTextArea.appendText("     " + inputPosition + "\n");
+            game.appendTextToLogArea("     " + inputPosition + "\n");
         }
-        game.getStatusHandler().proceedToNextState();
+        statusHandler.proceedToNextState();
     }
 
     private void printFormattedMoveOnTheLogArea(@NotNull Position inputPosition) {
@@ -123,11 +114,11 @@ class TileClickListener extends ClickListener {
                 .filter(move -> move.getPlayer().getColor() == Color.WHITE)
                 .count();
         if (currentStep < 10) {
-            firstTextArea.appendText("  " + currentStep + ". " + inputPosition);
+            game.appendTextToLogArea("  " + currentStep + ". " + inputPosition);
         } else if (currentStep < 100) {
-            firstTextArea.appendText(" " + currentStep + ". " + inputPosition);
+            game.appendTextToLogArea(" " + currentStep + ". " + inputPosition);
         } else {
-            firstTextArea.appendText(currentStep + ". " + inputPosition);
+            game.appendTextToLogArea(currentStep + ". " + inputPosition);
         }
     }
 
@@ -140,8 +131,8 @@ class TileClickListener extends ClickListener {
     private void highlightValidPositionsForNextMove() {
         Set<Position> positionsToHighlight = findAllowedPositionsFromLastPlayedPosition();
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
-        for (int i = 0; i < boardLayout.getCells().size; i++) {
-            Cell<Actor> cell = boardLayout.getCells().get(i);
+        for (int i = 0; i < board.getCells().size; i++) {
+            Cell<Actor> cell = board.getCells().get(i);
             if (positionsToHighlight.contains(getPositionFromTile(cell))) {
                 cellsToHighlight.add(cell);
             }
@@ -171,8 +162,8 @@ class TileClickListener extends ClickListener {
 
     @SuppressWarnings("unchecked")
     private void resetCurrentlyHighlightedCells() {
-        for (int i = 0; i < boardLayout.getCells().size; i++) {
-            Cell<Actor> cell = boardLayout.getCells().get(i);
+        for (int i = 0; i < board.getCells().size; i++) {
+            Cell<Actor> cell = board.getCells().get(i);
             Stack tileAndPiece = (Stack) cell.getActor();
             Actor tile = tileAndPiece.getChild(0);
             if (tile.getColor().equals(HIGHLIGHT_DARK_TILE)) {
