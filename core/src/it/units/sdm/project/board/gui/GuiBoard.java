@@ -84,7 +84,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     @SuppressWarnings("unchecked")
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
-            if (isPositionPointingToCell(position, cell)) {
+            if (getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 tileAndPiece.setUserObject(null);
                 if (tileAndPiece.getChildren().size == 2) {
@@ -98,15 +98,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
-    private static boolean isPositionPointingToCell(@NotNull Position position, @NotNull Cell<Actor> cell) {
-        return cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn();
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(isPositionPointingToCell(position, cell)) {
+            if(getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 tileAndPiece.addActor(piece.getActor());
                 tileAndPiece.setUserObject(piece.getColor());
@@ -116,11 +112,16 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
+    @NotNull
+    private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
+        return Position.fromCoordinates(numberOfRows - tile.getRow() - 1, tile.getColumn());
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(isPositionPointingToCell(position, cell)) {
+            if(getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 if (tileAndPiece.getChildren().size < 2) {
                     return null;

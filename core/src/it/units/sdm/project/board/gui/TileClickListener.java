@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -164,7 +165,7 @@ class TileClickListener extends ClickListener {
     private void resetCurrentlyHighlightedCells() {
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
-            Stack tileAndPiece = (Stack) cell.getActor();
+            Group tileAndPiece = (Group) cell.getActor();
             Actor tile = tileAndPiece.getChild(0);
             if (tile.getColor().equals(HIGHLIGHT_DARK_TILE)) {
                 tile.setColor(GameScreen.DARK_TILE);
