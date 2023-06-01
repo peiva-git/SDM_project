@@ -58,7 +58,7 @@ public class FreedomGame implements Game {
     }
 
     private void playTurn() {
-        Player currentPlayer = nextPlayer();
+        Player currentPlayer = getNextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
         switch (gameStatus) {
@@ -88,17 +88,6 @@ public class FreedomGame implements Game {
             playersMovesHistory.add(currentPlayersMoves.getLast());
         }
         updateCurrentGameStatus();
-    }
-
-    @NotNull
-    private Player nextPlayer() {
-        try {
-            Player previousPlayer = playersMovesHistory.getLast().getPlayer();
-            if (previousPlayer.equals(whitePlayer)) return blackPlayer;
-            return whitePlayer;
-        } catch (NoSuchElementException exception) {
-            return this.whitePlayer;
-        }
     }
 
     private void updateCurrentGameStatus() {
