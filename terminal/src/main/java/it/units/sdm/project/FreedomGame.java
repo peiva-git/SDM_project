@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
@@ -26,7 +26,7 @@ public class FreedomGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = GameStatus.FREEDOM;
+    private GameStatusHandler.GameStatus gameStatus = GameStatusHandler.GameStatus.FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
 
@@ -40,8 +40,8 @@ public class FreedomGame {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = GameStatus.FREEDOM;
-        while (gameStatus != GameStatus.GAME_OVER) {
+        gameStatus = GameStatusHandler.GameStatus.FREEDOM;
+        while (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
             playTurn();
         }
         Player winner = getCurrentWinner();
@@ -76,7 +76,7 @@ public class FreedomGame {
                 if (chosenPosition != null) {
                     board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
-                gameStatus = GameStatus.GAME_OVER;
+                gameStatus = GameStatusHandler.GameStatus.GAME_OVER;
                 break;
         }
         if (chosenPosition != null) {
@@ -103,18 +103,18 @@ public class FreedomGame {
     }
 
     private void updateCurrentGameStatus() {
-        if (gameStatus != GameStatus.GAME_OVER) {
+        if (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
             long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
             if (numberOfFreeCells > 1) {
                 if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = GameStatus.FREEDOM;
+                    gameStatus = GameStatusHandler.GameStatus.FREEDOM;
                 } else {
-                    gameStatus = GameStatus.NO_FREEDOM;
+                    gameStatus = GameStatusHandler.GameStatus.NO_FREEDOM;
                 }
             } else if(numberOfFreeCells == 1){
-                gameStatus = GameStatus.LAST_MOVE;
+                gameStatus = GameStatusHandler.GameStatus.LAST_MOVE;
             } else {
-                gameStatus = GameStatus.GAME_OVER;
+                gameStatus = GameStatusHandler.GameStatus.GAME_OVER;
             }
         }
     }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
@@ -25,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static it.units.sdm.project.game.GameStatusHandler.GameStatus.*;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 class TileClickListener extends ClickListener {
@@ -50,7 +50,7 @@ class TileClickListener extends ClickListener {
     public void clicked(@NotNull InputEvent event, float x, float y) {
         Player currentPlayer = game.nextPlayer();
         Position inputPosition = getPositionFromTile(board.getCell(event.getListenerActor()));
-        if (statusHandler.getStatus() == GameStatus.FREEDOM) {
+        if (statusHandler.getStatus() == FREEDOM) {
             if (board.isCellOccupied(inputPosition)) {
                 return;
             } else {
@@ -58,7 +58,7 @@ class TileClickListener extends ClickListener {
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
-        } else if (statusHandler.getStatus() == GameStatus.NO_FREEDOM) {
+        } else if (statusHandler.getStatus() == NO_FREEDOM) {
             Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
@@ -67,7 +67,7 @@ class TileClickListener extends ClickListener {
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
-        } else if (statusHandler.getStatus() == GameStatus.PLAY_LAST_MOVE) {
+        } else if (statusHandler.getStatus() == PLAY_LAST_MOVE) {
             Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
@@ -79,7 +79,7 @@ class TileClickListener extends ClickListener {
             }
         }
 
-        if (statusHandler.getStatus() == GameStatus.LAST_MOVE) {
+        if (statusHandler.getStatus() == LAST_MOVE) {
             LastMoveDialog lastMoveDialog = new LastMoveDialog(game, board.getSkin(), statusHandler);
             lastMoveDialog.show(board.getStage());
         }

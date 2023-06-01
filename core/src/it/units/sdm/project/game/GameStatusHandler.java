@@ -3,7 +3,6 @@ package it.units.sdm.project.game;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
-import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,5 +48,15 @@ public class GameStatusHandler {
                 }
                 break;
         }
+    }
+
+    public enum GameStatus {
+        EXIT,
+        GAME_OVER,
+        DISPLAY_WINNER,
+        FREEDOM,
+        NO_FREEDOM,
+        LAST_MOVE,
+        PLAY_LAST_MOVE
     }
 }
