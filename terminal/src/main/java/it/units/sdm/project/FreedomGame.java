@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.game.FreedomPointsCounter;
+import it.units.sdm.project.game.*;
 import it.units.sdm.project.game.gui.GameStatusHandler;
-import it.units.sdm.project.game.Move;
-import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class FreedomGame {
+public class FreedomGame implements Game {
 
     @NotNull
     private final Player whitePlayer;
@@ -28,11 +26,13 @@ public class FreedomGame {
     private GameStatusHandler.GameStatus gameStatus = GameStatusHandler.GameStatus.FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
+    private final FreedomBoardObserver freedomBoardObserver;
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
+        freedomBoardObserver = new FreedomBoardObserver(board);
     }
 
     public void start() {
@@ -43,18 +43,18 @@ public class FreedomGame {
         while (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
             playTurn();
         }
-        Player winner = getCurrentWinner();
+        Player winner = freedomBoardObserver.getCurrentWinner(whitePlayer, blackPlayer);
         System.out.println(board);
+        displayTheWinner(winner);
+        reset();
+    }
+
+    private void displayTheWinner(Player winner) {
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
             System.out.println("Tie!");
         }
-        end();
-    }
-
-    private void end() {
-        userInput.close();
     }
 
     private void playTurn() {
@@ -193,14 +193,35 @@ public class FreedomGame {
         }
     }
 
-    @Nullable
-    public Player getCurrentWinner() {
-        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        if (freedomPointsCounter.getPlayerScore(Color.WHITE) > freedomPointsCounter.getPlayerScore(Color.BLACK)) {
-            return whitePlayer;
-        } else if (freedomPointsCounter.getPlayerScore(Color.BLACK) > freedomPointsCounter.getPlayerScore(Color.WHITE)) {
-            return blackPlayer;
-        }
-        return null;
+    @Override
+    public @NotNull Board<?> getBoard() {
+        return board;
+    }
+
+    @Override
+    public @NotNull Player getFirstPlayer() {
+        return whitePlayer;
+    }
+
+    @Override
+    public @NotNull Player getSecondPlayer() {
+        return blackPlayer;
+    }
+
+    @Override
+    public @Nullable Move getLastMove() {
+        if(playersMovesHistory.isEmpty()) return null;
+        return playersMovesHistory.getLast();
+    }
+
+    @Override
+    public void nextMove(@NotNull Position position) {
+
+    }
+
+    @Override
+    public void reset() {
+        board.clearBoard();
+        userInput.close();
     }
 }
