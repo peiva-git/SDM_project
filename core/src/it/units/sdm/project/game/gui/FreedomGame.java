@@ -16,6 +16,7 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
 import it.units.sdm.project.enums.GameStatus;
+import it.units.sdm.project.game.BoardGame;
 import it.units.sdm.project.game.FreedomBoardObserver;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FreedomGame extends Game implements it.units.sdm.project.game.Game {
+public class FreedomGame extends Game implements BoardGame {
 
     public static final int NUMBER_OF_ROWS = 2;
     public static final int NUMBER_OF_COLUMNS = 2;

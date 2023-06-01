@@ -5,7 +5,7 @@ import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface Game {
+public interface BoardGame {
 
     @NotNull Board<?> getBoard();
     @NotNull Player getFirstPlayer();

@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class FreedomGame implements Game {
+public class FreedomGame implements BoardGame {
 
     @NotNull
     private final Player whitePlayer;

@@ -5,14 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.game.Game;
+import it.units.sdm.project.game.BoardGame;
 import org.jetbrains.annotations.NotNull;
 
 public class TileClickListener extends ClickListener {
     @NotNull
-    private final Game game;
+    private final BoardGame game;
 
-    public TileClickListener(@NotNull Game game) {
+    public TileClickListener(@NotNull BoardGame game) {
         this.game = game;
     }
 
