@@ -56,19 +56,19 @@ class TileClickListener extends ClickListener {
             } else {
                 resetCurrentlyHighlightedCellsIfAny();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
-                highlightValidPositionsForNextMove();
+                highlightValidPositionsForNextNoFreedomMove();
             }
         } else if (statusHandler.getStatus() == NO_FREEDOM) {
-            Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
+            Set<Position> allowedPositions = findFreePositionsNearLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
             } else {
                 resetCurrentlyHighlightedCellsIfAny();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
-                highlightValidPositionsForNextMove();
+                highlightValidPositionsForNextNoFreedomMove();
             }
         } else if (statusHandler.getStatus() == PLAY_LAST_MOVE) {
-            Set<Position> allowedPositions = findAllowedPositionsFromLastPlayedPosition();
+            Set<Position> allowedPositions = findFreePositionsNearLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
             } else {
@@ -87,7 +87,7 @@ class TileClickListener extends ClickListener {
     }
 
     @NotNull
-    private Set<Position> findAllowedPositionsFromLastPlayedPosition() {
+    private Set<Position> findFreePositionsNearLastPlayedPosition() {
         return FreedomBoardHelper.getAdjacentPositions(board, game.getPlayersMovesHistory().getLast().getPosition()).stream()
                 .filter(position -> !board.isCellOccupied(position))
                 .collect(Collectors.toSet());
@@ -98,7 +98,7 @@ class TileClickListener extends ClickListener {
             Image whiteStone = new Image(whiteStoneImage);
             board.putPiece(new GuiStone(Color.WHITE, whiteStone), inputPosition);
             game.getPlayersMovesHistory().add(new Move(game.getWhitePlayer(), inputPosition));
-            printFormattedMoveOnTheLogArea(inputPosition);
+            printFormattedMoveOnTheLogAreaForFirstPlayer(inputPosition);
         } else {
             Image blackStone = new Image(blackStoneImage);
             board.putPiece(new GuiStone(Color.BLACK, blackStone), inputPosition);
@@ -108,7 +108,7 @@ class TileClickListener extends ClickListener {
         statusHandler.proceedToNextState();
     }
 
-    private void printFormattedMoveOnTheLogArea(@NotNull Position inputPosition) {
+    private void printFormattedMoveOnTheLogAreaForFirstPlayer(@NotNull Position inputPosition) {
         long currentStep = game.getPlayersMovesHistory().stream()
                 .filter(move -> move.getPlayer().getColor() == Color.WHITE)
                 .count();
@@ -127,8 +127,8 @@ class TileClickListener extends ClickListener {
     }
 
     @SuppressWarnings("unchecked")
-    private void highlightValidPositionsForNextMove() {
-        Set<Position> positionsToHighlight = findAllowedPositionsFromLastPlayedPosition();
+    private void highlightValidPositionsForNextNoFreedomMove() {
+        Set<Position> positionsToHighlight = findFreePositionsNearLastPlayedPosition();
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
