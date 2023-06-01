@@ -49,9 +49,7 @@ class TileClickListener extends ClickListener {
     @Override
     public void clicked(@NotNull InputEvent event, float x, float y) {
         Player currentPlayer = game.nextPlayer();
-        Stack tileAndPiece = (Stack) event.getListenerActor();
-        Cell<Actor> clickedTile = board.getCell(tileAndPiece);
-        Position inputPosition = getPositionFromTile(clickedTile);
+        Position inputPosition = getPositionFromTile(board.getCell(event.getListenerActor()));
         if (statusHandler.getStatus() == GameStatus.FREEDOM) {
             if (board.isCellOccupied(inputPosition)) {
                 return;
