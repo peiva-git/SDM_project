@@ -150,17 +150,25 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     private void putStoneOnTheBoard(@NotNull Move move) {
         Player currentPlayer = move.getPlayer();
         Position inputPosition = move.getPosition();
-        if (currentPlayer.getColor() == Color.WHITE) {
-            Image whiteStone = new Image(whiteStoneImage);
-            board.putPiece(new GuiStone(Color.WHITE, whiteStone), inputPosition);
-            printFormattedMoveOnTheLogAreaForFirstPlayer(inputPosition);
-        } else {
-            Image blackStone = new Image(blackStoneImage);
-            board.putPiece(new GuiStone(Color.BLACK, blackStone), inputPosition);
-            appendTextToLogArea("     " + inputPosition + "\n");
-        }
+        board.putPiece(new GuiStone(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), inputPosition);
+        updateLogArea(move);
         playersMovesHistory.add(move);
     }
+
+    private void updateLogArea(@NotNull Move move) {
+        if (move.getPlayer().getColor() == Color.WHITE) {
+            printFormattedMoveOnTheLogAreaForFirstPlayer(move.getPosition());
+        } else {
+            appendTextToLogArea("     " + move.getPosition() + "\n");
+        }
+    }
+
+    @NotNull
+    private Image getPlayerStoneImage(@NotNull Color color) {
+        if(color == Color.WHITE) return new Image(whiteStoneImage);
+        return new Image(blackStoneImage);
+    }
+
 
     private void printFormattedMoveOnTheLogAreaForFirstPlayer(@NotNull Position inputPosition) {
         long currentStep = playersMovesHistory.stream()
@@ -175,7 +183,6 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void highlightValidPositionsForNextNoFreedomMove() {
         Set<Position> positionsToHighlight = findFreePositionsNearLastPlayedPosition();
         List<Cell<Actor>> cellsToHighlight = getCellsToHighlight(positionsToHighlight);
