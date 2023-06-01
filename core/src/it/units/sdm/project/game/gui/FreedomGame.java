@@ -42,6 +42,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
     private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
     private FreedomBoardObserver freedomBoardObserver;
+    private GameStatus gameStatus = GameStatus.FREEDOM;
 
     @Override
     public void create() {
@@ -66,6 +67,8 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     public void reset() {
         board.clearBoard();
         playersMovesHistory.clear();
+        gameStatus = GameStatus.FREEDOM;
+        resetCurrentlyHighlightedCellsIfAny();
     }
 
     @NotNull
@@ -113,11 +116,9 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     public void nextMove(@NotNull Position inputPosition) {
         Position boardPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
         Move currentMove = new Move(nextPlayer(), boardPosition);
-        GameStatus currentGameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
-        if (!checkUserPositionValidity(currentGameStatus, currentMove.getPosition())) return;
-
+        if (!checkUserPositionValidity(currentMove.getPosition())) return;
         resetCurrentlyHighlightedCellsIfAny();
-        switch (currentGameStatus) {
+        switch (gameStatus) {
             case FREEDOM:
             case NO_FREEDOM:
                 putStoneOnTheBoard(currentMove);
@@ -125,19 +126,22 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
                 break;
             case GAME_OVER:
                 putStoneOnTheBoard(currentMove);
+                gameStatus = GameStatus.FREEDOM;
                 GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
                 gameOverDialog.show(board.getStage());
                 break;
-            case LAST_MOVE:
-                LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
-                lastMoveDialog.show(board.getStage());
-                break;
+        }
+        gameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
+        if (gameStatus == GameStatus.LAST_MOVE) {
+            LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
+            lastMoveDialog.show(board.getStage());
+            gameStatus = GameStatus.GAME_OVER;
         }
     }
 
-    private boolean checkUserPositionValidity(@NotNull GameStatus currentGameStatus, @NotNull Position inputPosition) {
+    private boolean checkUserPositionValidity(@NotNull Position inputPosition) {
         if (board.isCellOccupied(inputPosition)) return false;
-        if (currentGameStatus == GameStatus.NO_FREEDOM)
+        if (gameStatus == GameStatus.NO_FREEDOM)
             return findFreePositionsNearLastPlayedPosition().contains(inputPosition);
         return true;
     }
