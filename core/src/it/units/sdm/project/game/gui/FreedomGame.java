@@ -14,6 +14,7 @@ import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
+import it.units.sdm.project.board.gui.TileClickListener;
 import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.FreedomBoardObserver;
 import it.units.sdm.project.game.Move;
@@ -34,10 +35,8 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     public static final int NUMBER_OF_COLUMNS = 2;
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
-    @NotNull
-    private final Texture blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
-    @NotNull
-    private final Texture whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
+    private Texture blackStoneImage;
+    private Texture whiteStoneImage;
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
@@ -46,7 +45,10 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
 
     @Override
     public void create() {
+        blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
+        whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
         board = new GuiBoard(new Skin(Gdx.files.internal("uiskin.json")), NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        board.setClickListener(new TileClickListener(this));
         freedomBoardObserver = new FreedomBoardObserver(board);
         setScreen(new MainMenuScreen(this));
     }
@@ -103,14 +105,16 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
 
     @Override
     public @Nullable Move getLastMove() {
+        if (playersMovesHistory.isEmpty()) return null;
         return playersMovesHistory.getLast();
     }
 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
-        Move currentMove = new Move(nextPlayer(), inputPosition);
+        Position boardPosition = inputPosition;
+        Move currentMove = new Move(nextPlayer(), boardPosition);
         GameStatus currentGameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
-        if (checkUserPositionValidity(currentGameStatus, inputPosition)) return;
+        if (!checkUserPositionValidity(currentGameStatus, inputPosition)) return;
 
         resetCurrentlyHighlightedCellsIfAny();
         switch (currentGameStatus) {
@@ -179,7 +183,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
-            if (positionsToHighlight.contains(getPositionFromTile(cell))) {
+            if (positionsToHighlight.contains(fromTilePositionToBoardPosition(cell.getRow(), cell.getColumn()))) {
                 cellsToHighlight.add(cell);
             }
         }
@@ -221,8 +225,12 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     }
 
     @NotNull
-    private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - tile.getRow() - 1, tile.getColumn());
+    private Position fromTilePositionToBoardPosition(int tileRow, int tileColumn) {
+        return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
+    }
+
+    private Position fromBoardPositionToTilePosition(@NotNull Position position) {
+        return Position.fromCoordinates(NUMBER_OF_ROWS - position.getRow() - 1, position.getColumn());
     }
 
 }

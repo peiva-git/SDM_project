@@ -1,7 +1,5 @@
 package it.units.sdm.project.board.gui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -10,7 +8,7 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.game.Game;
 import org.jetbrains.annotations.NotNull;
 
-class TileClickListener extends ClickListener {
+public class TileClickListener extends ClickListener {
     @NotNull
     private final Game game;
 
