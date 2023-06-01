@@ -111,9 +111,10 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
-        Move currentMove = new Move(nextPlayer(), inputPosition);
+        Position boardPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
+        Move currentMove = new Move(nextPlayer(), boardPosition);
         GameStatus currentGameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
-        if (!checkUserPositionValidity(currentGameStatus, inputPosition)) return;
+        if (!checkUserPositionValidity(currentGameStatus, currentMove.getPosition())) return;
 
         resetCurrentlyHighlightedCellsIfAny();
         switch (currentGameStatus) {
@@ -226,10 +227,6 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     @NotNull
     private Position fromTilePositionToBoardPosition(int tileRow, int tileColumn) {
         return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
-    }
-
-    private Position fromBoardPositionToTilePosition(@NotNull Position position) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - position.getRow() - 1, position.getColumn());
     }
 
 }
