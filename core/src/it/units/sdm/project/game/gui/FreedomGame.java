@@ -118,18 +118,11 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
         Move currentMove = new Move(nextPlayer(), boardPosition);
         if (!checkUserPositionValidity(currentMove.getPosition())) return;
         resetCurrentlyHighlightedCellsIfAny();
-        switch (gameStatus) {
-            case FREEDOM:
-            case NO_FREEDOM:
-                putStoneOnTheBoard(currentMove);
-                highlightValidPositionsForNextNoFreedomMove();
-                break;
-            case GAME_OVER:
-                putStoneOnTheBoard(currentMove);
-                gameStatus = GameStatus.FREEDOM;
-                GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
-                gameOverDialog.show(board.getStage());
-                break;
+        putStoneOnTheBoard(currentMove);
+        highlightValidPositionsForNextNoFreedomMove();
+        if(gameStatus == GameStatus.GAME_OVER) {
+            GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
+            gameOverDialog.show(board.getStage());
         }
         gameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
         if (gameStatus == GameStatus.LAST_MOVE) {
