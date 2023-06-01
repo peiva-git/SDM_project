@@ -24,6 +24,10 @@ public class FreedomPointsCounter {
         this.board = board;
     }
 
+    public int getPlayerScore(@NotNull Player player) {
+        return getPlayerScore(player.getColor());
+    }
+
     public int getPlayerScore(@NotNull Color color) {
         if (color == Color.WHITE) {
             this.whiteFreedomLines.clear();
