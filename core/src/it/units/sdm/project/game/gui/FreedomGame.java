@@ -71,17 +71,6 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
         resetCurrentlyHighlightedCellsIfAny();
     }
 
-    @NotNull
-    public Player nextPlayer() {
-        try {
-            Player previousPlayer = playersMovesHistory.getLast().getPlayer();
-            if (previousPlayer.equals(whitePlayer)) return blackPlayer;
-            return whitePlayer;
-        } catch (NoSuchElementException exception) {
-            return whitePlayer;
-        }
-    }
-
     public void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
@@ -115,7 +104,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
         Position boardPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
-        Move currentMove = new Move(nextPlayer(), boardPosition);
+        Move currentMove = new Move(getNextPlayer(), boardPosition);
         if (!checkUserPositionValidity(currentMove.getPosition())) return;
         updateBoard(currentMove);
         if(gameStatus == GameStatus.GAME_OVER) {

@@ -12,6 +12,12 @@ public interface Game {
     @NotNull Player getSecondPlayer();
     @Nullable Move getLastMove();
     void nextMove(@NotNull Position position);
+    default @NotNull Player getNextPlayer() {
+        Player firstPlayer = getFirstPlayer();
+        Player secondPlayer = getSecondPlayer();
+        if(getLastMove() == null || getLastMove().getPlayer().equals(secondPlayer)) return firstPlayer;
+        return secondPlayer;
+    }
     void reset();
 
 }
