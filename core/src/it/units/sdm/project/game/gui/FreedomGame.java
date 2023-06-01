@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -177,6 +178,32 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
     @SuppressWarnings("unchecked")
     private void highlightValidPositionsForNextNoFreedomMove() {
         Set<Position> positionsToHighlight = findFreePositionsNearLastPlayedPosition();
+        List<Cell<Actor>> cellsToHighlight = getCellsToHighlight(positionsToHighlight);
+        for (Cell<Actor> cellToHighlight : cellsToHighlight) {
+            highlightCell(cellToHighlight);
+        }
+    }
+
+    private void highlightCell(Cell<Actor> cellToHighlight) {
+        Stack tileAndPiece = (Stack) cellToHighlight.getActor();
+        Actor tile = tileAndPiece.getChild(0);
+        if (isIndexEven(cellToHighlight.getRow())) {
+            if (isIndexEven(cellToHighlight.getColumn())) {
+                tile.setColor(HIGHLIGHT_LIGHT_TILE);
+            } else {
+                tile.setColor(HIGHLIGHT_DARK_TILE);
+            }
+        } else {
+            if (isIndexEven(cellToHighlight.getColumn())) {
+                tile.setColor(HIGHLIGHT_DARK_TILE);
+            } else {
+                tile.setColor(HIGHLIGHT_LIGHT_TILE);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Cell<Actor>> getCellsToHighlight(@NotNull Set<Position> positionsToHighlight){
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
@@ -184,26 +211,11 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
                 cellsToHighlight.add(cell);
             }
         }
-        for (Cell<Actor> cellToHighlight : cellsToHighlight) {
-            com.badlogic.gdx.scenes.scene2d.ui.Stack tileAndPiece = (com.badlogic.gdx.scenes.scene2d.ui.Stack) cellToHighlight.getActor();
-            Actor tile = tileAndPiece.getChild(0);
-            if (isIndexEven(cellToHighlight.getRow())) {
-                if (isIndexEven(cellToHighlight.getColumn())) {
-                    tile.setColor(HIGHLIGHT_LIGHT_TILE);
-                } else {
-                    tile.setColor(HIGHLIGHT_DARK_TILE);
-                }
-            } else {
-                if (isIndexEven(cellToHighlight.getColumn())) {
-                    tile.setColor(HIGHLIGHT_DARK_TILE);
-                } else {
-                    tile.setColor(HIGHLIGHT_LIGHT_TILE);
-                }
-            }
-        }
+        return cellsToHighlight;
     }
 
-    private static boolean isIndexEven(int i) {
+
+    private boolean isIndexEven(int i) {
         return i % 2 == 0;
     }
 
