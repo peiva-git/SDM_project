@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.game.GameStatusHandler;
+import it.units.sdm.project.game.gui.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
-import it.units.sdm.project.game.gui.GameScreen;
+import it.units.sdm.project.game.gui.screens.GameScreen;
 import it.units.sdm.project.game.gui.dialogs.GameOverDialog;
 import it.units.sdm.project.game.gui.dialogs.LastMoveDialog;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static it.units.sdm.project.game.GameStatusHandler.GameStatus.*;
+import static it.units.sdm.project.game.gui.GameStatusHandler.GameStatus.*;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 class TileClickListener extends ClickListener {

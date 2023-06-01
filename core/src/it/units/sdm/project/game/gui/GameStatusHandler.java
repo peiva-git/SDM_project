@@ -1,9 +1,8 @@
-package it.units.sdm.project.game;
+package it.units.sdm.project.game.gui;
 
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiFreedomBoard;
-import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 public class GameStatusHandler {

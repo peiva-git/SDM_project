@@ -3,10 +3,10 @@ package it.units.sdm.project.game.gui.dialogs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import it.units.sdm.project.game.GameStatusHandler;
+import it.units.sdm.project.game.gui.GameStatusHandler;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
-import it.units.sdm.project.game.gui.GameScreen;
+import it.units.sdm.project.game.gui.screens.GameScreen;
 import org.jetbrains.annotations.NotNull;
 
 public class GameOverDialog extends Dialog {

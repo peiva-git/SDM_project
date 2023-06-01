@@ -1,4 +1,4 @@
-package it.units.sdm.project.game.gui;
+package it.units.sdm.project.game.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.board.gui.GuiFreedomBoard;
+import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;

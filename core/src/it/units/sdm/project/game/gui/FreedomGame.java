@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.units.sdm.project.game.FreedomPointsCounter;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
+import it.units.sdm.project.game.gui.screens.GameScreen;
+import it.units.sdm.project.game.gui.screens.MainMenuScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
