@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.game.GameStatusHandler;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,8 @@ public class GuiFreedomBoard extends Table implements Board<GuiStone> {
     private final FreedomGame game;
     private final int numberOfColumns;
     @NotNull
+    private final GameStatusHandler statusHandler;
+    @NotNull
     private Texture whiteSquareTexture;
 
     public GuiFreedomBoard(@NotNull FreedomGame game, @NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
@@ -38,6 +41,7 @@ public class GuiFreedomBoard extends Table implements Board<GuiStone> {
         this.numberOfRows = numberOfRows;
         this.darkTile = darkTile;
         this.lightTile = lightTile;
+        this.statusHandler = new GameStatusHandler(game, this);
         initTextures();
         initBoard();
     }
@@ -71,7 +75,7 @@ public class GuiFreedomBoard extends Table implements Board<GuiStone> {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(game, this));
+            tileAndPiece.addListener(new TileClickListener(game, this, statusHandler));
             add(tileAndPiece).size(TILE_SIZE);
         }
     }

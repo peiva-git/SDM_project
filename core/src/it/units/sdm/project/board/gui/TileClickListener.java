@@ -40,10 +40,10 @@ class TileClickListener extends ClickListener {
     @NotNull
     private final GameStatusHandler statusHandler;
 
-    public TileClickListener(@NotNull FreedomGame game, @NotNull GuiFreedomBoard board) {
+    public TileClickListener(@NotNull FreedomGame game, @NotNull GuiFreedomBoard board, @NotNull GameStatusHandler handler) {
         this.board = board;
         this.game = game;
-        this.statusHandler = new GameStatusHandler(game, board);
+        statusHandler = handler;
     }
 
     @Override
@@ -78,7 +78,6 @@ class TileClickListener extends ClickListener {
                 gameOverDialog.show(board.getStage());
             }
         }
-        System.out.println("status: " + statusHandler.getCurrentStatus());
 
         if (statusHandler.getCurrentStatus() == LAST_MOVE) {
             LastMoveDialog lastMoveDialog = new LastMoveDialog(game, board.getSkin(), statusHandler);
