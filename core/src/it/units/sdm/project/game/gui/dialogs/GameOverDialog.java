@@ -10,6 +10,8 @@ import it.units.sdm.project.game.gui.GameScreen;
 import org.jetbrains.annotations.NotNull;
 
 public class GameOverDialog extends Dialog {
+    public static final String NEGATIVE_TEXT = "Quit";
+    public static final String POSITIVE_TEXT = "Play again";
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -19,8 +21,8 @@ public class GameOverDialog extends Dialog {
         super("", skin);
         this.game = game;
         this.handler = handler;
-        button("Play again", "Play again");
-        button("Quit", "Quit");
+        button("Play again", POSITIVE_TEXT);
+        button("Quit", NEGATIVE_TEXT);
         setSize(500, 200);
         Player winner = game.getCurrentWinner();
         if (winner != null) {
@@ -37,7 +39,7 @@ public class GameOverDialog extends Dialog {
             return;
         }
         String message = (String) object;
-        if (message.equals("Quit")) {
+        if (message.equals(NEGATIVE_TEXT)) {
             Gdx.app.exit();
         } else {
             // play again

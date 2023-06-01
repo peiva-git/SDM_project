@@ -50,7 +50,7 @@ class TileClickListener extends ClickListener {
     public void clicked(@NotNull InputEvent event, float x, float y) {
         Player currentPlayer = game.nextPlayer();
         Position inputPosition = getPositionFromTile(board.getCell(event.getListenerActor()));
-        if (statusHandler.getStatus() == FREEDOM) {
+        if (statusHandler.getCurrentStatus() == FREEDOM) {
             if (board.isCellOccupied(inputPosition)) {
                 return;
             } else {
@@ -58,7 +58,7 @@ class TileClickListener extends ClickListener {
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextNoFreedomMove();
             }
-        } else if (statusHandler.getStatus() == NO_FREEDOM) {
+        } else if (statusHandler.getCurrentStatus() == NO_FREEDOM) {
             Set<Position> allowedPositions = findFreePositionsNearLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
@@ -67,7 +67,7 @@ class TileClickListener extends ClickListener {
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextNoFreedomMove();
             }
-        } else if (statusHandler.getStatus() == PLAY_LAST_MOVE) {
+        } else if (statusHandler.getCurrentStatus() == LAST_MOVE) {
             Set<Position> allowedPositions = findFreePositionsNearLastPlayedPosition();
             if (!allowedPositions.contains(inputPosition)) {
                 return;
@@ -78,8 +78,9 @@ class TileClickListener extends ClickListener {
                 gameOverDialog.show(board.getStage());
             }
         }
+        System.out.println("status: " + statusHandler.getCurrentStatus());
 
-        if (statusHandler.getStatus() == LAST_MOVE) {
+        if (statusHandler.getCurrentStatus() == LAST_MOVE) {
             LastMoveDialog lastMoveDialog = new LastMoveDialog(game, board.getSkin(), statusHandler);
             lastMoveDialog.show(board.getStage());
         }

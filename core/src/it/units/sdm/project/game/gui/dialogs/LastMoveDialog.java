@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class LastMoveDialog extends Dialog {
 
+    public static final String POSITIVE_TEXT = "Yes";
+    public static final String NEGATIVE_TEXT = "No";
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -20,8 +22,8 @@ public class LastMoveDialog extends Dialog {
         this.skin = skin;
         this.handler = handler;
         text("Do you want to put the last stone?");
-        button("Yes", "Yes");
-        button("No", "No");
+        button("Yes", POSITIVE_TEXT);
+        button("No", NEGATIVE_TEXT);
         setSize(500, 200);
         padBottom(40f);
     }
@@ -32,8 +34,7 @@ public class LastMoveDialog extends Dialog {
             return;
         }
         String message = (String) object;
-        if (message.equals("Yes")) {
-            handler.proceedToNextState();
+        if (message.equals(POSITIVE_TEXT)) {
             hide();
         } else {
             hide();

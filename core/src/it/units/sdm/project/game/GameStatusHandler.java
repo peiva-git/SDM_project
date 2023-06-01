@@ -21,16 +21,13 @@ public class GameStatusHandler {
     }
 
     @NotNull
-    public GameStatus getStatus() {
+    public GameStatus getCurrentStatus() {
         return status;
     }
 
     public void proceedToNextState() {
         switch (status) {
             case LAST_MOVE:
-                status = GameStatus.PLAY_LAST_MOVE;
-                break;
-            case PLAY_LAST_MOVE:
                 status = GameStatus.GAME_OVER;
                 break;
             case GAME_OVER:
@@ -51,12 +48,9 @@ public class GameStatusHandler {
     }
 
     public enum GameStatus {
-        EXIT,
-        GAME_OVER,
-        DISPLAY_WINNER,
         FREEDOM,
         NO_FREEDOM,
         LAST_MOVE,
-        PLAY_LAST_MOVE
+        GAME_OVER
     }
 }
