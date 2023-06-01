@@ -20,12 +20,12 @@ public class FreedomBoardHelper {
     }
     public static @NotNull Set<Position> getAdjacentPositions(@NotNull Board<? extends Stone> board, @NotNull Position position) throws InvalidPositionException {
         Set<Position> adjacentPositions = new HashSet<>(8);
-        if(!checkPosition(board, position)) throw new InvalidPositionException("Invalid board position!");
+        if(!isBoardPositionValid(board, position)) throw new InvalidPositionException("Invalid board position!");
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
                     if(i == 0 && j == 0) continue;
-                    if (checkPosition(board, Position.fromCoordinates(position.getRow() + i,position.getColumn() + j))) {
+                    if (isBoardPositionValid(board, Position.fromCoordinates(position.getRow() + i,position.getColumn() + j))) {
                         adjacentPositions.add(Position.fromCoordinates(position.getRow() + i, position.getColumn() + j));
                     }
                 } catch (InvalidPositionException ignored) {
@@ -35,7 +35,7 @@ public class FreedomBoardHelper {
         return adjacentPositions;
     }
 
-    private static boolean checkPosition(@NotNull Board<? extends Stone> board, @NotNull Position position) {
+    private static boolean isBoardPositionValid(@NotNull Board<? extends Stone> board, @NotNull Position position) {
         try{
             board.getPiece(position);
             return true;
