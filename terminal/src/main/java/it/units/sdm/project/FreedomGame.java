@@ -1,7 +1,6 @@
 package it.units.sdm.project;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -104,9 +103,9 @@ public class FreedomGame {
 
     private void updateCurrentGameStatus() {
         if (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
-            long numberOfFreeCells = BoardUtils.getNumberOfFreeCells(board);
+            long numberOfFreeCells = board.getNumberOfFreeCells();
             if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || BoardUtils.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
                     gameStatus = GameStatusHandler.GameStatus.FREEDOM;
                 } else {
                     gameStatus = GameStatusHandler.GameStatus.NO_FREEDOM;
@@ -129,7 +128,7 @@ public class FreedomGame {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = BoardUtils.getAdjacentPositions(board, lastPosition);
+        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int displayedRow = adjacentPosition.getRow() + 1;

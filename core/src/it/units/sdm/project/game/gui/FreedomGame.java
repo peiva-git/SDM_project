@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.Board;
-import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
@@ -146,7 +145,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
 
     @NotNull
     private Set<Position> findFreePositionsNearLastPlayedPosition() {
-        return BoardUtils.getAdjacentPositions(board, Objects.requireNonNull(getLastMove()).getPosition()).stream()
+        return board.getAdjacentPositions(Objects.requireNonNull(getLastMove()).getPosition()).stream()
                 .filter(position -> !board.isCellOccupied(position))
                 .collect(Collectors.toSet());
     }

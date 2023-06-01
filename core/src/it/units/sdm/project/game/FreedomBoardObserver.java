@@ -1,7 +1,6 @@
 package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.Board;
-import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.enums.GameStatus;
 import org.jetbrains.annotations.NotNull;
@@ -35,9 +34,9 @@ public class FreedomBoardObserver {
 
     @NotNull
     public GameStatus getCurrentGameStatus(@Nullable Move lastMove) {
-        long numberOfFreeCells = BoardUtils.getNumberOfFreeCells(board);
+        long numberOfFreeCells = board.getNumberOfFreeCells();
         if (numberOfFreeCells > 1) {
-            if (lastMove == null || BoardUtils.areAdjacentCellsOccupied(board, lastMove.getPosition())) {
+            if (lastMove == null || board.areAdjacentCellsOccupied(lastMove.getPosition())) {
                 return GameStatus.FREEDOM;
             } else {
                 return GameStatus.NO_FREEDOM;

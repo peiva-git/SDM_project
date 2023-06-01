@@ -1,6 +1,5 @@
 package it.units.sdm.project.game.gui;
 
-import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
 import org.jetbrains.annotations.NotNull;
@@ -35,9 +34,9 @@ public class GameStatusHandler {
             case FREEDOM:
             case NO_FREEDOM:
                 Position lastChosenPosition = game.getLastMove().getPosition();
-                if (BoardUtils.getNumberOfFreeCells(board) == 1) {
+                if (board.getNumberOfFreeCells() == 1) {
                     status = GameStatus.LAST_MOVE;
-                } else if (BoardUtils.areAdjacentCellsOccupied(board, lastChosenPosition)) {
+                } else if (board.areAdjacentCellsOccupied(lastChosenPosition)) {
                     status = GameStatus.FREEDOM;
                 } else {
                     status = GameStatus.NO_FREEDOM;
