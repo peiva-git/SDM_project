@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class GuiBoard extends Table implements Board<GuiStone> {
+public class GuiFreedomBoard extends Table implements Board<GuiStone> {
 
     public static final int TILE_SIZE = 75;
     private final int numberOfRows;
@@ -31,7 +31,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     @NotNull
     private Texture whiteSquareTexture;
 
-    public GuiBoard(@NotNull FreedomGame game, @NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
+    public GuiFreedomBoard(@NotNull FreedomGame game, @NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
         super(skin);
         this.game = game;
         this.numberOfColumns = numberOfColumns;

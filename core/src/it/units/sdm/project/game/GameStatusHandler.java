@@ -2,7 +2,7 @@ package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.gui.GuiBoard;
+import it.units.sdm.project.board.gui.GuiFreedomBoard;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +11,11 @@ public class GameStatusHandler {
     @NotNull
     private final FreedomGame game;
     @NotNull
-    private final GuiBoard board;
+    private final GuiFreedomBoard board;
     @NotNull
     private GameStatus status = GameStatus.FREEDOM;
 
-    public GameStatusHandler(@NotNull FreedomGame game, @NotNull GuiBoard board) {
+    public GameStatusHandler(@NotNull FreedomGame game, @NotNull GuiFreedomBoard board) {
         this.game = game;
         this.board = board;
     }

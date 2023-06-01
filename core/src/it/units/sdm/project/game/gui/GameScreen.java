@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import it.units.sdm.project.board.gui.GuiBoard;
+import it.units.sdm.project.board.gui.GuiFreedomBoard;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final TextArea firstTextArea;
     @NotNull
-    private final GuiBoard boardLayout;
+    private final GuiFreedomBoard boardLayout;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        boardLayout = new GuiBoard(game, skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, DARK_TILE, LIGHT_TILE);
+        boardLayout = new GuiFreedomBoard(game, skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS, DARK_TILE, LIGHT_TILE);
         skin.addRegions(atlas);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
     }
 
     @NotNull
-    public GuiBoard getBoard() {
+    public GuiFreedomBoard getBoard() {
         return boardLayout;
     }
 }

@@ -30,7 +30,7 @@ import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 class TileClickListener extends ClickListener {
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
-    private final @NotNull GuiBoard board;
+    private final @NotNull GuiFreedomBoard board;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -40,7 +40,7 @@ class TileClickListener extends ClickListener {
     @NotNull
     private final GameStatusHandler statusHandler;
 
-    public TileClickListener(@NotNull FreedomGame game, @NotNull GuiBoard board) {
+    public TileClickListener(@NotNull FreedomGame game, @NotNull GuiFreedomBoard board) {
         this.board = board;
         this.game = game;
         this.statusHandler = new GameStatusHandler(game, board);
@@ -54,7 +54,7 @@ class TileClickListener extends ClickListener {
             if (board.isCellOccupied(inputPosition)) {
                 return;
             } else {
-                resetCurrentlyHighlightedCells();
+                resetCurrentlyHighlightedCellsIfAny();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
@@ -63,7 +63,7 @@ class TileClickListener extends ClickListener {
             if (!allowedPositions.contains(inputPosition)) {
                 return;
             } else {
-                resetCurrentlyHighlightedCells();
+                resetCurrentlyHighlightedCellsIfAny();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 highlightValidPositionsForNextMove();
             }
@@ -72,7 +72,7 @@ class TileClickListener extends ClickListener {
             if (!allowedPositions.contains(inputPosition)) {
                 return;
             } else {
-                resetCurrentlyHighlightedCells();
+                resetCurrentlyHighlightedCellsIfAny();
                 putStoneOnTheBoard(currentPlayer, inputPosition);
                 GameOverDialog gameOverDialog = new GameOverDialog(game, board.getSkin(), statusHandler);
                 gameOverDialog.show(board.getStage());
@@ -160,7 +160,7 @@ class TileClickListener extends ClickListener {
     }
 
     @SuppressWarnings("unchecked")
-    private void resetCurrentlyHighlightedCells() {
+    private void resetCurrentlyHighlightedCellsIfAny() {
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
             Group tileAndPiece = (Group) cell.getActor();
