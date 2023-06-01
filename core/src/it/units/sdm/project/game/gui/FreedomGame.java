@@ -111,8 +111,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
-        Position boardPosition = inputPosition;
-        Move currentMove = new Move(nextPlayer(), boardPosition);
+        Move currentMove = new Move(nextPlayer(), inputPosition);
         GameStatus currentGameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
         if (!checkUserPositionValidity(currentGameStatus, inputPosition)) return;
 
@@ -123,12 +122,12 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
                 putStoneOnTheBoard(currentMove);
                 highlightValidPositionsForNextNoFreedomMove();
                 break;
-            case LAST_MOVE:
+            case GAME_OVER:
                 putStoneOnTheBoard(currentMove);
                 GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
                 gameOverDialog.show(board.getStage());
                 break;
-            case GAME_OVER:
+            case LAST_MOVE:
                 LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
                 lastMoveDialog.show(board.getStage());
                 break;
