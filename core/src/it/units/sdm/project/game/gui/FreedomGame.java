@@ -118,9 +118,7 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
         Position boardPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
         Move currentMove = new Move(nextPlayer(), boardPosition);
         if (!checkUserPositionValidity(currentMove.getPosition())) return;
-        resetCurrentlyHighlightedCellsIfAny();
-        putStoneOnTheBoard(currentMove);
-        highlightValidPositionsForNextNoFreedomMove();
+        updateBoard(currentMove);
         if(gameStatus == GameStatus.GAME_OVER) {
             GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
             gameOverDialog.show(board.getStage());
@@ -131,6 +129,12 @@ public class FreedomGame extends Game implements it.units.sdm.project.game.Game 
             lastMoveDialog.show(board.getStage());
             gameStatus = GameStatus.GAME_OVER;
         }
+    }
+
+    private void updateBoard(Move currentMove) {
+        resetCurrentlyHighlightedCellsIfAny();
+        putStoneOnTheBoard(currentMove);
+        highlightValidPositionsForNextNoFreedomMove();
     }
 
     private boolean checkUserPositionValidity(@NotNull Position inputPosition) {
