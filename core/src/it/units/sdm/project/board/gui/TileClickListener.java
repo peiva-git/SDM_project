@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import it.units.sdm.project.board.FreedomBoardHelper;
+import it.units.sdm.project.board.BoardUtils;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.game.gui.GameStatusHandler;
 import it.units.sdm.project.game.Move;
@@ -88,7 +88,7 @@ class TileClickListener extends ClickListener {
 
     @NotNull
     private Set<Position> findFreePositionsNearLastPlayedPosition() {
-        return FreedomBoardHelper.getAdjacentPositions(board, game.getPlayersMovesHistory().getLast().getPosition()).stream()
+        return BoardUtils.getAdjacentPositions(board, game.getPlayersMovesHistory().getLast().getPosition()).stream()
                 .filter(position -> !board.isCellOccupied(position))
                 .collect(Collectors.toSet());
     }
