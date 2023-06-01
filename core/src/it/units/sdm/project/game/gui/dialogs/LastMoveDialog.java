@@ -1,7 +1,6 @@
 package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import it.units.sdm.project.game.gui.GameStatusHandler;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,14 +12,11 @@ public class LastMoveDialog extends Dialog {
     private final FreedomGame game;
     @NotNull
     private final Skin skin;
-    @NotNull
-    private final GameStatusHandler handler;
 
-    public LastMoveDialog(@NotNull FreedomGame game, @NotNull Skin skin, @NotNull GameStatusHandler handler) {
+    public LastMoveDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;
         this.skin = skin;
-        this.handler = handler;
         text("Do you want to put the last stone?");
         button("Yes", POSITIVE_TEXT);
         button("No", NEGATIVE_TEXT);
@@ -38,7 +34,7 @@ public class LastMoveDialog extends Dialog {
             hide();
         } else {
             hide();
-            GameOverDialog gameOverDialog = new GameOverDialog(game, skin, handler);
+            GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
             gameOverDialog.show(getStage());
         }
     }

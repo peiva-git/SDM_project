@@ -7,41 +7,30 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.game.gui.GameStatusHandler;
-import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.TreeSet;
 
-public class GuiFreedomBoard extends Table implements Board<GuiStone> {
+public class GuiBoard extends Table implements Board<GuiStone> {
 
     public static final int TILE_SIZE = 75;
+    public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
+    public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private final int numberOfRows;
-    @NotNull
-    private final Color darkTile;
-    @NotNull
-    private final Color lightTile;
-    @NotNull
-    private final FreedomGame game;
     private final int numberOfColumns;
-    @NotNull
-    private final GameStatusHandler statusHandler;
     @NotNull
     private Texture whiteSquareTexture;
 
-    public GuiFreedomBoard(@NotNull FreedomGame game, @NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
+    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
-        this.game = game;
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        this.darkTile = darkTile;
-        this.lightTile = lightTile;
-        this.statusHandler = new GameStatusHandler(game, this);
         initTextures();
         initBoard();
     }
@@ -58,9 +47,9 @@ public class GuiFreedomBoard extends Table implements Board<GuiStone> {
         for (int i = 0; i < numberOfRows; i++) {
             row();
             if (isIndexEven(i)) {
-                initBoardColumns(darkTile, lightTile);
+                initBoardColumns(DARK_TILE, LIGHT_TILE);
             } else {
-                initBoardColumns(lightTile, darkTile);
+                initBoardColumns(LIGHT_TILE, DARK_TILE);
             }
         }
     }
@@ -75,8 +64,14 @@ public class GuiFreedomBoard extends Table implements Board<GuiStone> {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(game, this, statusHandler));
             add(tileAndPiece).size(TILE_SIZE);
+        }
+    }
+    @SuppressWarnings("unchecked")
+    public void setClickListener(@NotNull ClickListener clickListener) {
+        for(Cell<Actor> cell : getCells()) {
+            Stack tileAndPiece = (Stack) cell.getActor();
+            tileAndPiece.addListener(clickListener);
         }
     }
 

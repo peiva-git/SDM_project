@@ -6,7 +6,6 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.FreedomPointsCounter;
-import it.units.sdm.project.game.gui.GameStatusHandler;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.board.Board;
