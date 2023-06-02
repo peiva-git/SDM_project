@@ -19,9 +19,9 @@ public class FreedomHelperTests {
     @MethodSource("providers.MapBoardProviders#provideAdjacentBoardPositions")
     void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> FreedomBoardHelper.getAdjacentPositions(board, position));
+            assertThrows(expectedException, () -> board.getAdjacentPositions(position));
         } else {
-            assertEquals(adjacentPositions, FreedomBoardHelper.getAdjacentPositions(board, position));
+            assertEquals(adjacentPositions, board.getAdjacentPositions(position));
         }
     }
 
@@ -30,12 +30,12 @@ public class FreedomHelperTests {
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             TestUtilities.fillBoardWithWhiteStones(board);
-            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
             board.clearCell(Position.fromCoordinates(row, column));
-            Assertions.assertTrue(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
-            Assertions.assertFalse(FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column + 1)));
+            Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
+            Assertions.assertFalse(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column + 1)));
         } else {
-            assertThrows(expectedException, () -> FreedomBoardHelper.areAdjacentCellsOccupied(board, Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
         }
     }
 

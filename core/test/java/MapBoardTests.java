@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapBoardTests {
@@ -43,11 +41,11 @@ public class MapBoardTests {
     @Test
     void testHasBoardMoreThanOneFreeCell() {
         TestUtilities.fillBoardWithWhiteStones(board);
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 0);
+        Assertions.assertEquals(board.getNumberOfFreeCells(), 0);
         board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 1);
+        Assertions.assertEquals(board.getNumberOfFreeCells(), 1);
         board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(FreedomBoardHelper.getNumberOfFreeCells(board), 2);
+        Assertions.assertEquals(board.getNumberOfFreeCells(), 2);
     }
 
     @ParameterizedTest

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -19,21 +20,17 @@ import java.util.TreeSet;
 public class GuiBoard extends Table implements Board<GuiStone> {
 
     public static final int TILE_SIZE = 75;
+    public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
+    public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private final int numberOfRows;
-    @NotNull
-    private final Color darkTile;
-    @NotNull
-    private final Color lightTile;
     private final int numberOfColumns;
     @NotNull
     private Texture whiteSquareTexture;
 
-    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns, @NotNull Color darkTile, @NotNull Color lightTile) {
+    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        this.darkTile = darkTile;
-        this.lightTile = lightTile;
         initTextures();
         initBoard();
     }
@@ -50,9 +47,9 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         for (int i = 0; i < numberOfRows; i++) {
             row();
             if (isIndexEven(i)) {
-                initBoardColumns(darkTile, lightTile);
+                initBoardColumns(DARK_TILE, LIGHT_TILE);
             } else {
-                initBoardColumns(lightTile, darkTile);
+                initBoardColumns(LIGHT_TILE, DARK_TILE);
             }
         }
     }
@@ -67,8 +64,14 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 tile.setColor(oddTilesColor);
             }
             Stack tileAndPiece = new Stack(tile);
-            tileAndPiece.addListener(new TileClickListener(tileAndPiece));
             add(tileAndPiece).size(TILE_SIZE);
+        }
+    }
+    @SuppressWarnings("unchecked")
+    public void setClickListener(@NotNull ClickListener clickListener) {
+        for(Cell<Actor> cell : getCells()) {
+            Stack tileAndPiece = (Stack) cell.getActor();
+            tileAndPiece.addListener(clickListener);
         }
     }
 
@@ -77,15 +80,10 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     }
 
     @Override
-    public boolean isCellOccupied(@NotNull Position position) throws InvalidPositionException {
-        return getPiece(position) != null;
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
-            if (isPositionPointingToCell(position, cell)) {
+            if (getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 tileAndPiece.setUserObject(null);
                 if (tileAndPiece.getChildren().size == 2) {
@@ -99,23 +97,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
-    private static boolean isPositionPointingToCell(@NotNull Position position, @NotNull Cell<Actor> cell) {
-        return cell.getRow() == position.getRow() && cell.getColumn() == position.getColumn();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void clearBoard() {
-        for (Cell<Actor> cell : getCells()) {
-            clearCell(Position.fromCoordinates(cell.getRow(), cell.getColumn()));
-        }
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(isPositionPointingToCell(position, cell)) {
+            if(getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 tileAndPiece.addActor(piece.getActor());
                 tileAndPiece.setUserObject(piece.getColor());
@@ -125,11 +111,16 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
+    @NotNull
+    private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
+        return Position.fromCoordinates(numberOfRows - tile.getRow() - 1, tile.getColumn());
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(isPositionPointingToCell(position, cell)) {
+            if(getPositionFromTile(cell).equals(position)) {
                 Stack tileAndPiece = (Stack) cell.getActor();
                 if (tileAndPiece.getChildren().size < 2) {
                     return null;

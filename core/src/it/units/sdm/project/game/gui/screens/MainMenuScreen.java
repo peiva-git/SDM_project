@@ -1,14 +1,16 @@
-package it.units.sdm.project.game.gui;
+package it.units.sdm.project.game.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 public class MainMenuScreen implements Screen {
@@ -36,7 +38,7 @@ public class MainMenuScreen implements Screen {
 
     private void initMenu() {
         initialMenu.setFillParent(true);
-        Image image = new Image(logo);
+        Actor image = new Image(logo);
         Label nameLabel = new Label("Tap anywhere to begin!", skin);
         nameLabel.setColor(Color.BLACK);
         nameLabel.setFontScale(1.5f);
@@ -82,5 +84,6 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         stage.getBatch().dispose();
         logo.dispose();
+        skin.dispose();
     }
 }

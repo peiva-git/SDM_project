@@ -1,11 +1,11 @@
 package it.units.sdm.project.game;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.enums.Direction;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Board;
+import it.units.sdm.project.game.FreedomLine.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +22,10 @@ public class FreedomPointsCounter {
 
     public FreedomPointsCounter(@NotNull Board<? extends Stone> board) {
         this.board = board;
+    }
+
+    public int getPlayerScore(@NotNull Player player) {
+        return getPlayerScore(player.getColor());
     }
 
     public int getPlayerScore(@NotNull Color color) {

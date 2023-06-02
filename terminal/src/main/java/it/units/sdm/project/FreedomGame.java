@@ -1,24 +1,21 @@
 package it.units.sdm.project;
 
-import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.FreedomBoardHelper;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.exceptions.InvalidPositionException;
-import it.units.sdm.project.game.FreedomPointsCounter;
-import it.units.sdm.project.game.Move;
-import it.units.sdm.project.game.Player;
+import it.units.sdm.project.game.*;
+import it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class FreedomGame {
+import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
+
+public class FreedomGame implements BoardGame {
 
     @NotNull
     private final Player whitePlayer;
@@ -26,40 +23,42 @@ public class FreedomGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = GameStatus.FREEDOM;
+    private GameStatus gameStatus = FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
+    private final FreedomBoardStatusObserver statusObserver;
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
+        statusObserver = new FreedomBoardStatusObserver(board);
     }
 
     public void start() {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = GameStatus.FREEDOM;
-        while (gameStatus != GameStatus.GAME_OVER) {
+        gameStatus = FREEDOM;
+        while (gameStatus != GAME_OVER) {
             playTurn();
         }
-        Player winner = getCurrentWinner();
+        Player winner = statusObserver.getCurrentWinner(whitePlayer, blackPlayer);
         System.out.println(board);
+        displayTheWinner(winner);
+        reset();
+    }
+
+    private void displayTheWinner(Player winner) {
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
             System.out.println("Tie!");
         }
-        end();
-    }
-
-    private void end() {
-        userInput.close();
     }
 
     private void playTurn() {
-        Player currentPlayer = nextPlayer();
+        Player currentPlayer = getNextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
         switch (gameStatus) {
@@ -76,7 +75,7 @@ public class FreedomGame {
                 if (chosenPosition != null) {
                     board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
-                gameStatus = GameStatus.GAME_OVER;
+                gameStatus = GAME_OVER;
                 break;
         }
         if (chosenPosition != null) {
@@ -91,30 +90,19 @@ public class FreedomGame {
         updateCurrentGameStatus();
     }
 
-    @NotNull
-    private Player nextPlayer() {
-        try {
-            Player previousPlayer = playersMovesHistory.getLast().getPlayer();
-            if (previousPlayer.equals(whitePlayer)) return blackPlayer;
-            return whitePlayer;
-        } catch (NoSuchElementException exception) {
-            return this.whitePlayer;
-        }
-    }
-
     private void updateCurrentGameStatus() {
-        if (gameStatus != GameStatus.GAME_OVER) {
-            long numberOfFreeCells = FreedomBoardHelper.getNumberOfFreeCells(board);
+        if (gameStatus != GAME_OVER) {
+            long numberOfFreeCells = board.getNumberOfFreeCells();
             if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || FreedomBoardHelper.areAdjacentCellsOccupied(board, playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = GameStatus.FREEDOM;
+                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
+                    gameStatus = FREEDOM;
                 } else {
-                    gameStatus = GameStatus.NO_FREEDOM;
+                    gameStatus = NO_FREEDOM;
                 }
             } else if(numberOfFreeCells == 1){
-                gameStatus = GameStatus.LAST_MOVE;
+                gameStatus = LAST_MOVE;
             } else {
-                gameStatus = GameStatus.GAME_OVER;
+                gameStatus = GAME_OVER;
             }
         }
     }
@@ -129,7 +117,7 @@ public class FreedomGame {
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
         System.out.println("You can place a stone near the last stone placed by the other player");
         Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = FreedomBoardHelper.getAdjacentPositions(board, lastPosition);
+        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
         System.out.print("Yuo can pick one of the following positions: ");
         adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
             int displayedRow = adjacentPosition.getRow() + 1;
@@ -194,14 +182,35 @@ public class FreedomGame {
         }
     }
 
-    @Nullable
-    public Player getCurrentWinner() {
-        FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        if (freedomPointsCounter.getPlayerScore(Color.WHITE) > freedomPointsCounter.getPlayerScore(Color.BLACK)) {
-            return whitePlayer;
-        } else if (freedomPointsCounter.getPlayerScore(Color.BLACK) > freedomPointsCounter.getPlayerScore(Color.WHITE)) {
-            return blackPlayer;
-        }
-        return null;
+    @Override
+    public @NotNull Board<?> getBoard() {
+        return board;
+    }
+
+    @Override
+    public @NotNull Player getFirstPlayer() {
+        return whitePlayer;
+    }
+
+    @Override
+    public @NotNull Player getSecondPlayer() {
+        return blackPlayer;
+    }
+
+    @Override
+    public @Nullable Move getLastMove() {
+        if(playersMovesHistory.isEmpty()) return null;
+        return playersMovesHistory.getLast();
+    }
+
+    @Override
+    public void nextMove(@NotNull Position position) {
+
+    }
+
+    @Override
+    public void reset() {
+        board.clearBoard();
+        userInput.close();
     }
 }
