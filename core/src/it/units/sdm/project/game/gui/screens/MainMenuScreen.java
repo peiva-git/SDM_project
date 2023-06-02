@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -37,7 +38,7 @@ public class MainMenuScreen implements Screen {
 
     private void initMenu() {
         initialMenu.setFillParent(true);
-        Image image = new Image(logo);
+        Actor image = new Image(logo);
         Label nameLabel = new Label("Tap anywhere to begin!", skin);
         nameLabel.setColor(Color.BLACK);
         nameLabel.setFontScale(1.5f);
@@ -83,5 +84,6 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         stage.getBatch().dispose();
         logo.dispose();
+        skin.dispose();
     }
 }
