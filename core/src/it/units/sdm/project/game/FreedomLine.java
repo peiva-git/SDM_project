@@ -3,7 +3,6 @@ package it.units.sdm.project.game;
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.enums.Direction;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
@@ -166,5 +165,9 @@ public class FreedomLine {
                 ", direction=" + direction +
                 ", cellPositions=" + cellPositions +
                 '}';
+    }
+
+    public enum Direction {
+        HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT
     }
 }
