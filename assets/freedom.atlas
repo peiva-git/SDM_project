@@ -1,0 +1,34 @@
+
+freedom.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+black_checker
+  rotate: false
+  xy: 407, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+freedom_logo
+  rotate: false
+  xy: 2, 2
+  size: 369, 124
+  orig: 369, 124
+  offset: 0, 0
+  index: -1
+white_checker
+  rotate: false
+  xy: 373, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+white_tile
+  rotate: false
+  xy: 373, 60
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

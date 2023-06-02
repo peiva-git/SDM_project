@@ -3,13 +3,14 @@ package it.units.sdm.project.game.gui;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -39,8 +40,6 @@ public class FreedomGame extends Game implements BoardGame {
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     public static final String GAME_TAG = "FREEDOM_GAME";
-    private Texture blackStoneImage;
-    private Texture whiteStoneImage;
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
@@ -51,9 +50,9 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void create() {
-        blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
-        whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
+        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
+        skin.addRegions(atlas);
         board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         board.setClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
@@ -62,8 +61,6 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void dispose() {
-        blackStoneImage.dispose();
-        whiteStoneImage.dispose();
         skin.dispose();
     }
 
@@ -165,8 +162,8 @@ public class FreedomGame extends Game implements BoardGame {
 
     @NotNull
     private Image getPlayerStoneImage(@NotNull Color color) {
-        if(color == Color.WHITE) return new Image(whiteStoneImage);
-        return new Image(blackStoneImage);
+        if(color == Color.WHITE) return new Image(skin.get("white_checker", TextureRegion.class));
+        return new Image(skin.get("black_checker", TextureRegion.class));
     }
 
 

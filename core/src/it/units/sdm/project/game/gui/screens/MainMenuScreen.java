@@ -3,8 +3,9 @@ package it.units.sdm.project.game.gui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -22,14 +23,13 @@ public class MainMenuScreen implements Screen {
     private final Skin skin;
     @NotNull
     private final Stage stage;
-    @NotNull
-    private final Texture logo;
 
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        logo = new Texture(Gdx.files.internal("freedom_logo.png"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
+        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
+        skin.addRegions(atlas);
         initialMenu = new Table();
         initMenu();
         stage.addActor(initialMenu);
@@ -38,7 +38,7 @@ public class MainMenuScreen implements Screen {
 
     private void initMenu() {
         initialMenu.setFillParent(true);
-        Actor image = new Image(logo);
+        Actor image = new Image(skin.get("freedom_logo", TextureRegion.class));
         Label nameLabel = new Label("Tap anywhere to begin!", skin);
         nameLabel.setColor(Color.BLACK);
         nameLabel.setFontScale(1.5f);
@@ -83,7 +83,6 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        logo.dispose();
         skin.dispose();
     }
 }
