@@ -24,6 +24,10 @@ public class MainMenuScreen implements Screen {
     @NotNull
     private final Stage stage;
 
+    /**
+     * Freedom's menu screen. Displayed before the main game screen
+     * @param game The game using the screen
+     */
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
