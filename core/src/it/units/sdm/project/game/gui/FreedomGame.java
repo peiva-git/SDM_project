@@ -110,8 +110,7 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
-        Position currentPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
-        Move currentMove = new Move(getNextPlayer(), currentPosition);
+        Move currentMove = new Move(getNextPlayer(), inputPosition);
         if (!isChosenPositionValid(currentMove.getPosition())) return;
         updateBoard(currentMove);
         if(gameStatus == GameStatus.GAME_OVER) {
