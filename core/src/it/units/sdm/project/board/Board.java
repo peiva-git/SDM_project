@@ -53,7 +53,7 @@ public interface Board<P> {
         return adjacentPositions;
     }
 
-    private boolean isBoardPositionValid(@NotNull Position position) {
+    default boolean isBoardPositionValid(@NotNull Position position) {
         try {
             getPiece(position);
             return true;

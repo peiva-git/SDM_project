@@ -31,8 +31,8 @@ public class GameScreen implements Screen {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         Table container = new Table();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
+        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
         logArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         skin.addRegions(atlas);
         stage.addActor(container);

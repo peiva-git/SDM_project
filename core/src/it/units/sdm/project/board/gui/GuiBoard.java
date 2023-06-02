@@ -2,8 +2,6 @@ package it.units.sdm.project.board.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -24,23 +22,12 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private final int numberOfRows;
     private final int numberOfColumns;
-    @NotNull
-    private Texture whiteSquareTexture;
 
     public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        initTextures();
         initBoard();
-    }
-
-    private void initTextures() {
-        Pixmap whiteSquare = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGB565);
-        whiteSquare.setColor(Color.WHITE);
-        whiteSquare.fillRectangle(0, 0, TILE_SIZE, TILE_SIZE);
-        whiteSquareTexture = new Texture(whiteSquare);
-        whiteSquare.dispose();
     }
 
     private void initBoard() {
@@ -56,8 +43,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
 
     private void initBoardColumns(Color oddTilesColor, Color evenTilesColor) {
         for (int j = 0; j < numberOfColumns; j++) {
-            TextureRegion whiteTextureRegion = new TextureRegion(whiteSquareTexture, 0, 0, TILE_SIZE, TILE_SIZE);
-            Actor tile = new Image(whiteTextureRegion);
+            Actor tile = new Image(getSkin().get("white_tile", TextureRegion.class));
             if (isIndexEven(j)) {
                 tile.setColor(evenTilesColor);
             } else {
