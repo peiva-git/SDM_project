@@ -27,6 +27,10 @@ public class GameScreen implements Screen {
     @NotNull
     private final TextArea logArea;
 
+    /**
+     * Main freedom's game screen. Should be displayed after the players and the board are set
+     * @param game The game using the screen
+     */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
@@ -85,6 +89,11 @@ public class GameScreen implements Screen {
         skin.dispose();
         // the skin disposes of the atlas
     }
+
+    /**
+     * Gets the screen log area, used to display messages to the user while playing
+     * @return The screen log area
+     */
     public @NotNull TextArea getLogArea() {
         return logArea;
     }
