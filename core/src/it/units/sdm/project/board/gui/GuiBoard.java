@@ -82,7 +82,6 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 return;
             }
         }
-        Gdx.app.error(GUI_BOARD_TAG, "Invalid position, no matching cell found");
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
@@ -97,7 +96,6 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 return;
             }
         }
-        Gdx.app.error(GUI_BOARD_TAG, "Invalid position, no matching cell found");
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
@@ -120,7 +118,6 @@ public class GuiBoard extends Table implements Board<GuiStone> {
                 }
             }
         }
-        Gdx.app.error(GUI_BOARD_TAG, "Invalid position, no matching cell found");
         throw new InvalidPositionException("Invalid position, no matching cell found");
     }
 
