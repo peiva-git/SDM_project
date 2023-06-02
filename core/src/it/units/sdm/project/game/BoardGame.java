@@ -8,38 +8,38 @@ import org.jetbrains.annotations.Nullable;
 public interface BoardGame {
 
     /**
-     *
-     * @return The board used by the game
+     * Returns the board used by this game
+     * @return The board used by this game
      */
     @NotNull Board<?> getBoard();
 
     /**
-     *
-     * @return The player who's going first. In a game of chess, that would probably be the white player
+     * Returns the player who's going first. In a game of chess, that would probably be the white player
+     * @return The player who's going first
      */
     @NotNull Player getFirstPlayer();
 
     /**
-     *
-     * @return The player who's going second. In a game of chess, that would probably be the black player
+     * Returns the player who's going second. In a game of chess, that would probably be the black player
+     * @return The player who's going second
      */
     @NotNull Player getSecondPlayer();
 
     /**
-     *
+     * Returns the last move played in this game
      * @return The last move played in this game
      */
     @Nullable Move getLastMove();
 
     /**
-     * Play the move in this game
+     * Plays the next move in this game
      * @param position The chosen position for the next move
      */
     void nextMove(@NotNull Position position);
 
     /**
-     *
-     * @return The player who should play next
+     * Returns the player who's playing next
+     * @return The player who's playing next
      */
     default @NotNull Player getNextPlayer() {
         Player firstPlayer = getFirstPlayer();
