@@ -28,6 +28,12 @@ public class FreedomGame implements BoardGame {
     private final TerminalInputReader userInput = new TerminalInputReader();
     private final FreedomBoardStatusObserver statusObserver;
 
+    /**
+     * Creates a new terminal based freedom game
+     * @param board The board used in the game
+     * @param whitePlayer The first player
+     * @param blackPlayer The second player
+     */
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
@@ -35,6 +41,10 @@ public class FreedomGame implements BoardGame {
         statusObserver = new FreedomBoardStatusObserver(board);
     }
 
+    /**
+     * Starts the game. By default, the game will be waiting for user input on System.in and
+     * printing on System.out
+     */
     public void start() {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
