@@ -10,6 +10,10 @@ import java.util.Scanner;
 public class TerminalInputReader implements Closeable {
     Scanner userInput = new Scanner(System.in);
 
+    /**
+     * Returns the position that was given by the user
+     * @return The chosen position
+     */
     public @NotNull Position getPosition() {
         Position chosenPosition;
         String input = userInput.nextLine();
@@ -25,6 +29,10 @@ public class TerminalInputReader implements Closeable {
         return chosenPosition;
     }
 
+    /**
+     * Returns whether the user has decided to pass the last move or to play it
+     * @return true if the user wants to pass, false otherwise
+     */
     public boolean isLastMoveAPass() {
         String input = userInput.nextLine();
         while (true) {
@@ -42,6 +50,9 @@ public class TerminalInputReader implements Closeable {
         return Position.fromCoordinates(Integer.parseInt(input.substring(1)) - 1, input.charAt(0) - 'A');
     }
 
+    /**
+     * Closes the input reader
+     */
     @Override
     public void close() {
         userInput.close();
