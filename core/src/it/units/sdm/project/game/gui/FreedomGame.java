@@ -77,6 +77,11 @@ public class FreedomGame extends Game implements BoardGame {
         resetCurrentlyHighlightedCellsIfAny();
     }
 
+    /**
+     * Appends the given text to the game screen's logging area. If the game screen isn't currently visible,
+     * an error is shown and nothing gets printed
+     * @param textToAppend The text to append to the logging area
+     */
     public void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
