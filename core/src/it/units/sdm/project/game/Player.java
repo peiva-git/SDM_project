@@ -11,10 +11,24 @@ public class Player {
     @NotNull
     private final String surname;
 
-    public Player(Color color, @NotNull String name, @NotNull String surname) {
+    /**
+     * Creates a board game player with some basic information
+     * @param color Player's color. Can be either black or white
+     * @param name Player's name
+     * @param surname Player's surname
+     * @throws RuntimeException In case the color's different from black or white
+     */
+    public Player(Color color, @NotNull String name, @NotNull String surname) throws RuntimeException {
+        if (!isColorValid(color)) {
+            throw new RuntimeException("Invalid player color, can be either black or white");
+        }
         this.color = color;
         this.name = name;
         this.surname = surname;
+    }
+
+    private boolean isColorValid(Color playersColor) {
+        return playersColor == Color.BLACK || playersColor == Color.WHITE;
     }
 
     public Color getColor() {
