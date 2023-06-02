@@ -21,10 +21,18 @@ public class Position implements Comparable<Position> {
         return row < 0 || column < 0;
     }
 
+    /**
+     * Returns this position's row index, zero-indexed
+     * @return This position's row index
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Returns this position's column index, zero-indexed
+     * @return This position's column index
+     */
     public int getColumn() {
         return column;
     }
@@ -42,6 +50,11 @@ public class Position implements Comparable<Position> {
         return Objects.hash(row, column);
     }
 
+    /**
+     * Returns a string representation of this position. The column is converted to a letter and is printed
+     * before the row, for example G4
+     * @return The string representation of this position
+     */
     @Override
     public String toString() {
         char column = (char) ('A' + this.column);
@@ -49,12 +62,13 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * The assumed ordering is that of a chess board: assuming to be looking from the white player's side,
+     * The assumed ordering is that of a chess board: assuming to be looking from the first player's side,
      * the columns are ordered from A to H starting on the left to the right,
      * while the rows are ordered from 1 to 8 from the bottom to the top.
-     * We're therefore ordering all the board positions starting from letters first and then numbers
+     * We're therefore ordering all the board positions starting from letters first and then numbers,
+     * eg. A1, B1, C1...
      *
-     * @param position the position to compare this instance with
+     * @param position the position to compare this position with
      * @return 0 if the positions are the same, < 0 if position comes before this position,
      * > 0 if position comes after this position
      */
@@ -78,6 +92,13 @@ public class Position implements Comparable<Position> {
         return Integer.compare(row, position.getRow());
     }
 
+    /**
+     * Creates a new board position instance from the given coordinates
+     * @param row The row coordinate, starting from index 0
+     * @param column The column coordinate, starting from index 0
+     * @return The new position instance
+     * @throws InvalidPositionException In case the indexes are negative
+     */
     @NotNull
     public static Position fromCoordinates(int row, int column) throws InvalidPositionException {
         return new Position(row, column);
