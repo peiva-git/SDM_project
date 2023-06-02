@@ -19,6 +19,13 @@ public class MapBoard<P extends Stone> implements Board<P> {
     private final int numberOfRows;
     private final int numberOfColumns;
 
+    /**
+     * Creates a new Board instance with a TreeMap implementation
+     * @param numberOfRows The number of rows on the board
+     * @param numberOfColumns The number of columns on the board
+     * @throws InvalidBoardSizeException In case the board sizes aren't matching,
+     * or they're outside the allowed range of [2, 26]
+     */
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
             throw new InvalidBoardSizeException(
@@ -64,6 +71,13 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cell.getPiece();
     }
 
+    /**
+     * Generates a string representation of the board. The board is displayed here as a chess board,
+     * with letters indicating columns and numbers indicating rows. Free cells are marked with a - character,
+     * while cells occupied by the first player are marked with a W and cells occupied by the second player
+     * are marked with a B.
+     * @return The board's string representation
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
