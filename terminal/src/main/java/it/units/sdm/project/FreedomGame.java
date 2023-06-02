@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
@@ -23,9 +22,13 @@ public class FreedomGame implements BoardGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = FREEDOM;
+    @NotNull
+    private GameStatus gameStatus;
+    @NotNull
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
+    @NotNull
     private final TerminalInputReader userInput = new TerminalInputReader();
+    @NotNull
     private final FreedomBoardStatusObserver statusObserver;
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
@@ -33,13 +36,14 @@ public class FreedomGame implements BoardGame {
         this.blackPlayer = blackPlayer;
         this.board = board;
         statusObserver = new FreedomBoardStatusObserver(board);
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
     }
 
     public void start() {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = FREEDOM;
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         while (gameStatus != GAME_OVER) {
             playTurn();
         }
@@ -58,53 +62,26 @@ public class FreedomGame implements BoardGame {
     }
 
     private void playTurn() {
-        Player currentPlayer = getNextPlayer();
         Position chosenPosition = null;
         System.out.println(board);
         switch (gameStatus) {
             case FREEDOM:
-                chosenPosition = getPositionWithFreedom(currentPlayer);
-                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
+                chosenPosition = getPositionWithFreedom(getNextPlayer());
                 break;
             case NO_FREEDOM:
-                chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
+                chosenPosition = getPositionWithNoFreedom(getNextPlayer());
                 break;
             case LAST_MOVE:
-                chosenPosition = playLastMove(currentPlayer);
-                if (chosenPosition != null) {
-                    board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
+                chosenPosition = playLastMove(getNextPlayer());
+                if (chosenPosition == null) {
+                    gameStatus = GAME_OVER;
+                    return;
                 }
-                gameStatus = GAME_OVER;
                 break;
+            case GAME_OVER:
+                return;
         }
-        if (chosenPosition != null) {
-            playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
-        } else {
-            LinkedList<Move> currentPlayersMoves = playersMovesHistory.stream()
-                    .filter(move -> move.getPlayer().equals(currentPlayer))
-                    .collect(Collectors.toCollection(LinkedList::new));
-            // the current player chose to skip his move, so the position will stay the same
-            playersMovesHistory.add(currentPlayersMoves.getLast());
-        }
-        updateCurrentGameStatus();
-    }
-
-    private void updateCurrentGameStatus() {
-        if (gameStatus != GAME_OVER) {
-            long numberOfFreeCells = board.getNumberOfFreeCells();
-            if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = FREEDOM;
-                } else {
-                    gameStatus = NO_FREEDOM;
-                }
-            } else if(numberOfFreeCells == 1){
-                gameStatus = LAST_MOVE;
-            } else {
-                gameStatus = GAME_OVER;
-            }
-        }
+        nextMove(chosenPosition);
     }
 
     private @NotNull Position getPositionWithFreedom(@NotNull Player player) {
@@ -135,12 +112,9 @@ public class FreedomGame implements BoardGame {
         System.out.println("Last move! You can decide to either play or pass");
         System.out.print("Do you want to pass? (Yes/No): ");
         if (!userInput.isLastMoveAPass()) {
-            Set<Position> freePositions = board.getPositions().stream()
-                    .filter(position -> !board.isCellOccupied(position))
-                    .collect(Collectors.toSet());
-            if (freePositions.size() != 1)
+            if (board.getFreePositions().size() != 1)
                 throw new RuntimeException("When playing the last move, there should be only one free cell left on the board");
-            return freePositions.iterator().next();
+            return board.getFreePositions().iterator().next();
         }
         return null;
     }
@@ -205,7 +179,9 @@ public class FreedomGame implements BoardGame {
 
     @Override
     public void nextMove(@NotNull Position position) {
-
+        board.putPiece(new Stone(getNextPlayer().getColor()), position);
+        playersMovesHistory.add(new Move(getNextPlayer(), position));
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
     }
 
     @Override
