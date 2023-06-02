@@ -12,6 +12,11 @@ public class Move {
     @NotNull
     private final Position position;
 
+    /**
+     * Creates a wrapper to save a player's move in a board game
+     * @param player The player making the move
+     * @param position The chosen position
+     */
     public Move(@NotNull Player player, @NotNull Position position) {
         this.player = player;
         this.position = position;
