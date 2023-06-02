@@ -214,7 +214,7 @@ public class FreedomGame extends Game implements BoardGame {
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
-            if (positionsToHighlight.contains(fromTilePositionToBoardPosition(cell.getRow(), cell.getColumn()))) {
+            if (positionsToHighlight.contains(fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()))) {
                 cellsToHighlight.add(cell);
             }
         }
@@ -241,7 +241,7 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     @NotNull
-    private Position fromTilePositionToBoardPosition(int tileRow, int tileColumn) {
+    private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
         return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
     }
 
