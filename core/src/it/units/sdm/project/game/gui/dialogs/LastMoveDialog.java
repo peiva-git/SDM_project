@@ -13,6 +13,11 @@ public class LastMoveDialog extends Dialog {
     @NotNull
     private final Skin skin;
 
+    /**
+     * Creates a new last move dialog to use in a libgdx screen
+     * @param game The game which will use the dialog
+     * @param skin The skin to be used on the dialog
+     */
     public LastMoveDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;
