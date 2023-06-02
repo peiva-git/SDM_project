@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.gui.GuiBoard;
-import it.units.sdm.project.game.FreedomBoardObserver;
+import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
 import it.units.sdm.project.game.gui.screens.GameScreen;
@@ -19,11 +19,11 @@ public class GameOverDialog extends Dialog {
     public GameOverDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;
-        FreedomBoardObserver freedomBoardObserver = new FreedomBoardObserver((GuiBoard) game.getBoard());
+        FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
         setSize(500, 200);
-        Player winner = freedomBoardObserver.getCurrentWinner(game.getFirstPlayer(), game.getSecondPlayer());
+        Player winner = statusObserver.getCurrentWinner(game.getFirstPlayer(), game.getSecondPlayer());
         if (winner != null) {
             text("The winner is " + winner);
         } else {

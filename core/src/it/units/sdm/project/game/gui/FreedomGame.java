@@ -16,8 +16,8 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
 import it.units.sdm.project.game.BoardGame;
-import it.units.sdm.project.game.FreedomBoardObserver;
-import it.units.sdm.project.game.FreedomBoardObserver.GameStatus;
+import it.units.sdm.project.game.FreedomBoardStatusObserver;
+import it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.dialogs.GameOverDialog;
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.units.sdm.project.game.FreedomBoardObserver.GameStatus.FREEDOM;
+import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.FREEDOM;
 
 public class FreedomGame extends Game implements BoardGame {
 
@@ -45,7 +45,7 @@ public class FreedomGame extends Game implements BoardGame {
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
     private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
-    private FreedomBoardObserver freedomBoardObserver;
+    private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private Skin skin;
 
@@ -56,7 +56,7 @@ public class FreedomGame extends Game implements BoardGame {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         board.setClickListener(new TileClickListener(this));
-        freedomBoardObserver = new FreedomBoardObserver(board);
+        statusObserver = new FreedomBoardStatusObserver(board);
         setScreen(new MainMenuScreen(this));
     }
 
@@ -119,7 +119,7 @@ public class FreedomGame extends Game implements BoardGame {
             GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
             gameOverDialog.show(board.getStage());
         }
-        gameStatus = freedomBoardObserver.getCurrentGameStatus(getLastMove());
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         if (gameStatus == GameStatus.LAST_MOVE) {
             LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
             lastMoveDialog.show(board.getStage());

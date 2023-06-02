@@ -5,12 +5,12 @@ import it.units.sdm.project.board.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FreedomBoardObserver {
+public class FreedomBoardStatusObserver {
 
     @NotNull
     Board<? extends Stone> board;
 
-    public FreedomBoardObserver(@NotNull Board<? extends Stone> board) {
+    public FreedomBoardStatusObserver(@NotNull Board<? extends Stone> board) {
         this.board = board;
     }
 

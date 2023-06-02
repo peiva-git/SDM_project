@@ -4,7 +4,7 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.*;
-import it.units.sdm.project.game.FreedomBoardObserver.GameStatus;
+import it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static it.units.sdm.project.game.FreedomBoardObserver.GameStatus.*;
+import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
 public class FreedomGame implements BoardGame {
 
@@ -26,13 +26,13 @@ public class FreedomGame implements BoardGame {
     private GameStatus gameStatus = FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
-    private final FreedomBoardObserver freedomBoardObserver;
+    private final FreedomBoardStatusObserver statusObserver;
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
-        freedomBoardObserver = new FreedomBoardObserver(board);
+        statusObserver = new FreedomBoardStatusObserver(board);
     }
 
     public void start() {
@@ -43,7 +43,7 @@ public class FreedomGame implements BoardGame {
         while (gameStatus != GAME_OVER) {
             playTurn();
         }
-        Player winner = freedomBoardObserver.getCurrentWinner(whitePlayer, blackPlayer);
+        Player winner = statusObserver.getCurrentWinner(whitePlayer, blackPlayer);
         System.out.println(board);
         displayTheWinner(winner);
         reset();
