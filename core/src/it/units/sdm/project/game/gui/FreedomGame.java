@@ -36,6 +36,7 @@ public class FreedomGame extends Game implements BoardGame {
     public static final int NUMBER_OF_COLUMNS = 2;
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
+    public static final String GAME_TAG = "FREEDOM_GAME";
     private Texture blackStoneImage;
     private Texture whiteStoneImage;
     private GuiBoard board;
@@ -44,12 +45,14 @@ public class FreedomGame extends Game implements BoardGame {
     private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
     private FreedomBoardObserver freedomBoardObserver;
     private GameStatus gameStatus = GameStatus.FREEDOM;
+    private Skin skin;
 
     @Override
     public void create() {
         blackStoneImage = new Texture(Gdx.files.internal("circle2.png"));
         whiteStoneImage = new Texture(Gdx.files.internal("redCircle.png"));
-        board = new GuiBoard(new Skin(Gdx.files.internal("uiskin.json")), NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         board.setClickListener(new TileClickListener(this));
         freedomBoardObserver = new FreedomBoardObserver(board);
         setScreen(new MainMenuScreen(this));
@@ -57,6 +60,9 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void dispose() {
+        blackStoneImage.dispose();
+        whiteStoneImage.dispose();
+        skin.dispose();
     }
 
     @Override
@@ -77,7 +83,7 @@ public class FreedomGame extends Game implements BoardGame {
             GameScreen currentScreen = (GameScreen) getScreen();
             currentScreen.getFirstTextArea().appendText(textToAppend);
         } else {
-            Gdx.app.error("GAME", "Unable to print to game screen text area");
+            Gdx.app.error(GAME_TAG, "Unable to print to game screen text area");
         }
     }
 
@@ -104,9 +110,9 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void nextMove(@NotNull Position inputPosition) {
-        Position boardPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
-        Move currentMove = new Move(getNextPlayer(), boardPosition);
-        if (!checkUserPositionValidity(currentMove.getPosition())) return;
+        Position currentPosition = fromTilePositionToBoardPosition(inputPosition.getRow(), inputPosition.getColumn());
+        Move currentMove = new Move(getNextPlayer(), currentPosition);
+        if (!isChosenPositionValid(currentMove.getPosition())) return;
         updateBoard(currentMove);
         if(gameStatus == GameStatus.GAME_OVER) {
             GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
@@ -126,7 +132,7 @@ public class FreedomGame extends Game implements BoardGame {
         highlightValidPositionsForNextNoFreedomMove();
     }
 
-    private boolean checkUserPositionValidity(@NotNull Position inputPosition) {
+    private boolean isChosenPositionValid(@NotNull Position inputPosition) {
         if (board.isCellOccupied(inputPosition)) return false;
         if (gameStatus == GameStatus.NO_FREEDOM)
             return findFreePositionsNearLastPlayedPosition().contains(inputPosition);
@@ -142,8 +148,8 @@ public class FreedomGame extends Game implements BoardGame {
 
     private void putStoneOnTheBoard(@NotNull Move move) {
         Player currentPlayer = move.getPlayer();
-        Position inputPosition = move.getPosition();
-        board.putPiece(new GuiStone(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), inputPosition);
+        Position currentPosition = move.getPosition();
+        board.putPiece(new GuiStone(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), currentPosition);
         updateLogArea(move);
         playersMovesHistory.add(move);
     }
@@ -184,7 +190,7 @@ public class FreedomGame extends Game implements BoardGame {
         }
     }
 
-    private void highlightCell(Cell<Actor> cellToHighlight) {
+    private void highlightCell(@NotNull Cell<Actor> cellToHighlight) {
         Stack tileAndPiece = (Stack) cellToHighlight.getActor();
         Actor tile = tileAndPiece.getChild(0);
         if (isIndexEven(cellToHighlight.getRow())) {
@@ -203,7 +209,7 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Cell<Actor>> getCellsToHighlight(@NotNull Set<Position> positionsToHighlight){
+    private @NotNull List<Cell<Actor>> getCellsToHighlight(@NotNull Set<Position> positionsToHighlight){
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
