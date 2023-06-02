@@ -15,9 +15,9 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
-import it.units.sdm.project.enums.GameStatus;
 import it.units.sdm.project.game.BoardGame;
 import it.units.sdm.project.game.FreedomBoardObserver;
+import it.units.sdm.project.game.FreedomBoardObserver.GameStatus;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.dialogs.GameOverDialog;
@@ -29,6 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static it.units.sdm.project.game.FreedomBoardObserver.GameStatus.FREEDOM;
 
 public class FreedomGame extends Game implements BoardGame {
 
@@ -44,7 +46,7 @@ public class FreedomGame extends Game implements BoardGame {
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
     private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
     private FreedomBoardObserver freedomBoardObserver;
-    private GameStatus gameStatus = GameStatus.FREEDOM;
+    private GameStatus gameStatus = FREEDOM;
     private Skin skin;
 
     @Override

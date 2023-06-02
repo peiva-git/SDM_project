@@ -2,7 +2,6 @@ package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.enums.GameStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,5 +46,11 @@ public class FreedomBoardObserver {
         return GameStatus.GAME_OVER;
     }
 
+    public enum GameStatus {
+        FREEDOM,
+        NO_FREEDOM,
+        LAST_MOVE,
+        GAME_OVER
+    }
 }
 

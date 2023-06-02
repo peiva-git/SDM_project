@@ -4,7 +4,7 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.*;
-import it.units.sdm.project.game.gui.GameStatusHandler;
+import it.units.sdm.project.game.FreedomBoardObserver.GameStatus;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static it.units.sdm.project.game.FreedomBoardObserver.GameStatus.*;
 
 public class FreedomGame implements BoardGame {
 
@@ -21,7 +23,7 @@ public class FreedomGame implements BoardGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatusHandler.GameStatus gameStatus = GameStatusHandler.GameStatus.FREEDOM;
+    private GameStatus gameStatus = FREEDOM;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final TerminalInputReader userInput = new TerminalInputReader();
     private final FreedomBoardObserver freedomBoardObserver;
@@ -37,8 +39,8 @@ public class FreedomGame implements BoardGame {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = GameStatusHandler.GameStatus.FREEDOM;
-        while (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
+        gameStatus = FREEDOM;
+        while (gameStatus != GAME_OVER) {
             playTurn();
         }
         Player winner = freedomBoardObserver.getCurrentWinner(whitePlayer, blackPlayer);
@@ -73,7 +75,7 @@ public class FreedomGame implements BoardGame {
                 if (chosenPosition != null) {
                     board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
                 }
-                gameStatus = GameStatusHandler.GameStatus.GAME_OVER;
+                gameStatus = GAME_OVER;
                 break;
         }
         if (chosenPosition != null) {
@@ -89,18 +91,18 @@ public class FreedomGame implements BoardGame {
     }
 
     private void updateCurrentGameStatus() {
-        if (gameStatus != GameStatusHandler.GameStatus.GAME_OVER) {
+        if (gameStatus != GAME_OVER) {
             long numberOfFreeCells = board.getNumberOfFreeCells();
             if (numberOfFreeCells > 1) {
                 if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = GameStatusHandler.GameStatus.FREEDOM;
+                    gameStatus = FREEDOM;
                 } else {
-                    gameStatus = GameStatusHandler.GameStatus.NO_FREEDOM;
+                    gameStatus = NO_FREEDOM;
                 }
             } else if(numberOfFreeCells == 1){
-                gameStatus = GameStatusHandler.GameStatus.LAST_MOVE;
+                gameStatus = LAST_MOVE;
             } else {
-                gameStatus = GameStatusHandler.GameStatus.GAME_OVER;
+                gameStatus = GAME_OVER;
             }
         }
     }
