@@ -83,7 +83,7 @@ public class FreedomGame extends Game implements BoardGame {
     public void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
-            currentScreen.getFirstTextArea().appendText(textToAppend);
+            currentScreen.getLogArea().appendText(textToAppend);
         } else {
             Gdx.app.error(GAME_TAG, "Unable to print to game screen text area");
         }

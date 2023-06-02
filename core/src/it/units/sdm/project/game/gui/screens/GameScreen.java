@@ -16,7 +16,6 @@ import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 public class GameScreen implements Screen {
     @NotNull
@@ -26,7 +25,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final Skin skin;
     @NotNull
-    private final TextArea firstTextArea;
+    private final TextArea logArea;
 
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -34,16 +33,16 @@ public class GameScreen implements Screen {
         Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        firstTextArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
+        logArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
         skin.addRegions(atlas);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
         Drawable background = skin.getDrawable("default-window");
         container.setBackground(background);
-        firstTextArea.setAlignment(Align.topLeft);
-        firstTextArea.setDisabled(true);
-        container.add(firstTextArea).expand().fill();
+        logArea.setAlignment(Align.topLeft);
+        logArea.setDisabled(true);
+        container.add(logArea).expand().fill();
         container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * GuiBoard.TILE_SIZE);
     }
 
@@ -86,8 +85,8 @@ public class GameScreen implements Screen {
         skin.dispose();
         // the skin disposes of the atlas
     }
-    public @NotNull TextArea getFirstTextArea() {
-        return firstTextArea;
+    public @NotNull TextArea getLogArea() {
+        return logArea;
     }
 
 }
