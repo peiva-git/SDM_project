@@ -23,6 +23,12 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private final int numberOfRows;
     private final int numberOfColumns;
 
+    /**
+     * Create a new Board instance to be used in a libgdx scene2d GUI
+     * @param skin The skin used by the board, impacting the board's appearance
+     * @param numberOfRows Number of rows the board is going to have. Should be equal to the number of columns
+     * @param numberOfColumns Number of columns the board is going to have. Should be equal to the number of columns
+     */
     public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
         this.numberOfColumns = numberOfColumns;
@@ -53,6 +59,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
             add(tileAndPiece).size(TILE_SIZE);
         }
     }
+
+    /**
+     * Sets a listener for the whole board
+     * @param clickListener Listener to be set
+     */
     @SuppressWarnings("unchecked")
     public void setClickListener(@NotNull ClickListener clickListener) {
         for(Cell<Actor> cell : getCells()) {
