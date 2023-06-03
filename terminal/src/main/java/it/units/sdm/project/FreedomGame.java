@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
@@ -56,7 +57,7 @@ public class FreedomGame implements BoardGame {
     }
 
     private void playTurn() {
-        displayInitialTurnText(getNextPlayer());
+        printPromptForPlayerFeedback(getNextPlayer());
         if (gameStatus == LAST_MOVE && userInput.isLastMoveAPass()) {
             gameStatus = GAME_OVER;
         } else {
@@ -66,11 +67,10 @@ public class FreedomGame implements BoardGame {
         System.out.println();
     }
 
-    private void displayInitialTurnText(@NotNull Player player) {
+    private void printPromptForPlayerFeedback(@NotNull Player player) {
         System.out.println(board);
         System.out.println();
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
-        System.out.println("Game Status: " + gameStatus);
         if(gameStatus == LAST_MOVE) {
             System.out.println("You can decide to either play or pass");
             System.out.print("Do you want to pass? (Yes/No): ");
@@ -104,15 +104,15 @@ public class FreedomGame implements BoardGame {
             case NO_FREEDOM:
                 System.out.print("Yuo can pick one of the following positions: ");
                 Position lastPosition = playersMovesHistory.getLast().getPosition();
-                Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
-                adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
-                    int displayedRow = adjacentPosition.getRow() + 1;
-                    char displayedColumn = (char) ('A' + adjacentPosition.getColumn());
-                    System.out.print(displayedColumn);
-                    System.out.print(displayedRow);
-                    System.out.print(" ");
-                });
-                System.out.println();
+                String formattedAdjacentPositions = board.getAdjacentPositions(lastPosition).stream()
+                        .sorted()
+                        .map(position -> {
+                            int displayedRow = position.getRow() + 1;
+                            char displayedColumn = (char) ('A' + position.getColumn());
+                            return displayedColumn + "" + displayedRow;
+                        })
+                        .collect(Collectors.joining(", "));
+                System.out.println(formattedAdjacentPositions);
         }
     }
 
