@@ -132,7 +132,7 @@ public class FreedomGame implements BoardGame {
         return true;
     }
 
-    private void displayTheWinner(Player winner) {
+    private void displayTheWinner(@Nullable Player winner) {
         if (winner != null) {
             System.out.println("The winner is: " + winner);
         } else {
