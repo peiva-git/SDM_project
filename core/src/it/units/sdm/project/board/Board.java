@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public interface Board<P> {
@@ -66,6 +67,12 @@ public interface Board<P> {
                 .count();
     }
 
+    default @NotNull Set<Position> getFreePositions() {
+        return getPositions().stream()
+                .filter(position -> !isCellOccupied(position))
+                .collect(Collectors.toSet());
+    }
+  
     /**
      * Checks whether the positions adjacent to the chosen position are occupied
      * @param position The chosen position
