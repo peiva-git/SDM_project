@@ -14,7 +14,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * This class it provides
+ * This class counts {@link Player} points in a Freedom {@link BoardGame}. Every stone line
+ * of the same color, which size is 4, is a point.
  */
 public class FreedomPointsCounter {
     private final static int MAX_NUMBER_OF_STONES = 4;
@@ -23,14 +24,28 @@ public class FreedomPointsCounter {
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
+    /**
+     * Creates an instance of {@link FreedomPointsCounter}
+     * @param board Board on which counting Freedom {@link Player} points
+     */
     public FreedomPointsCounter(@NotNull Board<? extends Stone> board) {
         this.board = board;
     }
 
+    /**
+     * Gets the {@link Player} score
+     * @param player Freedom player
+     * @return The player's score
+     */
     public int getPlayerScore(@NotNull Player player) {
         return getPlayerScore(player.getColor());
     }
 
+    /**
+     * Gets the {@link Player} score
+     * @param color Freedom player's color, it can be either white or black
+     * @return The player's color
+     */
     public int getPlayerScore(@NotNull Color color) {
         if (color == Color.WHITE) {
             this.whiteFreedomLines.clear();

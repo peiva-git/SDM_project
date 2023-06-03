@@ -59,9 +59,9 @@ public class Player {
     }
 
     /**
-     * Two players are equal whether they have the same color
-     * @param obj Player instance to be compared with
-     * @return True if the players are equal, otherwise the method returns false
+     * Two players are equal if they have the same color
+     * @param obj The object to be compared with
+     * @return True if the players are equal, otherwise it returns false
      */
     @Override
     public boolean equals(Object obj) {

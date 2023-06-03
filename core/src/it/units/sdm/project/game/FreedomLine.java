@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- *
- * Line of stones of the same color.
+ * Stone line of the same color. An instance of {@link FreedomLine} is described by
+ * its direction, color and stone positions.
  */
 public class FreedomLine {
     @NotNull
@@ -24,17 +24,34 @@ public class FreedomLine {
     @NotNull
     private final SortedSet<Position> cellPositions = new TreeSet<>();
 
+    /**
+     * Creates a {@link FreedomLine} instance
+     * @param board Board on which is placed the stone line
+     */
     public FreedomLine(@NotNull Board<? extends Stone> board) {
         this.color = null;
         this.direction = null;
         this.board = board;
     }
 
+    /**
+     * Creates a {@link FreedomLine} instance from a starting position
+     * @param board Board on which is placed the stone line
+     * @param initialPosition Initial position of the line
+     */
     public FreedomLine(@NotNull Board<? extends Stone> board, @NotNull Position initialPosition) {
         this.board = board;
         addPosition(initialPosition);
     }
 
+    /**
+     * Adds a stone to this {@link FreedomLine}. This method checks if the
+     * position to add is valid according to the line direction, to the last
+     * stone position of the line and to the color of the stone on position to add.
+     * @param position The position to add
+     * @throws InvalidPositionException If the position isn't valid according to the last stone position,
+     * to the line direction and to the stone color on the position to add
+     */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
         Stone stone = board.getPiece(position);
         if (cellPositions.isEmpty()) setColor(stone);
@@ -120,6 +137,10 @@ public class FreedomLine {
         return firstPosition.getRow() == secondPosition.getRow() && ((firstPosition.getColumn() == secondPosition.getColumn() + 1) || firstPosition.getColumn() == secondPosition.getColumn() - 1);
     }
 
+    /**
+     * Gets the line color
+     * @return The line color
+     */
     public @Nullable Color getColor() {
         return color;
     }
@@ -132,20 +153,37 @@ public class FreedomLine {
         return cellPositions;
     }
 
+    /**
+     * Gets the first position of the line according to the {@link Position} ordering.
+     * @return The first position of the line
+     */
     @NotNull
     public Position first() {
         return cellPositions.first();
     }
 
+    /**
+     * Gets the last position of the line according to the {@link Position} ordering.
+     * @return The last position of the line
+     */
     @NotNull
     public Position last() {
         return cellPositions.last();
     }
 
+    /**
+     * Gets the size of the line.
+     * @return The size of the line
+     */
     public int size() {
         return cellPositions.size();
     }
 
+    /**
+     * Two lines are equal if they have the same color, the same stone positions and the same direction.
+     * @param o The object to compare with
+     * @return True if the lines are equal, otherwise it returns false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -154,6 +192,10 @@ public class FreedomLine {
         return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
     }
 
+    /**
+     * {@link String} representation of the {@link FreedomLine}
+     * @return String composed by line color, line direction and stone positions
+     */
     @Override
     public String toString() {
         return "FreedomLine{" +
@@ -164,15 +206,27 @@ public class FreedomLine {
     }
 
     /**
-     *
+     * Describes all the possible directions that can have a {@link FreedomLine} on a {@link BoardGame}
      */
     public enum Direction {
         /**
-         *
+         * A line has a horizontal direction if all the
+         * line stones are placed on the same row
          */
         HORIZONTAL,
+        /**
+         * A line has a vertical direction if all the line stones
+         * are placed on the same column
+         */
         VERTICAL,
+        /**
+         * A line has a diagonal left direction if the i-th stone of the line
+         *
+         */
         DIAGONAL_LEFT,
+        /**
+         * A line has a diagonal right direction if
+         */
         DIAGONAL_RIGHT
     }
 }

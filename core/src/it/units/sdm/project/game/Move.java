@@ -42,9 +42,8 @@ public class Move {
     }
 
     /**
-     * Two moves are equal whether the moves players and the moves positions are
-     * equal.
-     * @param o Move to be compared with
+     * Two moves are equal if the players and the positions are equal
+     * @param o The object to be compared with
      * @return True if the moves are equal, otherwise it returns false
      */
     @Override

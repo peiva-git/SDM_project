@@ -40,6 +40,12 @@ public class Position implements Comparable<Position> {
     public int getColumn() {
         return column;
     }
+
+    /**
+     * Two positions are equal if they have the same coordinates
+     * @param o The object to compare with
+     * @return True if the positions are equal, otherwise it returns false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

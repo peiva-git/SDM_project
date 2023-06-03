@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Representation of a checker which has its own color.
+ * Representation of a stone which can be placed on a {@link Board}.
  */
 public class Stone {
     @NotNull
@@ -28,7 +28,7 @@ public class Stone {
     }
 
     /**
-     * Two stones are equal whether they are of the same color.
+     * Two stones are equal if they are of the same color.
      * @param obj Stone to be compared with this stone
      * @return True if the two stones are equals, otherwise it returns false
      */
