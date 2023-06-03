@@ -42,6 +42,7 @@ public class FreedomGame implements BoardGame {
     public void start() {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
+        board.clearBoard();
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         while (gameStatus != GAME_OVER) {
             playTurn();
