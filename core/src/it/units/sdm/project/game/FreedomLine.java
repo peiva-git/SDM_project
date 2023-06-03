@@ -11,7 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * FreedomLine is a line of stones with the same color.
+ *
+ * Line of stones of the same color.
  */
 public class FreedomLine {
     @NotNull
@@ -125,7 +126,7 @@ public class FreedomLine {
 
     /**
      * @return This method returns all the positions that are in this freedom line,
-     * ordered by the custom ordering defined in the Position class
+     * ordered by the custom ordering defined in the {@link Position} class
      */
     public Set<Position> getCellPositions() {
         return cellPositions;
@@ -154,11 +155,6 @@ public class FreedomLine {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(board, color, direction, cellPositions);
-    }
-
-    @Override
     public String toString() {
         return "FreedomLine{" +
                 "color=" + color +
@@ -167,7 +163,16 @@ public class FreedomLine {
                 '}';
     }
 
+    /**
+     *
+     */
     public enum Direction {
-        HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT
+        /**
+         *
+         */
+        HORIZONTAL,
+        VERTICAL,
+        DIAGONAL_LEFT,
+        DIAGONAL_RIGHT
     }
 }

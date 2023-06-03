@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * Represents a player's move of a {@link BoardGame}.
+ */
 public class Move {
 
     @NotNull
@@ -22,14 +25,28 @@ public class Move {
         this.position = position;
     }
 
+    /**
+     * Gets the move's player
+     * @return The move's player
+     */
     public @NotNull Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gets the move's position
+     * @return The move's position
+     */
     public @NotNull Position getPosition() {
         return position;
     }
 
+    /**
+     * Two moves are equal whether the moves players and the moves positions are
+     * equal.
+     * @param o Move to be compared with
+     * @return True if the moves are equal, otherwise it returns false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,8 +55,4 @@ public class Move {
         return player.equals(move.player) && position.equals(move.position);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(player, position);
-    }
 }

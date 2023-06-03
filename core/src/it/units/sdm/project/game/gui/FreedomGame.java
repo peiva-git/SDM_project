@@ -35,8 +35,8 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
 public class FreedomGame extends Game implements BoardGame {
 
-    public static final int NUMBER_OF_ROWS = 2;
-    public static final int NUMBER_OF_COLUMNS = 2;
+    public static final int NUMBER_OF_ROWS = 8;
+    public static final int NUMBER_OF_COLUMNS = 8;
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     public static final String GAME_TAG = "FREEDOM_GAME";

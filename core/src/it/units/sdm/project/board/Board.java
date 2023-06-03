@@ -8,7 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+/**
+ * Board composed by cells, where every cell has its own unique {@link Position}.
+ * On each cell can be placed a piece.
+ * @param <P> The type of piece
+ */
 public interface Board<P> {
     /**
      * Remove the piece at the given position

@@ -13,6 +13,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * This class it provides
+ */
 public class FreedomPointsCounter {
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull

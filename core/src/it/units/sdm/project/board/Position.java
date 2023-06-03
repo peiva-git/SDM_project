@@ -5,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * Representation of a {@link Board} position. The {@link Position} is composed by two coordinates:
+ * row index and column index. Both of them must be a positive integer number.
+ */
 public class Position implements Comparable<Position> {
     private final int row;
     private final int column;
@@ -36,7 +40,6 @@ public class Position implements Comparable<Position> {
     public int getColumn() {
         return column;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,7 +61,7 @@ public class Position implements Comparable<Position> {
     @Override
     public String toString() {
         char column = (char) ('A' + this.column);
-        return column + "" + (row + 1);
+        return column + String.valueOf(row + 1);
     }
 
     /**

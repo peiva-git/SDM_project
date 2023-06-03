@@ -3,6 +3,9 @@ package it.units.sdm.project.board;
 import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Representation of a checker which has its own color.
+ */
 public class Stone {
     @NotNull
     private final Color color;
@@ -24,6 +27,11 @@ public class Stone {
         return this.color;
     }
 
+    /**
+     * Two stones are equal whether they are of the same color.
+     * @param obj Stone to be compared with this stone
+     * @return True if the two stones are equals, otherwise it returns false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -31,6 +39,10 @@ public class Stone {
         return ((Stone) obj).getColor() == color;
     }
 
+    /**
+     * String representation of the stone.
+     * @return String representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">Color</a> class.
+     */
     @Override
     public String toString() {
         return color.toString();

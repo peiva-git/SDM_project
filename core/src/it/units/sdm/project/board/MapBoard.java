@@ -11,16 +11,29 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * Implementation of the Board interface based on <a href="https://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html">TreeMap</a>,
+ * where the cell positions represent the keys and the cells represent the values of the map. The type of piece that can be
+ * placed on the {@link MapBoard} must extend the {@link Stone} class.
+ *
+ * @param <P> The type of piece
+ */
 public class MapBoard<P extends Stone> implements Board<P> {
 
+    /**
+     * The minimum board size.
+     */
     public static final int MIN_BOARD_SIZE = 2;
+    /**
+     * The maximum board size.
+     */
     public final static int MAX_BOARD_SIZE = 26;
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
     /**
-     * Creates a new Board instance with a TreeMap implementation
+     * Creates a new Board instance with specified size.
      * @param numberOfRows The number of rows on the board
      * @param numberOfColumns The number of columns on the board
      * @throws InvalidBoardSizeException In case the board sizes aren't matching,
