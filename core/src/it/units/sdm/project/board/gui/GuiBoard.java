@@ -19,7 +19,6 @@ import java.util.TreeSet;
 /**
  * This class represents a board object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
- * @author Manuel Kosovel, Ivan Pelizon
  */
 public class GuiBoard extends Table implements Board<GuiStone> {
 
@@ -42,7 +41,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private final int numberOfColumns;
 
     /**
-     * Create a new Board instance to be used in a libgdx scene2d GUI
+     * Create a new Board instance to be used in a libGDX scene2d GUI
      * @param skin The skin used by the board, impacting the board's appearance
      * @param numberOfRows Number of rows the board is going to have. Should be equal to the number of columns
      * @param numberOfColumns Number of columns the board is going to have. Should be equal to the number of columns

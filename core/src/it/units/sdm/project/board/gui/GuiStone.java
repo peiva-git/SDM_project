@@ -6,8 +6,10 @@ import it.units.sdm.project.board.Stone;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Representation of a checker to be used as a part of a <a href="https://libgdx.com/wiki/">libGDX</a>
- * scene2d graphical user interface.
+ * This class represents a {@link Stone} that may be placed on a {@link GuiBoard}.
+ * Aside from the {@link Color}, an instance of this object also holds information about the
+ * {@link com.badlogic.gdx.scenes.scene2d.Actor} that represents this {@link Stone} on the
+ * {@link GuiBoard}.
  */
 public class GuiStone extends Stone {
 

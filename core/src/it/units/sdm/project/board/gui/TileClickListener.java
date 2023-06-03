@@ -11,18 +11,17 @@ import org.jetbrains.annotations.NotNull;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
- * <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.2.0/com/badlogic/gdx/scenes/scene2d/utils/ClickListener.html">ClickListener</a>
- * to be used with a {@link GuiBoard}. By default, the listener will simply
- * execute the {@link BoardGame#nextMove(Position)} using the clicked tile position.
- * If a different behaviour is expected, the {@link #clicked(InputEvent, float, float)} method should be overridden.
+ * This class represents a click listener to be used on each tile of a {@link GuiBoard}.
  */
 public class TileClickListener extends ClickListener {
     @NotNull
     private final BoardGame game;
 
     /**
-     * Create a new listener to be used with a Board.
-     * @param game The {@link BoardGame} instance on which to listen for tile click events
+     * Create a new listener to be used with a Board. By default, the listener will simply
+     * execute the nextMove() method from the BoardGame interface using the clicked tile position.
+     * If a different behaviour is expected, the clicked() method should be overridden.
+     * @param game The game instance on which to listen for tile click events
      */
     public TileClickListener(@NotNull BoardGame game) {
         this.game = game;
