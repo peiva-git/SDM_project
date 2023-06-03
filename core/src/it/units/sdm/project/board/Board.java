@@ -67,6 +67,10 @@ public interface Board<P> {
                 .count();
     }
 
+    /**
+     * Returns all the unoccupied positions on this board
+     * @return The unoccupied cells
+     */
     default @NotNull Set<Position> getFreePositions() {
         return getPositions().stream()
                 .filter(position -> !isCellOccupied(position))
