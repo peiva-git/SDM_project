@@ -9,6 +9,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+/**
+ * This interface represents a generic game board. It may be used outside the scope of the freedom game as well.
+ * @param <P> The type of the piece to be put on this {@link Board}
+ */
 public interface Board<P> {
     /**
      * Remove the piece at the given position
@@ -114,7 +118,7 @@ public interface Board<P> {
     /**
      * Checks whether a position is inside of board bounds and unoccupied
      * @param position The chosen position
-     * @return true id the position meets the above-mentioned criteria, false otherwise
+     * @return true if the position meets the above-mentioned criteria, false otherwise
      */
     default boolean isBoardPositionValid(@NotNull Position position) {
         try {
