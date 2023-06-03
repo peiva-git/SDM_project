@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.FREEDOM;
+import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
 public class FreedomGame extends Game implements BoardGame {
 
@@ -73,7 +73,7 @@ public class FreedomGame extends Game implements BoardGame {
     public void reset() {
         board.clearBoard();
         playersMovesHistory.clear();
-        gameStatus = GameStatus.FREEDOM;
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         resetCurrentlyHighlightedCellsIfAny();
     }
 
@@ -117,15 +117,15 @@ public class FreedomGame extends Game implements BoardGame {
         Move currentMove = new Move(getNextPlayer(), inputPosition);
         if (!isChosenPositionValid(currentMove.getPosition())) return;
         updateBoard(currentMove);
-        if(gameStatus == GameStatus.GAME_OVER) {
+        if(gameStatus == GAME_OVER) {
             GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
             gameOverDialog.show(board.getStage());
         }
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
-        if (gameStatus == GameStatus.LAST_MOVE) {
+        if (gameStatus == LAST_MOVE) {
             LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
             lastMoveDialog.show(board.getStage());
-            gameStatus = GameStatus.GAME_OVER;
+            gameStatus = GAME_OVER;
         }
     }
 
@@ -144,7 +144,8 @@ public class FreedomGame extends Game implements BoardGame {
 
     @NotNull
     private Set<Position> findFreePositionsNearLastPlayedPosition() {
-        return board.getAdjacentPositions(Objects.requireNonNull(getLastMove()).getPosition()).stream()
+        return board.getAdjacentPositions(Objects.requireNonNull(getLastMove(),
+                        "There should be at least one move played when looking for free adjacent cells").getPosition()).stream()
                 .filter(position -> !board.isCellOccupied(position))
                 .collect(Collectors.toSet());
     }
