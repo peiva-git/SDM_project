@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
- *
+ * This class represents a click listener to be used on each tile of a {@link GuiBoard}.
  */
 public class TileClickListener extends ClickListener {
     @NotNull
