@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * Aside from the {@link Color}, an instance of this object also holds information about the
  * {@link com.badlogic.gdx.scenes.scene2d.Actor} that represents this {@link Stone} on the
  * {@link GuiBoard}.
- * @author Manuel Kosovel, Ivan Pelizon
  */
 public class GuiStone extends Stone {
 

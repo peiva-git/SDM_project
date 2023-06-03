@@ -19,7 +19,6 @@ import java.util.TreeSet;
 /**
  * This class represents a board object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
- * @author Manuel Kosovel, Ivan Pelizon
  */
 public class GuiBoard extends Table implements Board<GuiStone> {
 

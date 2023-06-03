@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
+/**
+ *
+ */
 public class TileClickListener extends ClickListener {
     @NotNull
     private final BoardGame game;
