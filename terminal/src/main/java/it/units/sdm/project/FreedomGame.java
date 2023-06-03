@@ -23,9 +23,13 @@ public class FreedomGame implements BoardGame {
     private final Player blackPlayer;
     @NotNull
     private final Board<Stone> board;
-    private GameStatus gameStatus = FREEDOM;
+    @NotNull
+    private GameStatus gameStatus;
+    @NotNull
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
+    @NotNull
     private final TerminalInputReader userInput = new TerminalInputReader();
+    @NotNull
     private final FreedomBoardStatusObserver statusObserver;
 
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
@@ -33,152 +37,107 @@ public class FreedomGame implements BoardGame {
         this.blackPlayer = blackPlayer;
         this.board = board;
         statusObserver = new FreedomBoardStatusObserver(board);
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
     }
 
     public void start() {
         System.out.println("Welcome to Freedom!");
         System.out.println("Game starting up, clearing board...\n");
         board.clearBoard();
-        gameStatus = FREEDOM;
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         while (gameStatus != GAME_OVER) {
             playTurn();
         }
-        Player winner = statusObserver.getCurrentWinner(whitePlayer, blackPlayer);
         System.out.println(board);
+        System.out.println();
+        System.out.println("The game is over!");
+        Player winner = statusObserver.getCurrentWinner(whitePlayer, blackPlayer);
         displayTheWinner(winner);
         reset();
     }
 
-    private void displayTheWinner(Player winner) {
-        if (winner != null) {
-            System.out.println("The winner is: " + winner);
-        } else {
-            System.out.println("Tie!");
-        }
-    }
-
     private void playTurn() {
-        Player currentPlayer = getNextPlayer();
-        Position chosenPosition = null;
-        System.out.println(board);
-        switch (gameStatus) {
-            case FREEDOM:
-                chosenPosition = getPositionWithFreedom(currentPlayer);
-                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
-                break;
-            case NO_FREEDOM:
-                chosenPosition = getPositionWithNoFreedom(currentPlayer);
-                board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
-                break;
-            case LAST_MOVE:
-                chosenPosition = playLastMove(currentPlayer);
-                if (chosenPosition != null) {
-                    board.putPiece(new Stone(currentPlayer.getColor()), chosenPosition);
-                }
-                gameStatus = GAME_OVER;
-                break;
-        }
-        if (chosenPosition != null) {
-            playersMovesHistory.add(new Move(currentPlayer, chosenPosition));
+        printPromptForPlayerFeedback(getNextPlayer());
+        if (gameStatus == LAST_MOVE && userInput.isLastMoveAPass()) {
+            gameStatus = GAME_OVER;
         } else {
-            LinkedList<Move> currentPlayersMoves = playersMovesHistory.stream()
-                    .filter(move -> move.getPlayer().equals(currentPlayer))
-                    .collect(Collectors.toCollection(LinkedList::new));
-            // the current player chose to skip his move, so the position will stay the same
-            playersMovesHistory.add(currentPlayersMoves.getLast());
+            Position chosenPosition = getPositionFromUser();
+            nextMove(chosenPosition);
         }
-        updateCurrentGameStatus();
-    }
-
-    private void updateCurrentGameStatus() {
-        if (gameStatus != GAME_OVER) {
-            long numberOfFreeCells = board.getNumberOfFreeCells();
-            if (numberOfFreeCells > 1) {
-                if (playersMovesHistory.isEmpty() || board.areAdjacentCellsOccupied(playersMovesHistory.getLast().getPosition())) {
-                    gameStatus = FREEDOM;
-                } else {
-                    gameStatus = NO_FREEDOM;
-                }
-            } else if(numberOfFreeCells == 1){
-                gameStatus = LAST_MOVE;
-            } else {
-                gameStatus = GAME_OVER;
-            }
-        }
-    }
-
-    private @NotNull Position getPositionWithFreedom(@NotNull Player player) {
-        System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
-        System.out.println("Freeedom! You can place a stone on any unoccupied cell");
-        return getPositionFromUser();
-    }
-
-    private @NotNull Position getPositionWithNoFreedom(@NotNull Player player) {
-        System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
-        System.out.println("You can place a stone near the last stone placed by the other player");
-        Position lastPosition = playersMovesHistory.getLast().getPosition();
-        Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
-        System.out.print("Yuo can pick one of the following positions: ");
-        adjacentPositions.stream().sorted().forEach(adjacentPosition -> {
-            int displayedRow = adjacentPosition.getRow() + 1;
-            char displayedColumn = (char) ('A' + adjacentPosition.getColumn());
-            System.out.print(displayedColumn);
-            System.out.print(displayedRow);
-            System.out.print(" ");
-        });
         System.out.println();
-        return getPositionFromUserWithinSuggestedSet(adjacentPositions);
     }
 
-    private @Nullable Position playLastMove(@NotNull Player player) throws RuntimeException {
+    private void printPromptForPlayerFeedback(@NotNull Player player) {
+        System.out.println(board);
+        System.out.println();
         System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
-        System.out.println("Last move! You can decide to either play or pass");
-        System.out.print("Do you want to pass? (Yes/No): ");
-        if (!userInput.isLastMoveAPass()) {
-            Set<Position> freePositions = board.getPositions().stream()
-                    .filter(position -> !board.isCellOccupied(position))
-                    .collect(Collectors.toSet());
-            if (freePositions.size() != 1)
-                throw new RuntimeException("When playing the last move, there should be only one free cell left on the board");
-            return freePositions.iterator().next();
+        if(gameStatus == LAST_MOVE) {
+            System.out.println("You can decide to either play or pass");
+            System.out.print("Do you want to pass? (Yes/No): ");
         }
-        return null;
     }
 
     @NotNull
     private Position getPositionFromUser() {
-        System.out.print("Insert the cell name, for example A5: ");
         while (true) {
+            displayValidPositions();
+            System.out.print("Move " + (playersMovesHistory.size() + 1) + ": ");
             Position chosenPosition = userInput.getPosition();
             try {
-                if (board.isCellOccupied(chosenPosition)) {
-                    System.out.print("The picked cell is already occupied! Pick again: ");
-                } else {
+                if (isChosenPositionValid(chosenPosition)) {
                     return chosenPosition;
                 }
-            } catch (InvalidPositionException exception){
-                System.out.print("The specified cell is outside of the board range! Pick again: ");
+            } catch (InvalidPositionException exception) {
+                System.out.println("The specified cell is outside of the board range!");
             }
         }
     }
 
-    private @NotNull Position getPositionFromUserWithinSuggestedSet(@NotNull Set<Position> suggestedPositions) {
-        System.out.print("Insert the cell name: ");
-        while (true) {
-            Position chosenPosition = userInput.getPosition();
-            try {
-                if (suggestedPositions.contains(chosenPosition)) {
-                    if (!board.isCellOccupied(chosenPosition)) {
-                        return chosenPosition;
-                    } else {
-                        System.out.print("The picked cell is already occupied! Pick again: ");
-                    }
-                } else {
-                    System.out.print("The specified cell is not adjacent to the last occupied one! Pick again: ");
-                }
-            } catch(InvalidPositionException exception) {
-                System.out.print("The specified cell is outside of the board range! Pick again: ");
+    private void displayValidPositions() {
+        switch (gameStatus) {
+            case FREEDOM:
+                System.out.println("Pick any empty cell!");
+                break;
+            case LAST_MOVE:
+                System.out.println("You only have one possible move!");
+                break;
+            case NO_FREEDOM:
+                System.out.print("Yuo can pick one of the following positions: ");
+                Position lastPosition = playersMovesHistory.getLast().getPosition();
+                String formattedAdjacentPositions = board.getAdjacentPositions(lastPosition).stream()
+                        .sorted()
+                        .map(position -> {
+                            int displayedRow = position.getRow() + 1;
+                            char displayedColumn = (char) ('A' + position.getColumn());
+                            return displayedColumn + "" + displayedRow;
+                        })
+                        .collect(Collectors.joining(", "));
+                System.out.println(formattedAdjacentPositions);
+        }
+    }
+
+
+    private boolean isChosenPositionValid(Position chosenPosition) throws InvalidPositionException {
+        if (board.isCellOccupied(chosenPosition)) {
+            System.out.println("The picked cell is already occupied!");
+            return false;
+        }
+        if (gameStatus == NO_FREEDOM) {
+            Position lastPosition = playersMovesHistory.getLast().getPosition();
+            Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
+            if (!adjacentPositions.contains(chosenPosition)) {
+                System.out.println("The specified cell is not adjacent to the last occupied one!");
+                return false;
             }
+        }
+        return true;
+    }
+
+    private void displayTheWinner(@Nullable Player winner) {
+        if (winner != null) {
+            System.out.println("The winner is: " + winner);
+        } else {
+            System.out.println("Tie!");
         }
     }
 
@@ -199,13 +158,15 @@ public class FreedomGame implements BoardGame {
 
     @Override
     public @Nullable Move getLastMove() {
-        if(playersMovesHistory.isEmpty()) return null;
+        if (playersMovesHistory.isEmpty()) return null;
         return playersMovesHistory.getLast();
     }
 
     @Override
     public void nextMove(@NotNull Position position) {
-
+        board.putPiece(new Stone(getNextPlayer().getColor()), position);
+        playersMovesHistory.add(new Move(getNextPlayer(), position));
+        gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
     }
 
     @Override

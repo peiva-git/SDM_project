@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
-        Drawable background = skin.getDrawable("default-window");
+        Drawable background = skin.getDrawable("textfield");
         container.setBackground(background);
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);

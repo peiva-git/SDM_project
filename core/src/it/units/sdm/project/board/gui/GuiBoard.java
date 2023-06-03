@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.Board;
@@ -20,6 +21,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public static final int TILE_SIZE = 75;
     public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
     public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
+    public static final String GUI_BOARD_TAG = "GUI_BOARD";
     private final int numberOfRows;
     private final int numberOfColumns;
 
@@ -49,14 +51,14 @@ public class GuiBoard extends Table implements Board<GuiStone> {
             } else {
                 tile.setColor(oddTilesColor);
             }
-            Stack tileAndPiece = new Stack(tile);
+            Actor tileAndPiece = new Stack(tile);
             add(tileAndPiece).size(TILE_SIZE);
         }
     }
     @SuppressWarnings("unchecked")
     public void setClickListener(@NotNull ClickListener clickListener) {
         for(Cell<Actor> cell : getCells()) {
-            Stack tileAndPiece = (Stack) cell.getActor();
+            Actor tileAndPiece = cell.getActor();
             tileAndPiece.addListener(clickListener);
         }
     }
@@ -70,12 +72,12 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
             if (getPositionFromTile(cell).equals(position)) {
-                Stack tileAndPiece = (Stack) cell.getActor();
+                Group tileAndPiece = (Group) cell.getActor();
                 tileAndPiece.setUserObject(null);
                 if (tileAndPiece.getChildren().size == 2) {
                     tileAndPiece.removeActorAt(1, false);
                 } else {
-                    Gdx.app.debug("GUI_BOARD", "No piece at position " + position + ", already clear");
+                    Gdx.app.debug(GUI_BOARD_TAG, "No piece at position " + position + ", already clear");
                 }
                 return;
             }
@@ -88,7 +90,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
-                Stack tileAndPiece = (Stack) cell.getActor();
+                Group tileAndPiece = (Group) cell.getActor();
                 tileAndPiece.addActor(piece.getActor());
                 tileAndPiece.setUserObject(piece.getColor());
                 return;
@@ -107,7 +109,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
-                Stack tileAndPiece = (Stack) cell.getActor();
+                Group tileAndPiece = (Group) cell.getActor();
                 if (tileAndPiece.getChildren().size < 2) {
                     return null;
                 } else {

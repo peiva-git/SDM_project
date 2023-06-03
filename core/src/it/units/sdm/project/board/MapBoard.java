@@ -39,7 +39,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     }
 
     private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
-        return numberOfRows > MIN_BOARD_SIZE - 1 && numberOfRows <= MAX_BOARD_SIZE && (numberOfRows == numberOfColumns);
+        return numberOfRows >= MIN_BOARD_SIZE && numberOfRows <= MAX_BOARD_SIZE && (numberOfRows == numberOfColumns);
     }
 
     @Override
