@@ -34,7 +34,7 @@ public interface Board<P> {
     @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException;
 
     /**
-     *
+     * Returns all the positions on this board
      * @return All the possible board positions
      */
     @NotNull Set<Position> getPositions();
@@ -50,14 +50,14 @@ public interface Board<P> {
     }
 
     /**
-     * Remove all the pieces from the board
+     * Removes all the pieces from the board
      */
     default void clearBoard() {
         getPositions().forEach(this::clearCell);
     }
 
     /**
-     *
+     * Returns the number of unoccupied cells
      * @return The number of unoccupied cells
      */
     default long getNumberOfFreeCells() {
