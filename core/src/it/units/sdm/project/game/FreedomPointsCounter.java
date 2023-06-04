@@ -14,8 +14,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * This class counts {@link Player} points in a Freedom {@link BoardGame}. Every stone line
- * of the same color, which size is 4, is a point.
+ * This class counts {@link Player} points in a Freedom {@link BoardGame}. Every non-overlapping {@link FreedomLine}
+ * with a size of 4 represents a point.
  */
 public class FreedomPointsCounter {
     private final static int MAX_NUMBER_OF_STONES = 4;
@@ -25,15 +25,15 @@ public class FreedomPointsCounter {
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
     /**
-     * Creates an instance of {@link FreedomPointsCounter}
-     * @param board Board on which counting Freedom {@link Player} points
+     * Creates an instance of a {@link FreedomPointsCounter}
+     * @param board {@link Board} on which to count a {@link Player}'s points
      */
     public FreedomPointsCounter(@NotNull Board<? extends Stone> board) {
         this.board = board;
     }
 
     /**
-     * Gets the {@link Player} score
+     * Gets the {@link Player}'s score
      * @param player Freedom player
      * @return The player's score
      */
@@ -42,9 +42,9 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * Gets the {@link Player} score
-     * @param color Freedom player's color, it can be either white or black
-     * @return The player's color
+     * Gets the {@link Player}'s score
+     * @param color Freedom player's {@link Color}, it can be either white or black
+     * @return The player's score
      */
     public int getPlayerScore(@NotNull Color color) {
         if (color == Color.WHITE) {
@@ -59,7 +59,7 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * The method count() counts all the freedom lines on the board.
+     * The count() method counts all the freedom lines on the board.
      */
     private void count(@NotNull Color color) {
         board.getPositions().stream()
@@ -71,10 +71,10 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * This method finds freedom lines with size equal to 4 to all the directions
-     * from a starting position
+     * This method finds all {@link FreedomLine}s with size equal to 4 considering all {@link Direction}s
+     * from a starting {@link Position}.
      *
-     * @param position starting position
+     * @param position starting {@link Position}
      */
     private void checkAllFreedomLinesFromPosition(@NotNull Position position) {
         checkFreedomLine(position, Direction.HORIZONTAL);
@@ -84,12 +84,12 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * This method finds freedom line with size equal to 4 by considering a specific direction from a starting position.
-     * It also checks whether the obtained freedom line is part of a bigger freedom line by checking the color of
-     * the stone that comes before the stone on the startingPosition with respect to the direction of the lines.
+     * This method finds {@link FreedomLine}s with size equal to 4 by considering a specific {@link Direction} and a starting {@link Position}.
+     * It also checks whether the obtained freedom line is part of a bigger freedom line by checking the {@link Color} of
+     * the {@link Stone} that comes before the stone on the startingPosition with respect to the direction of the lines.
      *
-     * @param startingPosition starting position
-     * @param direction        direction in which it counts
+     * @param startingPosition The starting {@link Position} from which to begin counting
+     * @param direction The {@link Direction} in which this method starts counting
      */
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
