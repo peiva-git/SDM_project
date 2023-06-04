@@ -18,8 +18,8 @@ public class TileClickListener extends ClickListener {
     private final BoardGame game;
 
     /**
-     * Create a new listener to be used with a Board. By default, the listener will simply
-     * execute the nextMove() method from the BoardGame interface using the clicked tile position.
+     * Create a new listener to be used with a {@link it.units.sdm.project.board.Board}. By default,
+     * the listener will simply execute the nextMove() method from the BoardGame interface using the clicked tile position.
      * If a different behaviour is expected, the clicked() method should be overridden.
      * @param game The game instance on which to listen for tile click events
      */
