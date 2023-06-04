@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * {@link BoardGame} player.
+ * This class represents a {@link BoardGame} player.
  */
 public class Player {
 
