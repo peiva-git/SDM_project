@@ -3,10 +3,8 @@ package it.units.sdm.project.game;
 import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 /**
- * Represents a player's move in a {@link BoardGame}.
+ * Represents a {@link Player}'s move in a {@link BoardGame}.
  */
 public class Move {
 
@@ -17,8 +15,8 @@ public class Move {
 
     /**
      * Creates a wrapper to save a player's move in a board game
-     * @param player The player making the move
-     * @param position The chosen position
+     * @param player The {@link Player} making the move
+     * @param position The chosen {@link Position}
      */
     public Move(@NotNull Player player, @NotNull Position position) {
         this.player = player;
@@ -26,7 +24,7 @@ public class Move {
     }
 
     /**
-     * Gets the move's player
+     * Returns the move's player
      * @return The move's player
      */
     public @NotNull Player getPlayer() {
@@ -34,7 +32,7 @@ public class Move {
     }
 
     /**
-     * Gets the move's position
+     * Returns the move's position
      * @return The move's position
      */
     public @NotNull Position getPosition() {
