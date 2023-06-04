@@ -17,7 +17,7 @@ public class LastMoveDialog extends Dialog {
     private final Skin skin;
 
     /**
-     * Creates a new last move dialog to use in a libgdx screen
+     * Creates a new last move dialog to use in a libGDX screen
      * @param game The game which will use the dialog
      * @param skin The skin to be used on the dialog
      */
