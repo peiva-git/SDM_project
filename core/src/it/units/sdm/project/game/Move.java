@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Represents a player's move of a {@link BoardGame}.
+ * Represents a player's move in a {@link BoardGame}.
  */
 public class Move {
 

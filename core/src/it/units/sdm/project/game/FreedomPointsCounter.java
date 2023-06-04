@@ -126,7 +126,7 @@ public class FreedomPointsCounter {
         }
     }
 
-    public boolean isPartOfABiggerFreedomLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
+    private boolean isPartOfABiggerFreedomLine(@NotNull FreedomLine freedomLine, @NotNull Direction direction) {
         return hasThePreviousStoneTheSameColor(freedomLine.first(), direction);
     }
 

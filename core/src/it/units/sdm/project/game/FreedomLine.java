@@ -11,8 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * Stone line of the same color. An instance of {@link FreedomLine} is described by
- * its direction, color and stone positions.
+ * Stone line of the same color.
+ * The line {@link Position}s are stored in a
+ * {@link TreeSet} by considering the custom ordering defined in the {@link Position} class.
+ * Every instance of {@link FreedomLine} is described by its {@link Direction}, {@link Color} and stone {@link Position}s.
  */
 public class FreedomLine {
     @NotNull
@@ -206,7 +208,7 @@ public class FreedomLine {
     }
 
     /**
-     * Describes all the possible directions that can have a {@link FreedomLine} on a {@link BoardGame}
+     * Describes all the possible directions that can have a {@link FreedomLine} on a {@link Board}
      */
     public enum Direction {
         /**
@@ -220,12 +222,13 @@ public class FreedomLine {
          */
         VERTICAL,
         /**
-         * A line has a diagonal left direction if the i-th stone of the line
-         *
+         * A line has a diagonal left direction if all the line stones are placed
+         * diagonally left with respect to the starting position
          */
         DIAGONAL_LEFT,
         /**
-         * A line has a diagonal right direction if
+         * A line has a diagonal right direction if all the line stones are placed
+         * diagonally right with respect to the starting position
          */
         DIAGONAL_RIGHT
     }
