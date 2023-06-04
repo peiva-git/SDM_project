@@ -41,7 +41,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private final int numberOfColumns;
 
     /**
-     * Create a new Board instance to be used in a libGDX scene2d GUI
+     * Creates a new Board instance to be used in a libGDX scene2d GUI
      * @param skin The skin used by the board, impacting the board's appearance
      * @param numberOfRows Number of rows the board is going to have. Should be equal to the number of columns
      * @param numberOfColumns Number of columns the board is going to have. Should be equal to the number of columns

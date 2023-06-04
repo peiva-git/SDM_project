@@ -17,7 +17,7 @@ public class GuiStone extends Stone {
     private final Image image;
 
     /**
-     * Create a new {@link GuiStone} instance
+     * Creates a new {@link GuiStone} instance
      * @param color Color of the stone
      * @param image Stone image to be used in a libgdx scene2d GUI
      */
