@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
 
     /**
      * Creates an instance of {@link GameScreen} and it sets the board layout and the log area to be displayed.
-     * @param game The game using the screen
+     * @param game The game using this screen
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;

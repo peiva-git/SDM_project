@@ -28,8 +28,8 @@ public class MainMenuScreen implements Screen {
     private final Stage stage;
 
     /**
-     * Creates an instance of {@link MainMenuScreen}
-     * @param game The game using the screen
+     * Creates an instance of a {@link MainMenuScreen}
+     * @param game The game using this screen
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
         this.game = game;
