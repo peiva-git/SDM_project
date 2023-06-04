@@ -5,6 +5,9 @@ import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Representation of a turn-based game played by two {@link Player}s on a {@link Board}.
+ */
 public interface BoardGame {
 
     /**
