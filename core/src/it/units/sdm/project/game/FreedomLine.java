@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * Stone line of the same color.
+ * This class represents a line of {@link Stone}s with the same color.
  * The line {@link Position}s are stored in a
- * {@link TreeSet} by considering the custom ordering defined in the {@link Position} class.
- * Every instance of {@link FreedomLine} is described by its {@link Direction}, {@link Color} and stone {@link Position}s.
+ * {@link TreeSet} by taking into account the custom ordering defined in the {@link Position} class.
+ * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and stone {@link Position}s.
  */
 public class FreedomLine {
     @NotNull
@@ -28,7 +28,7 @@ public class FreedomLine {
 
     /**
      * Creates a {@link FreedomLine} instance
-     * @param board Board on which is placed the stone line
+     * @param board The {@link Board} on which this line is located
      */
     public FreedomLine(@NotNull Board<? extends Stone> board) {
         this.color = null;
@@ -38,8 +38,8 @@ public class FreedomLine {
 
     /**
      * Creates a {@link FreedomLine} instance from a starting position
-     * @param board Board on which is placed the stone line
-     * @param initialPosition Initial position of the line
+     * @param board {@link Board} on which this line is located
+     * @param initialPosition Initial {@link Position} of the line
      */
     public FreedomLine(@NotNull Board<? extends Stone> board, @NotNull Position initialPosition) {
         this.board = board;
@@ -48,11 +48,10 @@ public class FreedomLine {
 
     /**
      * Adds a stone to this {@link FreedomLine}. This method checks if the
-     * position to add is valid according to the line direction, to the last line
-     * stone position and to the stone color on position to add.
+     * position to add is valid according to the line's direction, to the last added
+     * {@link Stone} {@link Position} and to the last added stone's {@link Color}, if any.
      * @param position The position to add
-     * @throws InvalidPositionException If the position isn't valid according to the last stone position,
-     * to the line direction and to the stone color on the position to add
+     * @throws InvalidPositionException If the position isn't valid according to the above-mentioned criteria
      */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
         Stone stone = board.getPiece(position);
@@ -140,25 +139,25 @@ public class FreedomLine {
     }
 
     /**
-     * Gets the line color
-     * @return The line color
+     * Gets the line {@link Color}
+     * @return This line's {@link Color}
      */
     public @Nullable Color getColor() {
         return color;
     }
 
     /**
-     * @return This method returns all the positions that are in this {@link FreedomLine},
-     * ordered by the custom ordering defined in the {@link Position} class
+     * Returns all this {@link FreedomLine}'s {@link Position}s
+     * @return This {@link FreedomLine}'s positions
      */
     @NotNull
-    public SortedSet<Position> getCellPositions() {
+    public Set<Position> getCellPositions() {
         return cellPositions;
     }
 
     /**
-     * Gets the first position of the line according to the {@link Position} ordering.
-     * @return The first position of the line
+     * Returns this line's first {@link Position} according to the {@link Position} ordering.
+     * @return The first {@link Position} in this line
      */
     @NotNull
     public Position first() {
@@ -166,8 +165,8 @@ public class FreedomLine {
     }
 
     /**
-     * Gets the last position of the line according to the {@link Position} ordering.
-     * @return The last position of the line
+     * Returns this line's last {@link Position} according to the {@link Position} ordering.
+     * @return The last {@link Position} in this line
      */
     @NotNull
     public Position last() {
@@ -175,17 +174,17 @@ public class FreedomLine {
     }
 
     /**
-     * Gets the size of the line.
-     * @return The size of the line
+     * Returns this line's size.
+     * @return The size of this line
      */
     public int size() {
         return cellPositions.size();
     }
 
     /**
-     * Two lines are equal if they have the same color, the same stone positions and the same direction.
+     * Two lines are equal if they have the same {@link Color}, the same {@link Stone} {@link Position}s and the same {@link Direction}.
      * @param o The object to compare with
-     * @return True if the lines are equal, otherwise it returns false
+     * @return {@code true} if the lines are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -197,7 +196,7 @@ public class FreedomLine {
 
     /**
      * {@link String} representation of the {@link FreedomLine}
-     * @return String composed by line color, line direction and stone positions
+     * @return A string composed by line {@link Color}, line {@link Direction} and {@link Stone} {@link Position}s.
      */
     @Override
     public String toString() {
@@ -209,12 +208,12 @@ public class FreedomLine {
     }
 
     /**
-     * Describes all the possible directions that can have a {@link FreedomLine} on a {@link Board}
+     * Describes all the possible {@link Direction}s that a {@link FreedomLine} can have on a {@link Board}
      */
     public enum Direction {
         /**
          * A line has a horizontal direction if all the
-         * line stones are placed on the same row
+         * line are placed on the same row
          */
         HORIZONTAL,
         /**
@@ -224,12 +223,12 @@ public class FreedomLine {
         VERTICAL,
         /**
          * A line has a diagonal left direction if all the line stones are placed
-         * diagonally left with respect to the starting position
+         * diagonally on the left with respect to the starting position
          */
         DIAGONAL_LEFT,
         /**
          * A line has a diagonal right direction if all the line stones are placed
-         * diagonally right with respect to the starting position
+         * diagonally on the right with respect to the starting position
          */
         DIAGONAL_RIGHT
     }
