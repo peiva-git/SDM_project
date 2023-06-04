@@ -4,10 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Last move dialog for a {@link FreedomGame}.
+ */
 public class LastMoveDialog extends Dialog {
 
-    public static final String POSITIVE_TEXT = "Yes";
-    public static final String NEGATIVE_TEXT = "No";
+    private static final String POSITIVE_TEXT = "Yes";
+    private static final String NEGATIVE_TEXT = "No";
     @NotNull
     private final FreedomGame game;
     @NotNull

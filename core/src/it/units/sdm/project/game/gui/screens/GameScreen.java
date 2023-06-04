@@ -17,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
 
+/**
+ * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
+ */
 public class GameScreen implements Screen {
     @NotNull
     private final FreedomGame game;
@@ -28,7 +31,7 @@ public class GameScreen implements Screen {
     private final TextArea logArea;
 
     /**
-     * Main freedom's game screen. Should be displayed after the players and the board are set
+     * Creates an instance of {@link GameScreen} and it sets the board layout and the log area to be displayed.
      * @param game The game using the screen
      */
     public GameScreen(@NotNull FreedomGame game) {

@@ -33,12 +33,30 @@ import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
+/**
+ * Represents the Freedom game which is a {@link BoardGame} played by two
+ * {@link Player}s (white and black) on a {@link GuiBoard}.
+ */
 public class FreedomGame extends Game implements BoardGame {
-
+    /**
+     * Number of rows of the {@link GuiBoard} used in this game.
+     */
     public static final int NUMBER_OF_ROWS = 8;
+    /**
+     * Number of columns of the {@link GuiBoard} used in this game.
+     */
     public static final int NUMBER_OF_COLUMNS = 8;
+    /**
+     * {@link GuiBoard#DARK_TILE} highlighted default {@link Color}
+     */
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
+    /**
+     * {@link GuiBoard#LIGHT_TILE} highlighted default {@link Color}
+     */
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
+    /**
+     * Freedom game tag
+     */
     public static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
@@ -77,12 +95,7 @@ public class FreedomGame extends Game implements BoardGame {
         resetCurrentlyHighlightedCellsIfAny();
     }
 
-    /**
-     * Appends the given text to the game screen's logging area. If the game screen isn't currently visible,
-     * an error is shown and nothing gets printed
-     * @param textToAppend The text to append to the logging area
-     */
-    public void appendTextToLogArea(@NotNull String textToAppend) {
+    private void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
             currentScreen.getLogArea().appendText(textToAppend);

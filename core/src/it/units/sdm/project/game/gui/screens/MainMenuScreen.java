@@ -14,6 +14,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * {@link FreedomGame}'s menu screen. It is displayed before the main game screen.
+ */
 public class MainMenuScreen implements Screen {
     @NotNull
     private final FreedomGame game;
@@ -25,7 +28,7 @@ public class MainMenuScreen implements Screen {
     private final Stage stage;
 
     /**
-     * Freedom's menu screen. Displayed before the main game screen
+     * Creates an instance of {@link MainMenuScreen}
      * @param game The game using the screen
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {

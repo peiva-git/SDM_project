@@ -10,9 +10,12 @@ import it.units.sdm.project.game.gui.FreedomGame;
 import it.units.sdm.project.game.gui.screens.GameScreen;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Game over dialog for a {@link FreedomGame}.
+ */
 public class GameOverDialog extends Dialog {
-    public static final String NEGATIVE_TEXT = "Quit";
-    public static final String POSITIVE_TEXT = "Play again";
+    private static final String NEGATIVE_TEXT = "Quit";
+    private static final String POSITIVE_TEXT = "Play again";
     @NotNull
     private final FreedomGame game;
 
