@@ -5,14 +5,18 @@ import it.units.sdm.project.board.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * This class obtains the current {@link GameStatus} and the current winner {@link Player}
+ * of a FreedomGame given the situation on the board. The game could be in 4 different {@link GameStatus}:
+ * FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER
+ */
 public class FreedomBoardStatusObserver {
 
     @NotNull
     Board<? extends Stone> board;
 
     /**
-     * Creates a new game status observer. Given the situation on the board, the game could be in 4
-     * different states.
+     * Creates a new game status observer.
      * @param board The board on which to observe the state changes
      */
     public FreedomBoardStatusObserver(@NotNull Board<? extends Stone> board) {
@@ -48,11 +52,7 @@ public class FreedomBoardStatusObserver {
     }
 
     /**
-     * Returns the current state of the game, given the last move and the situation on the board.
-     * The 4 possible states are FREEDOM, in case the player can place a new stone anywhere on the board;
-     * NO_FREEDOM, in case the player must place the new stone adjacent to the previous one;
-     * LAST_MOVE, in case there's only one position left on the board;
-     * and finally GAME_OVER, in case the board is full
+     * Returns the current state of the game, given the last {@link Move} and the situation on the board.
      * @param lastMove The last played move
      * @return The current state of the game
      */
@@ -71,10 +71,28 @@ public class FreedomBoardStatusObserver {
         return GameStatus.GAME_OVER;
     }
 
+    /**
+     * Describes the 4 different {@link GameStatus} of a Freedom game.
+     */
     public enum GameStatus {
+        /**
+         * In case the player can place a new stone anywhere on the board. This happens on the very first
+         * play of the game and when there are no adjacent positions to the previous played one.
+         */
         FREEDOM,
+        /**
+         * In case the player must place the new stone adjacent to the previous one. This happens when there
+         * are adjacent positions to the previous played one available.
+         */
         NO_FREEDOM,
+        /**
+         * In case there's only one position left on the board. The {@link Player} can either put the last stone
+         * or end the game by skipping the last move.
+         */
         LAST_MOVE,
+        /**
+         * In case the board is full or in case the LAST_MOVE was skipped.
+         */
         GAME_OVER
     }
 }
