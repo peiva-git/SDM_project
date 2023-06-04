@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * Representation of a {@link Board} position. The {@link Position} is composed by two coordinates:
- * row index and column index. Both of them must be a positive integer number.
+ * a row index and a column index. Both of them must be a positive integer number.
  */
 public class Position implements Comparable<Position> {
     private final int row;
