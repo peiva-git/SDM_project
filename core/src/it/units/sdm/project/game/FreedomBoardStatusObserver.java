@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This class obtains the current {@link GameStatus} and the current winner {@link Player}
- * of a FreedomGame given the situation on the board. The game could be in 4 different {@link GameStatus}:
+ * This class obtains the current {@link GameStatus} and the {@link Player} that's currently winning
+ * at the Freedom game that's being played on the supplied {@link Board}. The game could be in 4 different states:
  * FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER
  */
 public class FreedomBoardStatusObserver {
@@ -72,22 +72,22 @@ public class FreedomBoardStatusObserver {
     }
 
     /**
-     * Describes the 4 different {@link GameStatus} of a Freedom game.
+     * Describes the 4 different {@link GameStatus} states of a Freedom game.
      */
     public enum GameStatus {
         /**
          * In case the player can place a new stone anywhere on the board. This happens on the very first
-         * play of the game and when there are no adjacent positions to the previous played one.
+         * round of the game or when there are no positions adjacent to the previously played one.
          */
         FREEDOM,
         /**
-         * In case the player must place the new stone adjacent to the previous one. This happens when there
-         * are adjacent positions to the previous played one available.
+         * In case the player must place the new stone near the previously played one. This happens when there
+         * are free positions adjacent to the previously played one.
          */
         NO_FREEDOM,
         /**
-         * In case there's only one position left on the board. The {@link Player} can either put the last stone
-         * or end the game by skipping the last move.
+         * In case there's only one position left on the board. The {@link Player} can decide
+         * to either play the last stone or to end the game by skipping the last turn.
          */
         LAST_MOVE,
         /**
