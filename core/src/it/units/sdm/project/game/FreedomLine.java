@@ -48,8 +48,8 @@ public class FreedomLine {
 
     /**
      * Adds a stone to this {@link FreedomLine}. This method checks if the
-     * position to add is valid according to the line direction, to the last
-     * stone position of the line and to the color of the stone on position to add.
+     * position to add is valid according to the line direction, to the last line
+     * stone position and to the stone color on position to add.
      * @param position The position to add
      * @throws InvalidPositionException If the position isn't valid according to the last stone position,
      * to the line direction and to the stone color on the position to add
@@ -148,10 +148,11 @@ public class FreedomLine {
     }
 
     /**
-     * @return This method returns all the positions that are in this freedom line,
+     * @return This method returns all the positions that are in this {@link FreedomLine},
      * ordered by the custom ordering defined in the {@link Position} class
      */
-    public Set<Position> getCellPositions() {
+    @NotNull
+    public SortedSet<Position> getCellPositions() {
         return cellPositions;
     }
 
