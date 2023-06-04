@@ -18,9 +18,9 @@ public class LastMoveDialog extends Dialog {
         this.game = game;
         this.skin = skin;
         text("Do you want to put the last stone?");
+        pad(40);
         button("Yes", POSITIVE_TEXT);
         button("No", NEGATIVE_TEXT);
-        setSize(500, 200);
         padBottom(40f);
     }
     @Override

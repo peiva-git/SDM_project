@@ -22,7 +22,7 @@ public class GameOverDialog extends Dialog {
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
-        setSize(500, 200);
+        pad(40);
         Player winner = statusObserver.getCurrentWinner(game.getFirstPlayer(), game.getSecondPlayer());
         if (winner != null) {
             text("The winner is " + winner);
