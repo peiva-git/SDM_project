@@ -29,8 +29,8 @@ public class Stone {
 
     /**
      * Two stones are equal if they are of the same color.
-     * @param obj Stone to be compared with this stone
-     * @return True if the two stones are equals, otherwise it returns false
+     * @param obj {@link Stone} to be compared with this stone
+     * @return True if the two stones are equal, false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -41,7 +41,7 @@ public class Stone {
 
     /**
      * String representation of the stone.
-     * @return String representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">Color</a> class.
+     * @return {@link String} representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">{@link Color}</a> class.
      */
     @Override
     public String toString() {
