@@ -10,12 +10,20 @@ import it.units.sdm.project.game.gui.FreedomGame;
 import it.units.sdm.project.game.gui.screens.GameScreen;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Game over dialog for a {@link FreedomGame}.
+ */
 public class GameOverDialog extends Dialog {
-    public static final String NEGATIVE_TEXT = "Quit";
-    public static final String POSITIVE_TEXT = "Play again";
+    private static final String NEGATIVE_TEXT = "Quit";
+    private static final String POSITIVE_TEXT = "Play again";
     @NotNull
     private final FreedomGame game;
 
+    /**
+     * Creates a new game over dialog to use in a libGDX screen
+     * @param game The game which will use the dialog
+     * @param skin The skin to be used on the dialog
+     */
     public GameOverDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;

@@ -33,13 +33,28 @@ import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
+/**
+ * Represents the Freedom game, which is a {@link BoardGame} played by two
+ * {@link Player}s (white and black) on a {@link GuiBoard}.
+ */
 public class FreedomGame extends Game implements BoardGame {
-
-    public static final int NUMBER_OF_ROWS = 2;
-    public static final int NUMBER_OF_COLUMNS = 2;
+    /**
+     * The number of rows that the {@link GuiBoard} used in this game has.
+     */
+    public static final int NUMBER_OF_ROWS = 8;
+    /**
+     * The number of columns that the {@link GuiBoard} used in this game has.
+     */
+    public static final int NUMBER_OF_COLUMNS = 8;
+    /**
+     * {@link GuiBoard#DARK_TILE}'s highlighted default {@link Color}
+     */
     public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
+    /**
+     * {@link GuiBoard#LIGHT_TILE}'s highlighted default {@link Color}
+     */
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
-    public static final String GAME_TAG = "FREEDOM_GAME";
+    private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
@@ -77,7 +92,7 @@ public class FreedomGame extends Game implements BoardGame {
         resetCurrentlyHighlightedCellsIfAny();
     }
 
-    public void appendTextToLogArea(@NotNull String textToAppend) {
+    private void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
             currentScreen.getLogArea().appendText(textToAppend);

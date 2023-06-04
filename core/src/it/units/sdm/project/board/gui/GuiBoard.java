@@ -16,15 +16,36 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * This class represents a board object to be used as part of a libGDX scene2d graphical user interface
+ * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
+ */
 public class GuiBoard extends Table implements Board<GuiStone> {
 
+    /**
+     * Tile size to be used by the board, in pixels
+     */
     public static final int TILE_SIZE = 75;
+
+    /**
+     * Dark tile default {@link Color}
+     */
     public static final Color DARK_TILE = new Color(181 / 255f, 136 / 255f, 99 / 255f, 1);
+
+    /**
+     * Light tile default {@link Color}
+     */
     public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
-    public static final String GUI_BOARD_TAG = "GUI_BOARD";
+    private static final String GUI_BOARD_TAG = "GUI_BOARD";
     private final int numberOfRows;
     private final int numberOfColumns;
 
+    /**
+     * Creates a new Board instance to be used in a libGDX scene2d GUI
+     * @param skin The skin used by the board, impacting the board's appearance
+     * @param numberOfRows Number of rows the board is going to have. Should be equal to the number of columns
+     * @param numberOfColumns Number of columns the board is going to have. Should be equal to the number of columns
+     */
     public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
         this.numberOfColumns = numberOfColumns;
@@ -55,6 +76,11 @@ public class GuiBoard extends Table implements Board<GuiStone> {
             add(tileAndPiece).size(TILE_SIZE);
         }
     }
+
+    /**
+     * Sets a listener for the whole board
+     * @param clickListener Listener to be set
+     */
     @SuppressWarnings("unchecked")
     public void setClickListener(@NotNull ClickListener clickListener) {
         for(Cell<Actor> cell : getCells()) {

@@ -11,7 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * FreedomLine is a line of stones with the same color.
+ * This class represents a line of {@link Stone}s with the same color.
+ * The line {@link Position}s are stored in a
+ * {@link TreeSet} by taking into account the custom ordering defined in the {@link Position} class.
+ * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and stone {@link Position}s.
  */
 public class FreedomLine {
     @NotNull
@@ -23,17 +26,33 @@ public class FreedomLine {
     @NotNull
     private final SortedSet<Position> cellPositions = new TreeSet<>();
 
+    /**
+     * Creates a {@link FreedomLine} instance
+     * @param board The {@link Board} on which this line is located
+     */
     public FreedomLine(@NotNull Board<? extends Stone> board) {
         this.color = null;
         this.direction = null;
         this.board = board;
     }
 
+    /**
+     * Creates a {@link FreedomLine} instance from a starting position
+     * @param board {@link Board} on which this line is located
+     * @param initialPosition Initial {@link Position} of the line
+     */
     public FreedomLine(@NotNull Board<? extends Stone> board, @NotNull Position initialPosition) {
         this.board = board;
         addPosition(initialPosition);
     }
 
+    /**
+     * Adds a stone to this {@link FreedomLine}. This method checks if the
+     * position to add is valid according to the line's direction, to the last added
+     * {@link Stone} {@link Position} and to the last added stone's {@link Color}, if any.
+     * @param position The position to add
+     * @throws InvalidPositionException If the position isn't valid according to the above-mentioned criteria
+     */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
         Stone stone = board.getPiece(position);
         if (cellPositions.isEmpty()) setColor(stone);
@@ -119,32 +138,54 @@ public class FreedomLine {
         return firstPosition.getRow() == secondPosition.getRow() && ((firstPosition.getColumn() == secondPosition.getColumn() + 1) || firstPosition.getColumn() == secondPosition.getColumn() - 1);
     }
 
+    /**
+     * Gets the line {@link Color}
+     * @return This line's {@link Color}
+     */
     public @Nullable Color getColor() {
         return color;
     }
 
     /**
-     * @return This method returns all the positions that are in this freedom line,
-     * ordered by the custom ordering defined in the Position class
+     * Returns all this {@link FreedomLine}'s {@link Position}s
+     * @return This {@link FreedomLine}'s positions
      */
+    @NotNull
     public Set<Position> getCellPositions() {
         return cellPositions;
     }
 
+    /**
+     * Returns this line's first {@link Position} according to the {@link Position} ordering.
+     * @return The first {@link Position} in this line
+     */
     @NotNull
     public Position first() {
         return cellPositions.first();
     }
 
+    /**
+     * Returns this line's last {@link Position} according to the {@link Position} ordering.
+     * @return The last {@link Position} in this line
+     */
     @NotNull
     public Position last() {
         return cellPositions.last();
     }
 
+    /**
+     * Returns this line's size.
+     * @return The size of this line
+     */
     public int size() {
         return cellPositions.size();
     }
 
+    /**
+     * Two lines are equal if they have the same {@link Color}, the same {@link Stone} {@link Position}s and the same {@link Direction}.
+     * @param o The object to compare with
+     * @return {@code true} if the lines are equal, {@code false} otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -153,11 +194,10 @@ public class FreedomLine {
         return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(board, color, direction, cellPositions);
-    }
-
+    /**
+     * {@link String} representation of the {@link FreedomLine}
+     * @return A string composed by line {@link Color}, line {@link Direction} and {@link Stone} {@link Position}s.
+     */
     @Override
     public String toString() {
         return "FreedomLine{" +
@@ -167,7 +207,29 @@ public class FreedomLine {
                 '}';
     }
 
+    /**
+     * Describes all the possible {@link Direction}s that a {@link FreedomLine} can have on a {@link Board}
+     */
     public enum Direction {
-        HORIZONTAL, VERTICAL, DIAGONAL_LEFT, DIAGONAL_RIGHT
+        /**
+         * A line has a horizontal direction if all the
+         * line are placed on the same row
+         */
+        HORIZONTAL,
+        /**
+         * A line has a vertical direction if all the line stones
+         * are placed on the same column
+         */
+        VERTICAL,
+        /**
+         * A line has a diagonal left direction if all the line stones are placed
+         * diagonally on the left with respect to the starting position
+         */
+        DIAGONAL_LEFT,
+        /**
+         * A line has a diagonal right direction if all the line stones are placed
+         * diagonally on the right with respect to the starting position
+         */
+        DIAGONAL_RIGHT
     }
 }

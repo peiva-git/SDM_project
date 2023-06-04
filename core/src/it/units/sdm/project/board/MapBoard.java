@@ -11,14 +11,34 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * This class represents an implementation of the {@link Board} interface using a {@link TreeMap} to hold
+ * information about the pieces that are on this {@link Board}. The {@link Position}s on this board
+ * are ordered based on the ordering defined in the {@link Position} class.
+ * @param <P> The type of piece to be put on this {@link Board}.
+ */
 public class MapBoard<P extends Stone> implements Board<P> {
 
+    /**
+     * Minimum allowed {@link Board} size for this implementation.
+     */
     public static final int MIN_BOARD_SIZE = 2;
+
+    /**
+     * Maximum allowed {@link Board} size for this implementation.
+     */
     public final static int MAX_BOARD_SIZE = 26;
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
+    /**
+     * Creates a new Board instance with a TreeMap implementation
+     * @param numberOfRows The number of rows on the board
+     * @param numberOfColumns The number of columns on the board
+     * @throws InvalidBoardSizeException In case the board sizes aren't matching,
+     * or they're outside the allowed range of [2, 26]
+     */
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
             throw new InvalidBoardSizeException(
@@ -64,6 +84,13 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cell.getPiece();
     }
 
+    /**
+     * Generates a string representation of the board. The board is displayed here as a chess board,
+     * with letters indicating columns and numbers indicating rows. Free cells are marked with a - character,
+     * while cells occupied by the first player are marked with a W and cells occupied by the second player
+     * are marked with a B.
+     * @return The board's string representation
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

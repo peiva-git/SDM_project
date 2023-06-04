@@ -4,15 +4,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Last move dialog for a {@link FreedomGame}.
+ */
 public class LastMoveDialog extends Dialog {
 
-    public static final String POSITIVE_TEXT = "Yes";
-    public static final String NEGATIVE_TEXT = "No";
+    private static final String POSITIVE_TEXT = "Yes";
+    private static final String NEGATIVE_TEXT = "No";
     @NotNull
     private final FreedomGame game;
     @NotNull
     private final Skin skin;
 
+    /**
+     * Creates a new last move dialog to use in a libGDX screen
+     * @param game The game which will use the dialog
+     * @param skin The skin to be used on the dialog
+     */
     public LastMoveDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
         this.game = game;

@@ -3,8 +3,9 @@ package it.units.sdm.project.game;
 import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
+/**
+ * Represents a {@link Player}'s move in a {@link BoardGame}.
+ */
 public class Move {
 
     @NotNull
@@ -12,19 +13,37 @@ public class Move {
     @NotNull
     private final Position position;
 
+    /**
+     * Creates a wrapper to save a player's move in a board game
+     * @param player The {@link Player} making the move
+     * @param position The chosen {@link Position}
+     */
     public Move(@NotNull Player player, @NotNull Position position) {
         this.player = player;
         this.position = position;
     }
 
+    /**
+     * Returns the move's player
+     * @return The move's player
+     */
     public @NotNull Player getPlayer() {
         return player;
     }
 
+    /**
+     * Returns the move's position
+     * @return The move's position
+     */
     public @NotNull Position getPosition() {
         return position;
     }
 
+    /**
+     * Two moves are equal if the players and the positions are equal
+     * @param o The object to be compared with
+     * @return True if the moves are equal, otherwise it returns false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,8 +52,4 @@ public class Move {
         return player.equals(move.player) && position.equals(move.position);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(player, position);
-    }
 }

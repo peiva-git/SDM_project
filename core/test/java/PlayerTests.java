@@ -1,7 +1,8 @@
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.game.Player;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTests {
 
@@ -9,8 +10,15 @@ public class PlayerTests {
     void testPlayerEquals() {
         Player blackPlayer = new Player(Color.BLACK, "Name", "Surname");
         Player whitePlayer = new Player(Color.WHITE, "Name", "Surname");
-        Assertions.assertNotEquals(blackPlayer, whitePlayer);
-        Assertions.assertEquals(blackPlayer, blackPlayer);
+        assertNotEquals(blackPlayer, whitePlayer);
+        assertEquals(blackPlayer, blackPlayer);
+    }
+
+    @Test
+    void testValidColor() {
+        assertThrows(RuntimeException.class, () -> new Player(Color.BLUE, "Name", "Surname"));
+        assertDoesNotThrow(() -> new Player(Color.WHITE, "Name", "Surname"));
+        assertDoesNotThrow(() -> new Player(Color.BLACK, "Name", "Surname"));
     }
 
 }
