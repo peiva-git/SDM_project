@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Closeable;
 import java.util.Scanner;
 
+/**
+ * This class handles user input in the terminal version of the Freedom {@link it.units.sdm.project.game.BoardGame}.
+ * By default, the user's input is expected to be found on {@code System.in}.
+ */
 public class TerminalInputReader implements Closeable {
     Scanner userInput = new Scanner(System.in);
 

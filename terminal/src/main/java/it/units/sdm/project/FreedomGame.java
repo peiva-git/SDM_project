@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
+/**
+ * This class represents a terminal-based implementation of the Freedom {@link BoardGame}.
+ * Therefore, by default, user input is expected from {@code System.in} while the output gets printed on {@code System.out}.
+ */
 public class FreedomGame implements BoardGame {
 
     @NotNull

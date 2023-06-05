@@ -9,9 +9,11 @@ import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.game.Player;
 
+/**
+ * This class holds the terminal-based Freedom game's entry point.
+ */
 public class TerminalLauncher {
-
-    public static final String ASCII_LOGO = " ________                                  __                       \n" +
+    private static final String ASCII_LOGO = " ________                                  __                       \n" +
             "|        \\                                |  \\                      \n" +
             "| ▓▓▓▓▓▓▓▓ ______   ______   ______   ____| ▓▓ ______  ______ ____  \n" +
             "| ▓▓__    /      \\ /      \\ /      \\ /      ▓▓/      \\|      \\    \\ \n" +
@@ -38,6 +40,10 @@ public class TerminalLauncher {
     @Parameter(names = {"--black-surname"}, description = "Black player surname", validateWith = NameSizeValidator.class)
     private String blackPlayerSurname = "Rossi";
 
+    /**
+     * The terminal-based game's entry point
+     * @param args Command-line-supplied arguments
+     */
     public static void main(String[] args) {
         TerminalLauncher launcher = new TerminalLauncher();
         try {
