@@ -11,15 +11,14 @@ public class BoardSizeValidator implements IParameterValidator {
 
     @Override
     public void validate(@NotNull String name, @NotNull String value) throws ParameterException {
-        int boardSize;
         try {
-            boardSize = Integer.parseInt(value);
+            int boardSize = Integer.parseInt(value);
+            if (boardSize > MAX_BOARD_SIZE || boardSize < MIN_BOARD_SIZE) {
+                throw new ParameterException("Parameter " + name + " should specify a board size between "
+                        + MIN_BOARD_SIZE + " and " + MAX_BOARD_SIZE);
+            }
         } catch (NumberFormatException e) {
             throw new ParameterException("Parameter " + name + " needs to be an integer between "
-                    + MIN_BOARD_SIZE + " and " + MAX_BOARD_SIZE);
-        }
-        if (boardSize > MAX_BOARD_SIZE || boardSize < MIN_BOARD_SIZE) {
-            throw new ParameterException("Parameter " + name + " should specify a board size between "
                     + MIN_BOARD_SIZE + " and " + MAX_BOARD_SIZE);
         }
     }

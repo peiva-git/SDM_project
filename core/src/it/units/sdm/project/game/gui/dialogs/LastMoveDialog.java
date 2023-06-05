@@ -38,10 +38,8 @@ public class LastMoveDialog extends Dialog {
             return;
         }
         String message = (String) object;
-        if (message.equals(POSITIVE_TEXT)) {
-            hide();
-        } else {
-            hide();
+        hide();
+        if (message.equals(NEGATIVE_TEXT)) {
             GameOverDialog gameOverDialog = new GameOverDialog(game, skin);
             gameOverDialog.show(getStage());
         }

@@ -116,11 +116,7 @@ public class FreedomGame implements BoardGame {
                 Position lastPosition = playersMovesHistory.getLast().getPosition();
                 String formattedAdjacentPositions = board.getAdjacentPositions(lastPosition).stream()
                         .sorted()
-                        .map(position -> {
-                            int displayedRow = position.getRow() + 1;
-                            char displayedColumn = (char) ('A' + position.getColumn());
-                            return displayedColumn + "" + displayedRow;
-                        })
+                        .map(Position::toString)
                         .collect(Collectors.joining(", "));
                 System.out.println(formattedAdjacentPositions);
         }

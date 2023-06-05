@@ -6,8 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 
 /**
  * This interface represents a generic game board. It may be used outside the scope of the freedom game as well.
@@ -19,15 +17,14 @@ public interface Board<P> {
      * @param position The position to clear
      * @throws InvalidPositionException In case the position is outside of board bounds
      */
-
     void clearCell(@NotNull Position position) throws InvalidPositionException;
+
     /**
      * Puts a new piece on this board
      * @param piece The new piece to be put on this board
      * @param position The position where the piece will be placed
      * @throws InvalidPositionException In case the position is outside of board bounds, or already occupied
      */
-
     void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException;
 
     /**
@@ -71,16 +68,7 @@ public interface Board<P> {
                 .count();
     }
 
-    /**
-     * Returns all the unoccupied positions on this board
-     * @return The unoccupied cells
-     */
-    default @NotNull Set<Position> getFreePositions() {
-        return getPositions().stream()
-                .filter(position -> !isCellOccupied(position))
-                .collect(Collectors.toSet());
-    }
-  
+
     /**
      * Checks whether the positions adjacent to the chosen position are occupied
      * @param position The chosen position
