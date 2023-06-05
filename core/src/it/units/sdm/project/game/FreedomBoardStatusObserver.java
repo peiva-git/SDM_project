@@ -62,9 +62,8 @@ public class FreedomBoardStatusObserver {
         if (numberOfFreeCells > 1) {
             if (lastMove == null || board.areAdjacentCellsOccupied(lastMove.getPosition())) {
                 return GameStatus.FREEDOM;
-            } else {
-                return GameStatus.NO_FREEDOM;
             }
+            return GameStatus.NO_FREEDOM;
         } else if (numberOfFreeCells == 1) {
             return GameStatus.LAST_MOVE;
         }

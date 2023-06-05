@@ -85,6 +85,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     public void setClickListener(@NotNull ClickListener clickListener) {
         for(Cell<Actor> cell : getCells()) {
             Actor tileAndPiece = cell.getActor();
+            tileAndPiece.clearListeners();
             tileAndPiece.addListener(clickListener);
         }
     }

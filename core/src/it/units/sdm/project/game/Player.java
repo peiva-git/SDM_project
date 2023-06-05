@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * This class represents a {@link BoardGame} player.
  */
 public class Player {
-
+    @NotNull
     private final Color color;
     @NotNull
     private final String name;
@@ -21,7 +21,7 @@ public class Player {
      * @param surname Player's surname
      * @throws RuntimeException In case the color's different from black or white
      */
-    public Player(Color color, @NotNull String name, @NotNull String surname) throws RuntimeException {
+    public Player(@NotNull Color color, @NotNull String name, @NotNull String surname) throws RuntimeException {
         if (!isColorValid(color)) {
             throw new RuntimeException("Invalid player color, can be either black or white");
         }
@@ -38,6 +38,7 @@ public class Player {
      * Gets the player's color
      * @return Player's color
      */
+    @NotNull
     public Color getColor() {
         return color;
     }
