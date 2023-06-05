@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
+import static it.units.sdm.project.board.gui.GuiBoard.fromTileCoordinatesToBoardPosition;
 
 /**
  * This class provides helper methods to highlight valid moves in a {@link it.units.sdm.project.game.gui.FreedomGame}.
@@ -70,11 +70,6 @@ public class CellHighlighter {
         return cellsToHighlight;
     }
 
-    @NotNull
-    private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
-    }
-
     private void highlightCell(@NotNull Cell<Actor> cellToHighlight) {
         Stack tileAndPiece = (Stack) cellToHighlight.getActor();
         Actor tile = tileAndPiece.getChild(0);
@@ -93,7 +88,7 @@ public class CellHighlighter {
         }
     }
 
-    private boolean isIndexEven(int i) {
+    private static boolean isIndexEven(int i) {
         return i % 2 == 0;
     }
 }
