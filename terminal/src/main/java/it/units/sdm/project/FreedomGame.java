@@ -132,7 +132,7 @@ public class FreedomGame implements BoardGame {
         }
         if (gameStatus == NO_FREEDOM) {
             Position lastPosition = Objects.requireNonNull(getLastMove(),
-                    "There should be at least one move stored when in NO_FREEDOM state").getPosition();
+                    "There should be at least one move stored already when in NO_FREEDOM state").getPosition();
             Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
             if (!adjacentPositions.contains(chosenPosition)) {
                 System.out.println("The specified cell is not adjacent to the last occupied one!");
