@@ -5,12 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -28,7 +24,9 @@ import it.units.sdm.project.game.gui.screens.MainMenuScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
@@ -46,14 +44,6 @@ public class FreedomGame extends Game implements BoardGame {
      * The number of columns that the {@link GuiBoard} used in this game has.
      */
     public static final int NUMBER_OF_COLUMNS = 8;
-    /**
-     * {@link GuiBoard#DARK_TILE}'s highlighted default {@link Color}
-     */
-    public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
-    /**
-     * {@link GuiBoard#LIGHT_TILE}'s highlighted default {@link Color}
-     */
-    public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
@@ -62,6 +52,7 @@ public class FreedomGame extends Game implements BoardGame {
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private Skin skin;
+    private FreedomCellHighlighter cellHighlighter;
 
     @Override
     public void create() {
@@ -71,6 +62,7 @@ public class FreedomGame extends Game implements BoardGame {
         board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         board.setClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
+        cellHighlighter = new FreedomCellHighlighter(board);
         setScreen(new MainMenuScreen(this));
     }
 
@@ -89,7 +81,7 @@ public class FreedomGame extends Game implements BoardGame {
         board.clearBoard();
         playersMovesHistory.clear();
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
-        resetCurrentlyHighlightedCellsIfAny();
+        cellHighlighter.resetCurrentlyHighlightedCellsIfAny();
     }
 
     private void appendTextToLogArea(@NotNull String textToAppend) {
@@ -140,9 +132,9 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     private void updateBoard(Move currentMove) {
-        resetCurrentlyHighlightedCellsIfAny();
+        cellHighlighter.resetCurrentlyHighlightedCellsIfAny();
         putStoneOnTheBoard(currentMove);
-        highlightValidPositionsForNextNoFreedomMove();
+        cellHighlighter.highlightPositions(findFreePositionsNearLastPlayedPosition());
     }
 
     private boolean isChosenPositionValid(@NotNull Position inputPosition) {
@@ -195,67 +187,4 @@ public class FreedomGame extends Game implements BoardGame {
             appendTextToLogArea(currentStep + ". " + inputPosition);
         }
     }
-
-    private void highlightValidPositionsForNextNoFreedomMove() {
-        Set<Position> positionsToHighlight = findFreePositionsNearLastPlayedPosition();
-        List<Cell<Actor>> cellsToHighlight = getCellsToHighlight(positionsToHighlight);
-        for (Cell<Actor> cellToHighlight : cellsToHighlight) {
-            highlightCell(cellToHighlight);
-        }
-    }
-
-    private void highlightCell(@NotNull Cell<Actor> cellToHighlight) {
-        Stack tileAndPiece = (Stack) cellToHighlight.getActor();
-        Actor tile = tileAndPiece.getChild(0);
-        if (isIndexEven(cellToHighlight.getRow())) {
-            if (isIndexEven(cellToHighlight.getColumn())) {
-                tile.setColor(HIGHLIGHT_LIGHT_TILE);
-            } else {
-                tile.setColor(HIGHLIGHT_DARK_TILE);
-            }
-        } else {
-            if (isIndexEven(cellToHighlight.getColumn())) {
-                tile.setColor(HIGHLIGHT_DARK_TILE);
-            } else {
-                tile.setColor(HIGHLIGHT_LIGHT_TILE);
-            }
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private @NotNull List<Cell<Actor>> getCellsToHighlight(@NotNull Set<Position> positionsToHighlight){
-        List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
-        for (int i = 0; i < board.getCells().size; i++) {
-            Cell<Actor> cell = board.getCells().get(i);
-            if (positionsToHighlight.contains(fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()))) {
-                cellsToHighlight.add(cell);
-            }
-        }
-        return cellsToHighlight;
-    }
-
-
-    private boolean isIndexEven(int i) {
-        return i % 2 == 0;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void resetCurrentlyHighlightedCellsIfAny() {
-        for (int i = 0; i < board.getCells().size; i++) {
-            Cell<Actor> cell = board.getCells().get(i);
-            Group tileAndPiece = (Group) cell.getActor();
-            Actor tile = tileAndPiece.getChild(0);
-            if (tile.getColor().equals(HIGHLIGHT_DARK_TILE)) {
-                tile.setColor(GuiBoard.DARK_TILE);
-            } else if (tile.getColor().equals(HIGHLIGHT_LIGHT_TILE)) {
-                tile.setColor(GuiBoard.LIGHT_TILE);
-            }
-        }
-    }
-
-    @NotNull
-    private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
-    }
-
 }
