@@ -37,6 +37,10 @@ public class CellHighlighter {
         this.board = board;
     }
 
+    /**
+     * Resets the currently highlighted cells on the provided {@link GuiBoard}
+     * If there aren't any, this method does nothing
+     */
     @SuppressWarnings("unchecked")
     public void resetCurrentlyHighlightedCellsIfAny() {
         for (int i = 0; i < board.getCells().size; i++) {
@@ -51,6 +55,10 @@ public class CellHighlighter {
         }
     }
 
+    /**
+     * Highlights the provided {@link Position}s on the current {@link GuiBoard}.
+     * @param positionsToHighlight The {@link Position}s that need to be highlighted
+     */
     public void highlightPositions(@NotNull Set<Position> positionsToHighlight) {
         List<Cell<Actor>> cellsToHighlight = getCellsToHighlight(positionsToHighlight);
         for (Cell<Actor> cellToHighlight : cellsToHighlight) {

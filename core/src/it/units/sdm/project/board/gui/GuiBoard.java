@@ -55,6 +55,15 @@ public class GuiBoard extends Table implements Board<GuiStone> {
         initBoard();
     }
 
+    /**
+     * This method obtains a {@link Position} from the given tile coordinates.
+     * Each tile in a {@link Table} layout has its own pair of coordinates.
+     * Refer to the <a href="https://libgdx.com/wiki/graphics/2d/scene2d/table">Table documentation</a>
+     * to find out how they're specified.
+     * @param tileRow The tile row coordinate, starting from index zero
+     * @param tileColumn The tile column coordinate, starting from index zero
+     * @return The resulting {@link Position}
+     */
     @NotNull
     public static Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
         return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
