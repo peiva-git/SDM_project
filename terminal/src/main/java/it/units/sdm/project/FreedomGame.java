@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -117,7 +118,8 @@ public class FreedomGame implements BoardGame {
                 break;
             case NO_FREEDOM:
                 System.out.print("Yuo can pick one of the following positions: ");
-                Position lastPosition = playersMovesHistory.getLast().getPosition();
+                Position lastPosition = Objects.requireNonNull(getLastMove(),
+                        "There should be at least one move stored already when in NO_FREEDOM state").getPosition();
                 String formattedAdjacentPositions = board.getAdjacentPositions(lastPosition).stream()
                         .sorted()
                         .map(Position::toString)
@@ -133,7 +135,8 @@ public class FreedomGame implements BoardGame {
             return false;
         }
         if (gameStatus == NO_FREEDOM) {
-            Position lastPosition = playersMovesHistory.getLast().getPosition();
+            Position lastPosition = Objects.requireNonNull(getLastMove(),
+                    "There should be at least one move stored already when in NO_FREEDOM state").getPosition();
             Set<Position> adjacentPositions = board.getAdjacentPositions(lastPosition);
             if (!adjacentPositions.contains(chosenPosition)) {
                 System.out.println("The specified cell is not adjacent to the last occupied one!");
