@@ -1,4 +1,4 @@
-package it.units.sdm.project.board.gui;
+package it.units.sdm.project.game.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.gui.GuiBoard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

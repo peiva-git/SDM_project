@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.gui.FreedomCellHighlighter;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
