@@ -14,18 +14,25 @@ import java.util.Set;
 
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
+/**
+ * This class provides helper methods to highlight valid moves in a {@link it.units.sdm.project.game.gui.FreedomGame}.
+ */
 public class CellHighlighter {
     /**
      * {@link GuiBoard#DARK_TILE}'s highlighted default {@link Color}
      */
-    public static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
+    private static final Color HIGHLIGHT_DARK_TILE = new Color(105 / 255f, 105 / 255f, 105 / 255f, 255 / 255f);
     /**
      * {@link GuiBoard#LIGHT_TILE}'s highlighted default {@link Color}
      */
-    public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
+    private static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     @NotNull
     private final GuiBoard board;
 
+    /**
+     * Creates a new highlighter instance, to be used on the provided {@link GuiBoard}.
+     * @param board The board on which cells should be highlighted
+     */
     public CellHighlighter(@NotNull GuiBoard board) {
         this.board = board;
     }
@@ -89,5 +96,4 @@ public class CellHighlighter {
     private boolean isIndexEven(int i) {
         return i % 2 == 0;
     }
-
 }
