@@ -17,7 +17,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.fromTileCoordinatesToBoard
 /**
  * This class provides helper methods to highlight valid moves in a {@link it.units.sdm.project.game.gui.FreedomGame}.
  */
-public class CellHighlighter {
+public class FreedomCellHighlighter {
     /**
      * {@link GuiBoard#DARK_TILE}'s highlighted default {@link Color}
      */
@@ -33,7 +33,7 @@ public class CellHighlighter {
      * Creates a new highlighter instance, to be used on the provided {@link GuiBoard}.
      * @param board The board on which cells should be highlighted
      */
-    public CellHighlighter(@NotNull GuiBoard board) {
+    public FreedomCellHighlighter(@NotNull GuiBoard board) {
         this.board = board;
     }
 

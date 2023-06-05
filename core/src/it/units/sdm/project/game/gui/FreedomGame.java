@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.gui.CellHighlighter;
+import it.units.sdm.project.board.gui.FreedomCellHighlighter;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
@@ -53,7 +53,7 @@ public class FreedomGame extends Game implements BoardGame {
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private Skin skin;
-    private CellHighlighter cellHighlighter;
+    private FreedomCellHighlighter cellHighlighter;
 
     @Override
     public void create() {
@@ -63,7 +63,7 @@ public class FreedomGame extends Game implements BoardGame {
         board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
         board.setClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
-        cellHighlighter = new CellHighlighter(board);
+        cellHighlighter = new FreedomCellHighlighter(board);
         setScreen(new MainMenuScreen(this));
     }
 
