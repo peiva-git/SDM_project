@@ -53,7 +53,7 @@ public class FreedomGame implements BoardGame {
 
     /**
      * Starts the game. By default, the game will be waiting for user input on System.in and
-     * printing on System.out
+     * printing on {@code System.out}
      */
     public void start() {
         System.out.println("Welcome to Freedom!");
