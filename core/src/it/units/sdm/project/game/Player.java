@@ -21,9 +21,9 @@ public class Player {
      * @param surname Player's surname
      * @throws RuntimeException In case the color's different from black or white
      */
-    public Player(@NotNull Color color, @NotNull String name, @NotNull String surname) throws RuntimeException {
+    public Player(@NotNull Color color, @NotNull String name, @NotNull String surname) throws IllegalArgumentException {
         if (!isColorValid(color)) {
-            throw new RuntimeException("Invalid player color, can be either black or white");
+            throw new IllegalArgumentException("Invalid player color, can be either black or white");
         }
         this.color = color;
         this.name = name;
