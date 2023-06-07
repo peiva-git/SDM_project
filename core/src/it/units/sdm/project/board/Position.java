@@ -10,11 +10,18 @@ import java.util.Objects;
  * a row index and a column index. Both of them must be a positive integer number.
  */
 public class Position implements Comparable<Position> {
+
+    /**
+     * Maximum allowed {@link Position} column index for this implementation.
+     * Since {@link Position}s are printed using chess-board-like coordinates, i.e. A5, G7 and so on,
+     * this limit is set to the size of the English alphabet - 1 to prevent incorrect string conversion
+     */
+    static final int MAXIMUM_COLUMN_INDEX = 25;
     private final int row;
     private final int column;
 
     private Position(int row, int column) throws InvalidPositionException {
-        if (isACoordinateNegative(row, column)) {
+        if (!areCoordinatesWithinAllowedRange(row, column)) {
             throw new InvalidPositionException("Invalid parameter: position row and column must be >= 0");
         }
         this.row = row;
@@ -23,6 +30,10 @@ public class Position implements Comparable<Position> {
 
     private static boolean isACoordinateNegative(int row, int column) {
         return row < 0 || column < 0;
+    }
+
+    private static boolean areCoordinatesWithinAllowedRange(int row, int column) {
+        return !isACoordinateNegative(row, column) && (column <= MAXIMUM_COLUMN_INDEX);
     }
 
     /**

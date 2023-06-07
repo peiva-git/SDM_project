@@ -12,7 +12,9 @@ public class PositionProviders {
         return Stream.of(
                 Arguments.of(0, 0, null),
                 Arguments.of(-1, -1, InvalidPositionException.class),
-                Arguments.of(5, 8, null)
+                Arguments.of(5, 8, null),
+                Arguments.of(5, 26, InvalidPositionException.class),
+                Arguments.of(Integer.MAX_VALUE, 25, null)
         );
     }
 

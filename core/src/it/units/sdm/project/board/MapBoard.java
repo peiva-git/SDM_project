@@ -11,6 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
+
 /**
  * This class represents an implementation of the {@link Board} interface using a {@link TreeMap} to hold
  * information about the pieces that are on this {@link Board}. The {@link Position}s on this board
@@ -27,7 +29,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     /**
      * Maximum allowed {@link Board} size for this implementation.
      */
-    public final static int MAX_BOARD_SIZE = 26;
+    public static final int MAX_BOARD_SIZE = MAXIMUM_COLUMN_INDEX + 1;
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;

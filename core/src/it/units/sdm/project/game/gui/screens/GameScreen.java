@@ -15,14 +15,16 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
+import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
  */
 public class GameScreen implements Screen {
-    public static final int GAME_SCREEN_WORLD_WIDTH = 1200;
-    public static final int GAME_SCREEN_WORLD_HEIGHT = 640;
+    private static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS * 2;
+    public static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -52,7 +54,7 @@ public class GameScreen implements Screen {
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
         container.add(logArea).expand().fill();
-        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * GuiBoard.TILE_SIZE);
+        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE);
     }
 
     @Override
