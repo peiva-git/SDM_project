@@ -21,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MainMenuScreen implements Screen {
     @NotNull
-    private final FreedomGame game;
-    @NotNull
     private final Table initialMenu;
     @NotNull
     private final Skin skin;
@@ -34,7 +32,6 @@ public class MainMenuScreen implements Screen {
      * @param game The game using this screen
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
-        this.game = game;
         stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
