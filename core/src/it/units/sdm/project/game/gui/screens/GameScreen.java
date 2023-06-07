@@ -26,12 +26,12 @@ public class GameScreen implements Screen {
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
      * to prevent parts of the GUI from being cut out if the viewport
      */
-    private static final int GAME_SCREEN_WORLD_WIDTH = 1200;
+    static final int GAME_SCREEN_WORLD_WIDTH = 1200;
     /**
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
      * to prevent parts of the GUI from being cut out of the viewport
      */
-    private static final int GAME_SCREEN_WORLD_HEIGHT = 640;
+    static final int GAME_SCREEN_WORLD_HEIGHT = 640;
     public static final int BOARD_PADDING = 10;
     @NotNull
     private final FreedomGame game;
