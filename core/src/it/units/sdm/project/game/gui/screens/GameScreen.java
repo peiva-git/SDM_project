@@ -24,12 +24,14 @@ import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
 public class GameScreen implements Screen {
     /**
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
-     * to prevent parts of the GUI from being cut out if the viewport
+     * to prevent parts of the GUI from being cut out if the viewport.
+     * This constant defines the width of the viewport in game-world coordinates
      */
     static final int GAME_SCREEN_WORLD_WIDTH = 1200;
     /**
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
      * to prevent parts of the GUI from being cut out of the viewport
+     * This constant defines the height of the viewport in game-world coordinates
      */
     static final int GAME_SCREEN_WORLD_HEIGHT = 640;
     public static final int BOARD_PADDING = 10;
