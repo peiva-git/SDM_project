@@ -21,6 +21,8 @@ import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
  * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
  */
 public class GameScreen implements Screen {
+    public static final int GAME_SCREEN_WORLD_WIDTH = 1200;
+    public static final int GAME_SCREEN_WORLD_HEIGHT = 640;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -36,7 +38,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
-        stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
+        stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
