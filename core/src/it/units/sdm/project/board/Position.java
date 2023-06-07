@@ -14,14 +14,14 @@ public class Position implements Comparable<Position> {
     private final int column;
 
     private Position(int row, int column) throws InvalidPositionException {
-        if (arePositionCoordinatesInvalid(row, column)) {
+        if (isACoordinateNegative(row, column)) {
             throw new InvalidPositionException("Invalid parameter: position row and column must be >= 0");
         }
         this.row = row;
         this.column = column;
     }
 
-    private static boolean arePositionCoordinatesInvalid(int row, int column) {
+    private static boolean isACoordinateNegative(int row, int column) {
         return row < 0 || column < 0;
     }
 
