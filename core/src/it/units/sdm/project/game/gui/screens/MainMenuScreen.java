@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -40,6 +42,13 @@ public class MainMenuScreen implements Screen {
         initialMenu = new Table();
         initMenu();
         stage.addActor(initialMenu);
+        stage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game));
+                dispose();
+            }
+        });
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -56,7 +65,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -64,10 +72,6 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(Color.WHITE);
         stage.act(delta);
         stage.draw();
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
     }
 
     @Override
