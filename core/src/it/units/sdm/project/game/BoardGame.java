@@ -6,53 +6,53 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Representation of a turn-based game played by two {@link Player}s on a {@link Board}.
+ * Representation of a turn-based game played by two {@link Player}s (white and black) on a {@link Board}.
  */
 public interface BoardGame {
 
     /**
-     * Returns the board used by this game
-     * @return The board used by this game
+     * Returns the {@link Board} used by this game
+     * @return The {@link Board} used by this game
      */
     @NotNull Board<?> getBoard();
 
     /**
-     * Returns the player who's going first. In a game of chess, that would probably be the white player
-     * @return The player who's going first
+     * Returns the white {@link Player}
+     * @return The {@link Player} who's going first
      */
-    @NotNull Player getFirstPlayer();
+    @NotNull Player getWhitePlayer();
 
     /**
-     * Returns the player who's going second. In a game of chess, that would probably be the black player
-     * @return The player who's going second
+     * Returns the black {@link Player}
+     * @return The {@link Player} who's going second
      */
-    @NotNull Player getSecondPlayer();
+    @NotNull Player getBlackPlayer();
 
     /**
-     * Returns the last move played in this game
-     * @return The last move played in this game
+     * Returns the last {@link Move} played in this game
+     * @return The last {@link Move} played in this game
      */
     @Nullable Move getLastMove();
 
     /**
-     * Plays the next move in this game
-     * @param position The chosen position for the next move
+     * Plays the next {@link Move} in this game
+     * @param position The chosen {@link Position} for the next {@link Move}
      */
     void nextMove(@NotNull Position position);
 
     /**
-     * Returns the player who's playing next
-     * @return The player who's playing next
+     * Returns the {@link Player} who's playing next
+     * @return The {@link Player} who's playing next
      */
     default @NotNull Player getNextPlayer() {
-        Player firstPlayer = getFirstPlayer();
-        Player secondPlayer = getSecondPlayer();
-        if(getLastMove() == null || getLastMove().getPlayer().equals(secondPlayer)) return firstPlayer;
-        return secondPlayer;
+        Player whitePlayer = getWhitePlayer();
+        Player blackPlayer = getBlackPlayer();
+        if(getLastMove() == null || getLastMove().getPlayer().equals(blackPlayer)) return whitePlayer;
+        return blackPlayer;
     }
 
     /**
-     * Reset the game to the default state
+     * Reset the game to the default {@link it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus} state
      */
     void reset();
 
