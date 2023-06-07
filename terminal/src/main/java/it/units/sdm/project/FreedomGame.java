@@ -160,12 +160,12 @@ public class FreedomGame implements BoardGame {
     }
 
     @Override
-    public @NotNull Player getFirstPlayer() {
+    public @NotNull Player getWhitePlayer() {
         return whitePlayer;
     }
 
     @Override
-    public @NotNull Player getSecondPlayer() {
+    public @NotNull Player getBlackPlayer() {
         return blackPlayer;
     }
 
