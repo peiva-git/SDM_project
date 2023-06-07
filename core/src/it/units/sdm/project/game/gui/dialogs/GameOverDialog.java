@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameOverDialog extends Dialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
+    private static final int PADDING = 40;
     @NotNull
     private final FreedomGame game;
 
@@ -30,7 +31,7 @@ public class GameOverDialog extends Dialog {
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
-        pad(40);
+        pad(PADDING);
         Player winner = statusObserver.getCurrentWinner(game.getFirstPlayer(), game.getSecondPlayer());
         if (winner != null) {
             text("The winner is " + winner);

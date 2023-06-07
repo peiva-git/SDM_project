@@ -11,6 +11,7 @@ public class LastMoveDialog extends Dialog {
 
     private static final String POSITIVE_TEXT = "Yes";
     private static final String NEGATIVE_TEXT = "No";
+    private static final int PADDING = 40;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -26,10 +27,10 @@ public class LastMoveDialog extends Dialog {
         this.game = game;
         this.skin = skin;
         text("Do you want to put the last stone?");
-        pad(40);
+        pad(PADDING);
         button("Yes", POSITIVE_TEXT);
         button("No", NEGATIVE_TEXT);
-        padBottom(40f);
+        padBottom(PADDING);
     }
     @Override
     protected void result(Object object) {
