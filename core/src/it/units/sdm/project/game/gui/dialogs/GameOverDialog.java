@@ -31,7 +31,7 @@ public class GameOverDialog extends Dialog {
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
         pad(40);
-        Player winner = statusObserver.getCurrentWinner(game.getFirstPlayer(), game.getSecondPlayer());
+        Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
         if (winner != null) {
             text("The winner is " + winner);
         } else {

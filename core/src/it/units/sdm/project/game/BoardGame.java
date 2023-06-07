@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Representation of a turn-based game played by two {@link Player}s on a {@link Board}.
+ * Representation of a turn-based game played by two {@link Player}s (white and black) on a {@link Board}.
  */
 public interface BoardGame {
 
@@ -17,16 +17,16 @@ public interface BoardGame {
     @NotNull Board<?> getBoard();
 
     /**
-     * Returns the player who's going first. In a game of chess, that would probably be the white player
+     * Returns the white player
      * @return The player who's going first
      */
-    @NotNull Player getFirstPlayer();
+    @NotNull Player getWhitePlayer();
 
     /**
-     * Returns the player who's going second. In a game of chess, that would probably be the black player
+     * Returns the black player
      * @return The player who's going second
      */
-    @NotNull Player getSecondPlayer();
+    @NotNull Player getBlackPlayer();
 
     /**
      * Returns the last move played in this game
@@ -45,10 +45,10 @@ public interface BoardGame {
      * @return The player who's playing next
      */
     default @NotNull Player getNextPlayer() {
-        Player firstPlayer = getFirstPlayer();
-        Player secondPlayer = getSecondPlayer();
-        if(getLastMove() == null || getLastMove().getPlayer().equals(secondPlayer)) return firstPlayer;
-        return secondPlayer;
+        Player whitePlayer = getWhitePlayer();
+        Player blackPlayer = getBlackPlayer();
+        if(getLastMove() == null || getLastMove().getPlayer().equals(blackPlayer)) return whitePlayer;
+        return blackPlayer;
     }
 
     /**
