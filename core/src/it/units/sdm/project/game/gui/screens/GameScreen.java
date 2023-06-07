@@ -17,14 +17,22 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
  */
 public class GameScreen implements Screen {
-    private static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS * 2;
-    public static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS;
+    /**
+     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
+     * to prevent parts of the GUI from being cut out if the viewport
+     */
+    private static final int GAME_SCREEN_WORLD_WIDTH = 1200;
+    /**
+     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
+     * to prevent parts of the GUI from being cut out of the viewport
+     */
+    private static final int GAME_SCREEN_WORLD_HEIGHT = 640;
+    public static final int BOARD_PADDING = 10;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -54,7 +62,7 @@ public class GameScreen implements Screen {
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
         container.add(logArea).expand().fill();
-        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE);
+        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE).pad(BOARD_PADDING);
     }
 
     @Override
