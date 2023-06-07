@@ -46,16 +46,17 @@ public class FreedomPointsCounter {
      * @param color Freedom player's {@link Color}, it can be either white or black
      * @return The player's score
      */
-    public int getPlayerScore(@NotNull Color color) {
+    public int getPlayerScore(@NotNull Color color) throws IllegalArgumentException {
         if (color == Color.WHITE) {
             this.whiteFreedomLines.clear();
             count(color);
             return whiteFreedomLines.size();
-        } else {
+        } else if (color == Color.BLACK){
             this.blackFreedomLines.clear();
             count(color);
             return blackFreedomLines.size();
         }
+        throw new IllegalArgumentException("Invalid player color, can be either black or white");
     }
 
     /**
