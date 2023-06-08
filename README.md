@@ -90,6 +90,9 @@ If you only wish to compile the project to Javascript and then use the generated
 ```
 More details on what to do next and where to find the generated files can be found
 [here](https://libgdx.com/wiki/deployment/deploying-your-application#deploy-web).
+If you want to give it a try without having to compile everything yourself,
+you can take a look at the webapp version of the game
+on our [GitHub Pages website](https://peiva-git.github.io/SDM_project/)!
 
 To launch the terminal-based version of the game with gradle, run:
 ```shell
