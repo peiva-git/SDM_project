@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
+import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
@@ -27,13 +28,13 @@ public class GameScreen implements Screen {
      * to prevent parts of the GUI from being cut out if the viewport.
      * This constant defines the width of the viewport in game-world coordinates
      */
-    static final int GAME_SCREEN_WORLD_WIDTH = 1200;
+    static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS + 300;
     /**
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
      * to prevent parts of the GUI from being cut out of the viewport
      * This constant defines the height of the viewport in game-world coordinates
      */
-    static final int GAME_SCREEN_WORLD_HEIGHT = 640;
+    static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS + 50;
     public static final int BOARD_PADDING = 10;
     @NotNull
     private final FreedomGame game;
