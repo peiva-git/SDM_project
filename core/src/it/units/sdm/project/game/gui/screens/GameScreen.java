@@ -15,12 +15,27 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
+import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
  */
 public class GameScreen implements Screen {
+    /**
+     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
+     * to prevent parts of the GUI from being cut out if the viewport.
+     * This constant defines the width of the viewport in game-world coordinates
+     */
+    static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS + 300;
+    /**
+     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
+     * to prevent parts of the GUI from being cut out of the viewport
+     * This constant defines the height of the viewport in game-world coordinates
+     */
+    static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS + 50;
+    public static final int BOARD_PADDING = 10;
     @NotNull
     private final FreedomGame game;
     @NotNull
@@ -36,7 +51,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
-        stage = new Stage(new FitViewport(1200, 640), new SpriteBatch());
+        stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
@@ -50,7 +65,7 @@ public class GameScreen implements Screen {
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
         container.add(logArea).expand().fill();
-        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * GuiBoard.TILE_SIZE);
+        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE).pad(BOARD_PADDING);
     }
 
     @Override

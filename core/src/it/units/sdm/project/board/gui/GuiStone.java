@@ -18,8 +18,8 @@ public class GuiStone extends Stone {
 
     /**
      * Creates a new {@link GuiStone} instance
-     * @param color Color of the stone
-     * @param image Stone image to be used in a libgdx scene2d GUI
+     * @param color The {@link Color} of the {@link Stone}
+     * @param image The stone's {@link Image} to be used in a libgdx scene2d GUI
      */
     public GuiStone(@NotNull Color color, @NotNull Image image) {
         super(color);
@@ -27,8 +27,8 @@ public class GuiStone extends Stone {
     }
 
     /**
-     * Gets the stone image
-     * @return The stone image
+     * Gets the stone {@link Image}
+     * @return The {@link com.badlogic.gdx.scenes.scene2d.Actor} related to this {@link GuiStone}
      */
     @NotNull
     public Image getActor() {

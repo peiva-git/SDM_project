@@ -27,7 +27,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     /**
      * Tile size to be used by the board, in pixels
      */
-    public static final int TILE_SIZE = 75;
+    public static final int TILE_SIZE = 32;
 
     /**
      * Dark tile default {@link Color}
