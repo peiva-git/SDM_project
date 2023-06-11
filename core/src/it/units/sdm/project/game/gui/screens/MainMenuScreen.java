@@ -20,7 +20,7 @@ import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD
 import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_WIDTH;
 
 /**
- * {@link FreedomGame}'s menu screen. It is displayed before the main game screen.
+ * {@link FreedomGame}'s menu {@link Screen}. It is displayed before the main {@link GameScreen}.
  */
 public class MainMenuScreen implements Screen {
     @NotNull
@@ -32,7 +32,7 @@ public class MainMenuScreen implements Screen {
 
     /**
      * Creates an instance of a {@link MainMenuScreen}
-     * @param game The game using this screen
+     * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
