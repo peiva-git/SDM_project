@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * This class represents a line of {@link Stone}s with the same color.
+ * This class represents a line of {@link Stone}s with the same {@link Color}.
  * The line {@link Position}s are stored in a
  * {@link TreeSet} by taking into account the custom ordering defined in the {@link Position} class.
- * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and stone {@link Position}s.
+ * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and {@link Stone} {@link Position}s.
  */
 public class FreedomLine {
     @NotNull
@@ -28,7 +28,7 @@ public class FreedomLine {
 
     /**
      * Creates a {@link FreedomLine} instance
-     * @param board The {@link Board} on which this line is located
+     * @param board The {@link Board} on which this {@link FreedomLine} is located
      */
     public FreedomLine(@NotNull Board<? extends Stone> board) {
         this.color = null;
@@ -37,9 +37,9 @@ public class FreedomLine {
     }
 
     /**
-     * Creates a {@link FreedomLine} instance from a starting position
-     * @param board {@link Board} on which this line is located
-     * @param initialPosition Initial {@link Position} of the line
+     * Creates a {@link FreedomLine} instance from a starting {@link Position}
+     * @param board {@link Board} on which this {@link FreedomLine} is located
+     * @param initialPosition Initial {@link Position} of the {@link FreedomLine}
      */
     public FreedomLine(@NotNull Board<? extends Stone> board, @NotNull Position initialPosition) {
         this.board = board;
@@ -47,11 +47,11 @@ public class FreedomLine {
     }
 
     /**
-     * Adds a stone to this {@link FreedomLine}. This method checks if the
-     * position to add is valid according to the line's direction, to the last added
-     * {@link Stone} {@link Position} and to the last added stone's {@link Color}, if any.
-     * @param position The position to add
-     * @throws InvalidPositionException If the position isn't valid according to the above-mentioned criteria
+     * Adds a {@link Stone} to this {@link FreedomLine}. This method checks if the
+     * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
+     * {@link Stone} {@link Position} and to the last added {@link Stone}'s {@link Color}, if any.
+     * @param position The {@link Position} to add
+     * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
      */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
         Stone stone = board.getPiece(position);
@@ -139,8 +139,8 @@ public class FreedomLine {
     }
 
     /**
-     * Gets the line {@link Color}
-     * @return This line's {@link Color}
+     * Gets the {@link FreedomLine} {@link Color}
+     * @return This {@link FreedomLine}'s {@link Color}
      */
     public @Nullable Color getColor() {
         return color;
@@ -148,7 +148,7 @@ public class FreedomLine {
 
     /**
      * Returns all this {@link FreedomLine}'s {@link Position}s
-     * @return This {@link FreedomLine}'s positions
+     * @return This {@link FreedomLine}'s {@link Position}s
      */
     @NotNull
     public Set<Position> getCellPositions() {
@@ -156,8 +156,8 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this line's first {@link Position} according to the {@link Position} ordering.
-     * @return The first {@link Position} in this line
+     * Returns this {@link FreedomLine}'s first {@link Position} according to the {@link Position} ordering.
+     * @return The first {@link Position} in this {@link FreedomLine}
      */
     @NotNull
     public Position first() {
@@ -165,8 +165,8 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this line's last {@link Position} according to the {@link Position} ordering.
-     * @return The last {@link Position} in this line
+     * Returns this {@link FreedomLine}'s last {@link Position} according to the {@link Position} ordering.
+     * @return The last {@link Position} in this {@link FreedomLine}
      */
     @NotNull
     public Position last() {
@@ -174,17 +174,17 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this line's size.
-     * @return The size of this line
+     * Returns this {@link FreedomLine}'s size.
+     * @return The size of this {@link FreedomLine}
      */
     public int size() {
         return cellPositions.size();
     }
 
     /**
-     * Two lines are equal if they have the same {@link Color}, the same {@link Stone} {@link Position}s and the same {@link Direction}.
-     * @param o The object to compare with
-     * @return {@code true} if the lines are equal, {@code false} otherwise
+     * Two {@link FreedomLine}s are equal if they have the same {@link Color}, the same {@link Stone} {@link Position}s and the same {@link Direction}.
+     * @param o The {@link Object} to compare with
+     * @return {@code true} if the {@link FreedomLine}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -196,7 +196,7 @@ public class FreedomLine {
 
     /**
      * {@link String} representation of the {@link FreedomLine}
-     * @return A string composed by line {@link Color}, line {@link Direction} and {@link Stone} {@link Position}s.
+     * @return A {@link String} composed by line {@link Color}, {@link FreedomLine} {@link Direction} and {@link Stone} {@link Position}s.
      */
     @Override
     public String toString() {
@@ -212,23 +212,23 @@ public class FreedomLine {
      */
     public enum Direction {
         /**
-         * A line has a horizontal direction if all the
-         * line are placed on the same row
+         * A {@link FreedomLine} has a horizontal {@link Direction} if all the
+         * {@link Stone}s are placed on the same row
          */
         HORIZONTAL,
         /**
-         * A line has a vertical direction if all the line stones
+         * A {@link FreedomLine} has a vertical {@link Direction} if all the {@link Stone}s
          * are placed on the same column
          */
         VERTICAL,
         /**
-         * A line has a diagonal left direction if all the line stones are placed
-         * diagonally on the left with respect to the starting position
+         * A {@link FreedomLine} has a diagonal-left {@link Direction} if all the {@link Stone}s are placed
+         * diagonally on the left with respect to the starting {@link Position}
          */
         DIAGONAL_LEFT,
         /**
-         * A line has a diagonal right direction if all the line stones are placed
-         * diagonally on the right with respect to the starting position
+         * A {@link FreedomLine} has a diagonal-right {@link Direction} if all the {@link Stone}s are placed
+         * diagonally on the right with respect to the starting {@link Position}
          */
         DIAGONAL_RIGHT
     }
