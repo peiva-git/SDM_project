@@ -6,36 +6,37 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Representation of a turn-based game played by two {@link Player}s (white and black) on a {@link Board}.
+ * Representation of a turn-based game played by two {@link Player}s
+ * ({@link com.badlogic.gdx.graphics.Color#WHITE} and {@link com.badlogic.gdx.graphics.Color#BLACK}) on a {@link Board}.
  */
 public interface BoardGame {
 
     /**
-     * Returns the {@link Board} used by this game
-     * @return The {@link Board} used by this game
+     * Returns the {@link Board} used by this {@link BoardGame}
+     * @return The {@link Board} used by this {@link BoardGame}
      */
     @NotNull Board<?> getBoard();
 
     /**
-     * Returns the white {@link Player}
+     * Returns the {@link java.awt.Color#WHITE} {@link Player}
      * @return The {@link Player} who's going first
      */
     @NotNull Player getWhitePlayer();
 
     /**
-     * Returns the black {@link Player}
+     * Returns the {@link java.awt.Color#BLACK} {@link Player}
      * @return The {@link Player} who's going second
      */
     @NotNull Player getBlackPlayer();
 
     /**
-     * Returns the last {@link Move} played in this game
-     * @return The last {@link Move} played in this game
+     * Returns the last {@link Move} played in this {@link BoardGame}
+     * @return The last {@link Move} played in this {@link BoardGame}
      */
     @Nullable Move getLastMove();
 
     /**
-     * Plays the next {@link Move} in this game
+     * Plays the next {@link Move} in this {@link BoardGame}
      * @param position The chosen {@link Position} for the next {@link Move}
      */
     void nextMove(@NotNull Position position);
@@ -52,7 +53,7 @@ public interface BoardGame {
     }
 
     /**
-     * Reset the game to the default {@link it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus} state
+     * Reset the {@link BoardGame} to the default {@link it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus} state
      */
     void reset();
 
