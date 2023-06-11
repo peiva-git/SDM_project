@@ -14,8 +14,8 @@ public class Move {
     private final Position position;
 
     /**
-     * Creates a wrapper to save a player's move in a board game
-     * @param player The {@link Player} making the move
+     * Creates a wrapper to save a {@link Player}'s {@link Move} in a {@link BoardGame}
+     * @param player The {@link Player} making the {@link Move}
      * @param position The chosen {@link Position}
      */
     public Move(@NotNull Player player, @NotNull Position position) {
@@ -24,25 +24,25 @@ public class Move {
     }
 
     /**
-     * Returns the move's player
-     * @return The move's player
+     * Returns the {@link Move}'s {@link Player}
+     * @return The {@link Move}'s {@link Player}
      */
     public @NotNull Player getPlayer() {
         return player;
     }
 
     /**
-     * Returns the move's position
-     * @return The move's position
+     * Returns the {@link Move}'s {@link Position}
+     * @return The {@link Move}'s {@link Position}
      */
     public @NotNull Position getPosition() {
         return position;
     }
 
     /**
-     * Two moves are equal if the players and the positions are equal
-     * @param o The object to be compared with
-     * @return True if the moves are equal, otherwise it returns false
+     * Two {@link Move}s are equal if the {@link Player}s and the {@link Position}s are equal
+     * @param o The {@link Object} to compare {@code this} with
+     * @return {@code true} if the {@link Move}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object o) {
