@@ -4,23 +4,24 @@ import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Representation of a stone which can be placed on a {@link Board}.
+ * Representation of a {@link Stone} which can be placed on a {@link Board}.
  */
 public class Stone {
     @NotNull
     private final Color color;
 
     /**
-     * Creates a new Stone instance to put on a Board
-     * @param color The stone's color. In a game of checkers, this would be black or white
+     * Creates a new {@link Stone} instance to put on a {@link Board}
+     * @param color The {@link Stone}'s {@link Color}.
+     * In a game of checkers, this would be {@link Color#BLACK} or {@link Color#WHITE}
      */
     public Stone(@NotNull Color color) {
         this.color = color;
     }
 
     /**
-     * Returns this stone's color
-     * @return This stone's color
+     * Returns this {@link Stone}'s {@link Color}
+     * @return This {@link Stone}'s {@link Color}
      */
     @NotNull
     public Color getColor() {
@@ -28,9 +29,9 @@ public class Stone {
     }
 
     /**
-     * Two stones are equal if they are of the same color.
-     * @param obj {@link Stone} to be compared with this stone
-     * @return True if the two stones are equal, false otherwise
+     * Two {@link Stone}s are equal if they are of the same {@link Color}.
+     * @param obj {@link Object} to be compared with this {@link Stone}
+     * @return {@code true} if the two {@link Stone}s are equal, {@code false}
      */
     @Override
     public boolean equals(Object obj) {
@@ -40,7 +41,7 @@ public class Stone {
     }
 
     /**
-     * String representation of the stone.
+     * {@link String} representation of the {@link Stone}.
      * @return {@link String} representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">{@link Color}</a> class.
      */
     @Override
