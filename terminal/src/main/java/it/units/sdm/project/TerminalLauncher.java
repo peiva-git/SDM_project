@@ -10,7 +10,7 @@ import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.game.Player;
 
 /**
- * This class holds the terminal-based Freedom game's entry point.
+ * This class holds the terminal-based {@link FreedomGame}'s entry point.
  */
 public class TerminalLauncher {
     private static final String ASCII_LOGO = " ________                                  __                       \n" +
@@ -41,7 +41,7 @@ public class TerminalLauncher {
     private String blackPlayerSurname = "Rossi";
 
     /**
-     * The terminal-based game's entry point
+     * The terminal-based {@link FreedomGame}'s entry point
      * @param args Command-line-supplied arguments
      */
     public static void main(String[] args) {
