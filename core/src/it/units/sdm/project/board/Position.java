@@ -37,25 +37,25 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Returns this position's row index, zero-indexed
-     * @return This position's row index
+     * Returns this {@link Position}'s row index, zero-indexed
+     * @return This {@link Position}'s row index
      */
     public int getRow() {
         return row;
     }
 
     /**
-     * Returns this position's column index, zero-indexed
-     * @return This position's column index
+     * Returns this {@link Position}'s column index, zero-indexed
+     * @return This {@link Position}'s column index
      */
     public int getColumn() {
         return column;
     }
 
     /**
-     * Two positions are equal if they have the same coordinates
+     * Two {@link Position}s are equal if they have the same coordinates
      * @param o The object to compare with
-     * @return True if the positions are equal, otherwise it returns false
+     * @return {@code true} if the {@link Position}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -71,9 +71,9 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Returns a string representation of this position. The column is converted to a letter and is printed
+     * Returns a {@link String} representation of this {@link Position}. The column is converted to a letter and is printed
      * before the row, for example G4
-     * @return The string representation of this position
+     * @return The {@link String} representation of this {@link Position}
      */
     @Override
     public String toString() {
@@ -85,12 +85,12 @@ public class Position implements Comparable<Position> {
      * The assumed ordering is that of a chess board: assuming to be looking from the first player's side,
      * the columns are ordered from A to H starting on the left to the right,
      * while the rows are ordered from 1 to 8 from the bottom to the top.
-     * We're therefore ordering all the board positions starting from letters first and then numbers,
+     * We're therefore ordering all the {@link Board} {@link Position}s starting from letters first and then numbers,
      * eg. A1, B1, C1...
      *
-     * @param position the position to compare this position with
-     * @return 0 if the positions are the same, < 0 if position comes before this position,
-     * > 0 if position comes after this position
+     * @param position the {@link Position} to compare this {@link Position} with
+     * @return 0 if the {@link Position}s are the same, < 0 if {@code position} comes before this {@link Position},
+     * > 0 if {@code position} comes after this {@link Position}
      */
     /*
      * 8 -  -  -  -  -  -  -  -
@@ -113,10 +113,10 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Creates a new board position instance from the given coordinates
+     * Creates a new {@link Board} {@link Position} instance from the given coordinates
      * @param row The row coordinate, starting from index 0
      * @param column The column coordinate, starting from index 0
-     * @return The new position instance
+     * @return The new {@link Position} instance
      * @throws InvalidPositionException In case the indexes are negative
      */
     @NotNull
