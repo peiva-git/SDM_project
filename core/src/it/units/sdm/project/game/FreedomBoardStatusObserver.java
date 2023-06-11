@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * This class obtains the current {@link GameStatus} and the {@link Player} that's currently winning
  * at the Freedom game that's being played on the supplied {@link Board}. The game could be in 4 different states:
- * FREEDOM, NO_FREEDOM, LAST_MOVE, GAME_OVER
+ * {@link GameStatus#FREEDOM}, {@link GameStatus#NO_FREEDOM}, {@link GameStatus#LAST_MOVE}, {@link GameStatus#GAME_OVER}
  */
 public class FreedomBoardStatusObserver {
 
@@ -16,18 +16,18 @@ public class FreedomBoardStatusObserver {
     Board<? extends Stone> board;
 
     /**
-     * Creates a new game status observer.
-     * @param board The board on which to observe the state changes
+     * Creates a new {@link GameStatus} observer.
+     * @param board The {@link Board} on which to observe the state changes
      */
     public FreedomBoardStatusObserver(@NotNull Board<? extends Stone> board) {
         this.board = board;
     }
 
     /**
-     * Returns the player who's currently winning among the two players
-     * @param whitePlayer The first player
-     * @param blackPlayer The second player
-     * @return The player who's currently winning, or null i it's a tie
+     * Returns the {@link Player} who's currently winning among the two {@link Player}s
+     * @param whitePlayer The first {@link Player}
+     * @param blackPlayer The second {@link Player}
+     * @return The {@link Player} who's currently winning, or {@code null} if it's a tie
      */
     @Nullable
     public Player getCurrentWinner(@NotNull Player whitePlayer, @NotNull Player blackPlayer) {
@@ -42,9 +42,9 @@ public class FreedomBoardStatusObserver {
     }
 
     /**
-     * Returns the player's current score
-     * @param player The chosen player
-     * @return The player's current score
+     * Returns the {@link Player}'s current score
+     * @param player The chosen {@link Player}
+     * @return The {@link Player}'s current score
      */
     private int getCurrentScore(@NotNull Player player) {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
@@ -52,9 +52,9 @@ public class FreedomBoardStatusObserver {
     }
 
     /**
-     * Returns the current state of the game, given the last {@link Move} and the situation on the board.
-     * @param lastMove The last played move
-     * @return The current state of the game
+     * Returns the current state of the game, given the last {@link Move} and the situation on the {@link Board}.
+     * @param lastMove The last played {@link Move}
+     * @return The current state of the {@link BoardGame}
      */
     @NotNull
     public GameStatus getCurrentGameStatus(@Nullable Move lastMove) {
@@ -75,22 +75,25 @@ public class FreedomBoardStatusObserver {
      */
     public enum GameStatus {
         /**
-         * In case the player can place a new stone anywhere on the board. This happens on the very first
-         * round of the game or when there are no positions adjacent to the previously played one.
+         * In case the {@link Player} can place a new {@link Stone} anywhere on the {@link Board}.
+         * This happens on the very first
+         * round of the game or when there are no {@link it.units.sdm.project.board.Position}s adjacent to the previously played one.
          */
         FREEDOM,
         /**
-         * In case the player must place the new stone near the previously played one. This happens when there
-         * are free positions adjacent to the previously played one.
+         * In case the {@link Player} must place the new {@link Stone} near the previously played one.
+         * This happens when there
+         * are free {@link it.units.sdm.project.board.Position}s adjacent to the previously played one.
          */
         NO_FREEDOM,
         /**
-         * In case there's only one position left on the board. The {@link Player} can decide
-         * to either play the last stone or to end the game by skipping the last turn.
+         * In case there's only one {@link it.units.sdm.project.board.Position} left on the board.
+         * The {@link Player} can decide
+         * to either play the last {@link Stone} or to end the game by skipping the last turn.
          */
         LAST_MOVE,
         /**
-         * In case the board is full or in case the LAST_MOVE was skipped.
+         * In case the {@link Board} is full or in case the {@link GameStatus#LAST_MOVE} was skipped.
          */
         GAME_OVER
     }
