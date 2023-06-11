@@ -25,18 +25,23 @@ public class TerminalLauncher {
             "                                                                    \n" +
             "                                                                    \n" +
             "                                                                    \n";
+    @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"-s", "--size"}, description = "Square board size", validateWith = BoardSizeValidator.class)
     private int boardSize = 8;
 
+    @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--white-name"}, description = "White player name", validateWith = NameSizeValidator.class)
     private String whitePlayerName = "Mario";
 
+    @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--white-surname"}, description = "White player surname", validateWith = NameSizeValidator.class)
     private String whitePlayerSurname = "Rossi";
 
+    @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--black-name"}, description = "Black player name", validateWith = NameSizeValidator.class)
     private String blackPlayerName = "Lollo";
 
+    @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--black-surname"}, description = "Black player surname", validateWith = NameSizeValidator.class)
     private String blackPlayerSurname = "Rossi";
 
