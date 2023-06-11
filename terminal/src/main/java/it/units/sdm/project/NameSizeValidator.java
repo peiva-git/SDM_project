@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * This class is used to validate the {@link it.units.sdm.project.game.Player}'s name and surname size parameter
- * in the terminal version of the game. These two parameters are given as command line arguments.
+ * in the terminal version of the {@link FreedomGame}. These two parameters are given as command line arguments.
  * The validation is done by implementing the {@link IParameterValidator} interface,
  * which is part of the <a href="https://jcommander.org/">JCommander</a> project.
  */
