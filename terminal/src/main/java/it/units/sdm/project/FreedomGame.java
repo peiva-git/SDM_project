@@ -38,10 +38,10 @@ public class FreedomGame implements BoardGame {
     private final FreedomBoardStatusObserver statusObserver;
 
     /**
-     * Creates a new terminal based freedom game
-     * @param board The board used in the game
-     * @param whitePlayer The first player
-     * @param blackPlayer The second player
+     * Creates a new terminal based {@link FreedomGame}
+     * @param board The {@link Board} used in the {@link FreedomGame}
+     * @param whitePlayer The first {@link Player}
+     * @param blackPlayer The second {@link Player}
      */
     public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -52,7 +52,8 @@ public class FreedomGame implements BoardGame {
     }
 
     /**
-     * Starts the game. By default, the game will be waiting for user input on System.in and
+     * Starts the {@link FreedomGame}.
+     * By default, the game will be waiting for user input on {@code System.in} and
      * printing on {@code System.out}
      */
     public void start() {
