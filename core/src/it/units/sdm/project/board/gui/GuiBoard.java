@@ -19,13 +19,13 @@ import java.util.TreeSet;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
- * This class represents a board object to be used as part of a libGDX scene2d graphical user interface
+ * This class represents a {@link Board} object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
  */
 public class GuiBoard extends Table implements Board<GuiStone> {
 
     /**
-     * Tile size to be used by the board, in pixels
+     * Tile size to be used by the {@link Board}, in pixels
      */
     public static final int TILE_SIZE = 32;
 
@@ -43,10 +43,10 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     private final int numberOfColumns;
 
     /**
-     * Creates a new Board instance to be used in a libGDX scene2d GUI
-     * @param skin The skin used by the board, impacting the board's appearance
-     * @param numberOfRows Number of rows the board is going to have. Should be equal to the number of columns
-     * @param numberOfColumns Number of columns the board is going to have. Should be equal to the number of columns
+     * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI
+     * @param skin The {@link Skin} used by the {@link Board}, impacting the {@link Board}'s appearance
+     * @param numberOfRows Number of rows the {@link Board} is going to have. Should be equal to the number of columns
+     * @param numberOfColumns Number of columns the {@link Board} is going to have. Should be equal to the number of columns
      */
     public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
         super(skin);
@@ -94,7 +94,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
     }
 
     /**
-     * Sets a listener for the whole board
+     * Sets a listener for the whole {@link Board}
      * @param clickListener Listener to be set
      */
     @SuppressWarnings("unchecked")
