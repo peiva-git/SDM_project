@@ -21,9 +21,9 @@ public class GameOverDialog extends Dialog {
     private final FreedomGame game;
 
     /**
-     * Creates a new game over dialog to use in a libGDX screen
-     * @param game The game which will use the dialog
-     * @param skin The skin to be used on the dialog
+     * Creates a new game over {@link Dialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
+     * @param game The {@link FreedomGame} which will use the {@link Dialog}
+     * @param skin The {@link Skin} to be used on the {@link Dialog}
      */
     public GameOverDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
         super("", skin);
