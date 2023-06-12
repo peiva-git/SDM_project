@@ -20,7 +20,8 @@ import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
 import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
- * Main {@link FreedomGame} screen. Should be displayed after the players and the board are set.
+ * Main {@link FreedomGame} {@link Screen}.
+ * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
  */
 public class GameScreen implements Screen {
     /**
@@ -46,8 +47,8 @@ public class GameScreen implements Screen {
     private final TextArea logArea;
 
     /**
-     * Creates an instance of {@link GameScreen} and it sets the board layout and the log area to be displayed.
-     * @param game The game using this screen
+     * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
+     * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
@@ -109,8 +110,8 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Gets the screen log area, used to display messages to the user while playing
-     * @return The screen log area
+     * Gets this {@link Screen}'s log area, used to display messages to the user while playing
+     * @return The {@link Screen}'s log area
      */
     public @NotNull TextArea getLogArea() {
         return logArea;

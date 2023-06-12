@@ -9,7 +9,7 @@ import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
 
 /**
  * This class is used to validate the {@link it.units.sdm.project.board.Board} size parameter in the
- * terminal version of the game, which is given as a command line argument.
+ * terminal version of the {@link FreedomGame}, which is given as a command line argument.
  * This validation is done by implementing the {@link IParameterValidator} interface, which is part of the
  * <a href="https://jcommander.org/">JCommander</a> project.
  */

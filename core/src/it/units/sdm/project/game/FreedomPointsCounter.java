@@ -34,8 +34,8 @@ public class FreedomPointsCounter {
 
     /**
      * Gets the {@link Player}'s score
-     * @param player Freedom player
-     * @return The player's score
+     * @param player Freedom {@link Player}
+     * @return The {@link Player}'s score
      */
     public int getPlayerScore(@NotNull Player player) {
         return getPlayerScore(player.getColor());
@@ -43,8 +43,8 @@ public class FreedomPointsCounter {
 
     /**
      * Gets the {@link Player}'s score
-     * @param color Freedom player's {@link Color}, it can be either white or black
-     * @return The player's score
+     * @param color Freedom {@link Player}'s {@link Color}, it can be either {@link Color#WHITE} or {@link Color#BLACK}
+     * @return The {@link Player}'s score
      */
     public int getPlayerScore(@NotNull Color color) throws IllegalArgumentException {
         if (color == Color.WHITE) {
@@ -60,7 +60,7 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * The count() method counts all the freedom lines on the board.
+     * Counts all the {@link FreedomLine}s on the {@link Board}.
      */
     private void count(@NotNull Color color) {
         board.getPositions().stream()
@@ -72,7 +72,7 @@ public class FreedomPointsCounter {
     }
 
     /**
-     * This method finds all {@link FreedomLine}s with size equal to 4 considering all {@link Direction}s
+     * Finds all {@link FreedomLine}s with size equal to 4 considering all {@link Direction}s
      * from a starting {@link Position}.
      *
      * @param position starting {@link Position}
@@ -86,8 +86,8 @@ public class FreedomPointsCounter {
 
     /**
      * This method finds {@link FreedomLine}s with size equal to 4 by considering a specific {@link Direction} and a starting {@link Position}.
-     * It also checks whether the obtained freedom line is part of a bigger freedom line by checking the {@link Color} of
-     * the {@link Stone} that comes before the stone on the startingPosition with respect to the direction of the lines.
+     * It also checks whether the obtained {@link FreedomLine} is part of a bigger {@link FreedomLine} by checking the {@link Color} of
+     * the {@link Stone} that comes before the {@link Stone} on the {@code startingPosition} with respect to the {@link Direction} direction of the {@link FreedomLine}s.
      *
      * @param startingPosition The starting {@link Position} from which to begin counting
      * @param direction The {@link Direction} in which this method starts counting

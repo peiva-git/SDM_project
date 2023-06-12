@@ -33,15 +33,15 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
 
 /**
  * Represents the Freedom game, which is a {@link BoardGame} played by two
- * {@link Player}s (white and black) on a {@link GuiBoard}.
+ * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
 public class FreedomGame extends Game implements BoardGame {
     /**
-     * The number of rows that the {@link GuiBoard} used in this game has.
+     * The number of rows that the {@link GuiBoard} used in this {@link BoardGame} has.
      */
     public static final int NUMBER_OF_ROWS = 8;
     /**
-     * The number of columns that the {@link GuiBoard} used in this game has.
+     * The number of columns that the {@link GuiBoard} used in this {@link BoardGame} has.
      */
     public static final int NUMBER_OF_COLUMNS = 8;
     private static final String GAME_TAG = "FREEDOM_GAME";

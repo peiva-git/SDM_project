@@ -32,7 +32,7 @@ public class FreedomCellHighlighter {
 
     /**
      * Creates a new highlighter instance, to be used on the provided {@link GuiBoard}.
-     * @param board The board on which cells should be highlighted
+     * @param board The {@link GuiBoard} on which cells should be highlighted
      */
     public FreedomCellHighlighter(@NotNull GuiBoard board) {
         this.board = board;

@@ -15,8 +15,8 @@ public class TerminalInputReader implements Closeable {
     Scanner userInput = new Scanner(System.in);
 
     /**
-     * Returns the position that was given by the user
-     * @return The chosen position
+     * Returns the {@link Position} that was given by the user
+     * @return The chosen {@link Position}
      */
     public @NotNull Position getPosition() {
         Position chosenPosition;
@@ -34,8 +34,8 @@ public class TerminalInputReader implements Closeable {
     }
 
     /**
-     * Returns whether the user has decided to pass the last move or to play it
-     * @return true if the user wants to pass, false otherwise
+     * Returns whether the user has decided to pass the last {@link it.units.sdm.project.game.Move} or to play it
+     * @return  {@code true} if the user wants to pass, {@code false} otherwise
      */
     public boolean isLastMoveAPass() {
         String input = userInput.nextLine();
