@@ -1,6 +1,5 @@
 buildscript {
 
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -11,12 +10,13 @@ buildscript {
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.1.16'
         classpath 'org.gretty:gretty:3.0.7'
-
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.0.0.2929")
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
+    apply plugin: "org.sonarqube"
 
     version = '1.0'
     ext {
