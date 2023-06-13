@@ -44,6 +44,7 @@ public class FormLayout extends VisTable {
         errorMessage.setColor(Color.RED);
 
         boardSize = new VisSlider(MIN_BOARD_SIZE, MapBoard.MAX_BOARD_SIZE, 1, false);
+        boardSize.setValue(MIN_BOARD_SIZE);
         boardSizeText = new VisTextField(String.valueOf(MIN_BOARD_SIZE));
         boardSizeText.setReadOnly(true);
         boardSizeText.setDisabled(true);

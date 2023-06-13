@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.kotcrab.vis.ui.widget.LinkLabel;
 import com.kotcrab.vis.ui.widget.ScrollableTextArea;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +22,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
  */
 public class GameScreen implements Screen {
-    public static final int BOARD_PADDING = 10;
+    public static final int PADDING = 10;
     @NotNull
     private final Stage stage;
     @NotNull
@@ -31,20 +33,31 @@ public class GameScreen implements Screen {
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
-        int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 640;
-        int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 480;
+        int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
+        int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
-        container.setDebug(true);
-        logArea = new ScrollableTextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n");
+        logArea = new ScrollableTextArea("Welcome to Freedom ");
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
         logArea.setAlignment(Align.topLeft);
         logArea.setReadOnly(true);
         logArea.setDisabled(true);
-        container.add(logArea.createCompatibleScrollPane()).grow().pad(10);
-        container.add((Actor) game.getBoard()).width(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
+        logArea.appendText(game.getWhitePlayer() + " and ");
+        logArea.appendText(game.getBlackPlayer() + "!\n");
+        logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
+        container.add(logArea.createCompatibleScrollPane()).grow().pad(PADDING);
+        container.add((Actor) game.getBoard()).width(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
+        container.row();
+
+        VisTable rulesTable = new VisTable();
+        VisLabel rules = new VisLabel("Check out the rules if you don't remember how to play: ");
+        rulesTable.add(rules).left();
+        rulesTable.row();
+        rulesTable.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).expand().fill();
+        rulesTable.row();
+        container.add(rulesTable).colspan(2).left().padLeft(PADDING).padRight(PADDING).padBottom(PADDING + 20);
     }
 
     @Override
