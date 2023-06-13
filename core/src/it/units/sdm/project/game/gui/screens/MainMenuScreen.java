@@ -17,8 +17,6 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
-import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
-
 /**
  * {@link FreedomGame}'s menu {@link Screen}. It is displayed before the main {@link GameScreen}.
  */
@@ -29,13 +27,15 @@ public class MainMenuScreen implements Screen {
     private final Stage stage;
     @NotNull
     private final TextureAtlas atlas;
+    private static final int MAIN_MENU_SCREEN_WORLD_WIDTH = 800;
+    private static final int MAIN_MENU_SCREEN_WORLD_HEIGHT = 600;
 
     /**
      * Creates an instance of a {@link MainMenuScreen}
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
-        stage = new Stage(new FitViewport(TILE_SIZE * game.getNumberOfRowsAndColumns() + 300, TILE_SIZE * game.getNumberOfRowsAndColumns() + 50), new SpriteBatch());
+        stage = new Stage(new FitViewport(MAIN_MENU_SCREEN_WORLD_WIDTH, MAIN_MENU_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         atlas = new TextureAtlas("freedom.atlas");
         initialMenu = new VisTable();
         initMenu();

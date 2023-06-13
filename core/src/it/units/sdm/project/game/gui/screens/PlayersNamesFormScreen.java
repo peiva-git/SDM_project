@@ -13,16 +13,15 @@ import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
-import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
-
 public class PlayersNamesFormScreen implements Screen {
+
+    private static final int FORM_SCREEN_WORLD_WIDTH = 800;
+    private static final int FORM_SCREEN_WORLD_HEIGHT = 600;
 
     @NotNull
     private final Stage stage;
 
     public PlayersNamesFormScreen(@NotNull FreedomGame game) {
-        int FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
-        int FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
 
         FormLayout form = new FormLayout();

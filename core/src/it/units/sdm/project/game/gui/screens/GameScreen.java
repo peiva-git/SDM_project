@@ -31,18 +31,20 @@ public class GameScreen implements Screen {
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
-        int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
-        int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
+        int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 640;
+        int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 480;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
+        container.setDebug(true);
         logArea = new ScrollableTextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n");
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
         logArea.setAlignment(Align.topLeft);
+        logArea.setReadOnly(true);
         logArea.setDisabled(true);
         container.add(logArea.createCompatibleScrollPane()).grow().pad(10);
-        container.add((Actor) game.getBoard()).width(game.getNumberOfRowsAndColumns() * TILE_SIZE).pad(BOARD_PADDING);
+        container.add((Actor) game.getBoard()).width(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
     }
 
     @Override

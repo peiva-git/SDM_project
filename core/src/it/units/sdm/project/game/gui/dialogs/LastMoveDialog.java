@@ -12,7 +12,6 @@ public class LastMoveDialog extends VisDialog {
 
     private static final String POSITIVE_TEXT = "Yes";
     private static final String NEGATIVE_TEXT = "No";
-    private static final int PADDING = 40;
     @NotNull
     private final FreedomGame game;
 
@@ -21,13 +20,11 @@ public class LastMoveDialog extends VisDialog {
      * @param game The {@link FreedomGame} which will use the {@link Dialog}
      */
     public LastMoveDialog(@NotNull FreedomGame game) {
-        super("last move!");
+        super("Last move!");
         this.game = game;
         text("Do you want to put the last stone?");
-        pad(PADDING);
         button("Yes", POSITIVE_TEXT);
         button("No", NEGATIVE_TEXT);
-        padBottom(PADDING);
     }
     @Override
     protected void result(Object object) {

@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.*;
+import it.units.sdm.project.board.MapBoard;
 import org.jetbrains.annotations.NotNull;
 
-import static it.units.sdm.project.board.MapBoard.MAX_BOARD_SIZE;
-import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
 
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
+    private static final int MIN_BOARD_SIZE = MapBoard.MIN_BOARD_SIZE;
     @NotNull
     private final VisValidatableTextField whitePlayerName;
     @NotNull
@@ -43,13 +43,15 @@ public class FormLayout extends VisTable {
         errorMessage = new VisLabel();
         errorMessage.setColor(Color.RED);
 
-        boardSize = new VisSlider(2, MAX_BOARD_SIZE, 1, false);
+        boardSize = new VisSlider(MIN_BOARD_SIZE, MapBoard.MAX_BOARD_SIZE, 1, false);
         boardSizeText = new VisTextField(String.valueOf(MIN_BOARD_SIZE));
         boardSizeText.setReadOnly(true);
         boardSizeText.setDisabled(true);
 
         defaults().padLeft(10);
         defaults().padRight(10);
+        defaults().padBottom(5);
+        defaults().padTop(5);
         columnDefaults(0).left();
         add(new VisLabel("First player's name: "));
         add(whitePlayerName).expand().fill();

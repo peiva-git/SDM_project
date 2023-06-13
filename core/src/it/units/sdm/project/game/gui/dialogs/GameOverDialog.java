@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public class GameOverDialog extends VisDialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
-    private static final int PADDING = 40;
     @NotNull
     private final FreedomGame game;
 
@@ -31,7 +30,6 @@ public class GameOverDialog extends VisDialog {
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
-        pad(PADDING);
         Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
         if (winner != null) {
             text("The winner is " + winner);
