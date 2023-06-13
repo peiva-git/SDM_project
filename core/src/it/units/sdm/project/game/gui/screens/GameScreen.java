@@ -44,16 +44,12 @@ public class GameScreen implements Screen {
         logArea.appendText(game.getWhitePlayer() + " and ");
         logArea.appendText(game.getBlackPlayer() + "!\n");
         logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
-        container.add(logArea.createCompatibleScrollPane()).grow().pad(PADDING);
+        container.add(logArea.createCompatibleScrollPane()).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
         container.add((Actor) game.getBoard()).pad(PADDING);
         container.row();
-
-        VisTable rulesTable = new VisTable();
-        rulesTable.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left();
-        rulesTable.row();
-        rulesTable.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).expandX().fillX();
-        rulesTable.row();
-        container.add(rulesTable).colspan(2).left().padLeft(PADDING).padRight(PADDING).padBottom(PADDING + 20);
+        container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
+        container.row();
+        container.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
     }
 
     @Override
