@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -37,7 +36,6 @@ public class MainMenuScreen implements Screen {
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
         stage = new Stage(new FitViewport(TILE_SIZE * game.getNumberOfRowsAndColumns() + 300, TILE_SIZE * game.getNumberOfRowsAndColumns() + 50), new SpriteBatch());
-        VisUI.load(VisUI.SkinScale.X2);
         atlas = new TextureAtlas("freedom.atlas");
         initialMenu = new VisTable();
         initMenu();
@@ -96,6 +94,5 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         stage.getBatch().dispose();
         atlas.dispose();
-        VisUI.dispose();
     }
 }

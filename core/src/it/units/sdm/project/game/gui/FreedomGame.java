@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -48,6 +49,8 @@ public class FreedomGame extends Game implements BoardGame {
     @Override
     public void create() {
         atlas = new TextureAtlas("freedom.atlas");
+        VisUI.load(VisUI.SkinScale.X2);
+        VisUI.getSkin().addRegions(atlas);
         setupBoard();
         setScreen(new MainMenuScreen(this));
     }
@@ -62,6 +65,7 @@ public class FreedomGame extends Game implements BoardGame {
     @Override
     public void dispose() {
         atlas.dispose();
+        VisUI.dispose();
     }
 
     @Override

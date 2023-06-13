@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.ScrollableTextArea;
 import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -35,7 +34,6 @@ public class GameScreen implements Screen {
         int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
-        VisUI.load(VisUI.SkinScale.X2);
         VisTable container = new VisTable();
         logArea = new ScrollableTextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n");
         stage.addActor(container);
@@ -43,7 +41,7 @@ public class GameScreen implements Screen {
         container.setFillParent(true);
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
-        container.add(logArea.createCompatibleScrollPane()).grow();
+        container.add(logArea.createCompatibleScrollPane()).grow().pad(10);
         container.add((Actor) game.getBoard()).width(game.getNumberOfRowsAndColumns() * TILE_SIZE).pad(BOARD_PADDING);
     }
 
@@ -82,7 +80,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        VisUI.dispose();
     }
 
     /**

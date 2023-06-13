@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -25,7 +24,6 @@ public class PlayersNamesFormScreen implements Screen {
         int FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
         int FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
-        VisUI.load(VisUI.SkinScale.X2);
 
         FormLayout form = new FormLayout();
         form.setFillParent(true);
@@ -86,6 +84,5 @@ public class PlayersNamesFormScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        VisUI.dispose();
     }
 }
