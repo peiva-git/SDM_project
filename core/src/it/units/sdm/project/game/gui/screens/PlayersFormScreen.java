@@ -12,19 +12,19 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.*;
+import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.MapBoard.MAX_BOARD_SIZE;
 import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
-import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_HEIGHT;
-import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_WIDTH;
+import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 
 public class PlayersFormScreen implements Screen {
 
     private static final int MAX_NAME_LENGTH = 20;
-    static final int FORM_SCREEN_WORLD_WIDTH = GAME_SCREEN_WORLD_WIDTH + 250;
-    static final int FORM_SCREEN_WORLD_HEIGHT = GAME_SCREEN_WORLD_HEIGHT + 250;
+    private final int FORM_SCREEN_WORLD_WIDTH;
+    private final int FORM_SCREEN_WORLD_HEIGHT;
 
     @NotNull
     private final Stage stage;
@@ -33,6 +33,8 @@ public class PlayersFormScreen implements Screen {
 
     public PlayersFormScreen(@NotNull FreedomGame game) {
         this.game = game;
+        FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
+        FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
         VisUI.load(VisUI.SkinScale.X2);
 
@@ -114,6 +116,9 @@ public class PlayersFormScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO set obtained player names here
+                game.setWhitePlayer(new Player(Color.WHITE, whitePlayerName.getText(), whitePlayerSurname.getText()));
+                game.setBlackPlayer(new Player(Color.BLACK, blackPlayerName.getText(), blackPlayerSurname.getText()));
+                game.setNumberOfRowsAndColumns((int) boardSize.getValue());
                 game.setScreen(new GameScreen(game));
             }
         });

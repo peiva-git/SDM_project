@@ -16,8 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
-import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_HEIGHT;
-import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_WIDTH;
+import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 
 /**
  * {@link FreedomGame}'s menu {@link Screen}. It is displayed before the main {@link GameScreen}.
@@ -35,7 +34,7 @@ public class MainMenuScreen implements Screen {
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
-        stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
+        stage = new Stage(new FitViewport(TILE_SIZE * game.getNumberOfRowsAndColumns() + 300, TILE_SIZE * game.getNumberOfRowsAndColumns() + 50), new SpriteBatch());
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
         skin.addRegions(atlas);

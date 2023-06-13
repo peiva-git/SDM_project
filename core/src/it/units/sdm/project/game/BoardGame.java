@@ -18,13 +18,13 @@ public interface BoardGame {
     @NotNull Board<?> getBoard();
 
     /**
-     * Returns the {@link java.awt.Color#WHITE} {@link Player}
+     * Returns the {@link com.badlogic.gdx.graphics.Color#WHITE} {@link Player}
      * @return The {@link Player} who's going first
      */
     @NotNull Player getWhitePlayer();
 
     /**
-     * Returns the {@link java.awt.Color#BLACK} {@link Player}
+     * Returns the {@link com.badlogic.gdx.graphics.Color#BLACK} {@link Player}
      * @return The {@link Player} who's going second
      */
     @NotNull Player getBlackPlayer();

@@ -16,8 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
-
 /**
  * This class represents a {@link Board} object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
@@ -65,8 +63,8 @@ public class GuiBoard extends Table implements Board<GuiStone> {
      * @return The resulting {@link Position}
      */
     @NotNull
-    public static Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
+    public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
+        return Position.fromCoordinates(numberOfRows - tileRow - 1, tileColumn);
     }
 
     private void initBoard() {

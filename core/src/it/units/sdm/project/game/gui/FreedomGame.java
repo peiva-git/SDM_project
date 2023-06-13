@@ -36,19 +36,12 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
 public class FreedomGame extends Game implements BoardGame {
-    /**
-     * The number of rows that the {@link GuiBoard} used in this {@link BoardGame} has.
-     */
-    public static final int NUMBER_OF_ROWS = 8;
-    /**
-     * The number of columns that the {@link GuiBoard} used in this {@link BoardGame} has.
-     */
-    public static final int NUMBER_OF_COLUMNS = 8;
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
+    private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private Player whitePlayer;
-    private Player blackPlayer;
+    private Player whitePlayer = new Player(Color.WHITE, "Jeffrey", "Lebowsky");
+    private Player blackPlayer = new Player(Color.BLACK, "Walter", "Sobchak");
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private Skin skin;
@@ -59,7 +52,7 @@ public class FreedomGame extends Game implements BoardGame {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
         skin.addRegions(atlas);
-        board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
+        board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
@@ -93,25 +86,43 @@ public class FreedomGame extends Game implements BoardGame {
         }
     }
 
+    /**
+     * Returns the {@link Board} used by this {@link BoardGame}.
+     * If no {@link Board} was set, returns the default 8x8 sized {@link Board}
+     * @return The {@link Board} used by this {@link BoardGame}
+     */
     @Override
     public @NotNull Board<?> getBoard() {
         return board;
     }
 
+    /**
+     * Returns the {@link com.badlogic.gdx.graphics.Color#BLACK} {@link Player}.
+     * If no {@link Player} was set, returns a default {@link Player}
+     * @return The {@link Player} who's going first
+     */
     @Override
     public @NotNull Player getWhitePlayer() {
-        if (whitePlayer == null) {
-            throw new IllegalStateException("First player not set, should always be set at game start");
-        }
         return whitePlayer;
     }
 
+    /**
+     * Returns the {@link com.badlogic.gdx.graphics.Color#BLACK} {@link Player}.
+     * If no {@link Player} was set, returns a default {@link Player}
+     * @return The {@link Player} who's going second
+     */
     @Override
     public @NotNull Player getBlackPlayer() {
-        if (blackPlayer == null) {
-            throw new IllegalStateException("Second player not set, should always be set at game start");
-        }
         return blackPlayer;
+    }
+
+    /**
+     * Gets the number of rows or columns used by {@code this} {@link FreedomGame}'s {@link Board}.
+     * If no value was set, returns the default value of 8
+     * @return The number of rows or columns
+     */
+    public int getNumberOfRowsAndColumns() {
+        return numberOfRowsAndColumns;
     }
 
     @Override
@@ -151,6 +162,15 @@ public class FreedomGame extends Game implements BoardGame {
      */
     public void setBlackPlayer(@NotNull Player blackPlayer) {
         this.blackPlayer = blackPlayer;
+    }
+
+    /**
+     * Sets the number of rows and columns for {@code this} {@link FreedomGame}
+     * @param numberOfRowsAndColumns The numbers of rows and columns to be set
+     */
+    public void setNumberOfRowsAndColumns(int numberOfRowsAndColumns) {
+        this.numberOfRowsAndColumns = numberOfRowsAndColumns;
+        board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
     }
 
     private void updateBoard(Move currentMove) {

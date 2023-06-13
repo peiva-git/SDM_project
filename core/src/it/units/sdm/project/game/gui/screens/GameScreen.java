@@ -11,13 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} {@link Screen}.
@@ -29,13 +26,13 @@ public class GameScreen implements Screen {
      * to prevent parts of the GUI from being cut out if the viewport.
      * This constant defines the width of the viewport in game-world coordinates
      */
-    static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS + 300;
+    private final int GAME_SCREEN_WORLD_WIDTH;
     /**
      * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
      * to prevent parts of the GUI from being cut out of the viewport
      * This constant defines the height of the viewport in game-world coordinates
      */
-    static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS + 50;
+    private final int GAME_SCREEN_WORLD_HEIGHT;
     public static final int BOARD_PADDING = 10;
     @NotNull
     private final FreedomGame game;
@@ -52,6 +49,8 @@ public class GameScreen implements Screen {
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.game = game;
+        GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
+        GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
@@ -66,7 +65,7 @@ public class GameScreen implements Screen {
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
         container.add(logArea).expand().fill();
-        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE).pad(BOARD_PADDING);
+        container.add((Actor) game.getBoard()).width(game.getNumberOfRowsAndColumns() * TILE_SIZE).pad(BOARD_PADDING);
     }
 
     @Override
