@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
         container.row();
         container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
         container.row();
-        container.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
+        container.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
     }
 
     @Override
