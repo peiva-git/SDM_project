@@ -4,9 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -44,14 +42,12 @@ public class FreedomGame extends Game implements BoardGame {
     private Player blackPlayer = new Player(Color.BLACK, "Walter", "Sobchak");
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
-    private Skin skin;
     private FreedomCellHighlighter cellHighlighter;
+    private TextureAtlas atlas;
 
     @Override
     public void create() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
-        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
-        skin.addRegions(atlas);
+        atlas = new TextureAtlas("freedom.atlas");
         setupBoard();
         setScreen(new MainMenuScreen(this));
     }
@@ -65,7 +61,7 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public void dispose() {
-        skin.dispose();
+        atlas.dispose();
     }
 
     @Override
@@ -216,8 +212,8 @@ public class FreedomGame extends Game implements BoardGame {
 
     @NotNull
     private Image getPlayerStoneImage(@NotNull Color color) {
-        if(color == Color.WHITE) return new Image(skin.get("white_checker", TextureRegion.class));
-        return new Image(skin.get("black_checker", TextureRegion.class));
+        if(color == Color.WHITE) return new Image(atlas.findRegion("white_checker"));
+        return new Image(atlas.findRegion("black_checker"));
     }
 
 
