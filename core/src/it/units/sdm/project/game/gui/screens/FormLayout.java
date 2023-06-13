@@ -47,7 +47,6 @@ public class FormLayout extends VisTable {
         boardSize.setValue(MIN_BOARD_SIZE);
         boardSizeText = new VisTextField(String.valueOf(MIN_BOARD_SIZE));
         boardSizeText.setReadOnly(true);
-        boardSizeText.setDisabled(true);
 
         defaults().padLeft(10);
         defaults().padRight(10);

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.kotcrab.vis.ui.widget.LinkLabel;
@@ -41,20 +40,18 @@ public class GameScreen implements Screen {
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
-        logArea.setAlignment(Align.topLeft);
         logArea.setReadOnly(true);
-        logArea.setDisabled(true);
         logArea.appendText(game.getWhitePlayer() + " and ");
         logArea.appendText(game.getBlackPlayer() + "!\n");
         logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
         container.add(logArea.createCompatibleScrollPane()).grow().pad(PADDING);
-        container.add((Actor) game.getBoard()).width(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
+        container.add((Actor) game.getBoard()).pad(PADDING);
         container.row();
 
         VisTable rulesTable = new VisTable();
         rulesTable.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left();
         rulesTable.row();
-        rulesTable.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).expand().fill();
+        rulesTable.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).expandX().fillX();
         rulesTable.row();
         container.add(rulesTable).colspan(2).left().padLeft(PADDING).padRight(PADDING).padBottom(PADDING + 20);
     }
