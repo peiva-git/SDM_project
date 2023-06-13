@@ -21,21 +21,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
  */
 public class GameScreen implements Screen {
-    /**
-     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
-     * to prevent parts of the GUI from being cut out if the viewport.
-     * This constant defines the width of the viewport in game-world coordinates
-     */
-    private final int GAME_SCREEN_WORLD_WIDTH;
-    /**
-     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
-     * to prevent parts of the GUI from being cut out of the viewport
-     * This constant defines the height of the viewport in game-world coordinates
-     */
-    private final int GAME_SCREEN_WORLD_HEIGHT;
     public static final int BOARD_PADDING = 10;
-    @NotNull
-    private final FreedomGame game;
     @NotNull
     private final Stage stage;
     @NotNull
@@ -48,9 +34,8 @@ public class GameScreen implements Screen {
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
-        this.game = game;
-        GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
-        GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
+        int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
+        int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         Table container = new Table();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
@@ -77,7 +62,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        game.reset();
     }
 
     @Override

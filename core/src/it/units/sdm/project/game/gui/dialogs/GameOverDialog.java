@@ -50,6 +50,7 @@ public class GameOverDialog extends Dialog {
         if (message.equals(NEGATIVE_TEXT)) {
             Gdx.app.exit();
         } else if (message.equals(POSITIVE_TEXT)){
+            game.reset();
             game.setScreen(new GameScreen(game));
         }
     }

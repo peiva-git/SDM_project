@@ -23,18 +23,13 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 public class PlayersFormScreen implements Screen {
 
     private static final int MAX_NAME_LENGTH = 20;
-    private final int FORM_SCREEN_WORLD_WIDTH;
-    private final int FORM_SCREEN_WORLD_HEIGHT;
 
     @NotNull
     private final Stage stage;
-    @NotNull
-    private final FreedomGame game;
 
     public PlayersFormScreen(@NotNull FreedomGame game) {
-        this.game = game;
-        FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
-        FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
+        int FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
+        int FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
         VisUI.load(VisUI.SkinScale.X2);
 
