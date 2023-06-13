@@ -97,11 +97,12 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Gets this {@link Screen}'s log area, used to display messages to the user while playing
-     * @return The {@link Screen}'s log area
+     * Appends {@code textToAppend} to {@code this} {@link Screen}'s log area,
+     * used to display messages to the user while playing
+     * @param textToAppend The {@link String} to append to the log area
      */
-    public @NotNull ScrollableTextArea getLogArea() {
-        return logArea;
+    public void appendTextToLogArea(@NotNull String textToAppend) {
+        logArea.appendText(textToAppend);
     }
 
 }
