@@ -208,9 +208,11 @@ public class FreedomGame extends Game implements BoardGame {
 
     private void updateLogArea(@NotNull Move move) {
         if (move.getPlayer().getColor() == Color.WHITE) {
-            printFormattedMoveOnTheLogAreaForFirstPlayer(move.getPosition());
+            appendTextToLogArea(whitePlayer + " placed a stone on " + move.getPosition() + "\n");
+            appendTextToLogArea(blackPlayer + ", it's your turn!\n");
         } else {
-            appendTextToLogArea("     " + move.getPosition() + "\n");
+            appendTextToLogArea(blackPlayer + " placed a stone on " + move.getPosition() + "\n");
+            appendTextToLogArea(whitePlayer + ", it's your turn!\n");
         }
     }
 
@@ -218,19 +220,5 @@ public class FreedomGame extends Game implements BoardGame {
     private Image getPlayerStoneImage(@NotNull Color color) {
         if(color == Color.WHITE) return new Image(atlas.findRegion("white_checker"));
         return new Image(atlas.findRegion("black_checker"));
-    }
-
-
-    private void printFormattedMoveOnTheLogAreaForFirstPlayer(@NotNull Position inputPosition) {
-        long currentStep = playersMovesHistory.stream()
-                .filter(move -> move.getPlayer().getColor() == Color.WHITE)
-                .count();
-        if (currentStep < 10) {
-            appendTextToLogArea("  " + currentStep + ". " + inputPosition);
-        } else if (currentStep < 100) {
-            appendTextToLogArea(" " + currentStep + ". " + inputPosition);
-        } else {
-            appendTextToLogArea(currentStep + ". " + inputPosition);
-        }
     }
 }
