@@ -96,7 +96,7 @@ public class GuiBoard extends Table implements Board<GuiStone> {
      * @param clickListener Listener to be set
      */
     @SuppressWarnings("unchecked")
-    public void setClickListener(@NotNull ClickListener clickListener) {
+    public void setTileClickListener(@NotNull ClickListener clickListener) {
         for(Cell<Actor> cell : getCells()) {
             Actor tileAndPiece = cell.getActor();
             tileAndPiece.clearListeners();

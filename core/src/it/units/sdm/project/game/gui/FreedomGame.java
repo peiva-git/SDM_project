@@ -53,7 +53,7 @@ public class FreedomGame extends Game implements BoardGame {
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
         skin.addRegions(atlas);
         board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
-        board.setClickListener(new TileClickListener(this));
+        board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
         setScreen(new MainMenuScreen(this));
