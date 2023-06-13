@@ -52,11 +52,15 @@ public class FreedomGame extends Game implements BoardGame {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
         skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
         skin.addRegions(atlas);
+        setupBoard();
+        setScreen(new MainMenuScreen(this));
+    }
+
+    private void setupBoard() {
         board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
-        setScreen(new MainMenuScreen(this));
     }
 
     @Override
@@ -170,7 +174,7 @@ public class FreedomGame extends Game implements BoardGame {
      */
     public void setNumberOfRowsAndColumns(int numberOfRowsAndColumns) {
         this.numberOfRowsAndColumns = numberOfRowsAndColumns;
-        board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
+        setupBoard();
     }
 
     private void updateBoard(Move currentMove) {

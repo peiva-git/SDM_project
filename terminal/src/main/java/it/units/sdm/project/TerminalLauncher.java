@@ -31,19 +31,19 @@ public class TerminalLauncher {
 
     @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--white-name"}, description = "White player name", validateWith = NameSizeValidator.class)
-    private String whitePlayerName = "Mario";
+    private String whitePlayerName = "Jeffrey";
 
     @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--white-surname"}, description = "White player surname", validateWith = NameSizeValidator.class)
-    private String whitePlayerSurname = "Rossi";
+    private String whitePlayerSurname = "Lebowsky";
 
     @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--black-name"}, description = "Black player name", validateWith = NameSizeValidator.class)
-    private String blackPlayerName = "Lollo";
+    private String blackPlayerName = "Walter";
 
     @SuppressWarnings("FieldMayBeFinal")
     @Parameter(names = {"--black-surname"}, description = "Black player surname", validateWith = NameSizeValidator.class)
-    private String blackPlayerSurname = "Rossi";
+    private String blackPlayerSurname = "Sobchak";
 
     /**
      * The terminal-based {@link FreedomGame}'s entry point
