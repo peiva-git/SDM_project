@@ -38,6 +38,7 @@ public class PlayersFormScreen implements Screen {
         VisValidatableTextField whitePlayerSurname = new VisValidatableTextField();
         VisValidatableTextField blackPlayerName = new VisValidatableTextField();
         VisValidatableTextField blackPlayerSurname = new VisValidatableTextField();
+
         whitePlayerName.setMaxLength(MAX_NAME_LENGTH + 1);
         whitePlayerSurname.setMaxLength(MAX_NAME_LENGTH + 1);
         blackPlayerName.setMaxLength(MAX_NAME_LENGTH + 1);
@@ -110,11 +111,11 @@ public class PlayersFormScreen implements Screen {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // TODO set obtained player names here
                 game.setWhitePlayer(new Player(Color.WHITE, whitePlayerName.getText(), whitePlayerSurname.getText()));
                 game.setBlackPlayer(new Player(Color.BLACK, blackPlayerName.getText(), blackPlayerSurname.getText()));
                 game.setNumberOfRowsAndColumns((int) boardSize.getValue());
                 game.setScreen(new GameScreen(game));
+                dispose();
             }
         });
 

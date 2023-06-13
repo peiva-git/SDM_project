@@ -1,13 +1,14 @@
 package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
-import it.units.sdm.project.game.gui.screens.GameScreen;
+import it.units.sdm.project.game.gui.screens.PlayersFormScreen;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -51,7 +52,9 @@ public class GameOverDialog extends Dialog {
             Gdx.app.exit();
         } else if (message.equals(POSITIVE_TEXT)){
             game.reset();
-            game.setScreen(new GameScreen(game));
+            Screen previousScreen = game.getScreen();
+            game.setScreen(new PlayersFormScreen(game));
+            previousScreen.dispose();
         }
     }
 }
