@@ -16,18 +16,18 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 
-public class PlayersFormScreen implements Screen {
+public class PlayersNamesFormScreen implements Screen {
 
     @NotNull
     private final Stage stage;
 
-    public PlayersFormScreen(@NotNull FreedomGame game) {
+    public PlayersNamesFormScreen(@NotNull FreedomGame game) {
         int FORM_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 550;
         int FORM_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
         VisUI.load(VisUI.SkinScale.X2);
 
-        FormWindow form = new FormWindow();
+        FormLayout form = new FormLayout();
         form.setFillParent(true);
 
         form.getContinueButton().addListener(new ChangeListener() {

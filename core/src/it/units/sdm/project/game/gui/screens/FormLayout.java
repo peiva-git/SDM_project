@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import static it.units.sdm.project.board.MapBoard.MAX_BOARD_SIZE;
 import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
 
-public class FormWindow extends VisTable {
+public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
     @NotNull
     private final VisValidatableTextField whitePlayerName;
@@ -28,7 +28,7 @@ public class FormWindow extends VisTable {
     @NotNull
     private final VisTextButton continueButton;
 
-    public FormWindow() {
+    public FormLayout() {
         continueButton = new VisTextButton("Let's play!");
         whitePlayerName = new VisValidatableTextField();
         whitePlayerSurname = new VisValidatableTextField();

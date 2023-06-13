@@ -44,7 +44,7 @@ public class MainMenuScreen implements Screen {
         stage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayersFormScreen(game));
+                game.setScreen(new PlayersNamesFormScreen(game));
                 dispose();
             }
         });

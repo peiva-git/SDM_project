@@ -8,7 +8,7 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
-import it.units.sdm.project.game.gui.screens.PlayersFormScreen;
+import it.units.sdm.project.game.gui.screens.PlayersNamesFormScreen;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -53,7 +53,7 @@ public class GameOverDialog extends Dialog {
         } else if (message.equals(POSITIVE_TEXT)){
             game.reset();
             Screen previousScreen = game.getScreen();
-            game.setScreen(new PlayersFormScreen(game));
+            game.setScreen(new PlayersNamesFormScreen(game));
             previousScreen.dispose();
         }
     }
