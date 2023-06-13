@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
-    private static final int MIN_BOARD_SIZE = MapBoard.MIN_BOARD_SIZE;
     @NotNull
     private final VisValidatableTextField whitePlayerName;
     @NotNull
@@ -22,9 +21,9 @@ public class FormLayout extends VisTable {
     @NotNull
     private final VisLabel errorMessage;
     @NotNull
-    private final VisSlider boardSize;
+    private final VisSlider boardSizeSlider;
     @NotNull
-    private final VisTextField boardSizeText;
+    private final VisValidatableTextField boardSizeText;
     @NotNull
     private final VisTextButton continueButton;
 
@@ -43,9 +42,9 @@ public class FormLayout extends VisTable {
         errorMessage = new VisLabel();
         errorMessage.setColor(Color.RED);
 
-        boardSize = new VisSlider(MIN_BOARD_SIZE, MapBoard.MAX_BOARD_SIZE, 1, false);
-        boardSize.setValue(MIN_BOARD_SIZE);
-        boardSizeText = new VisTextField(String.valueOf(MIN_BOARD_SIZE));
+        boardSizeSlider = new VisSlider(MapBoard.MIN_BOARD_SIZE, MapBoard.MAX_BOARD_SIZE, 1, false);
+        boardSizeSlider.setValue(MapBoard.MIN_BOARD_SIZE);
+        boardSizeText = new VisValidatableTextField(String.valueOf(MapBoard.MIN_BOARD_SIZE));
         boardSizeText.setReadOnly(true);
 
         defaults().padLeft(10);
@@ -70,7 +69,7 @@ public class FormLayout extends VisTable {
         add(new VisLabel("Choose board size: "));
         add(boardSizeText).expand().fill();
         row();
-        add(boardSize).fill().expand().colspan(2);
+        add(boardSizeSlider).fill().expand().colspan(2);
         row();
         add(continueButton).fill().expand().colspan(2).padBottom(3);
 
@@ -126,8 +125,8 @@ public class FormLayout extends VisTable {
         return errorMessage;
     }
 
-    public @NotNull VisSlider getBoardSize() {
-        return boardSize;
+    public @NotNull VisSlider getBoardSizeSlider() {
+        return boardSizeSlider;
     }
 
     public @NotNull VisTextField getBoardSizeText() {

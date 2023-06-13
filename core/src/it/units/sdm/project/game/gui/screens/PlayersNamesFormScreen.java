@@ -32,13 +32,13 @@ public class PlayersNamesFormScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setWhitePlayer(new Player(Color.WHITE, form.getWhitePlayerName().getText(), form.getWhitePlayerSurname().getText()));
                 game.setBlackPlayer(new Player(Color.BLACK, form.getBlackPlayerName().getText(), form.getBlackPlayerSurname().getText()));
-                game.setNumberOfRowsAndColumns((int) form.getBoardSize().getValue());
+                game.setNumberOfRowsAndColumns((int) form.getBoardSizeSlider().getValue());
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
         });
 
-        form.getBoardSize().addListener(new ChangeListener() {
+        form.getBoardSizeSlider().addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 form.getBoardSizeText().setText(String.format("%d", (int) ((VisSlider) actor).getValue()));
