@@ -21,7 +21,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
  */
 public class GameScreen implements Screen {
-    public static final int PADDING = 10;
+    private static final int PADDING = 10;
     @NotNull
     private final Stage stage;
     @NotNull
