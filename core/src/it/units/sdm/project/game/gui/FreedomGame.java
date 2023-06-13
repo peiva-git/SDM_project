@@ -47,8 +47,8 @@ public class FreedomGame extends Game implements BoardGame {
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
-    private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
+    private Player whitePlayer;
+    private Player blackPlayer;
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private Skin skin;
@@ -100,11 +100,17 @@ public class FreedomGame extends Game implements BoardGame {
 
     @Override
     public @NotNull Player getWhitePlayer() {
+        if (whitePlayer == null) {
+            throw new IllegalStateException("First player not set, should always be set at game start");
+        }
         return whitePlayer;
     }
 
     @Override
     public @NotNull Player getBlackPlayer() {
+        if (blackPlayer == null) {
+            throw new IllegalStateException("Second player not set, should always be set at game start");
+        }
         return blackPlayer;
     }
 
@@ -129,6 +135,22 @@ public class FreedomGame extends Game implements BoardGame {
             lastMoveDialog.show(board.getStage());
             gameStatus = GAME_OVER;
         }
+    }
+
+    /**
+     * Sets the {@link Color#WHITE} {@link Player} for {@code this} {@link FreedomGame}
+     * @param whitePlayer The {@link Player} to be set as the {@link Color#WHITE} {@link Player}
+     */
+    public void setWhitePlayer(@NotNull Player whitePlayer) {
+        this.whitePlayer = whitePlayer;
+    }
+
+    /**
+     * Sets the {@link Color#BLACK} {@link Player} for {@code this} {@link FreedomGame}
+     * @param blackPlayer The {@link Player} to be set as the {@link Color#BLACK} {@link Player}
+     */
+    public void setBlackPlayer(@NotNull Player blackPlayer) {
+        this.blackPlayer = blackPlayer;
     }
 
     private void updateBoard(Move currentMove) {
