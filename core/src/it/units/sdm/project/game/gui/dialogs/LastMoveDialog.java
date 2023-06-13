@@ -16,8 +16,8 @@ public class LastMoveDialog extends VisDialog {
     private final FreedomGame game;
 
     /**
-     * Creates a new last move {@link Dialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
-     * @param game The {@link FreedomGame} which will use the {@link Dialog}
+     * Creates a new last move {@link VisDialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
+     * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public LastMoveDialog(@NotNull FreedomGame game) {
         super("Last move!");

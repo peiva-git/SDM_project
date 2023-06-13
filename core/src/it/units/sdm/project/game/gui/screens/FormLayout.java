@@ -73,6 +73,10 @@ public class FormLayout extends VisTable {
         row();
         add(continueButton).fill().expand().colspan(2).padBottom(3);
 
+        setupValidation();
+    }
+
+    private void setupValidation() {
         SimpleFormValidator validator = new SimpleFormValidator(continueButton, errorMessage);
         validator.setSuccessMessage("All good!");
         validator.notEmpty(whitePlayerName, "First player's name can't be empty");

@@ -2,7 +2,6 @@ package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
@@ -21,8 +20,8 @@ public class GameOverDialog extends VisDialog {
     private final FreedomGame game;
 
     /**
-     * Creates a new game over {@link Dialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
-     * @param game The {@link FreedomGame} which will use the {@link Dialog}
+     * Creates a new game over {@link VisDialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
+     * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public GameOverDialog(@NotNull FreedomGame game) {
         super("Game over!");
