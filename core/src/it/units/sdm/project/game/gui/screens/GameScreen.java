@@ -52,8 +52,7 @@ public class GameScreen implements Screen {
         container.row();
 
         VisTable rulesTable = new VisTable();
-        VisLabel rules = new VisLabel("Check out the rules if you don't remember how to play: ");
-        rulesTable.add(rules).left();
+        rulesTable.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left();
         rulesTable.row();
         rulesTable.add(new LinkLabel("https://github.com/peiva-git/SDM_project#rules")).expand().fill();
         rulesTable.row();
