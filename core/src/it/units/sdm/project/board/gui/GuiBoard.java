@@ -26,7 +26,7 @@ public class GuiBoard extends VisTable implements Board<GuiStone> {
     /**
      * Tile size to be used by the {@link Board}, in pixels
      */
-    public static final int TILE_SIZE = 32;
+    public static final int TILE_SIZE = 64;
 
     /**
      * Dark tile default {@link Color}
