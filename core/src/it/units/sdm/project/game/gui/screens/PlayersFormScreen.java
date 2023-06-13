@@ -11,21 +11,20 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
-import com.kotcrab.vis.ui.widget.VisValidatableTextField;
+import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+import static it.units.sdm.project.board.MapBoard.MAX_BOARD_SIZE;
+import static it.units.sdm.project.board.MapBoard.MIN_BOARD_SIZE;
 import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_HEIGHT;
 import static it.units.sdm.project.game.gui.screens.GameScreen.GAME_SCREEN_WORLD_WIDTH;
 
 public class PlayersFormScreen implements Screen {
 
     private static final int MAX_NAME_LENGTH = 20;
-    static final int FORM_SCREEN_WORLD_WIDTH = GAME_SCREEN_WORLD_WIDTH + 200;
-    static final int FORM_SCREEN_WORLD_HEIGHT = GAME_SCREEN_WORLD_HEIGHT + 200;
+    static final int FORM_SCREEN_WORLD_WIDTH = GAME_SCREEN_WORLD_WIDTH + 250;
+    static final int FORM_SCREEN_WORLD_HEIGHT = GAME_SCREEN_WORLD_HEIGHT + 250;
 
     @NotNull
     private final Stage stage;
@@ -46,9 +45,14 @@ public class PlayersFormScreen implements Screen {
         whitePlayerSurname.setMaxLength(MAX_NAME_LENGTH + 1);
         blackPlayerName.setMaxLength(MAX_NAME_LENGTH + 1);
         blackPlayerSurname.setMaxLength(MAX_NAME_LENGTH + 1);
+
         VisLabel errorMessage = new VisLabel();
         errorMessage.setColor(Color.RED);
-        errorMessage.setWrap(true);
+
+        VisSlider boardSize = new VisSlider(2, MAX_BOARD_SIZE, 1, false);
+        VisTextField boardSizeText = new VisTextField(String.valueOf(MIN_BOARD_SIZE));
+        boardSizeText.setReadOnly(true);
+        boardSizeText.setDisabled(true);
 
         VisTable container = new VisTable(true);
         container.setFillParent(true);
@@ -67,6 +71,11 @@ public class PlayersFormScreen implements Screen {
         container.add(blackPlayerSurname).expand().fill();
         container.row();
         container.add(errorMessage).expand().fill().colspan(2);
+        container.row();
+        container.add(new VisLabel("Choose board size: "));
+        container.add(boardSizeText).expand().fill();
+        container.row();
+        container.add(boardSize).fill().expand().colspan(2);
         container.row();
         container.add(continueButton).fill().expand().colspan(2).padBottom(3);
 
@@ -106,6 +115,13 @@ public class PlayersFormScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO set obtained player names here
                 game.setScreen(new GameScreen(game));
+            }
+        });
+
+        boardSize.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                boardSizeText.setText(String.format("%d", (int) ((VisSlider) actor).getValue()));
             }
         });
 
