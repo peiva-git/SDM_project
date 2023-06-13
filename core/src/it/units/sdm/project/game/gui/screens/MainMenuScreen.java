@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,6 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,11 +25,11 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  */
 public class MainMenuScreen implements Screen {
     @NotNull
-    private final Table initialMenu;
-    @NotNull
-    private final Skin skin;
+    private final VisTable initialMenu;
     @NotNull
     private final Stage stage;
+    @NotNull
+    private final TextureAtlas atlas;
 
     /**
      * Creates an instance of a {@link MainMenuScreen}
@@ -35,10 +37,9 @@ public class MainMenuScreen implements Screen {
      */
     public MainMenuScreen(final @NotNull FreedomGame game) {
         stage = new Stage(new FitViewport(TILE_SIZE * game.getNumberOfRowsAndColumns() + 300, TILE_SIZE * game.getNumberOfRowsAndColumns() + 50), new SpriteBatch());
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
-        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
-        skin.addRegions(atlas);
-        initialMenu = new Table();
+        VisUI.load(VisUI.SkinScale.X2);
+        atlas = new TextureAtlas("freedom.atlas");
+        initialMenu = new VisTable();
         initMenu();
         stage.addActor(initialMenu);
         stage.addListener(new ClickListener() {
@@ -53,8 +54,8 @@ public class MainMenuScreen implements Screen {
 
     private void initMenu() {
         initialMenu.setFillParent(true);
-        Actor image = new Image(skin.get("freedom_logo", TextureRegion.class));
-        Label nameLabel = new Label("Tap anywhere to begin!", skin);
+        Actor image = new Image(atlas.findRegion("freedom_logo"));
+        VisLabel nameLabel = new VisLabel("Tap anywhere to begin!");
         nameLabel.setColor(Color.BLACK);
         nameLabel.setFontScale(1.5f);
         initialMenu.add(image);
@@ -94,6 +95,7 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        skin.dispose();
+        atlas.dispose();
+        VisUI.dispose();
     }
 }

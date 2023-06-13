@@ -57,7 +57,7 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     private void setupBoard() {
-        board = new GuiBoard(skin, numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board = new GuiBoard(numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
@@ -141,12 +141,12 @@ public class FreedomGame extends Game implements BoardGame {
         if (!isChosenPositionValid(currentMove.getPosition())) return;
         updateBoard(currentMove);
         if(gameStatus == GAME_OVER) {
-            GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
+            GameOverDialog gameOverDialog = new GameOverDialog(this);
             gameOverDialog.show(board.getStage());
         }
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         if (gameStatus == LAST_MOVE) {
-            LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
+            LastMoveDialog lastMoveDialog = new LastMoveDialog(this);
             lastMoveDialog.show(board.getStage());
             gameStatus = GAME_OVER;
         }

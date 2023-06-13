@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.ScrollableTextArea;
+import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,9 +25,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final Stage stage;
     @NotNull
-    private final Skin skin;
-    @NotNull
-    private final TextArea logArea;
+    private final ScrollableTextArea logArea;
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
@@ -37,25 +35,21 @@ public class GameScreen implements Screen {
         int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 300;
         int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 50;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
-        Table container = new Table();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
-        logArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        skin.addRegions(atlas);
+        VisUI.load(VisUI.SkinScale.X2);
+        VisTable container = new VisTable();
+        logArea = new ScrollableTextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n");
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
-        Drawable background = skin.getDrawable("textfield");
-        container.setBackground(background);
         logArea.setAlignment(Align.topLeft);
         logArea.setDisabled(true);
-        container.add(logArea).expand().fill();
+        container.add(logArea.createCompatibleScrollPane()).grow();
         container.add((Actor) game.getBoard()).width(game.getNumberOfRowsAndColumns() * TILE_SIZE).pad(BOARD_PADDING);
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(Color.DARK_GRAY);
         stage.act(delta);
         stage.draw();
     }
@@ -88,15 +82,14 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        skin.dispose();
-        // the skin disposes of the atlas
+        VisUI.dispose();
     }
 
     /**
      * Gets this {@link Screen}'s log area, used to display messages to the user while playing
      * @return The {@link Screen}'s log area
      */
-    public @NotNull TextArea getLogArea() {
+    public @NotNull ScrollableTextArea getLogArea() {
         return logArea;
     }
 

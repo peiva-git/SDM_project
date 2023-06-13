@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -20,7 +21,7 @@ import java.util.TreeSet;
  * This class represents a {@link Board} object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
  */
-public class GuiBoard extends Table implements Board<GuiStone> {
+public class GuiBoard extends VisTable implements Board<GuiStone> {
 
     /**
      * Tile size to be used by the {@link Board}, in pixels
@@ -42,12 +43,10 @@ public class GuiBoard extends Table implements Board<GuiStone> {
 
     /**
      * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI
-     * @param skin The {@link Skin} used by the {@link Board}, impacting the {@link Board}'s appearance
      * @param numberOfRows Number of rows the {@link Board} is going to have. Should be equal to the number of columns
      * @param numberOfColumns Number of columns the {@link Board} is going to have. Should be equal to the number of columns
      */
-    public GuiBoard(@NotNull Skin skin, int numberOfRows, int numberOfColumns) {
-        super(skin);
+    public GuiBoard(int numberOfRows, int numberOfColumns) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         initBoard();
