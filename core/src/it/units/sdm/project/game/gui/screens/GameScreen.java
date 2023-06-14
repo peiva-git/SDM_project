@@ -4,81 +4,62 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import it.units.sdm.project.board.gui.GuiBoard;
+import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_COLUMNS;
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * Main {@link FreedomGame} {@link Screen}.
  * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
  */
 public class GameScreen implements Screen {
-    /**
-     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_COLUMNS + LOG_AREA_MINIMUM_WIDTH}
-     * to prevent parts of the GUI from being cut out if the viewport.
-     * This constant defines the width of the viewport in game-world coordinates
-     */
-    static final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * NUMBER_OF_COLUMNS + 300;
-    /**
-     * This needs to be set at least to {@code TILE_SIZE * NUMBER_OF_ROWS}
-     * to prevent parts of the GUI from being cut out of the viewport
-     * This constant defines the height of the viewport in game-world coordinates
-     */
-    static final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * NUMBER_OF_ROWS + 50;
-    public static final int BOARD_PADDING = 10;
-    @NotNull
-    private final FreedomGame game;
+    private static final int PADDING = 10;
     @NotNull
     private final Stage stage;
     @NotNull
-    private final Skin skin;
-    @NotNull
-    private final TextArea logArea;
+    private final VisTextArea logArea;
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
-        this.game = game;
+        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
+        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
-        Table container = new Table();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("UI/uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
-        logArea = new TextArea("Welcome to Freedom! Tap anywhere on the board to begin!\n", skin);
-        skin.addRegions(atlas);
+        VisTable container = new VisTable();
+        logArea = new VisTextArea("Welcome to Freedom ");
+        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2);
+        VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
-        Drawable background = skin.getDrawable("textfield");
-        container.setBackground(background);
-        logArea.setAlignment(Align.topLeft);
-        logArea.setDisabled(true);
-        container.add(logArea).expand().fill();
-        container.add((GuiBoard) game.getBoard()).width(NUMBER_OF_COLUMNS * TILE_SIZE).pad(BOARD_PADDING);
+        logArea.setReadOnly(true);
+        logArea.appendText(game.getWhitePlayer() + " and ");
+        logArea.appendText(game.getBlackPlayer() + "!\n");
+        logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
+        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
+        container.add((Actor) game.getBoard()).pad(PADDING);
+        container.row();
+        container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
+        container.row();
+        container.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(Color.DARK_GRAY);
         stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void show() {
-        game.reset();
     }
 
     @Override
@@ -105,16 +86,15 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         stage.getBatch().dispose();
-        skin.dispose();
-        // the skin disposes of the atlas
     }
 
     /**
-     * Gets this {@link Screen}'s log area, used to display messages to the user while playing
-     * @return The {@link Screen}'s log area
+     * Appends {@code textToAppend} to {@code this} {@link Screen}'s log area,
+     * used to display messages to the user while playing
+     * @param textToAppend The {@link String} to append to the log area
      */
-    public @NotNull TextArea getLogArea() {
-        return logArea;
+    public void appendTextToLogArea(@NotNull String textToAppend) {
+        logArea.appendText(textToAppend);
     }
 
 }

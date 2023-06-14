@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static it.units.sdm.project.board.gui.GuiBoard.fromTileCoordinatesToBoardPosition;
-
 /**
  * This class provides helper methods to highlight valid moves in a {@link it.units.sdm.project.game.gui.FreedomGame}.
  */
@@ -72,7 +70,7 @@ public class FreedomCellHighlighter {
         List<Cell<Actor>> cellsToHighlight = new ArrayList<>();
         for (int i = 0; i < board.getCells().size; i++) {
             Cell<Actor> cell = board.getCells().get(i);
-            if (positionsToHighlight.contains(fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()))) {
+            if (positionsToHighlight.contains(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()))) {
                 cellsToHighlight.add(cell);
             }
         }

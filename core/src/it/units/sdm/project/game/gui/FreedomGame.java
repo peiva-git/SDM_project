@@ -4,9 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -36,39 +35,37 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
 public class FreedomGame extends Game implements BoardGame {
-    /**
-     * The number of rows that the {@link GuiBoard} used in this {@link BoardGame} has.
-     */
-    public static final int NUMBER_OF_ROWS = 8;
-    /**
-     * The number of columns that the {@link GuiBoard} used in this {@link BoardGame} has.
-     */
-    public static final int NUMBER_OF_COLUMNS = 8;
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard board;
+    private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private final Player whitePlayer = new Player(Color.WHITE, "Mario", "Rossi");
-    private final Player blackPlayer = new Player(Color.BLACK, "Lollo", "Bianchi");
+    private Player whitePlayer = new Player(Color.WHITE, "Jeffrey", "Lebowsky");
+    private Player blackPlayer = new Player(Color.BLACK, "Walter", "Sobchak");
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
-    private Skin skin;
     private FreedomCellHighlighter cellHighlighter;
+    private TextureAtlas atlas;
 
     @Override
     public void create() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
-        skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
-        skin.addRegions(atlas);
-        board = new GuiBoard(skin, NUMBER_OF_ROWS, NUMBER_OF_COLUMNS);
-        board.setClickListener(new TileClickListener(this));
+        atlas = new TextureAtlas("freedom.atlas");
+        VisUI.load(VisUI.SkinScale.X2);
+        VisUI.getSkin().addRegions(atlas);
+        setupBoard();
+        setScreen(new MainMenuScreen(this));
+    }
+
+    private void setupBoard() {
+        board = new GuiBoard(numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
-        setScreen(new MainMenuScreen(this));
     }
 
     @Override
     public void dispose() {
-        skin.dispose();
+        atlas.dispose();
+        VisUI.dispose();
     }
 
     @Override
@@ -87,25 +84,49 @@ public class FreedomGame extends Game implements BoardGame {
     private void appendTextToLogArea(@NotNull String textToAppend) {
         if (getScreen().getClass() == GameScreen.class) {
             GameScreen currentScreen = (GameScreen) getScreen();
-            currentScreen.getLogArea().appendText(textToAppend);
+            currentScreen.appendTextToLogArea(textToAppend);
         } else {
             Gdx.app.error(GAME_TAG, "Unable to print to game screen text area");
         }
     }
 
+    /**
+     * Returns the {@link Board} used by this {@link BoardGame}.
+     * If no {@link Board} was set, returns the default 8x8 sized {@link Board}
+     * @return The {@link Board} used by this {@link BoardGame}
+     */
     @Override
     public @NotNull Board<?> getBoard() {
         return board;
     }
 
+    /**
+     * Returns the {@link com.badlogic.gdx.graphics.Color#BLACK} {@link Player}.
+     * If no {@link Player} was set, returns a default {@link Player}
+     * @return The {@link Player} who's going first
+     */
     @Override
     public @NotNull Player getWhitePlayer() {
         return whitePlayer;
     }
 
+    /**
+     * Returns the {@link com.badlogic.gdx.graphics.Color#BLACK} {@link Player}.
+     * If no {@link Player} was set, returns a default {@link Player}
+     * @return The {@link Player} who's going second
+     */
     @Override
     public @NotNull Player getBlackPlayer() {
         return blackPlayer;
+    }
+
+    /**
+     * Gets the number of rows or columns used by {@code this} {@link FreedomGame}'s {@link Board}.
+     * If no value was set, returns the default value of 8
+     * @return The number of rows or columns
+     */
+    public int getNumberOfRowsAndColumns() {
+        return numberOfRowsAndColumns;
     }
 
     @Override
@@ -120,15 +141,40 @@ public class FreedomGame extends Game implements BoardGame {
         if (!isChosenPositionValid(currentMove.getPosition())) return;
         updateBoard(currentMove);
         if(gameStatus == GAME_OVER) {
-            GameOverDialog gameOverDialog = new GameOverDialog(this, board.getSkin());
+            GameOverDialog gameOverDialog = new GameOverDialog(this);
             gameOverDialog.show(board.getStage());
         }
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
         if (gameStatus == LAST_MOVE) {
-            LastMoveDialog lastMoveDialog = new LastMoveDialog(this, board.getSkin());
+            LastMoveDialog lastMoveDialog = new LastMoveDialog(this);
             lastMoveDialog.show(board.getStage());
             gameStatus = GAME_OVER;
         }
+    }
+
+    /**
+     * Sets the {@link Color#WHITE} {@link Player} for {@code this} {@link FreedomGame}
+     * @param whitePlayer The {@link Player} to be set as the {@link Color#WHITE} {@link Player}
+     */
+    public void setWhitePlayer(@NotNull Player whitePlayer) {
+        this.whitePlayer = whitePlayer;
+    }
+
+    /**
+     * Sets the {@link Color#BLACK} {@link Player} for {@code this} {@link FreedomGame}
+     * @param blackPlayer The {@link Player} to be set as the {@link Color#BLACK} {@link Player}
+     */
+    public void setBlackPlayer(@NotNull Player blackPlayer) {
+        this.blackPlayer = blackPlayer;
+    }
+
+    /**
+     * Sets the number of rows and columns for {@code this} {@link FreedomGame}
+     * @param numberOfRowsAndColumns The numbers of rows and columns to be set
+     */
+    public void setNumberOfRowsAndColumns(int numberOfRowsAndColumns) {
+        this.numberOfRowsAndColumns = numberOfRowsAndColumns;
+        setupBoard();
     }
 
     private void updateBoard(Move currentMove) {
@@ -162,29 +208,17 @@ public class FreedomGame extends Game implements BoardGame {
 
     private void updateLogArea(@NotNull Move move) {
         if (move.getPlayer().getColor() == Color.WHITE) {
-            printFormattedMoveOnTheLogAreaForFirstPlayer(move.getPosition());
+            appendTextToLogArea(whitePlayer + " placed a stone on " + move.getPosition() + "\n");
+            appendTextToLogArea(blackPlayer + ", it's your turn!\n");
         } else {
-            appendTextToLogArea("     " + move.getPosition() + "\n");
+            appendTextToLogArea(blackPlayer + " placed a stone on " + move.getPosition() + "\n");
+            appendTextToLogArea(whitePlayer + ", it's your turn!\n");
         }
     }
 
     @NotNull
     private Image getPlayerStoneImage(@NotNull Color color) {
-        if(color == Color.WHITE) return new Image(skin.get("white_checker", TextureRegion.class));
-        return new Image(skin.get("black_checker", TextureRegion.class));
-    }
-
-
-    private void printFormattedMoveOnTheLogAreaForFirstPlayer(@NotNull Position inputPosition) {
-        long currentStep = playersMovesHistory.stream()
-                .filter(move -> move.getPlayer().getColor() == Color.WHITE)
-                .count();
-        if (currentStep < 10) {
-            appendTextToLogArea("  " + currentStep + ". " + inputPosition);
-        } else if (currentStep < 100) {
-            appendTextToLogArea(" " + currentStep + ". " + inputPosition);
-        } else {
-            appendTextToLogArea(currentStep + ". " + inputPosition);
-        }
+        if(color == Color.WHITE) return new Image(atlas.findRegion("white_checker"));
+        return new Image(atlas.findRegion("black_checker"));
     }
 }

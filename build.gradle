@@ -27,6 +27,7 @@ allprojects {
         ashleyVersion = '1.7.4'
         aiVersion = '1.8.2'
         gdxControllersVersion = '2.2.1'
+        visuiVersion = '1.5.1'
     }
 
     repositories {
@@ -76,7 +77,7 @@ project(":html") {
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-
+        api "com.kotcrab.vis:vis-ui:$visuiVersion:sources"
     }
 }
 
@@ -88,6 +89,7 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.kotcrab.vis:vis-ui:$visuiVersion"
         implementation 'org.jetbrains:annotations:20.1.0'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
         testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.2'

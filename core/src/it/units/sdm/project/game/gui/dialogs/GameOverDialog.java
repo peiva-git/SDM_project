@@ -1,37 +1,34 @@
 package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.Screen;
+import com.kotcrab.vis.ui.widget.VisDialog;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
-import it.units.sdm.project.game.gui.screens.GameScreen;
+import it.units.sdm.project.game.gui.screens.PlayersNamesFormScreen;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Game over dialog for a {@link FreedomGame}.
  */
-public class GameOverDialog extends Dialog {
+public class GameOverDialog extends VisDialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
-    private static final int PADDING = 40;
     @NotNull
     private final FreedomGame game;
 
     /**
-     * Creates a new game over {@link Dialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
-     * @param game The {@link FreedomGame} which will use the {@link Dialog}
-     * @param skin The {@link Skin} to be used on the {@link Dialog}
+     * Creates a new game over {@link VisDialog} to use in a libGDX {@link com.badlogic.gdx.Screen}
+     * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
-    public GameOverDialog(@NotNull FreedomGame game, @NotNull Skin skin) {
-        super("", skin);
+    public GameOverDialog(@NotNull FreedomGame game) {
+        super("Game over!");
         this.game = game;
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
         button("Quit", NEGATIVE_TEXT);
-        pad(PADDING);
         Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
         if (winner != null) {
             text("The winner is " + winner);
@@ -50,7 +47,10 @@ public class GameOverDialog extends Dialog {
         if (message.equals(NEGATIVE_TEXT)) {
             Gdx.app.exit();
         } else if (message.equals(POSITIVE_TEXT)){
-            game.setScreen(new GameScreen(game));
+            game.reset();
+            Screen previousScreen = game.getScreen();
+            game.setScreen(new PlayersNamesFormScreen(game));
+            previousScreen.dispose();
         }
     }
 }

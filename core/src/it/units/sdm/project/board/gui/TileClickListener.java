@@ -5,26 +5,24 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.game.BoardGame;
+import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
-
-import static it.units.sdm.project.game.gui.FreedomGame.NUMBER_OF_ROWS;
 
 /**
  * This class represents a {@link ClickListener} to be used on each tile of a {@link GuiBoard}.
  */
 public class TileClickListener extends ClickListener {
     @NotNull
-    private final BoardGame game;
+    private final FreedomGame game;
 
     /**
      * Creates a new listener to be used with a {@link it.units.sdm.project.board.Board}. By default,
-     * the listener will simply execute the {@link BoardGame#nextMove(Position)} method from the {@link BoardGame}
+     * the listener will simply execute the {@link FreedomGame#nextMove(Position)} method from the {@link FreedomGame}
      * interface using the clicked tile's {@link Position}.
      * If a different behaviour is expected, the {@link ClickListener#clicked(InputEvent, float, float)} method should be overridden.
-     * @param game The {@link BoardGame} instance on which to listen for tile click events
+     * @param game The {@link FreedomGame} instance on which to listen for tile click events
      */
-    public TileClickListener(@NotNull BoardGame game) {
+    public TileClickListener(@NotNull FreedomGame game) {
         this.game = game;
     }
 
@@ -43,6 +41,6 @@ public class TileClickListener extends ClickListener {
 
     @NotNull
     private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(NUMBER_OF_ROWS - tileRow - 1, tileColumn);
+        return Position.fromCoordinates(game.getNumberOfRowsAndColumns() - tileRow - 1, tileColumn);
     }
 }
