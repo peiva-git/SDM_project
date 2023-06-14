@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.kotcrab.vis.ui.widget.LinkLabel;
-import com.kotcrab.vis.ui.widget.ScrollableTextArea;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +22,7 @@ public class GameScreen implements Screen {
     @NotNull
     private final Stage stage;
     @NotNull
-    private final ScrollableTextArea logArea;
+    private final VisTextArea logArea;
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
@@ -36,7 +33,9 @@ public class GameScreen implements Screen {
         final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
-        logArea = new ScrollableTextArea("Welcome to Freedom ");
+        logArea = new VisTextArea("Welcome to Freedom ");
+        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2);
+        VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
         container.setFillParent(true);
@@ -44,7 +43,7 @@ public class GameScreen implements Screen {
         logArea.appendText(game.getWhitePlayer() + " and ");
         logArea.appendText(game.getBlackPlayer() + "!\n");
         logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
-        container.add(logArea.createCompatibleScrollPane()).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
+        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
         container.add((Actor) game.getBoard()).pad(PADDING);
         container.row();
         container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
