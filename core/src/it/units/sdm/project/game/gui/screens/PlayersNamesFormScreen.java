@@ -41,7 +41,7 @@ public class PlayersNamesFormScreen implements Screen {
         form.getBoardSizeSlider().addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                form.getBoardSizeText().setText(String.format("%d", (int) ((VisSlider) actor).getValue()));
+                form.getBoardSizeText().setText(String.valueOf((int) ((VisSlider) actor).getValue()));
             }
         });
 
