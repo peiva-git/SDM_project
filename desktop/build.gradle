@@ -15,7 +15,7 @@ tasks.register('run', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
-    ignoreExitValue = true as JavaExecSpec
+    ignoreExitValue = true
 
     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
         // Required to run on macOS
@@ -29,7 +29,7 @@ tasks.register('debug', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
-    ignoreExitValue = true as JavaExecSpec
+    ignoreExitValue = true
     debug = true
 }
 

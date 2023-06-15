@@ -8,14 +8,12 @@ gwt {
     devModules 'it.units.sdm.project.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
-    compiler(({
+    compiler {
         strict = true
         disableCastChecking = true
-    } as Closure<GwtCompileOptions>))
+    }
 }
 
-
-import org.wisepersist.gradle.plugins.gwt.GwtCompileOptions
 import org.wisepersist.gradle.plugins.gwt.GwtSuperDev
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
 
@@ -60,7 +58,8 @@ tasks.register('superDev', GwtSuperDev) {
     }
 }
 
-task dist(dependsOn: [clean, compileGwt]) {
+tasks.register('dist') {
+    dependsOn clean, compileGwt
     doLast {
         file("build/dist").mkdirs()
         copy {
