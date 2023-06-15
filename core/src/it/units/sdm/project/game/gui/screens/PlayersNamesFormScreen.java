@@ -13,6 +13,11 @@ import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * {@link FreedomGame}'s game customization {@link Screen}.
+ * This {@link Screen} provides the methods to set the {@link Player}s and the {@link it.units.sdm.project.board.Board}
+ * for the current {@link FreedomGame} from the GUI.
+ */
 public class PlayersNamesFormScreen implements Screen {
 
     private static final int FORM_SCREEN_WORLD_WIDTH = 800;
@@ -21,6 +26,10 @@ public class PlayersNamesFormScreen implements Screen {
     @NotNull
     private final Stage stage;
 
+    /**
+     * Creates an instance of a {@link PlayersNamesFormScreen}.
+     * @param game The {@link FreedomGame} using {@code this} {@link Screen}
+     */
     public PlayersNamesFormScreen(@NotNull FreedomGame game) {
         stage = new Stage(new FitViewport(FORM_SCREEN_WORLD_WIDTH, FORM_SCREEN_WORLD_HEIGHT));
 

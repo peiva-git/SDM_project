@@ -19,7 +19,7 @@ import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.dialogs.GameOverDialog;
 import it.units.sdm.project.game.gui.dialogs.LastMoveDialog;
 import it.units.sdm.project.game.gui.screens.GameScreen;
-import it.units.sdm.project.game.gui.screens.MainMenuScreen;
+import it.units.sdm.project.game.gui.screens.SplashScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,7 +52,7 @@ public class FreedomGame extends Game implements BoardGame {
         VisUI.load(VisUI.SkinScale.X2);
         VisUI.getSkin().addRegions(atlas);
         setupBoard();
-        setScreen(new MainMenuScreen(this));
+        setScreen(new SplashScreen(this));
     }
 
     private void setupBoard() {

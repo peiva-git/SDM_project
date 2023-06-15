@@ -18,9 +18,9 @@ import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * {@link FreedomGame}'s menu {@link Screen}. It is displayed before the main {@link GameScreen}.
+ * {@link FreedomGame}'s splash {@link Screen}. It is the first displayed {@link Screen}.
  */
-public class MainMenuScreen implements Screen {
+public class SplashScreen implements Screen {
     @NotNull
     private final VisTable initialMenu;
     @NotNull
@@ -31,10 +31,10 @@ public class MainMenuScreen implements Screen {
     private static final int MAIN_MENU_SCREEN_WORLD_HEIGHT = 600;
 
     /**
-     * Creates an instance of a {@link MainMenuScreen}
+     * Creates an instance of a {@link SplashScreen}
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
-    public MainMenuScreen(final @NotNull FreedomGame game) {
+    public SplashScreen(final @NotNull FreedomGame game) {
         stage = new Stage(new FitViewport(MAIN_MENU_SCREEN_WORLD_WIDTH, MAIN_MENU_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         atlas = new TextureAtlas("freedom.atlas");
         initialMenu = new VisTable();

@@ -7,7 +7,12 @@ import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.board.MapBoard;
 import org.jetbrains.annotations.NotNull;
 
-
+/**
+ * A form to be used in a {@code scene2d} user interface,
+ * where the {@link it.units.sdm.project.game.Player}s can customize their next {@link it.units.sdm.project.game.gui.FreedomGame}.
+ * Allows both {@link it.units.sdm.project.game.Player}s to set their name, surname, and the {@link it.units.sdm.project.board.Board}
+ * size for the next {@link it.units.sdm.project.game.gui.FreedomGame}
+ */
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
     @NotNull
@@ -27,6 +32,10 @@ public class FormLayout extends VisTable {
     @NotNull
     private final VisTextButton continueButton;
 
+    /**
+     * Creates a new {@link FormLayout} instance. Also sets validation for all input fields.
+     * All the form's fields are accessible with getter methods.
+     */
     public FormLayout() {
         continueButton = new VisTextButton("Let's play!");
         whitePlayerName = new VisValidatableTextField();
