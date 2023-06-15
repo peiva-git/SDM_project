@@ -16,7 +16,8 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
 
 /**
  * Main {@link FreedomGame} {@link Screen}.
- * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set.
+ * Should be displayed after the {@link it.units.sdm.project.game.Player}s and the {@link it.units.sdm.project.board.Board} are set
+ * in the {@link FreedomGame}.
  */
 public class GameScreen implements Screen {
     private static final int PADDING = 10;
@@ -27,7 +28,7 @@ public class GameScreen implements Screen {
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
-     * @param game The {@link FreedomGame} using this {@link Screen}
+     * @param game The {@link FreedomGame} using {@code this} {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
         final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
