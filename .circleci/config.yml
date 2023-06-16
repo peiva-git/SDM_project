@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  android: circleci/android@2.2.0
+
 jobs:
   unit-test:
     docker:
@@ -132,6 +135,22 @@ jobs:
       - store_artifacts:
           path: terminal/build/libs/terminal-1.0.jar
 
+  android-release-build:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2022.09.1
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - run:
+          name: Assemble release build
+          command: |
+            ./gradlew android:assembleRelease
+      - store_artifacts:
+          path: android/build/outputs/apk
+
 workflows:
   test-and-build:
     jobs:
@@ -151,6 +170,13 @@ workflows:
               only:
                 master
       - terminal-release-build:
+          requires:
+            - unit-test
+          filters:
+            branches:
+              only:
+                master
+      - android-release-build:
           requires:
             - unit-test
           filters:
