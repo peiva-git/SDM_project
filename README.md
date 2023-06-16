@@ -32,15 +32,17 @@ The last player has the right to pass on his last turn (and leave the last cell 
 
 ## Project configuration and setup
 
-The project is divided in four different modules:
+The project is divided in five different modules:
 1. A `core` module, containing the core classes and main GUI implementation
-2. A `desktop` module, with a desktop launcher to execute the GUI as a desktop app
-3. A `html` module, that builds the necessary files to execute the GUI on a server or as a webapp
-4. A `terminal` module, to launch the application as a terminal-based game
+2. An `android` module, with an `AndroidLauncher` that runs the game within an Android `Activity`
+3. A `desktop` module, with a `DesktopLauncher` to run the game as a desktop app
+4. A `html` module, that builds the necessary files to execute the game on a server or as a webapp
+5. A `terminal` module, to launch the application as a terminal-based game
 
 ### Minimum requirements
 
 This project requires Java version 11 to run, as specified in the `gradle.build` configuration files.
+As for Android, it requires API level 14 (Android 4.0) to run.
 
 ### Code analysis
 
@@ -57,7 +59,7 @@ To use the Sonarqube Scanner run:
 
 To generate a code coverage report with [JaCoCo](https://github.com/jacoco/jacoco) run:
 ```shell
-./gradlew -Dsonar.login=[auth_token] test jacocoTestReport sonar
+./gradlew -Dsonar.login=[auth_token] core:test jacocoTestReport sonar
 ```
 
 ### Unit testing
@@ -106,8 +108,15 @@ As an alternative, you could also build the `jar` executable yourself by running
 The obtained `jar` file can be then executed by a JVM. You can find out the available command-line arguments
 by specifying the `--help` option.
 
+To build an unsigned APK file for Android, run:
+```shell
+./gradlew android:assembleRelease
+```
+By default, you can't publish or install unsigned APKs on Android devices.
+We provide a version signed by us in the Releases section of this repository.
+
 ## Credits
 
-This project was built by using the [libGDX library](https://libgdx.com/). All credits go to the authors.
-The command line argument parsing was done by using the [JCommander tool](https://jcommander.org/). 
-All credits go to the author Cédric Beust.
+This project was built using the [libGDX library](https://libgdx.com/). All credits go to the authors.
+The command line argument parsing was done using the [JCommander tool](https://jcommander.org/). 
+All credits go to the author, Cédric Beust.
