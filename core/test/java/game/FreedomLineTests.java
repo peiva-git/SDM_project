@@ -25,7 +25,7 @@ public class FreedomLineTests {
     private final Board<Stone> board = BoardUtils.parseBoardFromString(printedBoard, 8, 8);
 
     @ParameterizedTest
-    @MethodSource("game.providers.FreedomLineProviders#provideInitialPosition")
+    @MethodSource("game.providers.FreedomLineProviders#provideInitialLinePositionFor8x8BoardWithException")
     void testFreedomLineCustomConstructor(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             Assertions.assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
