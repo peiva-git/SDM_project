@@ -1,3 +1,5 @@
+package board;
+
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Position;
 import org.junit.jupiter.params.ParameterizedTest;

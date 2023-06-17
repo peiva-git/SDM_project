@@ -1,8 +1,10 @@
+package board;
+
 import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import utility.TestUtilities;
+import utility.BoardUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -32,7 +34,7 @@ public class MapBoardTests {
 
     @Test
     void testClearBoardByRemovingAllTheStones() {
-        TestUtilities.fillBoardWithWhiteStones(board);
+        BoardUtils.fillBoardWithWhiteStones(board);
         board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
         board.clearBoard();
         board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
@@ -40,7 +42,7 @@ public class MapBoardTests {
 
     @Test
     void testHasBoardMoreThanOneFreeCell() {
-        TestUtilities.fillBoardWithWhiteStones(board);
+        BoardUtils.fillBoardWithWhiteStones(board);
         Assertions.assertEquals(board.getNumberOfFreeCells(), 0);
         board.clearCell(Position.fromCoordinates(0, 0));
         Assertions.assertEquals(board.getNumberOfFreeCells(), 1);

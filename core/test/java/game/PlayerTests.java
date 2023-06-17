@@ -1,3 +1,5 @@
+package game;
+
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.game.Player;
 import org.junit.jupiter.api.Test;

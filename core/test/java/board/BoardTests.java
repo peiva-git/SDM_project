@@ -1,5 +1,7 @@
+package board;
+
 import it.units.sdm.project.board.*;
-import utility.TestUtilities;
+import utility.BoardUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,7 +11,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class FreedomHelperTests {
+public class BoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
@@ -29,7 +31,7 @@ public class FreedomHelperTests {
     @MethodSource("providers.MapBoardProviders#provideBoardPositions")
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            TestUtilities.fillBoardWithWhiteStones(board);
+            BoardUtils.fillBoardWithWhiteStones(board);
             Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
             board.clearCell(Position.fromCoordinates(row, column));
             Assertions.assertTrue(board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));

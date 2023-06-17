@@ -1,11 +1,6 @@
 package libgdx;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -14,44 +9,40 @@ import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.game.gui.FreedomCellHighlighter;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static utility.FreedomHeadlessApplicationUtils.initHeadlessApplication;
 
 public class CellHighlighterTests {
 
     private static HeadlessApplication application;
+    private static GuiBoard<GuiStone> board;
+    private static FreedomCellHighlighter cellHighlighter;
 
     @BeforeAll
-    public static void init() {
-        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
-        application = new HeadlessApplication(mock(ApplicationListener.class), config);
-        Gdx.gl = mock(GL20.class);
-        VisUI.load();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
-        VisUI.getSkin().addRegions(atlas);
+    static void init() {
+        application = initHeadlessApplication();
+        board = new GuiBoard<>(8, 8);
+        cellHighlighter = new FreedomCellHighlighter(board);
     }
 
     @Test
-    public void testCellHighlighting() {
-        Assertions.assertTrue(Gdx.files.internal("freedom.png").exists());
-        GuiBoard<GuiStone> board = new GuiBoard<>(8, 8);
-        FreedomCellHighlighter cellHighlighter = new FreedomCellHighlighter(board);
+    void testCellHighlightingOnEmptyBoard() {
         boolean areCellsNotHighlighted = Arrays.stream(board.getCells().toArray(Cell.class))
                 .allMatch(cell -> {
                     Group tileAndPiece = (Group) cell.getActor();
                     Actor tile = tileAndPiece.getChild(0);
                     return tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_LIGHT_TILE && tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_DARK_TILE;
                 });
-        Assertions.assertTrue(areCellsNotHighlighted);
+        assertTrue(areCellsNotHighlighted);
     }
 
     @AfterAll
-    public static void cleanup() {
+    static void cleanup() {
         VisUI.dispose();
         application.exit();
     }
