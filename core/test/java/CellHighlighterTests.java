@@ -1,3 +1,4 @@
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -19,13 +20,9 @@ import java.util.Arrays;
 @RunWith(GdxTestRunner.class)
 public class CellHighlighterTests {
 
-    @BeforeAll
-    static void init() {
-        VisUI.load();
-    }
-
     @Test
     void testCellHighlighting() {
+        Assertions.assertTrue(Gdx.files.internal("freedom.png").exists());
         GuiBoard<GuiStone> board = new GuiBoard<>(8, 8);
         FreedomCellHighlighter cellHighlighter = new FreedomCellHighlighter(board);
         boolean areCellsNotHighlighted = Arrays.stream(board.getCells().toArray())
@@ -35,10 +32,5 @@ public class CellHighlighterTests {
                     return tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_LIGHT_TILE && tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_DARK_TILE;
                 });
         Assertions.assertTrue(areCellsNotHighlighted);
-    }
-
-    @AfterAll
-    static void cleanup() {
-        VisUI.dispose();
     }
 }

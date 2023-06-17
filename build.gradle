@@ -130,9 +130,6 @@ project(":core") {
     test {
         useJUnitPlatform()
         finalizedBy jacocoTestReport
-
-        project.ext.assetsDir = new File("./assets")
-        workingDir = project.ext.assetsDir
     }
 
     jacocoTestReport {
