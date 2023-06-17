@@ -1,4 +1,4 @@
-package libgdx;
+package game.gui;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.scenes.scene2d.Actor;

@@ -18,7 +18,7 @@ public class BoardTests {
     private final Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideAdjacentBoardPositions")
+    @MethodSource("board.providers.MapBoardProviders#provideAdjacentBoardPositions")
     void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> board.getAdjacentPositions(position));
@@ -28,7 +28,7 @@ public class BoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideBoardPositions")
+    @MethodSource("board.providers.MapBoardProviders#provideBoardPositions")
     void testAreAdjacentCellsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             BoardUtils.fillBoardWithWhiteStones(board);

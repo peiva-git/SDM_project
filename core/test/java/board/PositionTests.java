@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PositionTests {
 
     @ParameterizedTest
-    @MethodSource("providers.PositionProviders#providePositionCoordinates")
+    @MethodSource("board.providers.PositionProviders#providePositionCoordinates")
     void testInstancingNewPositionFromCoordinates(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             Position position = assertDoesNotThrow(() -> Position.fromCoordinates(row, column));
@@ -22,7 +22,7 @@ public class PositionTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.PositionProviders#providePositionPairsForComparison")
+    @MethodSource("board.providers.PositionProviders#providePositionPairsForComparison")
     void testPositionOrdering(Position first, Position second, int expectedResult) {
         if (expectedResult == 1) {
             assertTrue(first.compareTo(second) > 0);
@@ -37,7 +37,7 @@ public class PositionTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.PositionProviders#providePositionStringRepresentations")
+    @MethodSource("board.providers.PositionProviders#providePositionStringRepresentations")
     void testPositionStringRepresentation(int row, int column, String positionRepresentation) {
         assertEquals(Position.fromCoordinates(row, column).toString(), positionRepresentation);
     }

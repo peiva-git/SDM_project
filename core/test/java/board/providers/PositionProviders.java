@@ -1,4 +1,4 @@
-package providers;
+package board.providers;
 
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;

@@ -1,4 +1,4 @@
-package providers;
+package game.providers;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.provider.Arguments;

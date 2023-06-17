@@ -32,7 +32,7 @@ public class FreedomPointsCounterTests {
 
 
     @ParameterizedTest
-    @MethodSource("providers.FreedomPointsCounterProviders#printedBoardsProvider")
+    @MethodSource("game.providers.FreedomPointsCounterProviders#printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
         Board<Stone> board = BoardUtils.parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
