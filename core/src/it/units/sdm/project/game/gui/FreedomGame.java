@@ -36,7 +36,7 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  */
 public class FreedomGame extends Game implements BoardGame {
     private static final String GAME_TAG = "FREEDOM_GAME";
-    private GuiBoard board;
+    private GuiBoard<GuiStone> board;
     private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private Player whitePlayer = new Player(Color.WHITE, "Jeffrey", "Lebowsky");
@@ -56,7 +56,7 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     private void setupBoard() {
-        board = new GuiBoard(numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
@@ -96,7 +96,7 @@ public class FreedomGame extends Game implements BoardGame {
      * @return The {@link Board} used by this {@link BoardGame}
      */
     @Override
-    public @NotNull Board<?> getBoard() {
+    public @NotNull Board<GuiStone> getBoard() {
         return board;
     }
 

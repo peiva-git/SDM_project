@@ -2,6 +2,7 @@ package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Stone;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +16,7 @@ public interface BoardGame {
      * Returns the {@link Board} used by this {@link BoardGame}
      * @return The {@link Board} used by this {@link BoardGame}
      */
-    @NotNull Board<?> getBoard();
+    @NotNull Board<? extends Stone> getBoard();
 
     /**
      * Returns the {@link com.badlogic.gdx.graphics.Color#WHITE} {@link Player}

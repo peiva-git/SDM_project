@@ -156,7 +156,7 @@ public class FreedomGame implements BoardGame {
     }
 
     @Override
-    public @NotNull Board<?> getBoard() {
+    public @NotNull Board<Stone> getBoard() {
         return board;
     }
 
