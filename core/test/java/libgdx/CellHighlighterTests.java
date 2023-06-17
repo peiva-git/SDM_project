@@ -1,4 +1,4 @@
-package it.units.sdm.project.tests;
+package libgdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -13,21 +13,21 @@ import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.game.gui.FreedomCellHighlighter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class CellHighlighterTests {
 
-    private HeadlessApplication application;
+    private static HeadlessApplication application;
 
-    @Before
-    public void init() {
+    @BeforeAll
+    public static void init() {
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
         application = new HeadlessApplication(mock(ApplicationListener.class), config);
         Gdx.gl = mock(GL20.class);
@@ -38,7 +38,7 @@ public class CellHighlighterTests {
 
     @Test
     public void testCellHighlighting() {
-        assertTrue(Gdx.files.internal("freedom.png").exists());
+        Assertions.assertTrue(Gdx.files.internal("freedom.png").exists());
         GuiBoard<GuiStone> board = new GuiBoard<>(8, 8);
         FreedomCellHighlighter cellHighlighter = new FreedomCellHighlighter(board);
         boolean areCellsNotHighlighted = Arrays.stream(board.getCells().toArray(Cell.class))
@@ -47,11 +47,11 @@ public class CellHighlighterTests {
                     Actor tile = tileAndPiece.getChild(0);
                     return tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_LIGHT_TILE && tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_DARK_TILE;
                 });
-        assertTrue(areCellsNotHighlighted);
+        Assertions.assertTrue(areCellsNotHighlighted);
     }
 
-    @After
-    public void cleanup() {
+    @AfterAll
+    public static void cleanup() {
         VisUI.dispose();
         application.exit();
     }

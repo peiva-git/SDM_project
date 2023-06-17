@@ -1,8 +1,0 @@
-sourceCompatibility = 1.11
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-sourceSets.test.java.srcDirs = ["src/"]
-sourceSets.main.resources.srcDirs = ["../assets"]
-eclipse.project.name = appName + "-tests"
-
-project.ext.assetsDir = new File("../assets")
