@@ -1,2 +1,2 @@
 rootProject.name = 'SDM_project'
-include 'desktop', 'html', 'core', 'terminal', 'android'
+include 'desktop', 'html', 'core', 'terminal', 'android', 'tests'
