@@ -14,16 +14,20 @@ import static org.mockito.Mockito.mock;
 public class FreedomHeadlessApplicationUtils {
     /**
      * This method initializes a {@link HeadlessApplication} with {@link VisUI} and the assets specified in
-     * the {@code freedom.atlas} file. WHen closed, {@link VisUI#dispose()} should be invoked as well to dispose of
-     * to prevent memory leaks
+     * the file located at {@code atlasFilePath}.
+     * The graphical components are mocked with {@link org.mockito.Mockito} and can't therefore be rendered,
+     * but can be otherwise tested upon.
+     * When closed, {@link VisUI#dispose()} should be invoked as well
+     * to prevent memory leaks.
+     * @param atlasFilePath The filepath of the atlas to be added to the {@link VisUI} {@link com.badlogic.gdx.scenes.scene2d.ui.Skin}
      * @return The initialized {@link HeadlessApplication}
      */
-    public static @NotNull HeadlessApplication initHeadlessApplication() {
+    public static @NotNull HeadlessApplication initHeadlessApplication(@NotNull String atlasFilePath) {
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
         HeadlessApplication application = new HeadlessApplication(mock(ApplicationListener.class), config);
         Gdx.gl = mock(GL20.class);
         VisUI.load();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("freedom.atlas"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
         VisUI.getSkin().addRegions(atlas);
         return application;
     }

@@ -37,7 +37,7 @@ public class CellHighlighterTests {
 
     @BeforeAll
     static void init() {
-        application = initHeadlessApplication();
+        application = initHeadlessApplication("freedom.atlas");
         board = new GuiBoard<>(numberOfRows, numberOfColumns);
         cellHighlighter = new FreedomCellHighlighter(board);
     }
