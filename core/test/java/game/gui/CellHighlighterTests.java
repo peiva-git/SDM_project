@@ -57,8 +57,8 @@ public class CellHighlighterTests {
     @ValueSource(ints = {0, 1})
     @SuppressWarnings("unchecked")
     void testCellHighlightingOnLightAndDarkCell(int cellIndex) {
-        Cell<Actor> darkCell = board.getCells().get(cellIndex);
-        Group tileAndPiece = (Group) darkCell.getActor();
+        Cell<Actor> cell = board.getCells().get(cellIndex);
+        Group tileAndPiece = (Group) cell.getActor();
         assertEquals(cellIndex == 0 ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
         cellHighlighter.highlightPositions(Set.of(Position.fromCoordinates(numberOfRows - 1, cellIndex)));
         assertEquals(cellIndex == 0 ? HIGHLIGHT_LIGHT_TILE : HIGHLIGHT_DARK_TILE, tileAndPiece.getChild(0).getColor());
