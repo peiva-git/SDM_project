@@ -21,6 +21,7 @@ import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
  */
 public class MapBoard<P extends Stone> implements Board<P> {
 
+    private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
     /**
      * Minimum allowed {@link Board} size for this implementation.
      */
@@ -67,14 +68,14 @@ public class MapBoard<P extends Stone> implements Board<P> {
     @Override
     public void clearCell(@NotNull Position position) {
         Cell<P> cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        if (cell == null) throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
         cell.clear();
     }
 
     @Override
     public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        if (cell == null) throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
         cell.putPiece(piece);
     }
 
@@ -82,7 +83,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     @Nullable
     public P getPiece(@NotNull Position position) throws InvalidPositionException {
         Cell<P> cell = cells.get(position);
-        if (cell == null) throw new InvalidPositionException("Invalid board position");
+        if (cell == null) throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
         return cell.getPiece();
     }
 
