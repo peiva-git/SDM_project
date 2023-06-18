@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
-import it.units.sdm.project.board.gui.GuiStone;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

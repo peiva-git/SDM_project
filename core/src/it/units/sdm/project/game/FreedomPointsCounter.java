@@ -18,7 +18,7 @@ import java.util.Set;
  * with a size of 4 represents a point.
  */
 public class FreedomPointsCounter {
-    private final static int MAX_NUMBER_OF_STONES = 4;
+    private static final int MAX_NUMBER_OF_STONES = 4;
     @NotNull
     private final Board<? extends Stone> board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
