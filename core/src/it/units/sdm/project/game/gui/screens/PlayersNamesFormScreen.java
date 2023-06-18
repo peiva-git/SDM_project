@@ -28,6 +28,7 @@ public class PlayersNamesFormScreen implements Screen {
 
     /**
      * Creates an instance of a {@link PlayersNamesFormScreen}.
+     *
      * @param game The {@link FreedomGame} using {@code this} {@link Screen}
      */
     public PlayersNamesFormScreen(@NotNull FreedomGame game) {
@@ -60,6 +61,7 @@ public class PlayersNamesFormScreen implements Screen {
 
     @Override
     public void show() {
+        // do nothing
     }
 
     @Override
@@ -76,17 +78,17 @@ public class PlayersNamesFormScreen implements Screen {
 
     @Override
     public void pause() {
-
+        // do nothing
     }
 
     @Override
     public void resume() {
-
+        // do nothing
     }
 
     @Override
     public void hide() {
-
+        // do nothing
     }
 
     @Override

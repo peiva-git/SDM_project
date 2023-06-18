@@ -63,6 +63,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
+        // do nothing
     }
 
     @Override
@@ -79,14 +80,17 @@ public class SplashScreen implements Screen {
 
     @Override
     public void pause() {
+        // do nothing
     }
 
     @Override
     public void resume() {
+        // do nothing
     }
 
     @Override
     public void hide() {
+        // do nothing
     }
 
     @Override
