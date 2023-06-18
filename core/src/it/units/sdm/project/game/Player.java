@@ -3,6 +3,8 @@ package it.units.sdm.project.game;
 import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * This class represents a {@link it.units.sdm.project.game.gui.FreedomGame} player.
  */
@@ -69,6 +71,11 @@ public class Player {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         return ((Player) obj).getColor() == color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, name, surname);
     }
 
     /**

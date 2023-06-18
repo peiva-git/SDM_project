@@ -3,6 +3,8 @@ package it.units.sdm.project.board;
 import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Representation of a {@link Stone} which can be placed on a {@link Board}.
  */
@@ -38,6 +40,11 @@ public class Stone {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         return ((Stone) obj).getColor() == color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color);
     }
 
     /**

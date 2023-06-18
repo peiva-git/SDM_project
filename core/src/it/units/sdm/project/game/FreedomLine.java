@@ -193,6 +193,10 @@ public class FreedomLine {
         FreedomLine that = (FreedomLine) o;
         return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, color, direction, cellPositions);
+    }
 
     /**
      * {@link String} representation of the {@link FreedomLine}
