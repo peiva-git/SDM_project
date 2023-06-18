@@ -10,24 +10,20 @@ public class Player {
     @NotNull
     private final Color color;
     @NotNull
-    private final String name;
-    @NotNull
-    private final String surname;
+    private final String username;
 
     /**
      * Creates a {@link BoardGame} {@link Player} with some basic information
      * @param color {@link Player}'s {@link Color}. Can be either {@link Color#BLACK} or {@link Color#WHITE}
-     * @param name {@link Player}'s name
-     * @param surname {@link Player}'s surname
+     * @param username {@link Player}'s username
      * @throws RuntimeException In case the {@link Color}'s different from {@link Color#BLACK} or {@link Color#WHITE}
      */
-    public Player(@NotNull Color color, @NotNull String name, @NotNull String surname) throws IllegalArgumentException {
+    public Player(@NotNull Color color, @NotNull String username) throws IllegalArgumentException {
         if (!isColorValid(color)) {
             throw new IllegalArgumentException("Invalid player color, can be either black or white");
         }
         this.color = color;
-        this.name = name;
-        this.surname = surname;
+        this.username = username;
     }
 
     private boolean isColorValid(Color playersColor) {
@@ -44,19 +40,11 @@ public class Player {
     }
 
     /**
-     * Gets the {@link Player}'s name
-     * @return {@link Player}'s name
-     */
-    public @NotNull String getName() {
-        return name;
-    }
-
-    /**
      * Gets the {@link Player}'s surname
      * @return {@link Player}r's surname
      */
-    public @NotNull String getSurname() {
-        return surname;
+    public @NotNull String getUsername() {
+        return username;
     }
 
     /**
@@ -78,6 +66,6 @@ public class Player {
      */
     @Override
     public String toString() {
-        return name + " " + surname;
+        return username;
     }
 }

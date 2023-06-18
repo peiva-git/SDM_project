@@ -5,6 +5,7 @@ import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.*;
 import it.units.sdm.project.board.MapBoard;
+import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,14 +16,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
+    private static final float TABLE_PADDING = 40f;
     @NotNull
-    private final VisValidatableTextField whitePlayerName;
+    private final VisValidatableTextField whitePlayerUsername;
     @NotNull
-    private final VisValidatableTextField whitePlayerSurname;
-    @NotNull
-    private final VisValidatableTextField blackPlayerName;
-    @NotNull
-    private final VisValidatableTextField blackPlayerSurname;
+    private final VisValidatableTextField blackPlayerUsername;
     @NotNull
     private final VisLabel errorMessage;
     @NotNull
@@ -38,40 +36,32 @@ public class FormLayout extends VisTable {
      */
     public FormLayout() {
         continueButton = new VisTextButton("Let's play!");
-        whitePlayerName = new VisValidatableTextField();
-        whitePlayerSurname = new VisValidatableTextField();
-        blackPlayerName = new VisValidatableTextField();
-        blackPlayerSurname = new VisValidatableTextField();
+        whitePlayerUsername = new VisValidatableTextField();
+        blackPlayerUsername = new VisValidatableTextField();
 
-        whitePlayerName.setMaxLength(MAX_NAME_LENGTH + 1);
-        whitePlayerSurname.setMaxLength(MAX_NAME_LENGTH + 1);
-        blackPlayerName.setMaxLength(MAX_NAME_LENGTH + 1);
-        blackPlayerSurname.setMaxLength(MAX_NAME_LENGTH + 1);
+        whitePlayerUsername.setMaxLength(MAX_NAME_LENGTH + 1);
+        blackPlayerUsername.setMaxLength(MAX_NAME_LENGTH + 1);
 
         errorMessage = new VisLabel();
         errorMessage.setColor(Color.RED);
 
-        boardSizeSlider = new VisSlider(MapBoard.MIN_BOARD_SIZE, MapBoard.MAX_BOARD_SIZE, 1, false);
-        boardSizeSlider.setValue(MapBoard.MIN_BOARD_SIZE);
-        boardSizeText = new VisValidatableTextField(String.valueOf(MapBoard.MIN_BOARD_SIZE));
+        boardSizeSlider = new VisSlider(FreedomGame.MIN_BOARD_SIZE, FreedomGame.MAX_BOARD_SIZE, 1, false);
+        boardSizeSlider.setValue(FreedomGame.MIN_BOARD_SIZE);
+        boardSizeText = new VisValidatableTextField(String.valueOf(FreedomGame.MIN_BOARD_SIZE));
         boardSizeText.setReadOnly(true);
 
-        defaults().padLeft(10);
-        defaults().padRight(10);
-        defaults().padBottom(5);
-        defaults().padTop(5);
+        paddingSetUp();
         columnDefaults(0).left();
-        add(new VisLabel("First player's name: "));
-        add(whitePlayerName).expand().fill();
+        fillTable();
+        setupValidation();
+    }
+
+    private void fillTable() {
+        add(new VisLabel("White player username: "));
+        add(whitePlayerUsername).expand().fill();
         row();
-        add(new VisLabel("First player's surname: "));
-        add(whitePlayerSurname).expand().fill();
-        row();
-        add(new VisLabel("Second player's name: "));
-        add(blackPlayerName).expand().fill();
-        row();
-        add(new VisLabel("Second player's surname: "));
-        add(blackPlayerSurname).expand().fill();
+        add(new VisLabel("Black player username: "));
+        add(blackPlayerUsername).expand().fill();
         row();
         add(errorMessage).expand().fill().colspan(2);
         row();
@@ -81,36 +71,28 @@ public class FormLayout extends VisTable {
         add(boardSizeSlider).fill().expand().colspan(2);
         row();
         add(continueButton).fill().expand().colspan(2).padBottom(3);
+    }
 
-        setupValidation();
+    private void paddingSetUp() {
+        pad(TABLE_PADDING);
+        defaults().padLeft(20f);
+        defaults().padRight(20f);
+        defaults().padBottom(20f);
+        defaults().padTop(20f);
     }
 
     private void setupValidation() {
         SimpleFormValidator validator = new SimpleFormValidator(continueButton, errorMessage);
         validator.setSuccessMessage("All good!");
-        validator.notEmpty(whitePlayerName, "First player's name can't be empty");
-        validator.custom(whitePlayerName, new FormInputValidator("First player's name length can't exceed " + MAX_NAME_LENGTH) {
+        validator.notEmpty(whitePlayerUsername, "White player's name can't be empty");
+        validator.custom(whitePlayerUsername, new FormInputValidator("White player's name length can't exceed " + MAX_NAME_LENGTH) {
             @Override
             protected boolean validate(String input) {
                 return input.length() <= MAX_NAME_LENGTH;
             }
         });
-        validator.notEmpty(whitePlayerSurname, "First player's surname can't be empty");
-        validator.custom(whitePlayerSurname, new FormInputValidator("First player's surname length can't exceed " + MAX_NAME_LENGTH) {
-            @Override
-            protected boolean validate(String input) {
-                return input.length() <= MAX_NAME_LENGTH;
-            }
-        });
-        validator.notEmpty(blackPlayerName, "Second player's name can't be empty");
-        validator.custom(blackPlayerName, new FormInputValidator("Second player's name length can't exceed " + MAX_NAME_LENGTH) {
-            @Override
-            protected boolean validate(String input) {
-                return input.length() <= MAX_NAME_LENGTH;
-            }
-        });
-        validator.notEmpty(blackPlayerSurname, "Second player's surname can't be empty");
-        validator.custom(blackPlayerSurname, new FormInputValidator("Second player's surname length can't exceed " + MAX_NAME_LENGTH) {
+        validator.notEmpty(blackPlayerUsername, "Black player's name can't be empty");
+        validator.custom(blackPlayerUsername, new FormInputValidator("Black player's name length can't exceed " + MAX_NAME_LENGTH) {
             @Override
             protected boolean validate(String input) {
                 return input.length() <= MAX_NAME_LENGTH;
@@ -118,20 +100,12 @@ public class FormLayout extends VisTable {
         });
     }
 
-    public @NotNull VisValidatableTextField getWhitePlayerName() {
-        return whitePlayerName;
+    public @NotNull VisValidatableTextField getWhitePlayerUsername() {
+        return whitePlayerUsername;
     }
 
-    public @NotNull VisValidatableTextField getWhitePlayerSurname() {
-        return whitePlayerSurname;
-    }
-
-    public @NotNull VisValidatableTextField getBlackPlayerName() {
-        return blackPlayerName;
-    }
-
-    public @NotNull VisValidatableTextField getBlackPlayerSurname() {
-        return blackPlayerSurname;
+    public @NotNull VisValidatableTextField getBlackPlayerUsername() {
+        return blackPlayerUsername;
     }
 
     public @NotNull VisLabel getErrorMessage() {

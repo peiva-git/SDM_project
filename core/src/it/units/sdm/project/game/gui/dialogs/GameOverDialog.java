@@ -24,7 +24,7 @@ public class GameOverDialog extends VisDialog {
      * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public GameOverDialog(@NotNull FreedomGame game) {
-        super("Game over!");
+        super("");
         this.game = game;
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
         button("Play again", POSITIVE_TEXT);
@@ -35,6 +35,8 @@ public class GameOverDialog extends VisDialog {
         } else {
             text("Tie!");
         }
+        getContentTable().pad(20f);
+        getButtonsTable().pad(20f);
     }
 
     @Override

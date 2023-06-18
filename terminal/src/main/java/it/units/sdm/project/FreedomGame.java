@@ -86,7 +86,7 @@ public class FreedomGame implements BoardGame {
     private void printPromptForPlayerFeedback(@NotNull Player player) {
         System.out.println(board);
         System.out.println();
-        System.out.println(player.getName() + " " + player.getSurname() + ", it's your turn!");
+        System.out.println(player.getName() + " " + player.getUsername() + ", it's your turn!");
         if(gameStatus == LAST_MOVE) {
             System.out.println("You can decide to either play or pass");
             System.out.print("Do you want to pass? (Yes/No): ");
