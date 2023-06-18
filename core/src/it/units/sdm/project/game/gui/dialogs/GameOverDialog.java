@@ -3,7 +3,6 @@ package it.units.sdm.project.game.gui.dialogs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.kotcrab.vis.ui.widget.VisDialog;
-import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
@@ -26,9 +25,9 @@ public class GameOverDialog extends VisDialog {
     public GameOverDialog(@NotNull FreedomGame game) {
         super("");
         this.game = game;
-        FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
-        button("Play again", POSITIVE_TEXT);
-        button("Quit", NEGATIVE_TEXT);
+        FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(game.getBoard());
+        button(POSITIVE_TEXT, POSITIVE_TEXT);
+        button(NEGATIVE_TEXT, NEGATIVE_TEXT);
         Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
         if (winner != null) {
             text("The winner is " + winner);

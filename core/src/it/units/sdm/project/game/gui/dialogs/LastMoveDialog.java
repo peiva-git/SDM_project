@@ -23,8 +23,8 @@ public class LastMoveDialog extends VisDialog {
         super("");
         this.game = game;
         text("Last move! Do you want to put the last stone?");
-        button("Yes", POSITIVE_TEXT);
-        button("No", NEGATIVE_TEXT);
+        button(POSITIVE_TEXT, POSITIVE_TEXT);
+        button(NEGATIVE_TEXT, NEGATIVE_TEXT);
         getContentTable().pad(20f);
         getButtonsTable().pad(20f);
     }
