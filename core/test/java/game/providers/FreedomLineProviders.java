@@ -1,4 +1,4 @@
-package providers;
+package game.providers;
 
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class FreedomLineProviders {
 
-    public static @NotNull Stream<Arguments> provideInitialPosition() {
+    public static @NotNull Stream<Arguments> provideInitialLinePositionFor8x8BoardWithException() {
         return Stream.of(
                 Arguments.of(
                         7, 0,

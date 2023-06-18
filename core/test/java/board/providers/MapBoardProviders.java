@@ -1,4 +1,4 @@
-package providers;
+package board.providers;
 
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class MapBoardProviders {
-    public static @NotNull Stream<Arguments> provideBoardSizes() {
+    public static @NotNull Stream<Arguments> provideBoardSizesWithExceptions() {
         return Stream.of(
                 Arguments.of(0, 1, InvalidBoardSizeException.class),
                 Arguments.of(1, 0, InvalidBoardSizeException.class),
@@ -18,11 +18,12 @@ public class MapBoardProviders {
                 Arguments.of(-1, -1, InvalidBoardSizeException.class),
                 Arguments.of(2, 3, InvalidBoardSizeException.class),
                 Arguments.of(1, 1, InvalidBoardSizeException.class),
+                Arguments.of(27, 27, InvalidBoardSizeException.class),
                 Arguments.of(2, 2, null)
         );
     }
 
-    public static @NotNull Stream<Arguments> provideBoardPositions() {
+    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptions() {
         return Stream.of(
                 Arguments.of(7, 0, null),
                 Arguments.of(7, 1, null),
@@ -30,7 +31,7 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> provideAdjacentBoardPositions() {
+    public static @NotNull Stream<Arguments> providePositionAndAdjacentBoardPositions() {
         return Stream.of(
                 // corner positions
                 Arguments.of(Position.fromCoordinates(0, 0), Set.of(
@@ -97,7 +98,7 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> provideEmptyPrintedBoards() {
+    public static @NotNull Stream<Arguments> provideEmptyBoardStringRepresentations() {
         return Stream.of(
                 Arguments.of(8, 8,
                         " 8 -  -  -  -  -  -  -  -\n"

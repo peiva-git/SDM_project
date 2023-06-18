@@ -1,4 +1,4 @@
-package providers;
+package board.providers;
 
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import java.util.stream.Stream;
 
 public class PositionProviders {
-    public static @NotNull Stream<Arguments> providePositionCoordinates() {
+    public static @NotNull Stream<Arguments> providePositionCoordinatesWithValidation() {
         return Stream.of(
                 Arguments.of(0, 0, null),
                 Arguments.of(-1, -1, InvalidPositionException.class),

@@ -1,3 +1,5 @@
+package board;
+
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Stone;
 import org.junit.jupiter.api.Test;

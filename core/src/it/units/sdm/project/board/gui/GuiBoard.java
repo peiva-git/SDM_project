@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * This class represents a {@link Board} object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
  */
-public class GuiBoard extends VisTable implements Board<GuiStone> {
+public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     /**
      * Tile size to be used by the {@link Board}, in pixels
@@ -127,7 +127,7 @@ public class GuiBoard extends VisTable implements Board<GuiStone> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void putPiece(@NotNull GuiStone piece, @NotNull Position position) throws InvalidPositionException {
+    public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
@@ -146,7 +146,7 @@ public class GuiBoard extends VisTable implements Board<GuiStone> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @Nullable GuiStone getPiece(@NotNull Position position) throws InvalidPositionException {
+    public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
@@ -154,7 +154,7 @@ public class GuiBoard extends VisTable implements Board<GuiStone> {
                     return null;
                 } else {
                     Image image = (Image) tileAndPiece.getChild(1);
-                    return new GuiStone((Color) tileAndPiece.getUserObject(), image);
+                    return (P) new GuiStone((Color) tileAndPiece.getUserObject(), image);
                 }
             }
         }

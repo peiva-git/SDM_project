@@ -1,8 +1,10 @@
+package board;
+
 import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import utility.TestUtilities;
+import utility.BoardUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,7 +23,7 @@ public class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideBoardSizes")
+    @MethodSource("board.providers.MapBoardProviders#provideBoardSizesWithExceptions")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));
@@ -32,7 +34,7 @@ public class MapBoardTests {
 
     @Test
     void testClearBoardByRemovingAllTheStones() {
-        TestUtilities.fillBoardWithWhiteStones(board);
+        BoardUtils.fillBoardWithWhiteStones(board);
         board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
         board.clearBoard();
         board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
@@ -40,7 +42,7 @@ public class MapBoardTests {
 
     @Test
     void testHasBoardMoreThanOneFreeCell() {
-        TestUtilities.fillBoardWithWhiteStones(board);
+        BoardUtils.fillBoardWithWhiteStones(board);
         Assertions.assertEquals(board.getNumberOfFreeCells(), 0);
         board.clearCell(Position.fromCoordinates(0, 0));
         Assertions.assertEquals(board.getNumberOfFreeCells(), 1);
@@ -49,7 +51,7 @@ public class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideBoardPositions")
+    @MethodSource("board.providers.MapBoardProviders#providePositionsFor8x8BoardWithExceptions")
     void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
         String printedEmptyBoard =
                 " 8 -  -  -  -  -  -  -  -\n"
@@ -75,7 +77,7 @@ public class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("providers.MapBoardProviders#provideEmptyPrintedBoards")
+    @MethodSource("board.providers.MapBoardProviders#provideEmptyBoardStringRepresentations")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
         Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());

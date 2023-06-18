@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class TestUtilities {
+public class BoardUtils {
 
     public static void fillBoardWithWhiteStones(@NotNull Board<Stone> board) {
         for (Position position : board.getPositions()) {
