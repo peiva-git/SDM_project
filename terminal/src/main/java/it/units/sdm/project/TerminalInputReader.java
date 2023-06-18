@@ -23,7 +23,7 @@ public class TerminalInputReader implements Closeable {
         Position chosenPosition;
         String input = userInput.nextLine();
         while (true) {
-            if (input.matches("[A-Z][1-9][0-9]?")) {
+            if (input.matches("[A-Z][1-9]\\d?")) {
                 chosenPosition = parsePositionFromFormattedUserInput(input);
                 break;
             } else {

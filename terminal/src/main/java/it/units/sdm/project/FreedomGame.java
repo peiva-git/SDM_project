@@ -117,7 +117,7 @@ public class FreedomGame implements BoardGame {
             case LAST_MOVE:
                 System.out.println("You only have one possible move!");
                 break;
-            case NO_FREEDOM:
+            default:
                 System.out.print("Yuo can pick one of the following positions: ");
                 Position lastPosition = Objects.requireNonNull(getLastMove(),
                         "There should be at least one move stored already when in NO_FREEDOM state").getPosition();

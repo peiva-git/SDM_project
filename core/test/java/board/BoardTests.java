@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BoardTests {
+class BoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;

@@ -26,9 +26,9 @@ public class GameOverDialog extends VisDialog {
     public GameOverDialog(@NotNull FreedomGame game) {
         super("Game over!");
         this.game = game;
-        FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver((GuiBoard) game.getBoard());
-        button("Play again", POSITIVE_TEXT);
-        button("Quit", NEGATIVE_TEXT);
+        FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(game.getBoard());
+        button(POSITIVE_TEXT, POSITIVE_TEXT);
+        button(NEGATIVE_TEXT, NEGATIVE_TEXT);
         Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
         if (winner != null) {
             text("The winner is " + winner);

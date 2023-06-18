@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Stone;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-public class StoneTests {
+class StoneTests {
     Stone blackStone = new Stone(Color.BLACK);
 
     @Test
     void testColorGetter() {
-        assertEquals(blackStone.getColor(), Color.BLACK);
+        assertEquals(Color.BLACK, blackStone.getColor());
     }
 
     @Test
