@@ -3,7 +3,6 @@ package it.units.sdm.project.game.gui.dialogs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.kotcrab.vis.ui.widget.VisDialog;
-import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
