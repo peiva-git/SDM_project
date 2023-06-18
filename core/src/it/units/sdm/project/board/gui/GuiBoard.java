@@ -22,7 +22,7 @@ import java.util.TreeSet;
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
  */
 public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
-
+    private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
     /**
      * Tile size to be used by the {@link Board}, in pixels
      */
@@ -122,7 +122,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                 return;
             }
         }
-        throw new InvalidPositionException("Invalid position, no matching cell found");
+        throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                 return;
             }
         }
-        throw new InvalidPositionException("Invalid position, no matching cell found");
+        throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
     }
 
     @NotNull
@@ -158,7 +158,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                 }
             }
         }
-        throw new InvalidPositionException("Invalid position, no matching cell found");
+        throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
     }
 
     @Override
