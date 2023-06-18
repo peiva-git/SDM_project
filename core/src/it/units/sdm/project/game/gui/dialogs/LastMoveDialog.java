@@ -25,7 +25,6 @@ public class LastMoveDialog extends VisDialog {
         text("Last move! Do you want to put the last stone?");
         button("Yes", POSITIVE_TEXT);
         button("No", NEGATIVE_TEXT);
-        setSize(400,200);
         getContentTable().pad(20f);
         getButtonsTable().pad(20f);
     }
