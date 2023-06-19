@@ -23,7 +23,7 @@ class BoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionForInvalidStartingPosition")
+    @MethodSource("board.providers.BoardProviders#provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionsForInvalidStartingPosition")
     void testGetAdjacentPositions(Position position, Set<Position> adjacentPositions, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> board.getAdjacentPositions(position));
@@ -33,7 +33,7 @@ class BoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
     void testAreAdjacentCellsOccupiedByFillingEmptyBoardAndThenRemovingOnePiece(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             fillBoardWithWhiteStones(board);

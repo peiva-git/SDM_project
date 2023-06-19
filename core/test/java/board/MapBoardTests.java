@@ -31,7 +31,7 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
     void testPutPieceByCheckingWhetherTheCellsGetsOccupied(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
@@ -42,7 +42,7 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
     void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
         fillBoardWithWhiteStones(board);
         if (expectedException == null) {

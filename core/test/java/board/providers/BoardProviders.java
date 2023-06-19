@@ -25,7 +25,7 @@ public class BoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptionForInvalidPositions() {
+    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptionsForInvalidPositions() {
         return Stream.of(
                 Arguments.of(7, 0, null),
                 Arguments.of(7, 1, null),
@@ -41,7 +41,7 @@ public class BoardProviders {
      * final argument is set to {@link InvalidPositionException}. Otherwise, the final argument is set to {@code null}
      * @return A {@link Stream} of {@link Arguments}
      */
-    public static @NotNull Stream<Arguments> provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionForInvalidStartingPosition() {
+    public static @NotNull Stream<Arguments> provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionsForInvalidStartingPosition() {
         return Stream.of(
                 // corner positions
                 Arguments.of(Position.fromCoordinates(0, 0), Set.of(
