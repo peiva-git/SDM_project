@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
         logArea = new VisTextArea("Welcome to Freedom ");
-        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2.0f);
+        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2f);
         VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
