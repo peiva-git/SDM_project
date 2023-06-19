@@ -53,7 +53,6 @@ public class GameScreen implements Screen {
         logArea.appendText("White player: " + freedomGame.getWhitePlayer() + "\n");
         logArea.appendText("Black player: " + freedomGame.getBlackPlayer() + "\n\n");
         logArea.appendText(freedomGame.getWhitePlayer() + ", tap anywhere on the board to begin!\n\n");
-        logArea.appendText("Players moves history:\n");
     }
 
     private void setUpMainContainer() {
