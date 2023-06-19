@@ -2,7 +2,7 @@ package it.units.sdm.project.game;
 
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.game.FreedomLine.Direction;
@@ -20,7 +20,7 @@ import java.util.Set;
 public class FreedomPointsCounter {
     private final static int MAX_NUMBER_OF_STONES = 4;
     @NotNull
-    private final Board<? extends Stone> board;
+    private final Board board;
     private final Set<FreedomLine> blackFreedomLines = new HashSet<>();
     private final Set<FreedomLine> whiteFreedomLines = new HashSet<>();
 
@@ -28,7 +28,7 @@ public class FreedomPointsCounter {
      * Creates an instance of a {@link FreedomPointsCounter}
      * @param board {@link Board} on which to count a {@link Player}'s points
      */
-    public FreedomPointsCounter(@NotNull Board<? extends Stone> board) {
+    public FreedomPointsCounter(@NotNull Board board) {
         this.board = board;
     }
 
@@ -65,7 +65,7 @@ public class FreedomPointsCounter {
     private void count(@NotNull Color color) {
         board.getPositions().stream()
                 .filter(position -> {
-                    Stone stone = board.getPiece(position);
+                    Piece stone = board.getPiece(position);
                     return !(stone == null || stone.getColor() != color);
                 })
                 .forEach(this::checkAllFreedomLinesFromPosition);
@@ -87,13 +87,13 @@ public class FreedomPointsCounter {
     /**
      * This method finds {@link FreedomLine}s with size equal to 4 by considering a specific {@link Direction} and a starting {@link Position}.
      * It also checks whether the obtained {@link FreedomLine} is part of a bigger {@link FreedomLine} by checking the {@link Color} of
-     * the {@link Stone} that comes before the {@link Stone} on the {@code startingPosition} with respect to the {@link Direction} direction of the {@link FreedomLine}s.
+     * the {@link Piece} that comes before the {@link Piece} on the {@code startingPosition} with respect to the {@link Direction} direction of the {@link FreedomLine}s.
      *
      * @param startingPosition The starting {@link Position} from which to begin counting
      * @param direction The {@link Direction} in which this method starts counting
      */
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
-        Stone startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
+        Piece startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
         Color stoneColor = startingStone.getColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(board, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerFreedomLine(line, direction)) {
@@ -133,8 +133,8 @@ public class FreedomPointsCounter {
 
     private boolean hasThePreviousStoneTheSameColor(@NotNull Position position, @NotNull Direction direction) {
         try {
-            Stone currentStone = board.getPiece(position);
-            Stone previousStone = getThePreviousStone(position, direction);
+            Piece currentStone = board.getPiece(position);
+            Piece previousStone = getThePreviousStone(position, direction);
             if (previousStone == null || currentStone == null) return false;
             return previousStone.getColor() == currentStone.getColor();
         } catch (InvalidPositionException exception) {
@@ -144,7 +144,7 @@ public class FreedomPointsCounter {
 
 
     @Nullable
-    private Stone getThePreviousStone(@NotNull Position currentPosition, @NotNull Direction direction) throws InvalidPositionException {
+    private Piece getThePreviousStone(@NotNull Position currentPosition, @NotNull Direction direction) throws InvalidPositionException {
         switch (direction) {
             case HORIZONTAL:
                 return board.getPiece(Position.fromCoordinates(currentPosition.getRow(), currentPosition.getColumn() - 1));

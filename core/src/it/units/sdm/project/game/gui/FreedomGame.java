@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Board;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
-import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.board.gui.TileClickListener;
 import it.units.sdm.project.game.BoardGame;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
@@ -36,7 +36,7 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  */
 public class FreedomGame extends Game implements BoardGame {
     private static final String GAME_TAG = "FREEDOM_GAME";
-    private GuiBoard<GuiStone> board;
+    private GuiBoard board;
     private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private Player whitePlayer = new Player(Color.WHITE, "Jeffrey", "Lebowsky");
@@ -56,7 +56,7 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     private void setupBoard() {
-        board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board = new GuiBoard(numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);
@@ -96,7 +96,7 @@ public class FreedomGame extends Game implements BoardGame {
      * @return The {@link Board} used by this {@link BoardGame}
      */
     @Override
-    public @NotNull Board<GuiStone> getBoard() {
+    public @NotNull Board getBoard() {
         return board;
     }
 
@@ -201,7 +201,7 @@ public class FreedomGame extends Game implements BoardGame {
     private void putStoneOnTheBoard(@NotNull Move move) {
         Player currentPlayer = move.getPlayer();
         Position currentPosition = move.getPosition();
-        board.putPiece(new GuiStone(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), currentPosition);
+        board.putPiece(new Piece(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), currentPosition);
         updateLogArea(move);
         playersMovesHistory.add(move);
     }

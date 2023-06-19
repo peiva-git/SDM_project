@@ -15,11 +15,10 @@ import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
 
 /**
  * This class represents an implementation of the {@link Board} interface using a {@link TreeMap} to hold
- * information about the pieces {@link P} that are on this {@link Board}. The {@link Position}s on this {@link Board}
+ * information about the {@link Piece}s that are on this {@link Board}. The {@link Position}s on this {@link Board}
  * are ordered based on the ordering defined in the {@link Position} class.
- * @param <P> The type of piece to be put on this {@link Board}.
  */
-public class MapBoard<P extends Stone> implements Board<P> {
+public class MapBoard implements Board {
 
     /**
      * Minimum allowed {@link Board} size for this implementation.
@@ -30,7 +29,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
      * Maximum allowed {@link Board} size for this implementation.
      */
     public static final int MAX_BOARD_SIZE = MAXIMUM_COLUMN_INDEX + 1;
-    private final Map<Position, Cell<P>> cells = new TreeMap<>();
+    private final Map<Position, Cell> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
 
@@ -55,7 +54,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
     private void initBoardWithEmptyCells() {
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfColumns; j++) {
-                cells.put(Position.fromCoordinates(i, j), new Cell<>());
+                cells.put(Position.fromCoordinates(i, j), new Cell());
             }
         }
     }
@@ -66,22 +65,22 @@ public class MapBoard<P extends Stone> implements Board<P> {
 
     @Override
     public void clearCell(@NotNull Position position) {
-        Cell<P> cell = cells.get(position);
+        Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.clear();
     }
 
     @Override
-    public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
-        Cell<P> cell = cells.get(position);
+    public void putPiece(@NotNull Piece piece, @NotNull Position position) throws InvalidPositionException {
+        Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         cell.putPiece(piece);
     }
 
     @Override
     @Nullable
-    public P getPiece(@NotNull Position position) throws InvalidPositionException {
-        Cell<P> cell = cells.get(position);
+    public Piece getPiece(@NotNull Position position) throws InvalidPositionException {
+        Cell cell = cells.get(position);
         if (cell == null) throw new InvalidPositionException("Invalid board position");
         return cell.getPiece();
     }
@@ -134,17 +133,17 @@ public class MapBoard<P extends Stone> implements Board<P> {
         return cells.keySet();
     }
 
-    private static class Cell<P> {
+    private static class Cell {
 
         @Nullable
-        private P piece;
+        private Piece piece;
 
-        public void putPiece(P piece) {
+        public void putPiece(Piece piece) {
             this.piece = piece;
         }
 
         @Nullable
-        public P getPiece() {
+        public Piece getPiece() {
             return piece;
         }
 

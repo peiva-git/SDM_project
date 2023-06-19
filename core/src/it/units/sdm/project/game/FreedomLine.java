@@ -2,7 +2,7 @@ package it.units.sdm.project.game;
 
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Board;
 import org.jetbrains.annotations.NotNull;
@@ -11,14 +11,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * This class represents a line of {@link Stone}s with the same {@link Color}.
+ * This class represents a line of {@link Piece}s with the same {@link Color}.
  * The line {@link Position}s are stored in a
  * {@link TreeSet} by taking into account the custom ordering defined in the {@link Position} class.
- * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and {@link Stone} {@link Position}s.
+ * Every {@link FreedomLine} has its own {@link Direction}, {@link Color} and {@link Piece} {@link Position}s.
  */
 public class FreedomLine {
     @NotNull
-    private final Board<? extends Stone> board;
+    private final Board board;
     @Nullable
     private Color color;
     @Nullable
@@ -30,7 +30,7 @@ public class FreedomLine {
      * Creates a {@link FreedomLine} instance
      * @param board The {@link Board} on which this {@link FreedomLine} is located
      */
-    public FreedomLine(@NotNull Board<? extends Stone> board) {
+    public FreedomLine(@NotNull Board board) {
         this.color = null;
         this.direction = null;
         this.board = board;
@@ -41,20 +41,20 @@ public class FreedomLine {
      * @param board {@link Board} on which this {@link FreedomLine} is located
      * @param initialPosition Initial {@link Position} of the {@link FreedomLine}
      */
-    public FreedomLine(@NotNull Board<? extends Stone> board, @NotNull Position initialPosition) {
+    public FreedomLine(@NotNull Board board, @NotNull Position initialPosition) {
         this.board = board;
         addPosition(initialPosition);
     }
 
     /**
-     * Adds a {@link Stone} to this {@link FreedomLine}. This method checks if the
+     * Adds a {@link Piece} to this {@link FreedomLine}. This method checks if the
      * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
-     * {@link Stone} {@link Position} and to the last added {@link Stone}'s {@link Color}, if any.
+     * {@link Piece} {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
      * @param position The {@link Position} to add
      * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
      */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
-        Stone stone = board.getPiece(position);
+        Piece stone = board.getPiece(position);
         if (cellPositions.isEmpty()) setColor(stone);
         if (checkFreedomLineDirection(position)) {
             if (checkStoneColor(stone)) {
@@ -67,7 +67,7 @@ public class FreedomLine {
         }
     }
 
-    private void setColor(@Nullable Stone stone) {
+    private void setColor(@Nullable Piece stone) {
         if (stone == null) {
             color = null;
         } else {
@@ -95,7 +95,7 @@ public class FreedomLine {
         return true;
     }
 
-    private boolean checkStoneColor(@Nullable Stone stone) throws InvalidPositionException {
+    private boolean checkStoneColor(@Nullable Piece stone) throws InvalidPositionException {
         if (stone == null)
             throw new InvalidPositionException("There is no piece on the current position");
         return stone.getColor() == color;
@@ -182,7 +182,7 @@ public class FreedomLine {
     }
 
     /**
-     * Two {@link FreedomLine}s are equal if they have the same {@link Color}, the same {@link Stone} {@link Position}s and the same {@link Direction}.
+     * Two {@link FreedomLine}s are equal if they have the same {@link Color}, the same {@link Piece} {@link Position}s and the same {@link Direction}.
      * @param o The {@link Object} to compare with
      * @return {@code true} if the {@link FreedomLine}s are equal, {@code false} otherwise
      */
@@ -196,7 +196,7 @@ public class FreedomLine {
 
     /**
      * {@link String} representation of the {@link FreedomLine}
-     * @return A {@link String} composed by line {@link Color}, {@link FreedomLine} {@link Direction} and {@link Stone} {@link Position}s.
+     * @return A {@link String} composed by line {@link Color}, {@link FreedomLine} {@link Direction} and {@link Piece} {@link Position}s.
      */
     @Override
     public String toString() {
@@ -213,21 +213,21 @@ public class FreedomLine {
     public enum Direction {
         /**
          * A {@link FreedomLine} has a horizontal {@link Direction} if all the
-         * {@link Stone}s are placed on the same row
+         * {@link Piece}s are placed on the same row
          */
         HORIZONTAL,
         /**
-         * A {@link FreedomLine} has a vertical {@link Direction} if all the {@link Stone}s
+         * A {@link FreedomLine} has a vertical {@link Direction} if all the {@link Piece}s
          * are placed on the same column
          */
         VERTICAL,
         /**
-         * A {@link FreedomLine} has a diagonal-left {@link Direction} if all the {@link Stone}s are placed
+         * A {@link FreedomLine} has a diagonal-left {@link Direction} if all the {@link Piece}s are placed
          * diagonally on the left with respect to the starting {@link Position}
          */
         DIAGONAL_LEFT,
         /**
-         * A {@link FreedomLine} has a diagonal-right {@link Direction} if all the {@link Stone}s are placed
+         * A {@link FreedomLine} has a diagonal-right {@link Direction} if all the {@link Piece}s are placed
          * diagonally on the right with respect to the starting {@link Position}
          */
         DIAGONAL_RIGHT

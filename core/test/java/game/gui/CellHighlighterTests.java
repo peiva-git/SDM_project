@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
-import it.units.sdm.project.board.gui.GuiStone;
 import it.units.sdm.project.game.gui.FreedomCellHighlighter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -32,13 +31,13 @@ public class CellHighlighterTests {
     private static final int numberOfRows = 8;
     private static final int numberOfColumns = 8;
     private static HeadlessApplication application;
-    private static GuiBoard<GuiStone> board;
+    private static GuiBoard board;
     private static FreedomCellHighlighter cellHighlighter;
 
     @BeforeAll
     static void init() {
         application = initHeadlessApplication("freedom.atlas");
-        board = new GuiBoard<>(numberOfRows, numberOfColumns);
+        board = new GuiBoard(numberOfRows, numberOfColumns);
         cellHighlighter = new FreedomCellHighlighter(board);
     }
 

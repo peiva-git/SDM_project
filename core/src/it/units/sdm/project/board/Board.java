@@ -9,31 +9,30 @@ import java.util.Set;
 
 /**
  * This interface represents a generic game board. It may be used outside the scope of the freedom game as well.
- * @param <P> The type of the piece to be put on this {@link Board}
  */
-public interface Board<P> {
+public interface Board {
     /**
-     * Removes the piece {@link P} at the given {@link Position}
+     * Removes the {@link Piece} at the given {@link Position}
      * @param position The {@link Position} to clear
      * @throws InvalidPositionException In case the {@link Position} is outside of {@link Board} bounds
      */
     void clearCell(@NotNull Position position) throws InvalidPositionException;
 
     /**
-     * Puts a new piece {@link P} on this {@link Board}
-     * @param piece The new piece {@link P} to be put on this {@link Board}
-     * @param position The {@link Position} where the piece {@link P} will be placed
+     * Puts a new {@link Piece} on this {@link Board}
+     * @param piece The new {@link Piece} to be put on this {@link Board}
+     * @param position The {@link Position} where the {@link Piece} will be placed
      * @throws InvalidPositionException In case the {@link Position} is outside of {@link Board} bounds, or already occupied
      */
-    void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException;
+    void putPiece(@NotNull Piece piece, @NotNull Position position) throws InvalidPositionException;
 
     /**
-     * Gets the piece {@link P} from the chosen position {@link Position}, if any
+     * Gets the {@link Piece} from the chosen position {@link Position}, if any
      * @param position The {@link Position} where to get the piece from
-     * @return The piece {@link P} at the specified {@link Position}, or {@code null} if empty
+     * @return The {@link Piece} at the specified {@link Position}, or {@code null} if empty
      * @throws InvalidPositionException In case the {@link Position} is outside of {@link Board} bounds
      */
-    @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException;
+    @Nullable Piece getPiece(@NotNull Position position) throws InvalidPositionException;
 
     /**
      * Returns all the {@link Position}s on this {@link Board}
@@ -52,7 +51,7 @@ public interface Board<P> {
     }
 
     /**
-     * Removes all the pieces {@link P} from the {@link Board}
+     * Removes all the {@link Piece} from the {@link Board}
      */
     default void clearBoard() {
         getPositions().forEach(this::clearCell);

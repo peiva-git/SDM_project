@@ -2,7 +2,6 @@ package game;
 
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.game.FreedomPointsCounter;
-import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.board.Board;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ public class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        Board<Stone> board = BoardUtils.parseBoardFromString(printedBoard, 8, 8);
+        Board board = BoardUtils.parseBoardFromString(printedBoard, 8, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -34,7 +33,7 @@ public class FreedomPointsCounterTests {
     @ParameterizedTest
     @MethodSource("game.providers.FreedomPointsCounterProviders#printedBoardsProvider")
     void testGetWinner(String printedBoard, int numberOfRows, int numberOfColumns, int blackScore, int whiteScore) {
-        Board<Stone> board = BoardUtils.parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
+        Board board = BoardUtils.parseBoardFromString(printedBoard, numberOfRows, numberOfColumns);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         Assertions.assertEquals(freedomPointsCounter.getPlayerScore(Color.BLACK), blackScore);
         Assertions.assertEquals(freedomPointsCounter.getPlayerScore(Color.WHITE), whiteScore);

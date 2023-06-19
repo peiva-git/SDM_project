@@ -15,7 +15,7 @@ public class BoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+    private final Board board = new MapBoard(numberOfRows, numberOfColumns);
 
     @ParameterizedTest
     @MethodSource("board.providers.MapBoardProviders#providePositionAndAdjacentBoardPositions")

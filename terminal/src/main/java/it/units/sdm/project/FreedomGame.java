@@ -1,7 +1,7 @@
 package it.units.sdm.project;
 
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.*;
 import it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus;
@@ -27,7 +27,7 @@ public class FreedomGame implements BoardGame {
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final Board<Stone> board;
+    private final Board board;
     @NotNull
     private GameStatus gameStatus;
     @NotNull
@@ -43,7 +43,7 @@ public class FreedomGame implements BoardGame {
      * @param whitePlayer The first {@link Player}
      * @param blackPlayer The second {@link Player}
      */
-    public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull Board board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
@@ -156,7 +156,7 @@ public class FreedomGame implements BoardGame {
     }
 
     @Override
-    public @NotNull Board<Stone> getBoard() {
+    public @NotNull Board getBoard() {
         return board;
     }
 
@@ -178,7 +178,7 @@ public class FreedomGame implements BoardGame {
 
     @Override
     public void nextMove(@NotNull Position position) {
-        board.putPiece(new Stone(getNextPlayer().getColor()), position);
+        board.putPiece(new Piece(getNextPlayer().getColor()), position);
         playersMovesHistory.add(new Move(getNextPlayer(), position));
         gameStatus = statusObserver.getCurrentGameStatus(getLastMove());
     }

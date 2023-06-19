@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.board.Board;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,7 @@ import java.util.TreeSet;
  * This class represents a {@link Board} object to be used as part of a libGDX scene2d graphical user interface
  * For more information about libGDX, refer to their <a href="https://libgdx.com/wiki/">official page</a>.
  */
-public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
+public class GuiBoard extends VisTable implements Board {
 
     /**
      * Tile size to be used by the {@link Board}, in pixels
@@ -127,7 +128,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
+    public void putPiece(@NotNull Piece piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
@@ -146,7 +147,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
+    public @Nullable Piece getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
@@ -154,7 +155,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                     return null;
                 } else {
                     Image image = (Image) tileAndPiece.getChild(1);
-                    return (P) new GuiStone((Color) tileAndPiece.getUserObject(), image);
+                    return new Piece((Color) tileAndPiece.getUserObject(), image);
                 }
             }
         }
