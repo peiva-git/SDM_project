@@ -60,6 +60,7 @@ public interface Board<P extends Piece> {
     /**
      * Removes all the pieces {@link P} from the {@link Board}
      */
+    @SuppressWarnings("NewApi")
     default void clearBoard() {
         getPositions().forEach(this::clearCell);
     }
@@ -97,13 +98,13 @@ public interface Board<P extends Piece> {
      */
     default @NotNull Set<Position> getAdjacentPositions(@NotNull Position position) throws InvalidPositionException {
         Set<Position> adjacentPositions = new HashSet<>(8);
-        if (!isBoardPositionValid(position)) throw new InvalidPositionException("Invalid board position!");
+        if (!isPositionValidForTheBoard(position)) throw new InvalidPositionException("Invalid board position!");
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
                     Position adjacentPosition = Position.fromCoordinates(position.getRow() + i, position.getColumn() + j);
                     if (adjacentPosition.equals(position)) continue;
-                    if (isBoardPositionValid(adjacentPosition)) adjacentPositions.add(adjacentPosition);
+                    if (isPositionValidForTheBoard(adjacentPosition)) adjacentPositions.add(adjacentPosition);
                 } catch (InvalidPositionException ignored) {
                     // The current adjacent position is placed outside the board
                 }
@@ -118,7 +119,7 @@ public interface Board<P extends Piece> {
      * @param position The chosen {@link Position}
      * @return {@code true} if the {@link Position} meets the above-mentioned criteria, {@code false} otherwise
      */
-    default boolean isBoardPositionValid(@NotNull Position position) {
+    private boolean isPositionValidForTheBoard(@NotNull Position position) {
         try {
             getPiece(position);
             return true;

@@ -2,10 +2,7 @@ package board;
 
 import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import utility.BoardUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -30,16 +27,6 @@ class MapBoardTests {
         } else {
             assertDoesNotThrow(() -> new MapBoard<>(numberOfRows, numberOfColumns));
         }
-    }
-
-    @Test
-    void testHasBoardMoreThanOneFreeCell() {
-        BoardUtils.fillBoardWithWhiteStones(board);
-        Assertions.assertEquals(0, board.getNumberOfFreeCells());
-        board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(1, board.getNumberOfFreeCells());
-        board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(2, board.getNumberOfFreeCells());
     }
 
     @ParameterizedTest

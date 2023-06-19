@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class MapBoardProviders {
+public class BoardProviders {
     public static @NotNull Stream<Arguments> provideBoardSizesWithExceptions() {
         return Stream.of(
                 Arguments.of(0, 1, InvalidBoardSizeException.class),

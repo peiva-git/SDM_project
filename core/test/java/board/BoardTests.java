@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import utility.BoardUtils;
 
 import java.util.Set;
 
@@ -48,13 +47,23 @@ class BoardTests {
     }
 
     @Test
-    void testClearBoardByFillingBoardAndThenRemovingAllThePieces() {
+    void testClearBoardAndIsCellOccupiedByFillingBoardAndThenRemovingAllThePieces() {
         fillBoardWithWhiteStones(board);
         boolean areAllPositionsOccupied = board.getPositions().stream().allMatch(board::isCellOccupied);
         assertTrue(areAllPositionsOccupied);
         board.clearBoard();
         boolean areAllPositionsFree = board.getPositions().stream().noneMatch(board::isCellOccupied);
         assertTrue(areAllPositionsFree);
+    }
+
+    @Test
+    void testGetNumberOfFreeCellsByFillingBoardAndThenRemovingPieces() {
+        fillBoardWithWhiteStones(board);
+        assertEquals(0, board.getNumberOfFreeCells());
+        board.clearCell(Position.fromCoordinates(0, 0));
+        assertEquals(1, board.getNumberOfFreeCells());
+        board.clearCell(Position.fromCoordinates(0, 1));
+        assertEquals(2, board.getNumberOfFreeCells());
     }
 
 }
