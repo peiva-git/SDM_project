@@ -64,7 +64,10 @@ To generate a code coverage report with [JaCoCo](https://github.com/jacoco/jacoc
 
 ### Unit testing
 
-Each module can have its own set of tests. The tests can be executed all together, by running the main `test` task:
+Each module can have its own set of tests.
+Unit testing is done via the [JUnit 5 framework](https://junit.org/junit5/), using [Mockito](https://site.mockito.org/)
+when there's a need to mock libGDX's rendering capabilities.
+The tests can be executed all together, by running the main `test` task:
 ```shell
 ./gradlew test
 ```
