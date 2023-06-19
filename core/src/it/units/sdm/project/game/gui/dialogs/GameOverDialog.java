@@ -23,7 +23,7 @@ public class GameOverDialog extends VisDialog {
      * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public GameOverDialog(@NotNull FreedomGame game) {
-        super("");
+        super("GAME OVER");
         this.game = game;
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(game.getBoard());
         button(POSITIVE_TEXT, POSITIVE_TEXT);

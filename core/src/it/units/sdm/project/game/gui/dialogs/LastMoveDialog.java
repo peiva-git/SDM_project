@@ -20,11 +20,12 @@ public class LastMoveDialog extends VisDialog {
      * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public LastMoveDialog(@NotNull FreedomGame game) {
-        super("");
+        super("LAST MOVE");
         this.game = game;
-        text("Last move! Do you want to put the last stone?");
+        text("Do you want to put the last stone?");
         button(POSITIVE_TEXT, POSITIVE_TEXT);
         button(NEGATIVE_TEXT, NEGATIVE_TEXT);
+        getTitleTable().pad(20f);
         getContentTable().pad(20f);
         getButtonsTable().pad(20f);
     }
