@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameOverDialog extends VisDialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
+    private static final int PADDING = 20;
     @NotNull
     private final FreedomGame game;
 
@@ -23,7 +24,7 @@ public class GameOverDialog extends VisDialog {
      * @param game The {@link FreedomGame} which will use the {@link VisDialog}
      */
     public GameOverDialog(@NotNull FreedomGame game) {
-        super("Game over!");
+        super("GAME OVER");
         this.game = game;
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(game.getBoard());
         button(POSITIVE_TEXT, POSITIVE_TEXT);
@@ -34,6 +35,8 @@ public class GameOverDialog extends VisDialog {
         } else {
             text("Tie!");
         }
+        getContentTable().pad(PADDING);
+        getButtonsTable().pad(PADDING);
     }
 
     @Override

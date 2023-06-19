@@ -21,21 +21,22 @@ import org.jetbrains.annotations.NotNull;
  * {@link FreedomGame}'s splash {@link Screen}. It is the first displayed {@link Screen}.
  */
 public class SplashScreen implements Screen {
+    private static final float FONT_SCALE = 1.5f;
+    private static final int SPLASH_SCREEN_WORLD_WIDTH = 800;
+    private static final int SPLASH_SCREEN_WORLD_HEIGHT = 600;
     @NotNull
     private final VisTable initialMenu;
     @NotNull
     private final Stage stage;
     @NotNull
     private final TextureAtlas atlas;
-    private static final int MAIN_MENU_SCREEN_WORLD_WIDTH = 800;
-    private static final int MAIN_MENU_SCREEN_WORLD_HEIGHT = 600;
 
     /**
      * Creates an instance of a {@link SplashScreen}
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public SplashScreen(final @NotNull FreedomGame game) {
-        stage = new Stage(new FitViewport(MAIN_MENU_SCREEN_WORLD_WIDTH, MAIN_MENU_SCREEN_WORLD_HEIGHT), new SpriteBatch());
+        stage = new Stage(new FitViewport(SPLASH_SCREEN_WORLD_WIDTH, SPLASH_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         atlas = new TextureAtlas("freedom.atlas");
         initialMenu = new VisTable();
         initMenu();
@@ -55,7 +56,7 @@ public class SplashScreen implements Screen {
         Actor image = new Image(atlas.findRegion("freedom_logo"));
         VisLabel nameLabel = new VisLabel("Tap anywhere to begin!");
         nameLabel.setColor(Color.BLACK);
-        nameLabel.setFontScale(1.5f);
+        nameLabel.setFontScale(FONT_SCALE);
         initialMenu.add(image);
         initialMenu.row();
         initialMenu.add(nameLabel);

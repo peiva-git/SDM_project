@@ -20,11 +20,15 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * in the {@link FreedomGame}.
  */
 public class GameScreen implements Screen {
-    private static final int PADDING = 10;
+    private static final int BOARD_PADDING = 10;
     @NotNull
     private final Stage stage;
     @NotNull
+    private final VisTable mainContainer;
+    @NotNull
     private final VisTextArea logArea;
+    @NotNull
+    private final FreedomGame freedomGame;
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
@@ -32,28 +36,36 @@ public class GameScreen implements Screen {
      * @param game The {@link FreedomGame} using {@code this} {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
+        this.freedomGame = game;
         final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
         final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
-        VisTable container = new VisTable();
-        logArea = new VisTextArea("Welcome to Freedom ");
-        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2);
-        VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
-        stage.addActor(container);
+        logArea = new VisTextArea();
+        mainContainer = new VisTable();
+        setUpLogArea();
+        setUpMainContainer();
         Gdx.input.setInputProcessor(stage);
-        container.setFillParent(true);
+    }
+    private void setUpLogArea() {
+        logArea.setPrefRows(freedomGame.getNumberOfRowsAndColumns() * 2);
+        mainContainer.setFillParent(true);
         logArea.setReadOnly(true);
-        logArea.appendText(game.getWhitePlayer() + " and ");
-        logArea.appendText(game.getBlackPlayer() + "!\n");
-        logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
-        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
-        container.add((Actor) game.getBoard()).pad(PADDING);
-        container.row();
-        container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
-        container.row();
-        container.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
+        logArea.appendText("FREEDOM\n");
+        logArea.appendText("White player: " + freedomGame.getWhitePlayer() + "\n");
+        logArea.appendText("Black player: " + freedomGame.getBlackPlayer() + "\n\n");
+        logArea.appendText(freedomGame.getWhitePlayer() + ", tap anywhere on the board to begin!\n\n");
     }
 
+    private void setUpMainContainer() {
+        VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
+        mainContainer.add(logAreaScrollPane).growX().height(TILE_SIZE * freedomGame.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
+        mainContainer.add((Actor) freedomGame.getBoard()).pad(BOARD_PADDING);
+        mainContainer.row();
+        mainContainer.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(BOARD_PADDING);
+        mainContainer.row();
+        mainContainer.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(BOARD_PADDING);
+        stage.addActor(mainContainer);
+    }
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.DARK_GRAY);

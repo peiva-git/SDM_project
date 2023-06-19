@@ -35,12 +35,20 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
 public class FreedomGame extends Game implements BoardGame {
+    /**
+     * Maximum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
+     */
+    public static final int MAX_BOARD_SIZE = 12;
+    /**
+     * Minimum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
+     */
+    public static final int MIN_BOARD_SIZE = 4;
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard<GuiStone> board;
     private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
-    private Player whitePlayer = new Player(Color.WHITE, "Jeffrey", "Lebowsky");
-    private Player blackPlayer = new Player(Color.BLACK, "Walter", "Sobchak");
+    private Player whitePlayer = new Player(Color.WHITE, "player_one");
+    private Player blackPlayer = new Player(Color.BLACK, "player_two");
     private FreedomBoardStatusObserver statusObserver;
     private GameStatus gameStatus = FREEDOM;
     private FreedomCellHighlighter cellHighlighter;
@@ -203,11 +211,9 @@ public class FreedomGame extends Game implements BoardGame {
 
     private void updateLogArea(@NotNull Move move) {
         if (move.getPlayer().getColor() == Color.WHITE) {
-            appendTextToLogArea(whitePlayer + " placed a stone on " + move.getPosition() + "\n");
-            appendTextToLogArea(blackPlayer + ", it's your turn!\n");
+            appendTextToLogArea(whitePlayer + ": " + move.getPosition() + "\n");
         } else {
-            appendTextToLogArea(blackPlayer + " placed a stone on " + move.getPosition() + "\n");
-            appendTextToLogArea(whitePlayer + ", it's your turn!\n");
+            appendTextToLogArea(blackPlayer + ": " + move.getPosition() + "\n");
         }
     }
 
