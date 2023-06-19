@@ -1,5 +1,6 @@
 package board.providers;
 
+import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
@@ -131,6 +132,27 @@ public class BoardProviders {
                                 + " 2 -  -  -  -  -  -  -  -  -  -\n"
                                 + " 1 -  -  -  -  -  -  -  -  -  -\n"
                                 + "   A  B  C  D  E  F  G  H  I  J")
+        );
+    }
+
+    /**
+     * Each item in the returned {@link Stream} provides a non-empty {@link it.units.sdm.project.board.Board} {@link String}
+     * representation, followed by the {@link Color#WHITE} {@link it.units.sdm.project.board.Piece} {@link Position}
+     * and then the {@link Color#BLACK} {@link it.units.sdm.project.board.Piece} {@link Position}
+     * @return A {@link Stream} of {@link Arguments}
+     */
+    public static @NotNull Stream<Arguments> provide8x8NotEmptyBoardStringRepresentationWithPositionsToOccupyWithPieces() {
+        return Stream.of(
+                Arguments.of(" 8 -  -  -  -  -  -  -  -\n"
+                        + " 7 -  -  -  -  -  -  -  -\n"
+                        + " 6 -  W  -  -  -  -  -  -\n"
+                        + " 5 -  -  -  -  -  -  -  -\n"
+                        + " 4 -  -  -  B  -  -  -  -\n"
+                        + " 3 -  -  -  -  -  -  -  -\n"
+                        + " 2 -  -  -  -  -  -  -  -\n"
+                        + " 1 -  -  -  -  -  -  -  -\n"
+                        + "   A  B  C  D  E  F  G  H",
+                        Position.fromCoordinates(5, 1), Position.fromCoordinates(3, 3))
         );
     }
 

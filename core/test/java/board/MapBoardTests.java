@@ -32,6 +32,17 @@ class MapBoardTests {
 
     @ParameterizedTest
     @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
+    void testPutPieceByCheckingWhetherTheCellsGetsOccupied(int row, int column, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
+            assertTrue(board.isCellOccupied(Position.fromCoordinates(row, column)));
+        } else {
+            assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
     void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
         fillBoardWithWhiteStones(board);
         if (expectedException == null) {
@@ -43,34 +54,16 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
-    void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
-        String printedEmptyBoard =
-                " 8 -  -  -  -  -  -  -  -\n"
-                        + " 7 -  -  -  -  -  -  -  -\n"
-                        + " 6 -  -  -  -  -  -  -  -\n"
-                        + " 5 -  -  -  -  -  -  -  -\n"
-                        + " 4 -  -  -  -  -  -  -  -\n"
-                        + " 3 -  -  -  -  -  -  -  -\n"
-                        + " 2 -  -  -  -  -  -  -  -\n"
-                        + " 1 -  -  -  -  -  -  -  -\n"
-                        + "   A  B  C  D  E  F  G  H";
-        assertEquals(printedEmptyBoard, board.toString());
-        if (expectedException == null) {
-            board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
-            board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(row, column + 1));
-            StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
-            printedBoard.setCharAt((column + 1) * 3, 'W');
-            printedBoard.setCharAt((column + 2) * 3, 'B');
-            assertEquals(printedBoard.toString(), board.toString());
-        } else {
-            assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
-        }
+    @MethodSource("board.providers.BoardProviders#provide8x8NotEmptyBoardStringRepresentationWithPositionsToOccupyWithPieces")
+    void testPrintingOfBoardWithAWhiteAndABlackPiece(String printedBoard, Position whitePiecePosition, Position blackPiecePosition) {
+        board.putPiece(new Stone(Color.WHITE), whitePiecePosition);
+        board.putPiece(new Stone(Color.BLACK), blackPiecePosition);
+        assertEquals(printedBoard, board.toString());
     }
 
     @ParameterizedTest
     @MethodSource("board.providers.BoardProviders#provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation")
-    void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
+    void testPrintingOfEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
         Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
