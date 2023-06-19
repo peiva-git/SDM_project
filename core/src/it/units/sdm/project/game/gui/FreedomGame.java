@@ -36,14 +36,6 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  */
 public class FreedomGame extends Game implements BoardGame {
     /**
-     * Screen world width
-     */
-    public static final int SCREEN_WORLD_WIDTH = 800;
-    /**
-     * Screen world height
-     */
-    public static final int SCREEN_WORLD_HEIGHT = 600;
-    /**
      * Maximum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
      */
     public static final int MAX_BOARD_SIZE = 12;

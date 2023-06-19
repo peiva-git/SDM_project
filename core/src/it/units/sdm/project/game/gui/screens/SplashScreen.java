@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SplashScreen implements Screen {
     private static final float FONT_SCALE = 1.5f;
+    private static final int SPLASH_SCREEN_WORLD_WIDTH = 800;
+    private static final int SPLASH_SCREEN_WORLD_HEIGHT = 600;
     @NotNull
     private final VisTable initialMenu;
     @NotNull
@@ -34,7 +36,7 @@ public class SplashScreen implements Screen {
      * @param game The {@link FreedomGame} using this {@link Screen}
      */
     public SplashScreen(final @NotNull FreedomGame game) {
-        stage = new Stage(new FitViewport(FreedomGame.SCREEN_WORLD_WIDTH, FreedomGame.SCREEN_WORLD_HEIGHT), new SpriteBatch());
+        stage = new Stage(new FitViewport(SPLASH_SCREEN_WORLD_WIDTH, SPLASH_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         atlas = new TextureAtlas("freedom.atlas");
         initialMenu = new VisTable();
         initMenu();

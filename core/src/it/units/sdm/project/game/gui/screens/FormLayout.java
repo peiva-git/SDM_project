@@ -4,20 +4,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.*;
-import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * A form to be used in a {@code scene2d} user interface,
  * where the {@link it.units.sdm.project.game.Player}s can customize their next {@link it.units.sdm.project.game.gui.FreedomGame}.
- * Allows both {@link it.units.sdm.project.game.Player}s to set their name, surname, and the {@link it.units.sdm.project.board.Board}
+ * Allows both {@link it.units.sdm.project.game.Player}s to set their username and the {@link it.units.sdm.project.board.Board}
  * size for the next {@link it.units.sdm.project.game.gui.FreedomGame}
  */
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
-    private static final float TABLE_PADDING = 40f;
-    public static final float CELLS_PADDING = 20f;
+    private static final int TABLE_PADDING = 40;
+    public static final int CELLS_PADDING = 20;
     @NotNull
     private final VisValidatableTextField whitePlayerUsername;
     @NotNull

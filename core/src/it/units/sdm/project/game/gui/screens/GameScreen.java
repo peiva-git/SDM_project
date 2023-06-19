@@ -20,7 +20,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * in the {@link FreedomGame}.
  */
 public class GameScreen implements Screen {
-    private static final float BOARD_PADDING = 10f;
+    private static final int BOARD_PADDING = 10;
     @NotNull
     private final Stage stage;
     @NotNull
@@ -36,8 +36,8 @@ public class GameScreen implements Screen {
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.freedomGame = game;
-        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + FreedomGame.SCREEN_WORLD_WIDTH;
-        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + FreedomGame.SCREEN_WORLD_HEIGHT;
+        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
+        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         logArea = new VisTextArea();
         mainContainer = new VisTable();
