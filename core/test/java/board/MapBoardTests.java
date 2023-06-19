@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static utility.BoardUtils.fillBoardWithWhiteStones;
 
 class MapBoardTests {
 
@@ -15,17 +16,29 @@ class MapBoardTests {
     private final Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
-    void initBoard() {
+    void clearBoard() {
         board.clearBoard();
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptions")
+    @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptionsForInvalidMapBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));
         } else {
             assertDoesNotThrow(() -> new MapBoard<>(numberOfRows, numberOfColumns));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
+    void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
+        fillBoardWithWhiteStones(board);
+        if (expectedException == null) {
+            board.clearCell(Position.fromCoordinates(row, column));
+            assertFalse(board.isCellOccupied(Position.fromCoordinates(row, column)));
+        } else {
+            assertThrows(expectedException, () -> board.clearCell(Position.fromCoordinates(row, column)));
         }
     }
 
