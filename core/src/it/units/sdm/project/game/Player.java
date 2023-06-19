@@ -40,8 +40,8 @@ public class Player {
     }
 
     /**
-     * Gets the {@link Player}'s surname
-     * @return {@link Player}r's surname
+     * Returns {@code this} {@link Player}'s username
+     * @return The {@link Player}'s username
      */
     public @NotNull String getUsername() {
         return username;
@@ -49,7 +49,7 @@ public class Player {
 
     /**
      * Two {@link Player}s are equal if they have the same {@link Color}
-     * @param obj The {@link Object} to compare {@code this} with
+     * @param obj The {@link Object} to compare {@code this} {@link Player} with
      * @return {@code true} if the {@link Player}s are equal, {@code false} otherwise
      */
     @Override
@@ -61,8 +61,8 @@ public class Player {
 
     /**
      * {@link String} representation of {@code this} {@link Player}.
-     * @return {@link String} representation of {@code this} {@link Player},
-     * that includes {@code this} {@link Player}'s name and surname
+     * @return A {@link String} representation of {@code this} {@link Player},
+     * that includes {@code this} {@link Player}'s username
      */
     @Override
     public String toString() {
