@@ -30,12 +30,12 @@ public class TerminalLauncher {
     private int boardSize = 8;
 
     @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--white-username"}, description = "White player surname", validateWith = NameSizeValidator.class)
-    private String whitePlayerUsername = "white_player";
+    @Parameter(names = {"--white-username"}, description = "White player username", validateWith = NameSizeValidator.class)
+    private String whitePlayerUsername = "player_one";
 
     @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--black-username"}, description = "Black player name", validateWith = NameSizeValidator.class)
-    private String blackPlayerUsername = "black_player";
+    @Parameter(names = {"--black-username"}, description = "Black player username", validateWith = NameSizeValidator.class)
+    private String blackPlayerUsername = "player_two";
 
     /**
      * The terminal-based {@link FreedomGame}'s entry point
