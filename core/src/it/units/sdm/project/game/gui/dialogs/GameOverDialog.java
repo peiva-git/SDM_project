@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameOverDialog extends VisDialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
+    private static final float PADDING = 20f;
     @NotNull
     private final FreedomGame game;
 
@@ -34,8 +35,8 @@ public class GameOverDialog extends VisDialog {
         } else {
             text("Tie!");
         }
-        getContentTable().pad(20f);
-        getButtonsTable().pad(20f);
+        getContentTable().pad(PADDING);
+        getButtonsTable().pad(PADDING);
     }
 
     @Override
