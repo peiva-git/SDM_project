@@ -51,19 +51,20 @@ public class Player {
 
     /**
      * Two {@link Player}s are equal if they have the same {@link Color}
-     * @param obj The {@link Object} to compare {@code this} {@link Player} with
+     * @param o The {@link Object} to compare {@code this} {@link Player} with
      * @return {@code true} if the {@link Player}s are equal, {@code false} otherwise
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return ((Player) obj).getColor() == color;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return color.equals(player.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, name, surname);
+        return Objects.hash(color);
     }
 
     /**
