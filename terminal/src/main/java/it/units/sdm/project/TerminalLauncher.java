@@ -30,20 +30,12 @@ public class TerminalLauncher {
     private int boardSize = 8;
 
     @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--white-name"}, description = "White player name", validateWith = NameSizeValidator.class)
-    private String whitePlayerName = "Jeffrey";
+    @Parameter(names = {"--white-username"}, description = "White player surname", validateWith = NameSizeValidator.class)
+    private String whitePlayerUsername = "white_player";
 
     @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--white-surname"}, description = "White player surname", validateWith = NameSizeValidator.class)
-    private String whitePlayerSurname = "Lebowsky";
-
-    @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--black-name"}, description = "Black player name", validateWith = NameSizeValidator.class)
-    private String blackPlayerName = "Walter";
-
-    @SuppressWarnings("FieldMayBeFinal")
-    @Parameter(names = {"--black-surname"}, description = "Black player surname", validateWith = NameSizeValidator.class)
-    private String blackPlayerSurname = "Sobchak";
+    @Parameter(names = {"--black-username"}, description = "Black player name", validateWith = NameSizeValidator.class)
+    private String blackPlayerUsername = "black_player";
 
     /**
      * The terminal-based {@link FreedomGame}'s entry point
@@ -63,8 +55,8 @@ public class TerminalLauncher {
         }
 
         Board<Stone> board = new MapBoard<>(launcher.boardSize, launcher.boardSize);
-        Player whitePlayer = new Player(Color.WHITE, launcher.whitePlayerName, launcher.whitePlayerSurname);
-        Player blackPlayer = new Player(Color.BLACK, launcher.blackPlayerName, launcher.blackPlayerSurname);
+        Player whitePlayer = new Player(Color.WHITE, launcher.whitePlayerUsername);
+        Player blackPlayer = new Player(Color.BLACK, launcher.blackPlayerUsername);
         FreedomGame freedomGame = new FreedomGame(board, whitePlayer, blackPlayer);
         System.out.print(ASCII_LOGO);
         freedomGame.start();
