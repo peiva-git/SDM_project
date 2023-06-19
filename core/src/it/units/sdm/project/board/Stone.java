@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * This class represents a {@link it.units.sdm.project.game.gui.FreedomGame} {@link Piece} that may be placed on a {@link it.units.sdm.project.board.Board}.
+ * This class represents a {@link Piece} implementation
+ * to be used in a text-based Freedom game implementation,
+ * that may be placed on a {@link it.units.sdm.project.board.Board}.
  */
 public class Stone implements Piece {
 
@@ -14,8 +16,8 @@ public class Stone implements Piece {
     private final Color color;
 
     /**
-     * Creates a new {@link Piece} instance to put on a {@link Board}
-     * @param color The {@link Piece}'s {@link Color}.
+     * Creates a new {@link Stone} instance to put on a {@link Board}
+     * @param color {@code this} {@link Stone}'s {@link Color}.
      *              Can be either {@link Color#BLACK} or {@link Color#WHITE}
      */
     public Stone(@NotNull Color color) {
@@ -34,9 +36,9 @@ public class Stone implements Piece {
     }
 
     /**
-     * Two {@link Piece}s are equal if they are of the same {@link Color}.
-     * @param obj {@link Object} to be compared with this {@link Piece}
-     * @return {@code true} if the two {@link Piece}s are equal, {@code false}
+     * Two {@link Stone}s are equal if they are of the same {@link Color}.
+     * @param obj {@link Object} to be compared with {@code this} {@link Stone}
+     * @return {@code true} if the two {@link Stone}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -51,8 +53,8 @@ public class Stone implements Piece {
     }
 
     /**
-     * {@link String} representation of the {@link Piece}.
-     * @return {@link String} representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">{@link Color}</a> class.
+     * A {@link String} representation of {@code this} {@link Stone}.
+     * @return A {@link String} representation of the {@link Color} class.
      */
     @Override
     public String toString() {

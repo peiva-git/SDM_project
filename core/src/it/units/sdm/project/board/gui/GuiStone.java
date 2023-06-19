@@ -9,9 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * This class represents a {@link it.units.sdm.project.game.gui.FreedomGame} {@link Piece} that may be placed on a {@link it.units.sdm.project.board.Board}.
- * Aside from the {@link Color}, an instance of this object also holds information about the
- * {@link com.badlogic.gdx.scenes.scene2d.Actor} that represents this {@link Piece} on the
+ * This class represents a {@link Piece} implementation to be used in a {@link it.units.sdm.project.game.gui.FreedomGame},
+ * that may be placed on a {@link it.units.sdm.project.board.Board}.
+ * Aside from the {@link Color}, an instance of {@code this} object also holds information about the
+ * {@link com.badlogic.gdx.scenes.scene2d.Actor} that represents {@code this} {@link Piece} on the
  * {@link GuiBoard}.
  */
 public class GuiStone extends Image implements Piece {
@@ -23,10 +24,9 @@ public class GuiStone extends Image implements Piece {
 
     /**
      * Creates a new {@link GuiStone} instance
-     *
      * @param stoneColor The {@link Piece}'s {@link Color}.
      *                   Can be either {@link Color#BLACK} or {@link Color#WHITE}
-     * @param image      The {@link Piece}'s {@link TextureRegion} to be drawn in a libgdx scene2d GUI
+     * @param image      The {@link Piece}'s {@link TextureRegion} to be drawn on the {@link GuiBoard}
      */
     public GuiStone(@NotNull Color stoneColor, @NotNull TextureRegion image) {
         super(image);
@@ -49,7 +49,6 @@ public class GuiStone extends Image implements Piece {
     /**
      * Two {@link GuiStone}s are equal if they are of the same {@link Color} and have the same image.
      * {@code this} {@link Image} is specified by the {@link TextureRegion} that was supplied in the constructor
-     *
      * @param o {@link Object} to be compared with {@code this} {@link Piece}
      * @return {@code true} if the two {@link Piece}s are equal, {@code false} otherwise
      */

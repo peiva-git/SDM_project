@@ -15,7 +15,7 @@ public class Player {
     private final String username;
 
     /**
-     * Creates a {@link BoardGame} {@link Player} with some basic information
+     * Creates a {@link it.units.sdm.project.game.gui.FreedomGame} {@link Player} with some basic information
      * @param color {@link Player}'s {@link Color}. Can be either {@link Color#BLACK} or {@link Color#WHITE}
      * @param username {@link Player}'s username
      * @throws RuntimeException In case the {@link Color}'s different from {@link Color#BLACK} or {@link Color#WHITE}
@@ -33,8 +33,8 @@ public class Player {
     }
 
     /**
-     * Gets the {@link Player}'s {@link Color}
-     * @return {@link Player}'s {@link Color}
+     * Returns {@code this} {@link Player}'s {@link Color}
+     * @return The {@link Player}'s {@link Color}
      */
     @NotNull
     public Color getColor() {
@@ -68,7 +68,7 @@ public class Player {
     }
 
     /**
-     * {@link String} representation of {@code this} {@link Player}.
+     * A {@link String} representation of {@code this} {@link Player}.
      * @return A {@link String} representation of {@code this} {@link Player},
      * that includes {@code this} {@link Player}'s username
      */
