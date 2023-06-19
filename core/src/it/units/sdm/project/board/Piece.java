@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Representation of a {@link Piece} which can be placed on a {@link Board}.
+ * Representation of a {@link it.units.sdm.project.game.BoardGame} {@link Piece} which can be placed on a {@link Board}.
  */
 public interface Piece {
 

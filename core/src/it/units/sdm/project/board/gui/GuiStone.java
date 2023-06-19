@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * This class represents a {@link Piece} that may be placed on a {@link GuiBoard}.
+ * This class represents a {@link it.units.sdm.project.game.gui.FreedomGame} {@link Piece} that may be placed on a {@link it.units.sdm.project.board.Board}.
  * Aside from the {@link Color}, an instance of this object also holds information about the
  * {@link com.badlogic.gdx.scenes.scene2d.Actor} that represents this {@link Piece} on the
  * {@link GuiBoard}.
@@ -17,29 +17,39 @@ import java.util.Objects;
 public class GuiStone extends Image implements Piece {
 
     @NotNull
-    private final Color playerColor;
+    private final Color stoneColor;
     @NotNull
     private final TextureRegion image;
 
     /**
      * Creates a new {@link GuiStone} instance
-     * @param playerColor The {@link Color} of the {@link it.units.sdm.project.game.Player} using {@code this} {@link Piece}
-     * @param image {@code this} stone's {@link TextureRegion} to be drawn in a libgdx scene2d GUI
+     *
+     * @param stoneColor The {@link Piece}'s {@link Color}.
+     *                   Can be either {@link Color#BLACK} or {@link Color#WHITE}
+     * @param image      The {@link Piece}'s {@link TextureRegion} to be drawn in a libgdx scene2d GUI
      */
-    public GuiStone(@NotNull Color playerColor, @NotNull TextureRegion image) {
+    public GuiStone(@NotNull Color stoneColor, @NotNull TextureRegion image) {
         super(image);
-        this.playerColor = playerColor;
+        if (!isColorValid(stoneColor)) {
+            throw new IllegalArgumentException("Invalid stone color, can be either black or white");
+        }
+        this.stoneColor = stoneColor;
         this.image = image;
+    }
+
+    private static boolean isColorValid(@NotNull Color stoneColor) {
+        return stoneColor == Color.BLACK || stoneColor == Color.WHITE;
     }
 
     @Override
     public @NotNull Color getPieceColor() {
-        return playerColor;
+        return stoneColor;
     }
 
     /**
      * Two {@link GuiStone}s are equal if they are of the same {@link Color} and have the same image.
      * {@code this} {@link Image} is specified by the {@link TextureRegion} that was supplied in the constructor
+     *
      * @param o {@link Object} to be compared with {@code this} {@link Piece}
      * @return {@code true} if the two {@link Piece}s are equal, {@code false} otherwise
      */
@@ -48,11 +58,11 @@ public class GuiStone extends Image implements Piece {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GuiStone guiStone = (GuiStone) o;
-        return playerColor.equals(guiStone.playerColor) && image.equals(guiStone.image);
+        return stoneColor.equals(guiStone.stoneColor) && image.equals(guiStone.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerColor, image);
+        return Objects.hash(stoneColor, image);
     }
 }

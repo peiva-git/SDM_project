@@ -28,7 +28,7 @@ public class Player {
         this.username = username;
     }
 
-    private boolean isColorValid(Color playersColor) {
+    private static boolean isColorValid(@NotNull Color playersColor) {
         return playersColor == Color.BLACK || playersColor == Color.WHITE;
     }
 

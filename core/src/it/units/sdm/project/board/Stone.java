@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * This class represents a {@link it.units.sdm.project.game.gui.FreedomGame} {@link Piece} that may be placed on a {@link it.units.sdm.project.board.Board}.
+ */
 public class Stone implements Piece {
 
     @NotNull
@@ -13,10 +16,16 @@ public class Stone implements Piece {
     /**
      * Creates a new {@link Piece} instance to put on a {@link Board}
      * @param color The {@link Piece}'s {@link Color}.
-     * In a game of checkers, this would be {@link Color#BLACK} or {@link Color#WHITE}
+     *              Can be either {@link Color#BLACK} or {@link Color#WHITE}
      */
     public Stone(@NotNull Color color) {
+        if (!isColorValid(color)) {
+            throw new IllegalArgumentException("Invalid stone color, can be either black or white");
+        }
         this.color = color;
+    }
+    private static boolean isColorValid(@NotNull Color stoneColor) {
+        return stoneColor == Color.BLACK || stoneColor == Color.WHITE;
     }
 
     @Override
