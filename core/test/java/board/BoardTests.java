@@ -1,8 +1,11 @@
 package board;
 
 import it.units.sdm.project.board.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import utility.BoardUtils;
 
 import java.util.Set;
 
@@ -14,6 +17,11 @@ class BoardTests {
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
     private final Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
+
+    @BeforeEach
+    void clearBoard() {
+        board.clearBoard();
+    }
 
     @ParameterizedTest
     @MethodSource("board.providers.MapBoardProviders#provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionForInvalidStartingPosition")
@@ -37,6 +45,16 @@ class BoardTests {
         } else {
             assertThrows(expectedException, () -> board.areAdjacentCellsOccupied(Position.fromCoordinates(row, column)));
         }
+    }
+
+    @Test
+    void testClearBoardByFillingBoardAndThenRemovingAllThePieces() {
+        fillBoardWithWhiteStones(board);
+        boolean areAllPositionsOccupied = board.getPositions().stream().allMatch(board::isCellOccupied);
+        assertTrue(areAllPositionsOccupied);
+        board.clearBoard();
+        boolean areAllPositionsFree = board.getPositions().stream().noneMatch(board::isCellOccupied);
+        assertTrue(areAllPositionsFree);
     }
 
 }

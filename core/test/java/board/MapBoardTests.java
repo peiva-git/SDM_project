@@ -33,14 +33,6 @@ class MapBoardTests {
     }
 
     @Test
-    void testClearBoardByRemovingAllTheStones() {
-        BoardUtils.fillBoardWithWhiteStones(board);
-        board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
-        board.clearBoard();
-        board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
-    }
-
-    @Test
     void testHasBoardMoreThanOneFreeCell() {
         BoardUtils.fillBoardWithWhiteStones(board);
         Assertions.assertEquals(0, board.getNumberOfFreeCells());
