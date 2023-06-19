@@ -35,11 +35,17 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
 public class FreedomGame extends Game implements BoardGame {
+    /**
+     * Maximum number of columns and rows that can have a {@link Board} in a {@link FreedomGame}
+     */
     public static final int MAX_BOARD_SIZE = 12;
+    /**
+     * Minimum number of columns and rows that can have a {@link Board} in a {@link FreedomGame}
+     */
     public static final int MIN_BOARD_SIZE = 4;
     private static final String GAME_TAG = "FREEDOM_GAME";
     private GuiBoard<GuiStone> board;
-    private int numberOfRowsAndColumns;
+    private int numberOfRowsAndColumns = 8;
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     private Player whitePlayer = new Player(Color.WHITE, "player_one");
     private Player blackPlayer = new Player(Color.BLACK, "player_two");
@@ -53,6 +59,7 @@ public class FreedomGame extends Game implements BoardGame {
         atlas = new TextureAtlas("freedom.atlas");
         VisUI.load(VisUI.SkinScale.X2);
         VisUI.getSkin().addRegions(atlas);
+        setupBoard();
         setScreen(new SplashScreen(this));
     }
 
