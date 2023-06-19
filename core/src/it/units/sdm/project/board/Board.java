@@ -103,7 +103,7 @@ public interface Board<P> {
                 try {
                     Position adjacentPosition = Position.fromCoordinates(position.getRow() + i, position.getColumn() + j);
                     if (adjacentPosition.equals(position)) continue;
-                    if(isBoardPositionValid(adjacentPosition)) adjacentPositions.add(adjacentPosition);
+                    if (isBoardPositionValid(adjacentPosition)) adjacentPositions.add(adjacentPosition);
                 } catch (InvalidPositionException ignored) {
                     // The current adjacent position is placed outside the board
                 }
