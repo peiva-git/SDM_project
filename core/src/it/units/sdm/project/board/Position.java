@@ -77,8 +77,8 @@ public class Position implements Comparable<Position> {
      */
     @Override
     public String toString() {
-        char charColumn = (char) ('A' + this.column);
-        return charColumn + String.valueOf(row + 1);
+        char printedColumn = (char) ('A' + column);
+        return printedColumn + String.valueOf(row + 1);
     }
 
     /**

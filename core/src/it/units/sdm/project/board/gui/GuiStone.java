@@ -37,9 +37,9 @@ public class GuiStone extends Stone {
         return image;
     }
     /**
-     * Two {@link GuiStone}s are equal if they are of the same {@link Color} and have the same image.
-     * @param o {@link Object} to be compared with this {@link Stone}
-     * @return {@code true} if the two {@link Stone}s are equal, {@code false}
+     * Two {@link GuiStone}s are equal if they are of the same {@link Color} and have the same {@link Image}.
+     * @param o {@link Object} to be compared with {@code this} {@link Stone}
+     * @return {@code true} if the two {@link Stone}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object o) {

@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
         logArea = new VisTextArea("Welcome to Freedom ");
-        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2f);
+        logArea.setPrefRows(game.getNumberOfRowsAndColumns() * 2);
         VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
         stage.addActor(container);
         Gdx.input.setInputProcessor(stage);
@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         logArea.appendText(game.getWhitePlayer() + " and ");
         logArea.appendText(game.getBlackPlayer() + "!\n");
         logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
-        container.add(logAreaScrollPane).growX().height((float) TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
+        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
         container.add((Actor) game.getBoard()).pad(PADDING);
         container.row();
         container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
