@@ -17,7 +17,7 @@ import java.util.Objects;
 public class GuiStone extends Image implements Piece {
 
     @NotNull
-    private Color playerColor;
+    private final Color playerColor;
     @NotNull
     private final TextureRegion image;
 
@@ -35,10 +35,6 @@ public class GuiStone extends Image implements Piece {
     @Override
     public @NotNull Color getPlayerColor() {
         return playerColor;
-    }
-
-    public void setPlayerColor(@NotNull Color playerColor) {
-        this.playerColor = playerColor;
     }
 
     /**
