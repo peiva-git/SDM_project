@@ -12,7 +12,7 @@ import utility.BoardUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FreedomPointsCounterTests {
+class FreedomPointsCounterTests {
 
     @Test
     void testBoardParsing() {

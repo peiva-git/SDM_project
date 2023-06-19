@@ -3,6 +3,8 @@ package it.units.sdm.project.game;
 import it.units.sdm.project.board.Position;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Represents a {@link Player}'s move in a {@link BoardGame}.
  */
@@ -52,4 +54,8 @@ public class Move {
         return player.equals(move.player) && position.equals(move.position);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(player, position);
+    }
 }

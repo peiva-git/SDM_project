@@ -1,6 +1,6 @@
 package it.units.sdm.project.game.gui.dialogs;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import it.units.sdm.project.game.gui.FreedomGame;
 import org.jetbrains.annotations.NotNull;

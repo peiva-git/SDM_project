@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PositionTests {
+class PositionTests {
 
     @ParameterizedTest
     @MethodSource("board.providers.PositionProviders#providePositionCoordinatesWithValidation")

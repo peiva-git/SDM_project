@@ -28,6 +28,7 @@ public class GameScreen implements Screen {
 
     /**
      * Creates an instance of a {@link GameScreen} and it sets the {@link it.units.sdm.project.board.Board} layout and the log area to be displayed.
+     *
      * @param game The {@link FreedomGame} using {@code this} {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
@@ -62,6 +63,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        // do nothing
     }
 
     @Override
@@ -71,17 +73,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        // do nothing
     }
 
     @Override
     public void resume() {
-
+        // do nothing
     }
 
     @Override
     public void hide() {
-
+        // do nothing
     }
 
     @Override
@@ -93,6 +95,7 @@ public class GameScreen implements Screen {
     /**
      * Appends {@code textToAppend} to {@code this} {@link Screen}'s log area,
      * used to display messages to the user while playing
+     *
      * @param textToAppend The {@link String} to append to the log area
      */
     public void appendTextToLogArea(@NotNull String textToAppend) {

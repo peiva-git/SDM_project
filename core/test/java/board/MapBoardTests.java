@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MapBoardTests {
+class MapBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
@@ -43,11 +43,11 @@ public class MapBoardTests {
     @Test
     void testHasBoardMoreThanOneFreeCell() {
         BoardUtils.fillBoardWithWhiteStones(board);
-        Assertions.assertEquals(board.getNumberOfFreeCells(), 0);
+        Assertions.assertEquals(0, board.getNumberOfFreeCells());
         board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(board.getNumberOfFreeCells(), 1);
+        Assertions.assertEquals(1, board.getNumberOfFreeCells());
         board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(board.getNumberOfFreeCells(), 2);
+        Assertions.assertEquals(2, board.getNumberOfFreeCells());
     }
 
     @ParameterizedTest

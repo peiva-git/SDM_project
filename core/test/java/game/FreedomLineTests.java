@@ -11,7 +11,7 @@ import utility.BoardUtils;
 
 import java.util.SortedSet;
 
-public class FreedomLineTests {
+class FreedomLineTests {
 
     private final String printedBoard = " 8 W  W  W  W  W  W  W  W\n"
             + " 7 W  B  W  W  W  W  W  W\n"

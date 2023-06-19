@@ -69,11 +69,6 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     @Override
-    public void render() {
-        super.render();
-    }
-
-    @Override
     public void reset() {
         board.clearBoard();
         playersMovesHistory.clear();

@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utility.FreedomHeadlessApplicationUtils.initHeadlessApplication;
 
-public class CellHighlighterTests {
+class CellHighlighterTests {
 
     private static final int numberOfRows = 8;
     private static final int numberOfColumns = 8;
