@@ -31,7 +31,7 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionAndAdjacentBoardPositions() {
+    public static @NotNull Stream<Arguments> providePositionAndAdjacentBoardPositionsWithException() {
         return Stream.of(
                 // corner positions
                 Arguments.of(Position.fromCoordinates(0, 0), Set.of(
