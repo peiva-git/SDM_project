@@ -1,7 +1,7 @@
 package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.Board;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
 public class FreedomBoardStatusObserver {
 
     @NotNull
-    Board<? extends Stone> board;
+    Board<? extends Piece> board;
 
     /**
      * Creates a new {@link GameStatus} observer.
      * @param board The {@link Board} on which to observe the state changes
      */
-    public FreedomBoardStatusObserver(@NotNull Board<? extends Stone> board) {
+    public FreedomBoardStatusObserver(@NotNull Board<? extends Piece> board) {
         this.board = board;
     }
 
@@ -75,13 +75,13 @@ public class FreedomBoardStatusObserver {
      */
     public enum GameStatus {
         /**
-         * In case the {@link Player} can place a new {@link Stone} anywhere on the {@link Board}.
+         * In case the {@link Player} can place a new {@link Piece} anywhere on the {@link Board}.
          * This happens on the very first
          * round of the game or when there are no {@link it.units.sdm.project.board.Position}s adjacent to the previously played one.
          */
         FREEDOM,
         /**
-         * In case the {@link Player} must place the new {@link Stone} near the previously played one.
+         * In case the {@link Player} must place the new {@link Piece} near the previously played one.
          * This happens when there
          * are free {@link it.units.sdm.project.board.Position}s adjacent to the previously played one.
          */
@@ -89,7 +89,7 @@ public class FreedomBoardStatusObserver {
         /**
          * In case there's only one {@link it.units.sdm.project.board.Position} left on the board.
          * The {@link Player} can decide
-         * to either play the last {@link Stone} or to end the game by skipping the last turn.
+         * to either play the last {@link Piece} or to end the game by skipping the last turn.
          */
         LAST_MOVE,
         /**

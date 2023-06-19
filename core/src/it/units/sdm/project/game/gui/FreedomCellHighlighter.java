@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
+import it.units.sdm.project.board.gui.GuiStone;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,13 +27,13 @@ public class FreedomCellHighlighter {
      */
     public static final Color HIGHLIGHT_LIGHT_TILE = new Color(169 / 255f, 169 / 255f, 169 / 255f, 255 / 255f);
     @NotNull
-    private final GuiBoard<?> board;
+    private final GuiBoard<GuiStone> board;
 
     /**
      * Creates a new highlighter instance, to be used on the provided {@link GuiBoard}.
      * @param board The {@link GuiBoard} on which cells should be highlighted
      */
-    public FreedomCellHighlighter(@NotNull GuiBoard<?> board) {
+    public FreedomCellHighlighter(@NotNull GuiBoard<GuiStone> board) {
         this.board = board;
     }
 

@@ -19,7 +19,7 @@ import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
  * are ordered based on the ordering defined in the {@link Position} class.
  * @param <P> The type of piece to be put on this {@link Board}.
  */
-public class MapBoard<P extends Stone> implements Board<P> {
+public class MapBoard<P extends Piece> implements Board<P> {
 
     private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
     /**

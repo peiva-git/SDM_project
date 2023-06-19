@@ -1,10 +1,7 @@
 package utility;
 
 import com.badlogic.gdx.graphics.Color;
-import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
-import it.units.sdm.project.board.MapBoard;
-import it.units.sdm.project.board.Board;
+import it.units.sdm.project.board.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
@@ -12,15 +9,15 @@ import java.util.stream.IntStream;
 
 public class BoardUtils {
 
-    public static void fillBoardWithWhiteStones(@NotNull Board<Stone> board) {
+    public static void fillBoardWithWhiteStones(@NotNull Board<Piece> board) {
         for (Position position : board.getPositions()) {
             board.putPiece(new Stone(Color.WHITE), position);
         }
     }
 
-    public static @NotNull Board<Stone> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+    public static @NotNull Board<Piece> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
         Scanner scanner = new Scanner(printedBoard);
-        Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+        Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt() - 1;

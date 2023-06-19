@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
@@ -34,7 +34,7 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * Represents the Freedom game, which is a {@link BoardGame} played by two
  * {@link Player}s ({@link Color#WHITE} and {@link Color#BLACK}) on a {@link GuiBoard}.
  */
-public class FreedomGame extends Game implements BoardGame {
+public class FreedomGame extends Game implements BoardGame<GuiStone> {
     /**
      * Maximum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
      */
@@ -44,30 +44,30 @@ public class FreedomGame extends Game implements BoardGame {
      */
     public static final int MIN_BOARD_SIZE = 4;
     private static final String GAME_TAG = "FREEDOM_GAME";
-    private GuiBoard<GuiStone> board;
     private int numberOfRowsAndColumns = 8;
+    @NotNull
+    private GuiBoard<GuiStone> board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
+    @NotNull
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
+    @NotNull
     private Player whitePlayer = new Player(Color.WHITE, "player_one");
+    @NotNull
     private Player blackPlayer = new Player(Color.BLACK, "player_two");
-    private FreedomBoardStatusObserver statusObserver;
+    @NotNull
+    private FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(board);
+    @NotNull
     private GameStatus gameStatus = FREEDOM;
-    private FreedomCellHighlighter cellHighlighter;
-    private TextureAtlas atlas;
+    @NotNull
+    private FreedomCellHighlighter cellHighlighter = new FreedomCellHighlighter(board);
+    @NotNull
+    private final TextureAtlas atlas = new TextureAtlas("freedom.atlas");
 
     @Override
     public void create() {
-        atlas = new TextureAtlas("freedom.atlas");
         VisUI.load(VisUI.SkinScale.X2);
         VisUI.getSkin().addRegions(atlas);
-        setupBoard();
-        setScreen(new SplashScreen(this));
-    }
-
-    private void setupBoard() {
-        board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
         board.setTileClickListener(new TileClickListener(this));
-        statusObserver = new FreedomBoardStatusObserver(board);
-        cellHighlighter = new FreedomCellHighlighter(board);
+        setScreen(new SplashScreen(this));
     }
 
     @Override
@@ -177,7 +177,14 @@ public class FreedomGame extends Game implements BoardGame {
      */
     public void setNumberOfRowsAndColumns(int numberOfRowsAndColumns) {
         this.numberOfRowsAndColumns = numberOfRowsAndColumns;
-        setupBoard();
+        reloadBoardSetup();
+    }
+
+    private void reloadBoardSetup() {
+        board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board.setTileClickListener(new TileClickListener(this));
+        statusObserver = new FreedomBoardStatusObserver(board);
+        cellHighlighter = new FreedomCellHighlighter(board);
     }
 
     private void updateBoard(Move currentMove) {
@@ -204,7 +211,7 @@ public class FreedomGame extends Game implements BoardGame {
     private void putStoneOnTheBoard(@NotNull Move move) {
         Player currentPlayer = move.getPlayer();
         Position currentPosition = move.getPosition();
-        board.putPiece(new GuiStone(currentPlayer.getColor(), getPlayerStoneImage(currentPlayer.getColor())), currentPosition);
+        board.putPiece(new GuiStone(currentPlayer.getColor(), findStoneTextureRegion(currentPlayer.getColor())), currentPosition);
         updateLogArea(move);
         playersMovesHistory.add(move);
     }
@@ -218,8 +225,8 @@ public class FreedomGame extends Game implements BoardGame {
     }
 
     @NotNull
-    private Image getPlayerStoneImage(@NotNull Color color) {
-        if(color == Color.WHITE) return new Image(atlas.findRegion("white_checker"));
-        return new Image(atlas.findRegion("black_checker"));
+    private TextureRegion findStoneTextureRegion(@NotNull Color color) {
+        if(color == Color.WHITE) return atlas.findRegion("white_checker");
+        return atlas.findRegion("black_checker");
     }
 }

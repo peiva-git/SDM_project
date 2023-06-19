@@ -113,7 +113,6 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         for (Cell<Actor> cell : getCells()) {
             if (getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                tileAndPiece.setUserObject(null);
                 if (tileAndPiece.getChildren().size == 2) {
                     tileAndPiece.removeActorAt(1, false);
                 } else {
@@ -131,8 +130,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromTile(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                tileAndPiece.addActor(piece.getActor());
-                tileAndPiece.setUserObject(piece.getColor());
+                tileAndPiece.addActor(piece);
                 return;
             }
         }
@@ -153,8 +151,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                 if (tileAndPiece.getChildren().size < 2) {
                     return null;
                 } else {
-                    Image image = (Image) tileAndPiece.getChild(1);
-                    return (P) new GuiStone((Color) tileAndPiece.getUserObject(), image);
+                    return (P) tileAndPiece.getChild(1);
                 }
             }
         }

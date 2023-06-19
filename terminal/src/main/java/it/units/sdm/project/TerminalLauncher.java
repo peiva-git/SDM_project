@@ -6,7 +6,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.MapBoard;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.game.Player;
 
 /**
@@ -54,7 +54,7 @@ public class TerminalLauncher {
             return;
         }
 
-        Board<Stone> board = new MapBoard<>(launcher.boardSize, launcher.boardSize);
+        Board<Piece> board = new MapBoard<>(launcher.boardSize, launcher.boardSize);
         Player whitePlayer = new Player(Color.WHITE, launcher.whitePlayerUsername);
         Player blackPlayer = new Player(Color.BLACK, launcher.blackPlayerUsername);
         FreedomGame freedomGame = new FreedomGame(board, whitePlayer, blackPlayer);

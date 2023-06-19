@@ -15,7 +15,7 @@ class MapBoardTests {
 
     private final int numberOfRows = 8;
     private final int numberOfColumns = 8;
-    private final Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+    private final Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
     void initBoard() {
@@ -79,7 +79,7 @@ class MapBoardTests {
     @ParameterizedTest
     @MethodSource("board.providers.MapBoardProviders#provideEmptyBoardStringRepresentations")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
-        Board<Stone> board = new MapBoard<>(numberOfRows, numberOfColumns);
+        Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
 }

@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @param <P> The type of the piece to be put on this {@link Board}
  */
-public interface Board<P> {
+public interface Board<P extends Piece> {
     /**
      * Removes the piece {@link P} at the given {@link Position}
      *
