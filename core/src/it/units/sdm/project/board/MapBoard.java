@@ -19,7 +19,7 @@ import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
  * are ordered based on the ordering defined in the {@link Position} class.
  * @param <P> The type of piece to be put on this {@link Board}.
  */
-public class MapBoard<P extends Stone> implements Board<P> {
+public class MapBoard<P extends Piece> implements Board<P> {
 
     private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
     /**
@@ -107,7 +107,7 @@ public class MapBoard<P extends Stone> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getColor() == Color.WHITE) {
+                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getPieceColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");

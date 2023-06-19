@@ -1,6 +1,7 @@
 package it.units.sdm.project;
 
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Stone;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.game.*;
@@ -20,14 +21,14 @@ import static it.units.sdm.project.game.FreedomBoardStatusObserver.GameStatus.*;
  * This class represents a terminal-based implementation of the Freedom {@link BoardGame}.
  * Therefore, by default, user input is expected from {@code System.in} while the output gets printed on {@code System.out}.
  */
-public class FreedomGame implements BoardGame {
+public class FreedomGame implements BoardGame<Piece> {
 
     @NotNull
     private final Player whitePlayer;
     @NotNull
     private final Player blackPlayer;
     @NotNull
-    private final Board<Stone> board;
+    private final Board<Piece> board;
     @NotNull
     private GameStatus gameStatus;
     @NotNull
@@ -43,7 +44,7 @@ public class FreedomGame implements BoardGame {
      * @param whitePlayer The first {@link Player}
      * @param blackPlayer The second {@link Player}
      */
-    public FreedomGame(@NotNull Board<Stone> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
+    public FreedomGame(@NotNull Board<Piece> board, @NotNull Player whitePlayer, @NotNull Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.board = board;
@@ -156,7 +157,7 @@ public class FreedomGame implements BoardGame {
     }
 
     @Override
-    public @NotNull Board<Stone> getBoard() {
+    public @NotNull Board<Piece> getBoard() {
         return board;
     }
 

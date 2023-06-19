@@ -6,40 +6,45 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Representation of a {@link Stone} which can be placed on a {@link Board}.
+ * This class represents a {@link Piece} implementation
+ * to be used in a text-based Freedom game implementation,
+ * that may be placed on a {@link it.units.sdm.project.board.Board}.
  */
-public class Stone {
+public class Stone implements Piece {
+
     @NotNull
     private final Color color;
 
     /**
      * Creates a new {@link Stone} instance to put on a {@link Board}
-     * @param color The {@link Stone}'s {@link Color}.
-     * In a game of checkers, this would be {@link Color#BLACK} or {@link Color#WHITE}
+     * @param color {@code this} {@link Stone}'s {@link Color}.
+     *              Can be either {@link Color#BLACK} or {@link Color#WHITE}
      */
     public Stone(@NotNull Color color) {
+        if (!isColorValid(color)) {
+            throw new IllegalArgumentException("Invalid stone color, can be either black or white");
+        }
         this.color = color;
     }
+    private static boolean isColorValid(@NotNull Color stoneColor) {
+        return stoneColor == Color.BLACK || stoneColor == Color.WHITE;
+    }
 
-    /**
-     * Returns this {@link Stone}'s {@link Color}
-     * @return This {@link Stone}'s {@link Color}
-     */
-    @NotNull
-    public Color getColor() {
-        return this.color;
+    @Override
+    public @NotNull Color getPieceColor() {
+        return color;
     }
 
     /**
      * Two {@link Stone}s are equal if they are of the same {@link Color}.
-     * @param obj {@link Object} to be compared with this {@link Stone}
-     * @return {@code true} if the two {@link Stone}s are equal, {@code false}
+     * @param obj {@link Object} to be compared with {@code this} {@link Stone}
+     * @return {@code true} if the two {@link Stone}s are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        return ((Stone) obj).getColor() == color;
+        return ((Piece) obj).getPieceColor() == color;
     }
 
     @Override
@@ -48,8 +53,8 @@ public class Stone {
     }
 
     /**
-     * {@link String} representation of the {@link Stone}.
-     * @return {@link String} representation of the <a href="https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.9.10/com/badlogic/gdx/graphics/Color.html">{@link Color}</a> class.
+     * A {@link String} representation of {@code this} {@link Stone}.
+     * @return A {@link String} representation of the {@link Color} class.
      */
     @Override
     public String toString() {

@@ -2,7 +2,7 @@ package it.units.sdm.project.game;
 
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
-import it.units.sdm.project.board.Stone;
+import it.units.sdm.project.board.Piece;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,13 +10,13 @@ import org.jetbrains.annotations.Nullable;
  * Representation of a turn-based game played by two {@link Player}s
  * ({@link com.badlogic.gdx.graphics.Color#WHITE} and {@link com.badlogic.gdx.graphics.Color#BLACK}) on a {@link Board}.
  */
-public interface BoardGame {
+public interface BoardGame<P extends Piece> {
 
     /**
      * Returns the {@link Board} used by this {@link BoardGame}
      * @return The {@link Board} used by this {@link BoardGame}
      */
-    @NotNull Board<? extends Stone> getBoard();
+    @NotNull Board<P> getBoard();
 
     /**
      * Returns the {@link com.badlogic.gdx.graphics.Color#WHITE} {@link Player}

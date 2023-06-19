@@ -111,10 +111,9 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     @SuppressWarnings("unchecked")
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
-            if (getPositionFromTile(cell).equals(position)) {
+            if (getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                tileAndPiece.setUserObject(null);
-                if (tileAndPiece.getChildren().size == 2) {
+                if (isCellOccupied(tileAndPiece)) {
                     tileAndPiece.removeActorAt(1, false);
                 } else {
                     Gdx.app.debug(GUI_BOARD_TAG, "No piece at position " + position + ", already clear");
@@ -125,14 +124,17 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
     }
 
+    private static boolean isCellOccupied(@NotNull Group tileAndPiece) {
+        return tileAndPiece.getChildren().size == 2;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromTile(cell).equals(position)) {
+            if(getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                tileAndPiece.addActor(piece.getActor());
-                tileAndPiece.setUserObject(piece.getColor());
+                tileAndPiece.addActor(piece);
                 return;
             }
         }
@@ -140,7 +142,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     }
 
     @NotNull
-    private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
+    private Position getPositionFromCell(@NotNull Cell<Actor> tile) {
         return Position.fromCoordinates(numberOfRows - tile.getRow() - 1, tile.getColumn());
     }
 
@@ -148,13 +150,12 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     @SuppressWarnings("unchecked")
     public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromTile(cell).equals(position)) {
+            if(getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                if (tileAndPiece.getChildren().size < 2) {
+                if (!isCellOccupied(tileAndPiece)) {
                     return null;
                 } else {
-                    Image image = (Image) tileAndPiece.getChild(1);
-                    return (P) new GuiStone((Color) tileAndPiece.getUserObject(), image);
+                    return (P) tileAndPiece.getChild(1);
                 }
             }
         }
