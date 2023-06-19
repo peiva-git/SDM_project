@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Stone;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class StoneTests {
     Piece blackStone = new Stone(Color.BLACK);
 
