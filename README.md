@@ -39,6 +39,12 @@ The project is divided in five different modules:
 4. A `html` module, that builds the necessary files to execute the game on a server or as a webapp
 5. A `terminal` module, to launch the application as a terminal-based game
 
+All modules are fully documented with javadoc-style documentation. To generate it, simply run the relevant gradle task.
+You can optionally specify the module name.
+```shell
+./gradlew [module_name]:javadoc
+```
+
 ### Minimum requirements
 
 This project requires Java version 11 to run, as specified in the `gradle.build` configuration files.
@@ -64,7 +70,11 @@ To generate a code coverage report with [JaCoCo](https://github.com/jacoco/jacoc
 
 ### Unit testing
 
-Each module can have its own set of tests. The tests can be executed all together, by running the main `test` task:
+Each module can have its own set of tests.
+Unit testing is done via the [JUnit 5 framework](https://junit.org/junit5/), using [Mockito](https://site.mockito.org/)
+when there's a need to mock libGDX's rendering capabilities.
+
+The tests can be executed all together, by running the main `test` task:
 ```shell
 ./gradlew test
 ```
