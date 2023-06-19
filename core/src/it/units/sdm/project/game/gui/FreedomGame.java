@@ -44,11 +44,11 @@ public class FreedomGame extends Game implements BoardGame {
      */
     public static final int SCREEN_WORLD_HEIGHT = 600;
     /**
-     * Maximum number of columns and rows that can have a {@link Board} in a {@link FreedomGame}
+     * Maximum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
      */
     public static final int MAX_BOARD_SIZE = 12;
     /**
-     * Minimum number of columns and rows that can have a {@link Board} in a {@link FreedomGame}
+     * Minimum number of columns and rows that a {@link Board} can have in a {@link FreedomGame}
      */
     public static final int MIN_BOARD_SIZE = 4;
     private static final String GAME_TAG = "FREEDOM_GAME";

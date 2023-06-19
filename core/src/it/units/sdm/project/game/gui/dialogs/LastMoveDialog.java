@@ -12,7 +12,7 @@ public class LastMoveDialog extends VisDialog {
 
     private static final String POSITIVE_TEXT = "Yes";
     private static final String NEGATIVE_TEXT = "No";
-    private static final float PADDING = 20f;
+    private static final float PADDING = 20;
     @NotNull
     private final FreedomGame game;
 

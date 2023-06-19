@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameOverDialog extends VisDialog {
     private static final String NEGATIVE_TEXT = "Quit";
     private static final String POSITIVE_TEXT = "Play again";
-    private static final float PADDING = 20f;
+    private static final float PADDING = 20;
     @NotNull
     private final FreedomGame game;
 
