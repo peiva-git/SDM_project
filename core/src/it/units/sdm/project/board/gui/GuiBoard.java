@@ -113,7 +113,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         for (Cell<Actor> cell : getCells()) {
             if (getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                if (tileAndPiece.getChildren().size == 2) {
+                if (isCellOccupied(tileAndPiece)) {
                     tileAndPiece.removeActorAt(1, false);
                 } else {
                     Gdx.app.debug(GUI_BOARD_TAG, "No piece at position " + position + ", already clear");
@@ -122,6 +122,10 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
             }
         }
         throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
+    }
+
+    private static boolean isCellOccupied(@NotNull Group tileAndPiece) {
+        return tileAndPiece.getChildren().size == 2;
     }
 
     @Override
@@ -148,7 +152,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         for(Cell<Actor> cell : getCells()) {
             if(getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
-                if (tileAndPiece.getChildren().size < 2) {
+                if (!isCellOccupied(tileAndPiece)) {
                     return null;
                 } else {
                     return (P) tileAndPiece.getChild(1);
