@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
     private static final float TABLE_PADDING = 40f;
+    public static final float CELLS_PADDING = 20f;
     @NotNull
     private final VisValidatableTextField whitePlayerUsername;
     @NotNull
@@ -51,7 +52,6 @@ public class FormLayout extends VisTable {
         boardSizeText.setReadOnly(true);
 
         paddingSetUp();
-        columnDefaults(0).left();
         fillTable();
         setupValidation();
     }
@@ -65,20 +65,17 @@ public class FormLayout extends VisTable {
         row();
         add(errorMessage).expand().fill().colspan(2);
         row();
-        add(new VisLabel("Choose board size: "));
+        add(new VisLabel("Choose board size: ")).fill();
         add(boardSizeText).expand().fill();
         row();
         add(boardSizeSlider).fill().expand().colspan(2);
         row();
-        add(continueButton).fill().expand().colspan(2).padBottom(3);
+        add(continueButton).fill().expand().colspan(2);
     }
 
     private void paddingSetUp() {
         pad(TABLE_PADDING);
-        defaults().padLeft(20f);
-        defaults().padRight(20f);
-        defaults().padBottom(20f);
-        defaults().padTop(20f);
+        defaults().pad(CELLS_PADDING);
     }
 
     private void setupValidation() {

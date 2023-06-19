@@ -20,7 +20,7 @@ import static it.units.sdm.project.board.gui.GuiBoard.TILE_SIZE;
  * in the {@link FreedomGame}.
  */
 public class GameScreen implements Screen {
-    private static final int PADDING = 10;
+    private static final float BOARD_PADDING = 10f;
     @NotNull
     private final Stage stage;
     @NotNull
@@ -31,8 +31,8 @@ public class GameScreen implements Screen {
      * @param game The {@link FreedomGame} using {@code this} {@link Screen}
      */
     public GameScreen(@NotNull FreedomGame game) {
-        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
-        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
+        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + FreedomGame.SCREEN_WORLD_WIDTH;
+        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + FreedomGame.SCREEN_WORLD_HEIGHT;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         VisTable container = new VisTable();
         logArea = new VisTextArea("Welcome to Freedom ");
@@ -45,12 +45,12 @@ public class GameScreen implements Screen {
         logArea.appendText(game.getWhitePlayer() + " and ");
         logArea.appendText(game.getBlackPlayer() + "!\n");
         logArea.appendText(game.getWhitePlayer() + ", tap anywhere on the board to begin!\n");
-        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(PADDING);
-        container.add((Actor) game.getBoard()).pad(PADDING);
+        container.add(logAreaScrollPane).growX().height(TILE_SIZE * game.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
+        container.add((Actor) game.getBoard()).pad(BOARD_PADDING);
         container.row();
-        container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(PADDING);
+        container.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(BOARD_PADDING);
         container.row();
-        container.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(PADDING);
+        container.add(new LinkLabel("link to the official repository", "https://github.com/peiva-git/SDM_project#rules")).left().pad(BOARD_PADDING);
     }
 
     @Override
