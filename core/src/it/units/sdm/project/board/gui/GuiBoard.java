@@ -111,7 +111,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     @SuppressWarnings("unchecked")
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
-            if (getPositionFromTile(cell).equals(position)) {
+            if (getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
                 if (tileAndPiece.getChildren().size == 2) {
                     tileAndPiece.removeActorAt(1, false);
@@ -128,7 +128,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     @SuppressWarnings("unchecked")
     public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromTile(cell).equals(position)) {
+            if(getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
                 tileAndPiece.addActor(piece);
                 return;
@@ -138,7 +138,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     }
 
     @NotNull
-    private Position getPositionFromTile(@NotNull Cell<Actor> tile) {
+    private Position getPositionFromCell(@NotNull Cell<Actor> tile) {
         return Position.fromCoordinates(numberOfRows - tile.getRow() - 1, tile.getColumn());
     }
 
@@ -146,7 +146,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     @SuppressWarnings("unchecked")
     public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
         for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromTile(cell).equals(position)) {
+            if(getPositionFromCell(cell).equals(position)) {
                 Group tileAndPiece = (Group) cell.getActor();
                 if (tileAndPiece.getChildren().size < 2) {
                     return null;

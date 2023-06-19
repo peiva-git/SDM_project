@@ -9,9 +9,9 @@ import org.jetbrains.annotations.NotNull;
 public interface Piece {
 
     /**
-     * Returns this {@link Piece}'s {@link Color}
-     * @return This {@link Piece}'s {@link Color}
+     * Returns this {@link Piece}'s {@link it.units.sdm.project.game.Player}'s {@link Color}
+     * @return This {@link Piece}'s {@link it.units.sdm.project.game.Player}'s {@link Color}
      */
     @NotNull
-    Color getColor();
+    Color getPlayerColor();
 }

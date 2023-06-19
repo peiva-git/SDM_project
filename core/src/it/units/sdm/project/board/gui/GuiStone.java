@@ -17,24 +17,28 @@ import java.util.Objects;
 public class GuiStone extends Image implements Piece {
 
     @NotNull
-    private final Color color;
+    private Color playerColor;
     @NotNull
     private final TextureRegion image;
 
     /**
      * Creates a new {@link GuiStone} instance
-     * @param color The {@link Color} of the {@link Piece}
-     * @param image The stone's {@link Image} to be used in a libgdx scene2d GUI
+     * @param playerColor The {@link Color} of the {@link it.units.sdm.project.game.Player} using {@code this} {@link Piece}
+     * @param image {@code this} stone's {@link TextureRegion} to be drawn in a libgdx scene2d GUI
      */
-    public GuiStone(@NotNull Color color, @NotNull TextureRegion image) {
+    public GuiStone(@NotNull Color playerColor, @NotNull TextureRegion image) {
         super(image);
-        this.color = color;
+        this.playerColor = playerColor;
         this.image = image;
     }
 
     @Override
-    public @NotNull Color getColor() {
-        return color;
+    public @NotNull Color getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(@NotNull Color playerColor) {
+        this.playerColor = playerColor;
     }
 
     /**
@@ -48,11 +52,11 @@ public class GuiStone extends Image implements Piece {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GuiStone guiStone = (GuiStone) o;
-        return color.equals(guiStone.color) && image.equals(guiStone.image);
+        return playerColor.equals(guiStone.playerColor) && image.equals(guiStone.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, image);
+        return Objects.hash(playerColor, image);
     }
 }

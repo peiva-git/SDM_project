@@ -10,7 +10,7 @@ class StoneTests {
 
     @Test
     void testColorGetter() {
-        assertEquals(Color.BLACK, blackStone.getColor());
+        assertEquals(Color.BLACK, blackStone.getPlayerColor());
     }
 
     @Test

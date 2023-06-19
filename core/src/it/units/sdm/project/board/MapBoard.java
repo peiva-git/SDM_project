@@ -107,7 +107,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getColor() == Color.WHITE) {
+                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getPlayerColor() == Color.WHITE) {
                         sb.append("W");
                     } else {
                         sb.append("B");

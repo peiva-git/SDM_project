@@ -46,7 +46,7 @@ public class FreedomGame extends Game implements BoardGame<GuiStone> {
     private static final String GAME_TAG = "FREEDOM_GAME";
     private int numberOfRowsAndColumns = 8;
     @NotNull
-    private GuiBoard<GuiStone> board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
+    private GuiBoard<GuiStone> board;
     @NotNull
     private final LinkedList<Move> playersMovesHistory = new LinkedList<>();
     @NotNull
@@ -54,19 +54,20 @@ public class FreedomGame extends Game implements BoardGame<GuiStone> {
     @NotNull
     private Player blackPlayer = new Player(Color.BLACK, "player_two");
     @NotNull
-    private FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(board);
+    private FreedomBoardStatusObserver statusObserver;
     @NotNull
     private GameStatus gameStatus = FREEDOM;
     @NotNull
-    private FreedomCellHighlighter cellHighlighter = new FreedomCellHighlighter(board);
+    private FreedomCellHighlighter cellHighlighter;
     @NotNull
-    private final TextureAtlas atlas = new TextureAtlas("freedom.atlas");
+    private TextureAtlas atlas;
 
     @Override
     public void create() {
+        atlas = new TextureAtlas("freedom.atlas");
         VisUI.load(VisUI.SkinScale.X2);
         VisUI.getSkin().addRegions(atlas);
-        board.setTileClickListener(new TileClickListener(this));
+        reloadBoardSetup();
         setScreen(new SplashScreen(this));
     }
 
