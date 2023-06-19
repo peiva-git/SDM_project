@@ -6,6 +6,7 @@ import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -23,7 +24,7 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptions() {
+    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptionForInvalidPositions() {
         return Stream.of(
                 Arguments.of(7, 0, null),
                 Arguments.of(7, 1, null),
@@ -31,7 +32,15 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionAndAdjacentBoardPositionsWithException() {
+    /**
+     * Each item in the returned {@link Stream} provides a starting {@link Position},
+     * a {@link Set} of all the {@link Position}s that should be adjacent to the starting {@link Position}
+     * and an {@link InvalidPositionException} argument.
+     * If the starting {@link Position} is invalid, the {@link Set} of adjacent {@link Position}s is empty and the
+     * final argument is set to {@link InvalidPositionException}. Otherwise, the final argument is set to {@code null}
+     * @return A {@link Stream} of {@link Arguments}
+     */
+    public static @NotNull Stream<Arguments> provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionForInvalidStartingPosition() {
         return Stream.of(
                 // corner positions
                 Arguments.of(Position.fromCoordinates(0, 0), Set.of(
@@ -94,11 +103,11 @@ public class MapBoardProviders {
                         Position.fromCoordinates(3, 1),
                         Position.fromCoordinates(3, 3)
                 ), null),
-                Arguments.of(Position.fromCoordinates(8, 7), null, InvalidPositionException.class)
+                Arguments.of(Position.fromCoordinates(8, 7), Collections.emptySet(), InvalidPositionException.class)
         );
     }
 
-    public static @NotNull Stream<Arguments> provideEmptyBoardStringRepresentations() {
+    public static @NotNull Stream<Arguments> provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation() {
         return Stream.of(
                 Arguments.of(8, 8,
                         " 8 -  -  -  -  -  -  -  -\n"

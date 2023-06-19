@@ -51,7 +51,7 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.MapBoardProviders#providePositionsFor8x8BoardWithExceptions")
+    @MethodSource("board.providers.MapBoardProviders#providePositionsFor8x8BoardWithExceptionForInvalidPositions")
     void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
         String printedEmptyBoard =
                 " 8 -  -  -  -  -  -  -  -\n"
@@ -77,7 +77,7 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.MapBoardProviders#provideEmptyBoardStringRepresentations")
+    @MethodSource("board.providers.MapBoardProviders#provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation")
     void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
         Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
