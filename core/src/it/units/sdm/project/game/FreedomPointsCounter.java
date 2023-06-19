@@ -66,7 +66,7 @@ public class FreedomPointsCounter {
         board.getPositions().stream()
                 .filter(position -> {
                     Piece stone = board.getPiece(position);
-                    return !(stone == null || stone.getPlayerColor() != color);
+                    return !(stone == null || stone.getPieceColor() != color);
                 })
                 .forEach(this::checkAllFreedomLinesFromPosition);
     }
@@ -94,7 +94,7 @@ public class FreedomPointsCounter {
      */
     private void checkFreedomLine(@NotNull Position startingPosition, @NotNull Direction direction) {
         Piece startingStone = Objects.requireNonNull(board.getPiece(startingPosition), "Should be not-null, checked by count method");
-        Color stoneColor = startingStone.getPlayerColor();
+        Color stoneColor = startingStone.getPieceColor();
         FreedomLine line = getLineOfTheSameColorFrom(new FreedomLine(board, startingPosition), direction);
         if (line.size() == MAX_NUMBER_OF_STONES && !isPartOfABiggerFreedomLine(line, direction)) {
             addFreedomLineTo(stoneColor, line);
@@ -136,7 +136,7 @@ public class FreedomPointsCounter {
             Piece currentStone = board.getPiece(position);
             Piece previousStone = getThePreviousStone(position, direction);
             if (previousStone == null || currentStone == null) return false;
-            return previousStone.getPlayerColor() == currentStone.getPlayerColor();
+            return previousStone.getPieceColor() == currentStone.getPieceColor();
         } catch (InvalidPositionException exception) {
             return false;
         }

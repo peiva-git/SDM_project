@@ -33,7 +33,7 @@ public class GuiStone extends Image implements Piece {
     }
 
     @Override
-    public @NotNull Color getPlayerColor() {
+    public @NotNull Color getPieceColor() {
         return playerColor;
     }
 

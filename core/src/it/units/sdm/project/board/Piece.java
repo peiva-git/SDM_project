@@ -13,5 +13,5 @@ public interface Piece {
      * @return This {@link Piece}'s {@link it.units.sdm.project.game.Player}'s {@link Color}
      */
     @NotNull
-    Color getPlayerColor();
+    Color getPieceColor();
 }

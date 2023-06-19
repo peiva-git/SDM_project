@@ -71,7 +71,7 @@ public class FreedomLine {
         if (stone == null) {
             color = null;
         } else {
-            color = stone.getPlayerColor();
+            color = stone.getPieceColor();
         }
     }
 
@@ -98,7 +98,7 @@ public class FreedomLine {
     private boolean checkStoneColor(@Nullable Piece stone) throws InvalidPositionException {
         if (stone == null)
             throw new InvalidPositionException("There is no piece on the current position");
-        return stone.getPlayerColor() == color;
+        return stone.getPieceColor() == color;
     }
 
     private void setDirection(@NotNull Position nextPosition) {

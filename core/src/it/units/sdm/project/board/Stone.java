@@ -20,7 +20,7 @@ public class Stone implements Piece {
     }
 
     @Override
-    public @NotNull Color getPlayerColor() {
+    public @NotNull Color getPieceColor() {
         return color;
     }
 
@@ -33,7 +33,7 @@ public class Stone implements Piece {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        return ((Piece) obj).getPlayerColor() == color;
+        return ((Piece) obj).getPieceColor() == color;
     }
 
     @Override
