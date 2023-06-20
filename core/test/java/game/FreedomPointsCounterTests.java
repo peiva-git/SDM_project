@@ -1,6 +1,5 @@
 package game;
 
-import board.providers.BoardProviders;
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.MapBoard;
 import it.units.sdm.project.game.FreedomPointsCounter;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static board.providers.BoardProviders.parseBoardFromString;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FreedomPointsCounterTests {
@@ -27,7 +27,7 @@ class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
+        Board<Piece> board = parseBoardFromString(printedBoard, 8, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -36,7 +36,7 @@ class FreedomPointsCounterTests {
     void testGetPlayerScore(String printedBoard, int boardSize, int blackScore, int whiteScore) {
         Player whitePlayer = new Player(Color.WHITE, "white");
         Player blackPlayer = new Player(Color.BLACK, "black");
-        Board<Piece> board = BoardUtils.parseBoardFromString(printedBoard, boardSize, boardSize);
+        Board<Piece> board = parseBoardFromString(printedBoard, boardSize, boardSize);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         assertEquals(blackScore, freedomPointsCounter.getPlayerScore(blackPlayer));
         assertEquals(whiteScore, freedomPointsCounter.getPlayerScore(whitePlayer));
