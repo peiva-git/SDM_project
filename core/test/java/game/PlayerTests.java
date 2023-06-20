@@ -21,6 +21,11 @@ class PlayerTests {
         Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals("white", whitePlayer.getUsername());
     }
+    @Test
+    void testToString() {
+        Player whitePlayer = new Player(Color.WHITE, "white");
+        assertEquals("white", whitePlayer.toString());
+    }
 
     @Test
     void testEqualsForTwoPlayersWithDifferentColorsAndDifferentUsername() {
