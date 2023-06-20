@@ -10,7 +10,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Set;
-import java.util.SortedSet;
 
 class FreedomLineTests {
 

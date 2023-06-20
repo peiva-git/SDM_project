@@ -90,57 +90,59 @@ public class FreedomLine {
         if (direction == null) setDirection(nextPosition);
         switch (direction) {
             case VERTICAL:
-                if (!isVertical(cellPositions.last(), nextPosition)) return false;
+                if (!isVertical(nextPosition)) return false;
                 break;
             case HORIZONTAL:
-                if (!isHorizontal(cellPositions.last(), nextPosition)) return false;
+                if (!isHorizontal(nextPosition)) return false;
                 break;
             case DIAGONAL_LEFT:
-                if (!isDiagonalLeft(cellPositions.last(), nextPosition)) return false;
+                if (!isDiagonalLeft(nextPosition)) return false;
                 break;
             case DIAGONAL_RIGHT:
-                if (!isDiagonalRight(cellPositions.last(), nextPosition)) return false;
+                if (!isDiagonalRight(nextPosition)) return false;
                 break;
         }
         return true;
     }
 
     private void setDirection(@NotNull Position nextPosition) throws InvalidPositionException {
-        if (isHorizontal(cellPositions.last(), nextPosition)) {
+        if (isHorizontal(nextPosition)) {
             direction = Direction.HORIZONTAL;
             return;
         }
-        if (isVertical(cellPositions.last(), nextPosition)) {
+        if (isVertical(nextPosition)) {
             direction = Direction.VERTICAL;
             return;
         }
-        if (isDiagonalLeft(cellPositions.last(), nextPosition)) {
+        if (isDiagonalLeft(nextPosition)) {
             direction = Direction.DIAGONAL_LEFT;
             return;
         }
-        if (isDiagonalRight(cellPositions.last(), nextPosition)) {
+        if (isDiagonalRight(nextPosition)) {
             direction = Direction.DIAGONAL_RIGHT;
             return;
         }
         throw new InvalidPositionException("The next position is not adjacent to the last stone of this line");
     }
 
-    private boolean isHorizontal(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        return firstPosition.getRow() == secondPosition.getRow() && ((firstPosition.getColumn() == secondPosition.getColumn() + 1) || firstPosition.getColumn() == secondPosition.getColumn() - 1);
+    private boolean isHorizontal(@NotNull Position position) {
+        if(cellPositions.first().getRow() == position.getRow() && cellPositions.first().getColumn() == position.getColumn() + 1) return true;
+        return cellPositions.last().getRow() == position.getRow() && cellPositions.last().getColumn() == position.getColumn() - 1;
     }
 
-    private boolean isVertical(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        return firstPosition.getColumn() == secondPosition.getColumn() && ((firstPosition.getRow() == secondPosition.getRow() + 1) || firstPosition.getRow() == secondPosition.getRow() - 1);
+    private boolean isVertical(@NotNull Position position) {
+        if(cellPositions.first().getColumn() == position.getColumn() && cellPositions.first().getRow() - 1 == position.getRow())  return true;
+        return cellPositions.last().getColumn() == position.getColumn() && cellPositions.last().getRow() + 1 == position.getRow();
     }
 
-    private boolean isDiagonalLeft(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        if(firstPosition.getRow() == secondPosition.getRow() + 1 && firstPosition.getColumn() == secondPosition.getColumn() - 1) return true;
-        return firstPosition.getRow() == secondPosition.getRow() - 1 && firstPosition.getColumn() == secondPosition.getColumn() + 1;
+    private boolean isDiagonalLeft(@NotNull Position position) {
+        if(cellPositions.first().getColumn() == position.getColumn() - 1 && cellPositions.first().getRow() == position.getRow() + 1) return true;
+        return cellPositions.last().getColumn() == position.getColumn() + 1 && cellPositions.last().getRow() == position.getRow() - 1;
     }
 
-    private boolean isDiagonalRight(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        if(firstPosition.getRow() == secondPosition.getRow() + 1 && firstPosition.getColumn() == secondPosition.getColumn() + 1) return true;
-        return firstPosition.getRow() == secondPosition.getRow() - 1 && firstPosition.getColumn() == secondPosition.getColumn() - 1;
+    private boolean isDiagonalRight(@NotNull Position position) {
+        if(cellPositions.first().getColumn() == position.getColumn() + 1 && cellPositions.first().getRow() == position.getRow() + 1) return true;
+        return cellPositions.last().getColumn() == position.getColumn() - 1 && cellPositions.last().getRow() == position.getRow() - 1;
     }
 
     /**
