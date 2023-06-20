@@ -12,32 +12,31 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTests {
-
+    private final Player whitePlayer = new Player(Color.WHITE, "white");
+    private final Player blackPlayer = new Player(Color.BLACK, "black");
     @Test
     void testColorGetter() {
-        Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals(Color.WHITE, whitePlayer.getColor());
+        assertEquals(Color.BLACK, blackPlayer.getColor());
     }
     @Test
     void testUsernameGetter() {
-        Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals("white", whitePlayer.getUsername());
+        assertEquals("black", blackPlayer.getUsername());
     }
     @Test
     void testToString() {
-        Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals("white", whitePlayer.toString());
+        assertEquals("black", blackPlayer.toString());
     }
     @Test
     void testHashCode() {
-        Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals(Objects.hash(Color.WHITE), whitePlayer.hashCode());
+        assertEquals(Objects.hash(Color.BLACK), blackPlayer.hashCode());
     }
 
     @Test
     void testEqualsForTwoPlayersWithDifferentColorsAndDifferentUsername() {
-        Player blackPlayer = new Player(Color.BLACK, "black");
-        Player whitePlayer = new Player(Color.WHITE, "white");
         assertNotEquals(whitePlayer, blackPlayer);
         assertNotEquals(blackPlayer, whitePlayer);
     }
@@ -60,7 +59,6 @@ class PlayerTests {
 
     @Test
     void testEqualsWithOnePlayerAndNullValue() {
-        Player blackPlayer = new Player(Color.BLACK, "black");
         assertNotEquals(null, blackPlayer);
     }
 
