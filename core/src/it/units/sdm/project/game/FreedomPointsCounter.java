@@ -151,9 +151,9 @@ public class FreedomPointsCounter {
             case VERTICAL:
                 return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn()));
             case DIAGONAL_LEFT:
-                return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
-            default:
                 return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() - 1));
+            default:
+                return board.getPiece(Position.fromCoordinates(currentPosition.getRow() - 1, currentPosition.getColumn() + 1));
         }
     }
 

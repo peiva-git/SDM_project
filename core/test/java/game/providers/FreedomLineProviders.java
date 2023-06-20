@@ -81,6 +81,22 @@ public class FreedomLineProviders {
                                 Position.fromCoordinates(6, 2)
                         )),
                         InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new TreeSet<>(Set.of(
+                                Position.fromCoordinates(0, 1),
+                                Position.fromCoordinates(0, 2),
+                                Position.fromCoordinates(1, 2)
+                        )),
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new TreeSet<>(Set.of(
+                                Position.fromCoordinates(0, 1),
+                                Position.fromCoordinates(1, 2),
+                                Position.fromCoordinates(2, 3)
+                        )),
+                        null
                 )
         );
     }

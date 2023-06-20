@@ -60,7 +60,7 @@ public class FreedomLine {
         Piece stone = board.getPiece(position);
         if (stone == null) throw new InvalidPositionException("There is no piece on the current position");
         if (cellPositions.isEmpty()) color = stone.getPieceColor();
-        if ( checkFreedomLineDirection(position)) {
+        if (checkFreedomLineDirection(position)) {
             if (stone.getPieceColor() == color) {
                 cellPositions.add(position);
             } else {
@@ -120,6 +120,7 @@ public class FreedomLine {
         }
         if (isDiagonalRight(cellPositions.last(), nextPosition)) {
             direction = Direction.DIAGONAL_RIGHT;
+            return;
         }
         throw new InvalidPositionException("The next position is not adjacent to the last stone of this line");
     }
@@ -133,14 +134,13 @@ public class FreedomLine {
     }
 
     private boolean isDiagonalLeft(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        if (((firstPosition.getRow() == secondPosition.getRow() + 1) || (firstPosition.getRow() == secondPosition.getRow() - 1))) {
-            return (firstPosition.getColumn() == secondPosition.getColumn() + 1) || firstPosition.getColumn() == secondPosition.getColumn() - 1;
-        }
-        return false;
+        if(firstPosition.getRow() == secondPosition.getRow() + 1 && firstPosition.getColumn() == secondPosition.getColumn() - 1) return true;
+        return firstPosition.getRow() == secondPosition.getRow() - 1 && firstPosition.getColumn() == secondPosition.getColumn() + 1;
     }
 
     private boolean isDiagonalRight(@NotNull Position firstPosition, @NotNull Position secondPosition) {
-        return firstPosition.getRow() == secondPosition.getRow() && ((firstPosition.getColumn() == secondPosition.getColumn() + 1) || firstPosition.getColumn() == secondPosition.getColumn() - 1);
+        if(firstPosition.getRow() == secondPosition.getRow() + 1 && firstPosition.getColumn() == secondPosition.getColumn() + 1) return true;
+        return firstPosition.getRow() == secondPosition.getRow() - 1 && firstPosition.getColumn() == secondPosition.getColumn() - 1;
     }
 
     /**
