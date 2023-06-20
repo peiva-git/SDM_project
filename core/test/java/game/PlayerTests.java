@@ -61,7 +61,7 @@ class PlayerTests {
     @Test
     void testEqualsWithOnePlayerAndNullValue() {
         Player blackPlayer = new Player(Color.BLACK, "black");
-        assertNotEquals(blackPlayer, null);
+        assertNotEquals(null, blackPlayer);
     }
 
     @Test
