@@ -43,7 +43,7 @@ class FreedomPointsCounterTests {
     }
 
     @Test
-    void testGetPlayerScoreWhetherIsProvidedTheWrongColor() {
+    void testGetPlayerScoreWhetherWrongColorIsProvided() {
         Board<Piece> board = new MapBoard<>(8, 8);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         assertThrows(IllegalArgumentException.class, () ->
