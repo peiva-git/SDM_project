@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTable;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Position;
+import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +48,10 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      * @param numberOfColumns Number of columns the {@link Board} is going to have. Should be equal to the number of columns
      */
     public GuiBoard(int numberOfRows, int numberOfColumns) {
+        if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
+            throw new InvalidBoardSizeException("The size of the board must be at least " + MIN_BOARD_SIZE + "x" + MIN_BOARD_SIZE
+                    + " and at most " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE);
+        }
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         initBoard();

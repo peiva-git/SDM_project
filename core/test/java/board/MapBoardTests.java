@@ -2,14 +2,12 @@ package board;
 
 import it.units.sdm.project.board.*;
 import com.badlogic.gdx.graphics.Color;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import utility.BoardUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static board.providers.BoardProviders.fillBoardWithWhiteStones;
 
 class MapBoardTests {
 
@@ -18,12 +16,12 @@ class MapBoardTests {
     private final Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
 
     @BeforeEach
-    void initBoard() {
+    void clearBoard() {
         board.clearBoard();
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.MapBoardProviders#provideBoardSizesWithExceptions")
+    @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptionsForInvalidBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));
@@ -32,53 +30,42 @@ class MapBoardTests {
         }
     }
 
-    @Test
-    void testClearBoardByRemovingAllTheStones() {
-        BoardUtils.fillBoardWithWhiteStones(board);
-        board.getPositions().forEach(position -> assertTrue(board.isCellOccupied(position)));
-        board.clearBoard();
-        board.getPositions().forEach(position -> assertFalse(board.isCellOccupied(position)));
-    }
-
-    @Test
-    void testHasBoardMoreThanOneFreeCell() {
-        BoardUtils.fillBoardWithWhiteStones(board);
-        Assertions.assertEquals(0, board.getNumberOfFreeCells());
-        board.clearCell(Position.fromCoordinates(0, 0));
-        Assertions.assertEquals(1, board.getNumberOfFreeCells());
-        board.clearCell(Position.fromCoordinates(0, 1));
-        Assertions.assertEquals(2, board.getNumberOfFreeCells());
-    }
-
     @ParameterizedTest
-    @MethodSource("board.providers.MapBoardProviders#providePositionsFor8x8BoardWithExceptions")
-    void printSizeEightBoardWithStones(int row, int column, Class<Exception> expectedException) {
-        String printedEmptyBoard =
-                " 8 -  -  -  -  -  -  -  -\n"
-                        + " 7 -  -  -  -  -  -  -  -\n"
-                        + " 6 -  -  -  -  -  -  -  -\n"
-                        + " 5 -  -  -  -  -  -  -  -\n"
-                        + " 4 -  -  -  -  -  -  -  -\n"
-                        + " 3 -  -  -  -  -  -  -  -\n"
-                        + " 2 -  -  -  -  -  -  -  -\n"
-                        + " 1 -  -  -  -  -  -  -  -\n"
-                        + "   A  B  C  D  E  F  G  H";
-        assertEquals(printedEmptyBoard, board.toString());
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
+    void putPieceThenGetPieceAndCheckIfEquals(int row, int column, Class<Exception> expectedException) {
+        Piece expectedStone = new Stone(Color.WHITE);
         if (expectedException == null) {
-            board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
-            board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(row, column + 1));
-            StringBuilder printedBoard = new StringBuilder(printedEmptyBoard);
-            printedBoard.setCharAt((column + 1) * 3, 'W');
-            printedBoard.setCharAt((column + 2) * 3, 'B');
-            assertEquals(printedBoard.toString(), board.toString());
+            board.putPiece(expectedStone, Position.fromCoordinates(row, column));
+            assertEquals(expectedStone, board.getPiece(Position.fromCoordinates(row, column)));
         } else {
-            assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.putPiece(expectedStone, Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.getPiece(Position.fromCoordinates(row, column)));
         }
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.MapBoardProviders#provideEmptyBoardStringRepresentations")
-    void printEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
+    void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
+        fillBoardWithWhiteStones(board);
+        if (expectedException == null) {
+            board.clearCell(Position.fromCoordinates(row, column));
+            assertFalse(board.isCellOccupied(Position.fromCoordinates(row, column)));
+        } else {
+            assertThrows(expectedException, () -> board.clearCell(Position.fromCoordinates(row, column)));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#provide8x8NotEmptyBoardStringRepresentationWithPositionsToOccupyWithPieces")
+    void testPrintingOfBoardWithAWhiteAndABlackPiece(String printedBoard, Position whitePiecePosition, Position blackPiecePosition) {
+        board.putPiece(new Stone(Color.WHITE), whitePiecePosition);
+        board.putPiece(new Stone(Color.BLACK), blackPiecePosition);
+        assertEquals(printedBoard, board.toString());
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation")
+    void testPrintingOfEmptyBoard(int numberOfRows, int numberOfColumns, String printedBoard) {
         Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
         assertEquals(printedBoard, board.toString());
     }
