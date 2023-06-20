@@ -8,7 +8,6 @@ import it.units.sdm.project.board.gui.GuiStone;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -47,11 +46,6 @@ class GuiBoardTests {
     @MethodSource("board.gui.providers.GuiBoardProviders#provideTileCoordinatesAndExpectedPositionFor8x8Board")
     void testFromTileCoordinatesToPositionConversion(int tileRow, int tileColumn, Position expectedPosition) {
         assertEquals(expectedPosition, board.fromTileCoordinatesToBoardPosition(tileRow, tileColumn));
-    }
-
-    @Test
-    void testEmptyBoardInitialization() {
-
     }
 
     @AfterAll

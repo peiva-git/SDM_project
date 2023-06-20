@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-public class GuiBoardProviders {
+class GuiBoardProviders {
     public static @NotNull Stream<Arguments> provideTileCoordinatesAndExpectedPositionFor8x8Board() {
         return Stream.of(
                 Arguments.of(0, 0, Position.fromCoordinates(7, 0)),
