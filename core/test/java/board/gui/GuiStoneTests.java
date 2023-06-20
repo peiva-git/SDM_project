@@ -1,4 +1,4 @@
-package board;
+package board.gui;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.Color;
