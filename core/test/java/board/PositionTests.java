@@ -22,7 +22,7 @@ class PositionTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.PositionProviders#providePositionPairsForOrderingComparison")
+    @MethodSource("board.providers.PositionProviders#providePositionPairsForOrderingComparisonWithExpectedOutcome")
     void testPositionOrdering(Position first, Position second, int expectedResult) {
         if (expectedResult == 1) {
             assertTrue(first.compareTo(second) > 0);

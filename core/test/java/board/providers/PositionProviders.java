@@ -18,7 +18,7 @@ public class PositionProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionPairsForOrderingComparison() {
+    public static @NotNull Stream<Arguments> providePositionPairsForOrderingComparisonWithExpectedOutcome() {
         return Stream.of(
                 Arguments.of(Position.fromCoordinates(1, 1), Position.fromCoordinates(1, 1), 0),
                 Arguments.of(Position.fromCoordinates(2, 1), Position.fromCoordinates(3, 1), -1),
