@@ -13,9 +13,8 @@ import static board.providers.BoardProviders.fillBoardWithWhiteStones;
 
 class BoardTests {
 
-    private final int numberOfRows = 8;
-    private final int numberOfColumns = 8;
-    private final Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
+    private final int numberOfRowsAndColumns = 8;
+    private final Board<Piece> board = new MapBoard<>(numberOfRowsAndColumns);
 
     @BeforeEach
     void clearBoard() {
