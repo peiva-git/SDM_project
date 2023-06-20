@@ -6,6 +6,8 @@ import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveTests {
@@ -29,6 +31,10 @@ public class MoveTests {
         assertEquals(secondPosition, blackMove.getPosition());
     }
 
-
+    @Test
+    void testHashCode() {
+        assertEquals(Objects.hash(whitePlayer, firstPosition), whiteMove.hashCode());
+        assertEquals(Objects.hash(blackPlayer, secondPosition), blackMove.hashCode());
+    }
 
 }
