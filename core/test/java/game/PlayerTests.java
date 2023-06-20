@@ -2,7 +2,10 @@ package game;
 
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.game.Player;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,11 +34,13 @@ class PlayerTests {
         assertEquals(secondBlackPlayer, firstBlackPlayer);
         assertEquals(firstBlackPlayer, secondBlackPlayer);
     }
+
     @Test
     void testEqualsWithOnePlayerAndNullValue() {
         Player blackPlayer = new Player(Color.BLACK, "black");
         assertNotEquals(blackPlayer, null);
     }
+
     @Test
     void testEqualsForTwoPlayersWithSameColorAndDifferentUsername() {
         Player firstBlackPlayer = new Player(Color.BLACK, "first_player");
@@ -44,11 +49,14 @@ class PlayerTests {
         assertEquals(firstBlackPlayer, secondBlackPlayer);
     }
 
-    @Test
-    void testColorValidity() {
-        assertThrows(RuntimeException.class, () -> new Player(Color.BLUE, "username"));
-        assertDoesNotThrow(() -> new Player(Color.WHITE, "username"));
-        assertDoesNotThrow(() -> new Player(Color.BLACK, "username"));
+    @ParameterizedTest
+    @MethodSource("game.providers.ColorProviders#provideColors")
+    void testColorValidity(@NotNull Color color, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            assertDoesNotThrow(() -> new Player(color, "username"));
+        } else {
+            assertThrows(expectedException, () -> new Player(color, "username"));
+        }
     }
 
 }
