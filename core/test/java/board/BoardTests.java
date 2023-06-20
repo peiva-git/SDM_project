@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static utility.BoardUtils.fillBoardWithWhiteStones;
+import static board.providers.BoardProviders.fillBoardWithWhiteStones;
 
 class BoardTests {
 

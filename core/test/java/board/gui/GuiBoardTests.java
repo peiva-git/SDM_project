@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static board.gui.providers.GuiBoardProviders.fillBoardWithWhiteGuiStones;
 import static org.junit.jupiter.api.Assertions.*;
 import static utility.FreedomHeadlessApplicationUtils.initHeadlessApplication;
 
@@ -46,6 +47,18 @@ class GuiBoardTests {
     @MethodSource("board.gui.providers.GuiBoardProviders#provideTileCoordinatesAndExpectedPositionFor8x8Board")
     void testFromTileCoordinatesToPositionConversion(int tileRow, int tileColumn, Position expectedPosition) {
         assertEquals(expectedPosition, board.fromTileCoordinatesToBoardPosition(tileRow, tileColumn));
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
+    void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
+        fillBoardWithWhiteGuiStones(board);
+        if (expectedException == null) {
+            board.clearCell(Position.fromCoordinates(row, column));
+            assertFalse(board.isCellOccupied(Position.fromCoordinates(row, column)));
+        } else {
+            assertThrows(expectedException, () -> board.clearCell(Position.fromCoordinates(row, column)));
+        }
     }
 
     @AfterAll
