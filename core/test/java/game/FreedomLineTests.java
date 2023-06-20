@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Set;
 import java.util.SortedSet;
 
 class FreedomLineTests {
@@ -36,7 +37,7 @@ class FreedomLineTests {
 
     @ParameterizedTest
     @MethodSource("game.providers.FreedomLineProviders#provideSetOfPositions")
-    void testAddMethod(SortedSet<Position> positions, Class<Exception> expectedException) {
+    void testAddMethod(Set<Position> positions, Class<Exception> expectedException) {
         FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
             Assertions.assertDoesNotThrow(() ->
