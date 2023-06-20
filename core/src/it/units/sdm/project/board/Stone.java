@@ -54,10 +54,11 @@ public class Stone implements Piece {
 
     /**
      * A {@link String} representation of {@code this} {@link Stone}.
-     * @return A {@link String} representation of the {@link Color} class.
+     * Can be either {@code W} for a {@link Color#WHITE} {@link Stone}, or {@code B} for a {@link Color#BLACK} {@link Stone}
+     * @return A {@link String} representation of the {@link Stone} class, suitable for a text-based representation
      */
     @Override
     public String toString() {
-        return color.toString();
+        return color.equals(Color.WHITE) ? "W" : "B";
     }
 }
