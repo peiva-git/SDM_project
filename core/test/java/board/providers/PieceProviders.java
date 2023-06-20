@@ -44,6 +44,7 @@ public class PieceProviders {
                 Arguments.of(stone, new GuiStone(Color.BLACK, VisUI.getSkin().getRegion(WHITE_CHECKER_IMAGE_NAME)), false),
                 Arguments.of(stone, new GuiStone(Color.BLACK, VisUI.getSkin().getRegion(BLACK_CHECKER_IMAGE_NAME)), false),
                 Arguments.of(stone, stone, true),
+                Arguments.of(stone, null, false),
                 Arguments.of(stone, new Object(), false)
         );
     }
