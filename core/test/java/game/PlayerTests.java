@@ -41,13 +41,9 @@ class PlayerTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.PlayerProviders#providePlayerAndObjectAndWhetherEqual")
-    void testEquals(@NotNull Player firstPlayer, @Nullable Object secondPlayer, boolean areEqual) {
-        if (areEqual) {
-            assertEquals(firstPlayer, secondPlayer);
-        } else {
-            assertNotEquals(firstPlayer, secondPlayer);
-        }
+    @MethodSource("game.providers.PlayerProviders#providePlayerWithCandidateObjectAndWhetherEqual")
+    void testEquals(@NotNull Player firstPlayer, @Nullable Object candidate, boolean shouldBeEqual) {
+        assertEquals(shouldBeEqual, firstPlayer.equals(candidate));
     }
 
     @ParameterizedTest

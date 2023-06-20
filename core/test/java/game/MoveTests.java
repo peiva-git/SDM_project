@@ -42,13 +42,9 @@ class MoveTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.MoveProviders#provideMoveAndObjectAndWhetherEqual")
+    @MethodSource("game.providers.MoveProviders#provideMoveWithCandidateObjectAndWhetherEqual")
     void testEqualsBetweenTwoMovesByTwoDifferentPlayersWithDifferentPlayedPositions(@NotNull Move move, @Nullable Object object, boolean shouldBeEqual) {
-        if (shouldBeEqual) {
-            assertEquals(move, object);
-        } else {
-            assertNotEquals(move, object);
-        }
+        assertEquals(shouldBeEqual, move.equals(object));
     }
 
 }

@@ -18,7 +18,7 @@ public class PlayerProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePlayerAndObjectAndWhetherEqual() {
+    public static @NotNull Stream<Arguments> providePlayerWithCandidateObjectAndWhetherEqual() {
         Player player = new Player(Color.WHITE, "username");
         return Stream.of(
                 Arguments.of(player, new Player(Color.WHITE, "username"), true),

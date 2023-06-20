@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class MoveProviders {
 
-    public static @NotNull Stream<Arguments> provideMoveAndObjectAndWhetherEqual() {
+    public static @NotNull Stream<Arguments> provideMoveWithCandidateObjectAndWhetherEqual() {
         Player whitePlayer = new Player(Color.WHITE, "white");
         Player blackPlayer = new Player(Color.BLACK, "black");
         Position firstPosition = Position.fromCoordinates(0, 0);
