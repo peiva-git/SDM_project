@@ -16,14 +16,11 @@ import java.util.stream.Stream;
 public class BoardProviders {
     public static @NotNull Stream<Arguments> provideBoardSizesWithExceptionsForInvalidBoardSizes() {
         return Stream.of(
-                Arguments.of(0, 1, InvalidBoardSizeException.class),
-                Arguments.of(1, 0, InvalidBoardSizeException.class),
-                Arguments.of(0, 0, InvalidBoardSizeException.class),
-                Arguments.of(-1, -1, InvalidBoardSizeException.class),
-                Arguments.of(2, 3, InvalidBoardSizeException.class),
-                Arguments.of(1, 1, InvalidBoardSizeException.class),
-                Arguments.of(27, 27, InvalidBoardSizeException.class),
-                Arguments.of(2, 2, null)
+                Arguments.of(0, InvalidBoardSizeException.class),
+                Arguments.of(-1, InvalidBoardSizeException.class),
+                Arguments.of(1, InvalidBoardSizeException.class),
+                Arguments.of(27, InvalidBoardSizeException.class),
+                Arguments.of(2, null)
         );
     }
 
@@ -110,9 +107,9 @@ public class BoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation() {
+    public static @NotNull Stream<Arguments> provideBoardSizeForEmptyBoardStringRepresentation() {
         return Stream.of(
-                Arguments.of(8, 8,
+                Arguments.of(8,
                         " 8 -  -  -  -  -  -  -  -\n"
                                 + " 7 -  -  -  -  -  -  -  -\n"
                                 + " 6 -  -  -  -  -  -  -  -\n"
@@ -122,7 +119,7 @@ public class BoardProviders {
                                 + " 2 -  -  -  -  -  -  -  -\n"
                                 + " 1 -  -  -  -  -  -  -  -\n"
                                 + "   A  B  C  D  E  F  G  H"),
-                Arguments.of(10, 10,
+                Arguments.of(10,
                         "10 -  -  -  -  -  -  -  -  -  -\n"
                                 + " 9 -  -  -  -  -  -  -  -  -  -\n"
                                 + " 8 -  -  -  -  -  -  -  -  -  -\n"
@@ -164,13 +161,13 @@ public class BoardProviders {
         }
     }
 
-    public static @NotNull Board<Piece> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+    public static @NotNull Board<Piece> parseBoardFromString(@NotNull String printedBoard, int boardSize) {
         Scanner scanner = new Scanner(printedBoard);
-        Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
+        Board<Piece> board = new MapBoard<>(boardSize);
         while (scanner.hasNextLine()) {
             if (scanner.hasNextInt()) {
                 int currentRow = scanner.nextInt() - 1;
-                IntStream.rangeClosed(0, numberOfColumns - 1)
+                IntStream.rangeClosed(0, boardSize - 1)
                         .forEach(currentColumn -> {
                             String placeholder = scanner.next("[WB-]");
                             if (placeholder.equals("W")) {

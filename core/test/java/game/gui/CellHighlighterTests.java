@@ -31,8 +31,7 @@ import static utility.FreedomHeadlessApplicationUtils.initHeadlessApplication;
 
 class CellHighlighterTests {
 
-    private static final int numberOfRows = 8;
-    private static final int numberOfColumns = 8;
+    private static final int boardSize = 8;
     private static HeadlessApplication application;
     private static GuiBoard<GuiStone> board;
     private static FreedomCellHighlighter cellHighlighter;
@@ -40,7 +39,7 @@ class CellHighlighterTests {
     @BeforeAll
     static void init() {
         application = initHeadlessApplication("freedom.atlas");
-        board = new GuiBoard<>(numberOfRows, numberOfColumns);
+        board = new GuiBoard<>(boardSize);
         cellHighlighter = new FreedomCellHighlighter(board);
     }
 

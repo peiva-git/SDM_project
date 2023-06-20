@@ -27,7 +27,7 @@ class FreedomPointsCounterTests {
                         + " 2 -  -  -  -  -  -  -  -\n"
                         + " 1 -  -  -  -  -  -  -  -\n"
                         + "   A  B  C  D  E  F  G  H";
-        Board<Piece> board = parseBoardFromString(printedBoard, 8, 8);
+        Board<Piece> board = parseBoardFromString(printedBoard, 8);
         assertEquals(printedBoard, board.toString());
     }
 
@@ -36,7 +36,7 @@ class FreedomPointsCounterTests {
     void testGetPlayerScore(String printedBoard, int boardSize, int blackScore, int whiteScore) {
         Player whitePlayer = new Player(Color.WHITE, "white");
         Player blackPlayer = new Player(Color.BLACK, "black");
-        Board<Piece> board = parseBoardFromString(printedBoard, boardSize, boardSize);
+        Board<Piece> board = parseBoardFromString(printedBoard, boardSize);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         assertEquals(blackScore, freedomPointsCounter.getPlayerScore(blackPlayer));
         assertEquals(whiteScore, freedomPointsCounter.getPlayerScore(whitePlayer));
@@ -44,7 +44,7 @@ class FreedomPointsCounterTests {
 
     @Test
     void testGetPlayerScoreColorValidityCheck() {
-        Board<Piece> board = new MapBoard<>(8, 8);
+        Board<Piece> board = new MapBoard<>(8);
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
         assertThrows(IllegalArgumentException.class, () ->
                 freedomPointsCounter.getPlayerScore(Color.BLUE)

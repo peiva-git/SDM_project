@@ -21,30 +21,29 @@ public class MapBoard<P extends Piece> implements Board<P> {
 
     private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
-    private final int numberOfRows;
-    private final int numberOfColumns;
+    private final int boardSize;
 
     /**
-     * Creates a new {@link Board} instance with a {@link TreeMap} implementation
-     * @param numberOfRows The number of rows on the {@link Board}
-     * @param numberOfColumns The number of columns on the {@link Board}
+     * Creates a new {@link Board} instance with a {@link TreeMap} implementation.
+     * This implementation allows only square {@link Board}s, with the maximum and minimum size limits specified by the
+     * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE} fields.
+     * @param boardSize The number of rows and columns on the {@link Board}
      * @throws InvalidBoardSizeException In case the {@link Board} sizes aren't matching,
      * or they're outside the allowed range of [2, 26]
      */
-    public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
-        if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
+    public MapBoard(int boardSize) throws InvalidBoardSizeException {
+        if (!isBoardSizeValid(boardSize, boardSize)) {
             throw new InvalidBoardSizeException(
                     "The size of the board must be at least " + Board.MIN_BOARD_SIZE + "x" + Board.MIN_BOARD_SIZE
                             + " and at most " + Board.MAX_BOARD_SIZE + "x" + Board.MAX_BOARD_SIZE);
         }
-        this.numberOfRows = numberOfRows;
-        this.numberOfColumns = numberOfColumns;
+        this.boardSize = boardSize;
         initBoardWithEmptyCells();
     }
 
     private void initBoardWithEmptyCells() {
-        for (int i = 0; i < numberOfRows; i++) {
-            for (int j = 0; j < numberOfColumns; j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 cells.put(Position.fromCoordinates(i, j), new Cell<>());
             }
         }
@@ -82,8 +81,8 @@ public class MapBoard<P extends Piece> implements Board<P> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = numberOfRows; i > 0; i--) {
-            for (int j = 1; j <= numberOfColumns; j++) {
+        for (int i = boardSize; i > 0; i--) {
+            for (int j = 1; j <= boardSize; j++) {
                 if (j == 1) {
                     if (i < 10) {
                         sb.append(" ").append(i).append(" ");
@@ -100,7 +99,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
                 } else {
                     sb.append("-");
                 }
-                if (j < numberOfColumns) {
+                if (j < boardSize) {
                     sb.append("  ");
                 } else {
                     sb.append("\n");
@@ -108,7 +107,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
             }
         }
         sb.append(" ");
-        for (int j = 0; j < numberOfColumns; j++) {
+        for (int j = 0; j < boardSize; j++) {
             sb.append("  ").append((char) ('A' + j));
         }
         return sb.toString();
