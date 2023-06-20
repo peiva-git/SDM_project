@@ -39,13 +39,13 @@ class GuiStoneTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.PieceProviders#provideGuiStoneAndObjectAndWhetherEqual")
+    @MethodSource("board.gui.providers.GuiStoneProviders#provideGuiStoneAndObjectAndWhetherEqual")
     void testEqualsByComparingGuiStoneWithCandidateObject(@NotNull GuiStone stone, Object candidate, boolean shouldBeEqual) {
         assertEquals(shouldBeEqual, stone.equals(candidate));
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.PieceProviders#provideAllImageColorCombinations")
+    @MethodSource("board.gui.providers.GuiStoneProviders#provideAllImageColorCombinations")
     void testHashValueForAllImageColorCombinations(String stoneImageName, Color stoneColor) {
         GuiStone stone = new GuiStone(stoneColor, VisUI.getSkin().get(stoneImageName, TextureRegion.class));
         assertEquals(Objects.hash(stoneColor, VisUI.getSkin().get(stoneImageName, TextureRegion.class)), stone.hashCode());
