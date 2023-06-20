@@ -56,7 +56,7 @@ class CellHighlighterTests {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @SuppressWarnings("unchecked")
-    void testCellHighlightingOnLightAndDarkCell(int cellIndex) {
+    void testCellHighlightingOnLightAndDarkCellOfTheLastRow(int cellIndex) {
         Cell<Actor> cell = board.getCells().get(cellIndex);
         Group tileAndPiece = (Group) cell.getActor();
         assertEquals(cellIndex == 0 ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
@@ -64,6 +64,16 @@ class CellHighlighterTests {
         assertEquals(cellIndex == 0 ? HIGHLIGHT_LIGHT_TILE : HIGHLIGHT_DARK_TILE, tileAndPiece.getChild(0).getColor());
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {numberOfColumns, numberOfColumns + 1})
+    @SuppressWarnings("unchecked")
+    void testCellHighlightingOnLightAndDarkCellOfTheSecondLastRow(int cellIndex) {
+        Cell<Actor> cell = board.getCells().get(cellIndex);
+        Group tileAndPiece = (Group) cell.getActor();
+        assertEquals(cellIndex != numberOfColumns ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
+        cellHighlighter.highlightPositions(Set.of(Position.fromCoordinates(numberOfRows - 2, cellIndex - numberOfColumns)));
+        assertEquals(cellIndex != numberOfColumns ? HIGHLIGHT_LIGHT_TILE : HIGHLIGHT_DARK_TILE, tileAndPiece.getChild(0).getColor());
+    }
 
     @AfterEach
     void resetCellsHighlighting() {
