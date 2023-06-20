@@ -56,7 +56,7 @@ class CellHighlighterTests {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @SuppressWarnings("unchecked")
-    void testCellHighlightingOnLightAndDarkCellOfTheLastRow(int cellIndex) {
+    void testCellHighlightingOnFirstLightAndFirstDarkCellOfTheLastRow(int cellIndex) {
         Cell<Actor> cell = board.getCells().get(cellIndex);
         Group tileAndPiece = (Group) cell.getActor();
         assertEquals(cellIndex == 0 ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
