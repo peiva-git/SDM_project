@@ -45,7 +45,7 @@ class PlayerTests {
     }
 
     @Test
-    void testValidColor() {
+    void testColorValidity() {
         assertThrows(RuntimeException.class, () -> new Player(Color.BLUE, "username"));
         assertDoesNotThrow(() -> new Player(Color.WHITE, "username"));
         assertDoesNotThrow(() -> new Player(Color.BLACK, "username"));
