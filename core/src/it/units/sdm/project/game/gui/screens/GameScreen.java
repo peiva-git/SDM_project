@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
     private void setUpLogArea() {
-        logArea.setPrefRows(freedomGame.getNumberOfRowsAndColumns() * 2);
+        logArea.setPrefRows(freedomGame.getNumberOfRowsAndColumns() * 2f);
         mainContainer.setFillParent(true);
         logArea.setReadOnly(true);
         logArea.appendText("FREEDOM\n");
@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
 
     private void setUpMainContainer() {
         VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
-        mainContainer.add(logAreaScrollPane).growX().height(TILE_SIZE * freedomGame.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
+        mainContainer.add(logAreaScrollPane).growX().height((float) TILE_SIZE * freedomGame.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
         mainContainer.add((Actor) freedomGame.getBoard()).pad(BOARD_PADDING);
         mainContainer.row();
         mainContainer.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(BOARD_PADDING);
