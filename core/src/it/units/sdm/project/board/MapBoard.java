@@ -30,7 +30,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
      * or they're outside the allowed range of [2, 26]
      */
     public MapBoard(int boardSize) throws InvalidBoardSizeException {
-        if (!isBoardSizeValid(boardSize, boardSize)) {
+        if (!isBoardSizeValid(boardSize)) {
             throw new InvalidBoardSizeException(
                     "The size of the board must be at least " + Board.MIN_BOARD_SIZE + "x" + Board.MIN_BOARD_SIZE
                             + " and at most " + Board.MAX_BOARD_SIZE + "x" + Board.MAX_BOARD_SIZE);

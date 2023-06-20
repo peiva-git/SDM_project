@@ -48,7 +48,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      * @param boardSize Number of rows the {@link Board} is going to have. Should be equal to the number of columns
      */
     public GuiBoard(int boardSize) {
-        if (!isBoardSizeValid(boardSize, boardSize)) {
+        if (!isBoardSizeValid(boardSize)) {
             throw new InvalidBoardSizeException("The size of the board must be at least " + MIN_BOARD_SIZE + "x" + MIN_BOARD_SIZE
                     + " and at most " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE);
         }
