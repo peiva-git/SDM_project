@@ -135,8 +135,8 @@ public class FreedomPointsCounter {
         try {
             Piece currentStone = board.getPiece(position);
             Piece previousStone = getThePreviousStone(position, direction);
-            if (previousStone == null || currentStone == null) return false;
-            return previousStone.getPieceColor() == currentStone.getPieceColor();
+            if (previousStone == null) return false;
+            return previousStone.getPieceColor() == Objects.requireNonNull(currentStone, "currentStone belongs to a FreedomLine").getPieceColor();
         } catch (InvalidPositionException exception) {
             return false;
         }
