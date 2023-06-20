@@ -1,6 +1,7 @@
 package board.gui;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.Color;
 import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
@@ -58,6 +59,19 @@ class GuiBoardTests {
             assertFalse(board.isCellOccupied(Position.fromCoordinates(row, column)));
         } else {
             assertThrows(expectedException, () -> board.clearCell(Position.fromCoordinates(row, column)));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
+    void putPieceThenGetPieceAndCheckIfEquals(int row, int column, Class<Exception> expectedException) {
+        GuiStone expectedStone = new GuiStone(Color.WHITE, VisUI.getSkin().getRegion("white_checker"));
+        if (expectedException == null) {
+            board.putPiece(expectedStone, Position.fromCoordinates(row, column));
+            assertEquals(expectedStone, board.getPiece(Position.fromCoordinates(row, column)));
+        } else {
+            assertThrows(expectedException, () -> board.putPiece(expectedStone, Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.getPiece(Position.fromCoordinates(row, column)));
         }
     }
 
