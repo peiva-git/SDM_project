@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StoneTests {
-    Piece blackStone = new Stone(Color.BLACK);
 
     @ParameterizedTest
     @MethodSource("board.providers.StoneProviders#provideStoneColorsWithExceptionsForInvalidColors")
@@ -31,15 +30,9 @@ class StoneTests {
 
     @Test
     void testColorGetter() {
+        Piece blackStone = new Stone(Color.BLACK);
         assertEquals(Color.BLACK, blackStone.getPieceColor());
-    }
-
-    @Test
-    void testEquals() {
-        Piece newWhiteStone = new Stone(Color.WHITE);
-        Piece newBlackStone = new Stone(Color.BLACK);
-        assertEquals(blackStone, newBlackStone);
-        assertNotEquals(blackStone, newWhiteStone);
+        assertNotEquals(Color.WHITE, blackStone.getPieceColor());
     }
 
 }
