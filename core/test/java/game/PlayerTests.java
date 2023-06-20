@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTests {
@@ -25,6 +27,11 @@ class PlayerTests {
     void testToString() {
         Player whitePlayer = new Player(Color.WHITE, "white");
         assertEquals("white", whitePlayer.toString());
+    }
+    @Test
+    void testHashCode() {
+        Player whitePlayer = new Player(Color.WHITE, "white");
+        assertEquals(Objects.hash(Color.WHITE), whitePlayer.hashCode());
     }
 
     @Test
