@@ -1,6 +1,7 @@
 package game.gui;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -14,13 +15,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static it.units.sdm.project.board.gui.GuiBoard.DARK_TILE;
-import static it.units.sdm.project.board.gui.GuiBoard.LIGHT_TILE;
 import static it.units.sdm.project.game.gui.FreedomCellHighlighter.HIGHLIGHT_DARK_TILE;
 import static it.units.sdm.project.game.gui.FreedomCellHighlighter.HIGHLIGHT_LIGHT_TILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,31 +50,28 @@ class CellHighlighterTests {
                 .allMatch(cell -> {
                     Group tileAndPiece = (Group) cell.getActor();
                     Actor tile = tileAndPiece.getChild(0);
-                    return tile.getColor() != FreedomCellHighlighter.HIGHLIGHT_LIGHT_TILE && tile.getColor() != HIGHLIGHT_DARK_TILE;
+                    return tile.getColor() != HIGHLIGHT_LIGHT_TILE && tile.getColor() != HIGHLIGHT_DARK_TILE;
                 });
         assertTrue(areCellsNotHighlighted);
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1})
-    @SuppressWarnings("unchecked")
-    void testCellHighlightingOnFirstLightAndFirstDarkCellOfTheLastRow(int cellIndex) {
-        Cell<Actor> cell = board.getCells().get(cellIndex);
-        Group tileAndPiece = (Group) cell.getActor();
-        assertEquals(cellIndex == 0 ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
-        cellHighlighter.highlightPositions(Set.of(Position.fromCoordinates(numberOfRows - 1, cellIndex)));
-        assertEquals(cellIndex == 0 ? HIGHLIGHT_LIGHT_TILE : HIGHLIGHT_DARK_TILE, tileAndPiece.getChild(0).getColor());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {numberOfColumns, numberOfColumns + 1})
-    @SuppressWarnings("unchecked")
-    void testCellHighlightingOnLightAndDarkCellOfTheSecondLastRow(int cellIndex) {
-        Cell<Actor> cell = board.getCells().get(cellIndex);
-        Group tileAndPiece = (Group) cell.getActor();
-        assertEquals(cellIndex != numberOfColumns ? LIGHT_TILE : DARK_TILE, tileAndPiece.getChild(0).getColor());
-        cellHighlighter.highlightPositions(Set.of(Position.fromCoordinates(numberOfRows - 2, cellIndex - numberOfColumns)));
-        assertEquals(cellIndex != numberOfColumns ? HIGHLIGHT_LIGHT_TILE : HIGHLIGHT_DARK_TILE, tileAndPiece.getChild(0).getColor());
+    @MethodSource("game.providers.CellHighlighterProviders#provideALightAndADarkDefaultAndHighlightedTilePair")
+    void testCellHighlighting(Color defaultTileColor, Color highlightedTileColor) {
+        Set<Position> positionsToHighlight = new HashSet<>();
+        List<Actor> lightColoredTiles = Arrays.stream(board.getCells().toArray(Cell.class))
+                .filter(cell -> {
+                    Group tileAndPiece = (Group) cell.getActor();
+                    return tileAndPiece.getChild(0).getColor().equals(defaultTileColor);
+                })
+                .map(cell -> {
+                    Group tileAndPiece = (Group) cell.getActor();
+                    positionsToHighlight.add(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
+                    return tileAndPiece.getChild(0);
+                })
+                .collect(Collectors.toList());
+        cellHighlighter.highlightPositions(positionsToHighlight);
+        lightColoredTiles.forEach(tile -> assertEquals(highlightedTileColor, tile.getColor()));
     }
 
     @AfterEach
