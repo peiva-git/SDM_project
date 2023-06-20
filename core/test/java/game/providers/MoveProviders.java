@@ -22,6 +22,7 @@ public class MoveProviders {
                 Arguments.of(move, new Move(whitePlayer, firstPosition), true),
                 Arguments.of(move, new Move(blackPlayer, secondPosition), false),
                 Arguments.of(move, new Move(whitePlayer, secondPosition), false),
+                Arguments.of(move, move, true),
                 Arguments.of(move, null, false),
                 Arguments.of(move, new Object(), false)
         );
