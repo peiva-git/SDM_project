@@ -36,13 +36,13 @@ class PlayerTests {
     }
 
     @Test
-    void testEqualsForTwoPlayersWithDifferentColorsAndDifferentUsername() {
+    void testEqualsWithTwoPlayersOfDifferentColorsAndDifferentUsername() {
         assertNotEquals(whitePlayer, blackPlayer);
         assertNotEquals(blackPlayer, whitePlayer);
     }
 
     @Test
-    void testEqualsForTwoPlayersWithDifferentColorsAndSameUsername() {
+    void testEqualsWithTwoPlayersOfDifferentColorsAndSameUsername() {
         Player blackPlayer = new Player(Color.BLACK, "username");
         Player whitePlayer = new Player(Color.WHITE, "username");
         assertNotEquals(whitePlayer, blackPlayer);
@@ -50,7 +50,7 @@ class PlayerTests {
     }
 
     @Test
-    void testEqualsForTwoPlayersWithSameColorAndSameUsername() {
+    void testEqualsWithTwoPlayersOfTheSameColorAndSameUsername() {
         Player firstBlackPlayer = new Player(Color.BLACK, "username");
         Player secondBlackPlayer = new Player(Color.BLACK, "username");
         assertEquals(secondBlackPlayer, firstBlackPlayer);
@@ -58,12 +58,12 @@ class PlayerTests {
     }
 
     @Test
-    void testEqualsWithOnePlayerAndNullValue() {
+    void testEqualsWithNullValue() {
         assertNotEquals(null, blackPlayer);
     }
 
     @Test
-    void testEqualsForTwoPlayersWithSameColorAndDifferentUsername() {
+    void testEqualsWithTwoPlayersOfTheSameColorAndDifferentUsername() {
         Player firstBlackPlayer = new Player(Color.BLACK, "first_player");
         Player secondBlackPlayer = new Player(Color.BLACK, "second_player");
         assertEquals(secondBlackPlayer, firstBlackPlayer);
