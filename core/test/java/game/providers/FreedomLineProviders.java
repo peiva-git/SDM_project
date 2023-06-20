@@ -66,13 +66,19 @@ public class FreedomLineProviders {
                         )),
                         InvalidPositionException.class
                 ),
-                // diagonal right
                 Arguments.of(
                         new TreeSet<>(Set.of(
                                 Position.fromCoordinates(0, 1),
                                 Position.fromCoordinates(1, 2),
                                 Position.fromCoordinates(2, 3),
                                 Position.fromCoordinates(3, 3)
+                        )),
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new TreeSet<>(Set.of(
+                                Position.fromCoordinates(7, 0),
+                                Position.fromCoordinates(6, 2)
                         )),
                         InvalidPositionException.class
                 )

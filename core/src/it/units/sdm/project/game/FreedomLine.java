@@ -60,7 +60,7 @@ public class FreedomLine {
         Piece stone = board.getPiece(position);
         if (stone == null) throw new InvalidPositionException("There is no piece on the current position");
         if (cellPositions.isEmpty()) color = stone.getPieceColor();
-        if (checkFreedomLineDirection(position)) {
+        if ( checkFreedomLineDirection(position)) {
             if (stone.getPieceColor() == color) {
                 cellPositions.add(position);
             } else {
@@ -85,7 +85,7 @@ public class FreedomLine {
         }
     }
 
-    private boolean checkFreedomLineDirection(@NotNull Position nextPosition) {
+    private boolean checkFreedomLineDirection(@NotNull Position nextPosition) throws InvalidPositionException {
         if (cellPositions.isEmpty()) return true;
         if (direction == null) setDirection(nextPosition);
         switch (direction) {
@@ -105,7 +105,7 @@ public class FreedomLine {
         return true;
     }
 
-    private void setDirection(@NotNull Position nextPosition) {
+    private void setDirection(@NotNull Position nextPosition) throws InvalidPositionException {
         if (isHorizontal(cellPositions.last(), nextPosition)) {
             direction = Direction.HORIZONTAL;
             return;
@@ -121,6 +121,7 @@ public class FreedomLine {
         if (isDiagonalRight(cellPositions.last(), nextPosition)) {
             direction = Direction.DIAGONAL_RIGHT;
         }
+        throw new InvalidPositionException("The next position is not adjacent to the last stone of this line");
     }
 
     private boolean isHorizontal(@NotNull Position firstPosition, @NotNull Position secondPosition) {
