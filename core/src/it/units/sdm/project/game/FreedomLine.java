@@ -28,6 +28,7 @@ public class FreedomLine {
 
     /**
      * Creates a {@link FreedomLine} instance
+     *
      * @param board The {@link Board} on which this {@link FreedomLine} is located
      */
     public FreedomLine(@NotNull Board<? extends Piece> board) {
@@ -38,7 +39,8 @@ public class FreedomLine {
 
     /**
      * Creates a {@link FreedomLine} instance from a starting {@link Position}
-     * @param board {@link Board} on which this {@link FreedomLine} is located
+     *
+     * @param board           {@link Board} on which this {@link FreedomLine} is located
      * @param initialPosition Initial {@link Position} of the {@link FreedomLine}
      */
     public FreedomLine(@NotNull Board<? extends Piece> board, @NotNull Position initialPosition) {
@@ -50,14 +52,16 @@ public class FreedomLine {
      * Adds a {@link Piece} to this {@link FreedomLine}. This method checks if the
      * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
      * {@link Piece} {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
+     *
      * @param position The {@link Position} to add
      * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
      */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
         Piece stone = board.getPiece(position);
-        if (cellPositions.isEmpty()) setColor(stone);
+        if (stone == null) throw new InvalidPositionException("There is no piece on the current position");
+        if (cellPositions.isEmpty()) color = stone.getPieceColor();
         if (checkFreedomLineDirection(position)) {
-            if (checkStoneColor(stone)) {
+            if (stone.getPieceColor() == color) {
                 cellPositions.add(position);
             } else {
                 throw new InvalidPositionException("Stone on the current position has a different color");
@@ -71,20 +75,13 @@ public class FreedomLine {
      * Adds a set of {@link Piece}s to this {@link FreedomLine}. This method checks if the
      * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
      * {@link Piece} {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
+     *
      * @param positions The {@link Position}s to add
      * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
      */
     public void addPositions(@NotNull Set<Position> positions) throws InvalidPositionException {
-        for(Position position : positions) {
+        for (Position position : positions) {
             addPosition(position);
-        }
-    }
-
-    private void setColor(@Nullable Piece stone) {
-        if (stone == null) {
-            color = null;
-        } else {
-            color = stone.getPieceColor();
         }
     }
 
@@ -106,12 +103,6 @@ public class FreedomLine {
                 break;
         }
         return true;
-    }
-
-    private boolean checkStoneColor(@Nullable Piece stone) throws InvalidPositionException {
-        if (stone == null)
-            throw new InvalidPositionException("There is no piece on the current position");
-        return stone.getPieceColor() == color;
     }
 
     private void setDirection(@NotNull Position nextPosition) {
@@ -153,6 +144,7 @@ public class FreedomLine {
 
     /**
      * Gets the {@link FreedomLine} {@link Color}
+     *
      * @return This {@link FreedomLine}'s {@link Color}
      */
     public @Nullable Color getColor() {
@@ -161,6 +153,7 @@ public class FreedomLine {
 
     /**
      * Returns all this {@link FreedomLine}'s {@link Position}s
+     *
      * @return This {@link FreedomLine}'s {@link Position}s
      */
     @NotNull
@@ -170,6 +163,7 @@ public class FreedomLine {
 
     /**
      * Returns this {@link FreedomLine}'s first {@link Position} according to the {@link Position} ordering.
+     *
      * @return The first {@link Position} in this {@link FreedomLine}
      */
     @NotNull
@@ -179,6 +173,7 @@ public class FreedomLine {
 
     /**
      * Returns this {@link FreedomLine}'s last {@link Position} according to the {@link Position} ordering.
+     *
      * @return The last {@link Position} in this {@link FreedomLine}
      */
     @NotNull
@@ -188,6 +183,7 @@ public class FreedomLine {
 
     /**
      * Returns this {@link FreedomLine}'s size.
+     *
      * @return The size of this {@link FreedomLine}
      */
     public int size() {
@@ -196,6 +192,7 @@ public class FreedomLine {
 
     /**
      * Two {@link FreedomLine}s are equal if they have the same {@link Color}, the same {@link Piece} {@link Position}s and the same {@link Direction}.
+     *
      * @param o The {@link Object} to compare with
      * @return {@code true} if the {@link FreedomLine}s are equal, {@code false} otherwise
      */
@@ -206,6 +203,7 @@ public class FreedomLine {
         FreedomLine that = (FreedomLine) o;
         return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(board, color, direction, cellPositions);
@@ -213,6 +211,7 @@ public class FreedomLine {
 
     /**
      * {@link String} representation of the {@link FreedomLine}
+     *
      * @return A {@link String} composed by line {@link Color}, {@link FreedomLine} {@link Direction} and {@link Piece} {@link Position}s.
      */
     @Override
