@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kotcrab.vis.ui.VisUI;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.gui.GuiStone;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,26 +39,16 @@ class GuiStoneTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.PieceProviders#provideImagePathWithColorPairsAndWhetherResultingGuiStonesShouldBeEqual")
-    void testEqualsByComparingImageColorPairWithCandidatePair(String imageName, Color stoneColor, String candidateImageName, Color candidateStoneColor, boolean shouldBeEqual) {
-        GuiStone stone = new GuiStone(stoneColor, VisUI.getSkin().get(imageName, TextureRegion.class));
-        GuiStone comparisonStoneCandidate = new GuiStone(candidateStoneColor, VisUI.getSkin().get(candidateImageName, TextureRegion.class));
-        assertEquals(shouldBeEqual, stone.equals(comparisonStoneCandidate));
-    }
-
-    @Test
-    void testEqualsWithNullOrSameStoneOrOtherTypeCandidates() {
-        GuiStone stone = new GuiStone(Color.WHITE, VisUI.getSkin().get(WHITE_STONE_IMAGE_NAME, TextureRegion.class));
-        assertNotEquals(null, stone);
-        assertEquals(stone, stone);
-        assertNotEquals(new Object(), stone);
+    @MethodSource("board.providers.PieceProviders#provideGuiStoneAndObjectAndWhetherEqual")
+    void testEqualsByComparingGuiStoneWithCandidateObject(@NotNull GuiStone stone, Object candidate, boolean shouldBeEqual) {
+        assertEquals(shouldBeEqual, stone.equals(candidate));
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.PieceProviders#provideImagePathWithColorPairsAndWhetherResultingGuiStonesShouldBeEqual")
-    void testHashValue(String ignoredImageName, Color ignoredStoneColor, String candidateImageName, Color candidateStoneColor, boolean ignoredShouldBeEqual) {
-        GuiStone stone = new GuiStone(candidateStoneColor, VisUI.getSkin().get(candidateImageName, TextureRegion.class));
-        assertEquals(Objects.hash(candidateStoneColor, VisUI.getSkin().get(candidateImageName, TextureRegion.class)), stone.hashCode());
+    @MethodSource("board.providers.PieceProviders#provideAllImageColorCombinations")
+    void testHashValueForAllImageColorCombinations(String stoneImageName, Color stoneColor) {
+        GuiStone stone = new GuiStone(stoneColor, VisUI.getSkin().get(stoneImageName, TextureRegion.class));
+        assertEquals(Objects.hash(stoneColor, VisUI.getSkin().get(stoneImageName, TextureRegion.class)), stone.hashCode());
     }
 
     @Test
