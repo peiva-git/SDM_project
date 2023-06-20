@@ -75,7 +75,18 @@ public class FreedomPointsCounterProviders {
                                 + " 2 -  -  -  -  -  -  W  B\n"
                                 + " 1 -  -  -  -  -  -  -  -\n"
                                 + "   A  B  C  D  E  F  G  H",
-                        8, 1, 1)
+                        8, 1, 1),
+                Arguments.of(
+                        " 8 -  -  -  -  -  -  -  -\n"
+                                + " 7 -  -  -  -  -  -  -  -\n"
+                                + " 6 -  -  -  -  W  -  -  -\n"
+                                + " 5 -  -  -  W  B  B  -  -\n"
+                                + " 4 -  -  W  B  W  B  -  -\n"
+                                + " 3 -  W  -  -  -  W  B  -\n"
+                                + " 2 -  -  -  -  -  -  W  B\n"
+                                + " 1 -  -  -  -  -  -  -  -\n"
+                                + "   A  B  C  D  E  F  G  H",
+                        8, 1, 2)
         );
     }
 }
