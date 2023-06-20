@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MoveTests {
+class MoveTests {
 
     private final Player whitePlayer = new Player(Color.WHITE, "white");
     private final Player blackPlayer = new Player(Color.BLACK, "black");
@@ -35,6 +35,38 @@ public class MoveTests {
     void testHashCode() {
         assertEquals(Objects.hash(whitePlayer, firstPosition), whiteMove.hashCode());
         assertEquals(Objects.hash(blackPlayer, secondPosition), blackMove.hashCode());
+    }
+
+    @Test
+    void testEqualsBetweenTwoMovesByTwoDifferentPlayersWithDifferentPlayedPositions() {
+        assertNotEquals(whiteMove, blackMove);
+        assertNotEquals(blackMove, whiteMove);
+    }
+
+    @Test
+    void testEqualsBetweenTwoMovesOfTheSamePlayerWithDifferentPlayedPositions() {
+        Move secondWhiteMove = new Move(whitePlayer, secondPosition);
+        assertNotEquals(whiteMove, secondWhiteMove);
+        assertNotEquals(secondWhiteMove, whiteMove);
+    }
+
+    @Test
+    void testEqualsWithNullValue() {
+        assertNotEquals(null, whiteMove);
+    }
+
+    @Test
+    void testEqualsBetweenTwoMovesOfTheSamePlayerWithTheSamePlayedPositions() {
+        Move secondWhiteMove = new Move(whitePlayer, firstPosition);
+        assertEquals(whiteMove, secondWhiteMove);
+        assertEquals(secondWhiteMove, whiteMove);
+    }
+
+    @Test
+    void testEqualsBetweenTwoMovesByTwoDifferentPlayerWithTheSamePlayedPosition() {
+        Move secondWhiteMove = new Move(whitePlayer, secondPosition);
+        assertNotEquals(secondWhiteMove, blackMove);
+        assertNotEquals(blackMove, secondWhiteMove);
     }
 
 }
