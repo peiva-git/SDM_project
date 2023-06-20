@@ -1,13 +1,11 @@
 package it.units.sdm.project.board;
 
-import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -91,11 +89,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
                     }
                 }
                 if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getPieceColor() == Color.WHITE) {
-                        sb.append("W");
-                    } else {
-                        sb.append("B");
-                    }
+                    sb.append(getPiece(Position.fromCoordinates(i - 1, j - 1)));
                 } else {
                     sb.append("-");
                 }
