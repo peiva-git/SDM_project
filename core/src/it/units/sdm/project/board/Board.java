@@ -140,14 +140,14 @@ public interface Board<P extends Piece> {
     }
 
     /**
-     * Checks whether the size for {@code this} {@link Board} is valid. The number of rows and columns must be equal,
-     * non-negative, and it shouldn't exceed the maximum allowed values
-     * @param numberOfRows The number of rows for {@code this} {@link Board}
-     * @param numberOfColumns The number of columns for {@code this} {@link Board}
+     * Checks whether the size for {@code this} {@link Board} is valid. The size should be
+     * non-negative, and it shouldn't exceed the minimum and maximum allowed values of
+     * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE}.
+     * @param boardSize The number of rows and columns for {@code this} {@link Board}
      * @return Whether the size is valid
      */
-    default boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
-        return numberOfRows >= Board.MIN_BOARD_SIZE && numberOfRows <= Board.MAX_BOARD_SIZE && (numberOfRows == numberOfColumns);
+    default boolean isBoardSizeValid(int boardSize) {
+        return boardSize >= Board.MIN_BOARD_SIZE && boardSize <= Board.MAX_BOARD_SIZE;
     }
 
 }

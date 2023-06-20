@@ -37,8 +37,8 @@ public class GameScreen implements Screen {
      */
     public GameScreen(@NotNull FreedomGame game) {
         this.freedomGame = game;
-        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getNumberOfRowsAndColumns() + 800;
-        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getNumberOfRowsAndColumns() + 600;
+        final int GAME_SCREEN_WORLD_WIDTH = TILE_SIZE * game.getBoardSize() + 800;
+        final int GAME_SCREEN_WORLD_HEIGHT = TILE_SIZE * game.getBoardSize() + 600;
         stage = new Stage(new FitViewport(GAME_SCREEN_WORLD_WIDTH, GAME_SCREEN_WORLD_HEIGHT), new SpriteBatch());
         logArea = new VisTextArea();
         mainContainer = new VisTable();
@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
     private void setUpLogArea() {
-        logArea.setPrefRows(freedomGame.getNumberOfRowsAndColumns() * 2f);
+        logArea.setPrefRows(freedomGame.getBoardSize() * 2f);
         mainContainer.setFillParent(true);
         logArea.setReadOnly(true);
         logArea.appendText("FREEDOM\n");
@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
 
     private void setUpMainContainer() {
         VisScrollPane logAreaScrollPane = new VisScrollPane(logArea);
-        mainContainer.add(logAreaScrollPane).growX().height((float) TILE_SIZE * freedomGame.getNumberOfRowsAndColumns()).pad(BOARD_PADDING);
+        mainContainer.add(logAreaScrollPane).growX().height((float) TILE_SIZE * freedomGame.getBoardSize()).pad(BOARD_PADDING);
         mainContainer.add((Actor) freedomGame.getBoard()).pad(BOARD_PADDING);
         mainContainer.row();
         mainContainer.add(new VisLabel("Check out the rules if you don't remember how to play: ")).left().pad(BOARD_PADDING);

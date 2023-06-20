@@ -39,21 +39,20 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      */
     public static final Color LIGHT_TILE = new Color(240 / 255f, 217 / 255f, 181 / 255f, 1);
     private static final String GUI_BOARD_TAG = "GUI_BOARD";
-    private final int numberOfRows;
-    private final int numberOfColumns;
+    private final int boardSize;
 
     /**
-     * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI
-     * @param numberOfRows Number of rows the {@link Board} is going to have. Should be equal to the number of columns
-     * @param numberOfColumns Number of columns the {@link Board} is going to have. Should be equal to the number of columns
+     * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI.
+     * This implementation allows only square {@link Board}s, with the minimum and maximum size limits specified by the
+     * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE} fields.
+     * @param boardSize Number of rows the {@link Board} is going to have. Should be equal to the number of columns
      */
-    public GuiBoard(int numberOfRows, int numberOfColumns) {
-        if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
+    public GuiBoard(int boardSize) {
+        if (!isBoardSizeValid(boardSize)) {
             throw new InvalidBoardSizeException("The size of the board must be at least " + MIN_BOARD_SIZE + "x" + MIN_BOARD_SIZE
                     + " and at most " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE);
         }
-        this.numberOfColumns = numberOfColumns;
-        this.numberOfRows = numberOfRows;
+        this.boardSize = boardSize;
         initBoard();
     }
 
@@ -68,11 +67,11 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      */
     @NotNull
     public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(numberOfRows - tileRow - 1, tileColumn);
+        return Position.fromCoordinates(boardSize - tileRow - 1, tileColumn);
     }
 
     private void initBoard() {
-        for (int i = 0; i < numberOfRows; i++) {
+        for (int i = 0; i < boardSize; i++) {
             row();
             if (isIndexEven(i)) {
                 initBoardColumns(DARK_TILE, LIGHT_TILE);
@@ -83,7 +82,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     }
 
     private void initBoardColumns(Color oddTilesColor, Color evenTilesColor) {
-        for (int j = 0; j < numberOfColumns; j++) {
+        for (int j = 0; j < boardSize; j++) {
             Actor tile = new Image(getSkin().get("white_tile", TextureRegion.class));
             if (isIndexEven(j)) {
                 tile.setColor(evenTilesColor);
@@ -148,7 +147,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     @NotNull
     private Position getPositionFromCell(@NotNull Cell<Actor> tile) {
-        return Position.fromCoordinates(numberOfRows - tile.getRow() - 1, tile.getColumn());
+        return Position.fromCoordinates(boardSize - tile.getRow() - 1, tile.getColumn());
     }
 
     @Override

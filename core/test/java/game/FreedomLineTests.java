@@ -22,7 +22,7 @@ class FreedomLineTests {
             + " 2 B  W  W  W  W  W  W  W\n"
             + " 1 B  W  W  B  W  W  W  W\n"
             + "   A  B  C  D  E  F  G  H";
-    private final Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
+    private final Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8);
 
     @ParameterizedTest
     @MethodSource("game.providers.FreedomLineProviders#provideInitialLinePositionFor8x8BoardWithException")
