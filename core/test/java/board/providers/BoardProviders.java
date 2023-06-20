@@ -1,16 +1,20 @@
 package board.providers;
 
-import it.units.sdm.project.board.Position;
+import com.badlogic.gdx.graphics.Color;
+import it.units.sdm.project.board.*;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.util.Collections;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class MapBoardProviders {
-    public static @NotNull Stream<Arguments> provideBoardSizesWithExceptions() {
+public class BoardProviders {
+    public static @NotNull Stream<Arguments> provideBoardSizesWithExceptionsForInvalidBoardSizes() {
         return Stream.of(
                 Arguments.of(0, 1, InvalidBoardSizeException.class),
                 Arguments.of(1, 0, InvalidBoardSizeException.class),
@@ -23,7 +27,7 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptions() {
+    public static @NotNull Stream<Arguments> providePositionsFor8x8BoardWithExceptionsForInvalidPositions() {
         return Stream.of(
                 Arguments.of(7, 0, null),
                 Arguments.of(7, 1, null),
@@ -31,7 +35,15 @@ public class MapBoardProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> providePositionAndAdjacentBoardPositions() {
+    /**
+     * Each item in the returned {@link Stream} provides a starting {@link Position},
+     * a {@link Set} of all the {@link Position}s that should be adjacent to the starting {@link Position}
+     * and an {@link InvalidPositionException} argument.
+     * If the starting {@link Position} is invalid, the {@link Set} of adjacent {@link Position}s is empty and the
+     * final argument is set to {@link InvalidPositionException}. Otherwise, the final argument is set to {@code null}
+     * @return A {@link Stream} of {@link Arguments}
+     */
+    public static @NotNull Stream<Arguments> provideStartingPositionAndAdjacent8x8BoardPositionsWithExceptionsForInvalidStartingPosition() {
         return Stream.of(
                 // corner positions
                 Arguments.of(Position.fromCoordinates(0, 0), Set.of(
@@ -94,11 +106,11 @@ public class MapBoardProviders {
                         Position.fromCoordinates(3, 1),
                         Position.fromCoordinates(3, 3)
                 ), null),
-                Arguments.of(Position.fromCoordinates(8, 7), null, InvalidPositionException.class)
+                Arguments.of(Position.fromCoordinates(8, 7), Collections.emptySet(), InvalidPositionException.class)
         );
     }
 
-    public static @NotNull Stream<Arguments> provideEmptyBoardStringRepresentations() {
+    public static @NotNull Stream<Arguments> provideNumberOfRowsAndNumberOfColumnsForEmptyBoardStringRepresentation() {
         return Stream.of(
                 Arguments.of(8, 8,
                         " 8 -  -  -  -  -  -  -  -\n"
@@ -125,4 +137,54 @@ public class MapBoardProviders {
         );
     }
 
+    /**
+     * Each item in the returned {@link Stream} provides a non-empty {@link it.units.sdm.project.board.Board} {@link String}
+     * representation, followed by the {@link Color#WHITE} {@link it.units.sdm.project.board.Piece} {@link Position}
+     * and then the {@link Color#BLACK} {@link it.units.sdm.project.board.Piece} {@link Position}
+     * @return A {@link Stream} of {@link Arguments}
+     */
+    public static @NotNull Stream<Arguments> provide8x8NotEmptyBoardStringRepresentationWithPositionsToOccupyWithPieces() {
+        return Stream.of(
+                Arguments.of(" 8 -  -  -  -  -  -  -  -\n"
+                        + " 7 -  -  -  -  -  -  -  -\n"
+                        + " 6 -  W  -  -  -  -  -  -\n"
+                        + " 5 -  -  -  -  -  -  -  -\n"
+                        + " 4 -  -  -  B  -  -  -  -\n"
+                        + " 3 -  -  -  -  -  -  -  -\n"
+                        + " 2 -  -  -  -  -  -  -  -\n"
+                        + " 1 -  -  -  -  -  -  -  -\n"
+                        + "   A  B  C  D  E  F  G  H",
+                        Position.fromCoordinates(5, 1), Position.fromCoordinates(3, 3))
+        );
+    }
+
+    public static void fillBoardWithWhiteStones(@NotNull Board<Piece> board) {
+        for (Position position : board.getPositions()) {
+            board.putPiece(new Stone(Color.WHITE), position);
+        }
+    }
+
+    public static @NotNull Board<Piece> parseBoardFromString(@NotNull String printedBoard, int numberOfRows, int numberOfColumns) {
+        Scanner scanner = new Scanner(printedBoard);
+        Board<Piece> board = new MapBoard<>(numberOfRows, numberOfColumns);
+        while (scanner.hasNextLine()) {
+            if (scanner.hasNextInt()) {
+                int currentRow = scanner.nextInt() - 1;
+                IntStream.rangeClosed(0, numberOfColumns - 1)
+                        .forEach(currentColumn -> {
+                            String placeholder = scanner.next("[WB-]");
+                            if (placeholder.equals("W")) {
+                                board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(currentRow, currentColumn));
+                            } else if (placeholder.equals("B")) {
+                                board.putPiece(new Stone(Color.BLACK), Position.fromCoordinates(currentRow, currentColumn));
+                            }
+                        });
+                scanner.nextLine();
+            } else {
+                scanner.close();
+                break;
+            }
+        }
+        return board;
+    }
 }
