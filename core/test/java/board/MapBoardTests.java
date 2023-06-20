@@ -32,12 +32,14 @@ class MapBoardTests {
 
     @ParameterizedTest
     @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
-    void testPutPieceByCheckingWhetherTheCellsGetsOccupied(int row, int column, Class<Exception> expectedException) {
+    void putPieceThenGetPieceAndCheckIfEquals(int row, int column, Class<Exception> expectedException) {
+        Piece expectedStone = new Stone(Color.WHITE);
         if (expectedException == null) {
-            board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column));
-            assertTrue(board.isCellOccupied(Position.fromCoordinates(row, column)));
+            board.putPiece(expectedStone, Position.fromCoordinates(row, column));
+            assertEquals(expectedStone, board.getPiece(Position.fromCoordinates(row, column)));
         } else {
-            assertThrows(expectedException, () -> board.putPiece(new Stone(Color.WHITE), Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.putPiece(expectedStone, Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> board.getPiece(Position.fromCoordinates(row, column)));
         }
     }
 
