@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.game.Move;
 import it.units.sdm.project.game.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Objects;
 
@@ -37,36 +41,14 @@ class MoveTests {
         assertEquals(Objects.hash(blackPlayer, secondPosition), blackMove.hashCode());
     }
 
-    @Test
-    void testEqualsBetweenTwoMovesByTwoDifferentPlayersWithDifferentPlayedPositions() {
-        assertNotEquals(whiteMove, blackMove);
-        assertNotEquals(blackMove, whiteMove);
-    }
-
-    @Test
-    void testEqualsBetweenTwoMovesOfTheSamePlayerWithDifferentPlayedPositions() {
-        Move secondWhiteMove = new Move(whitePlayer, secondPosition);
-        assertNotEquals(whiteMove, secondWhiteMove);
-        assertNotEquals(secondWhiteMove, whiteMove);
-    }
-
-    @Test
-    void testEqualsWithNullValue() {
-        assertNotEquals(null, whiteMove);
-    }
-
-    @Test
-    void testEqualsBetweenTwoMovesOfTheSamePlayerWithTheSamePlayedPositions() {
-        Move secondWhiteMove = new Move(whitePlayer, firstPosition);
-        assertEquals(whiteMove, secondWhiteMove);
-        assertEquals(secondWhiteMove, whiteMove);
-    }
-
-    @Test
-    void testEqualsBetweenTwoMovesByTwoDifferentPlayerWithTheSamePlayedPosition() {
-        Move secondWhiteMove = new Move(whitePlayer, secondPosition);
-        assertNotEquals(secondWhiteMove, blackMove);
-        assertNotEquals(blackMove, secondWhiteMove);
+    @ParameterizedTest
+    @MethodSource("game.providers.MoveProviders#provideMoveAndObjectAndWhetherEqual")
+    void testEqualsBetweenTwoMovesByTwoDifferentPlayersWithDifferentPlayedPositions(@NotNull Move move, @Nullable Object object, boolean areEqual) {
+        if (areEqual) {
+            assertEquals(move, object);
+        } else {
+            assertNotEquals(move, object);
+        }
     }
 
 }

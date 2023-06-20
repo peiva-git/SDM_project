@@ -3,6 +3,7 @@ package game;
 import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.game.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,7 +42,7 @@ class PlayerTests {
 
     @ParameterizedTest
     @MethodSource("game.providers.PlayerProviders#providePlayerAndObjectAndWhetherEqual")
-    void testEquals(Object firstPlayer, Object secondPlayer, boolean areEqual) {
+    void testEquals(@NotNull Player firstPlayer, @Nullable Object secondPlayer, boolean areEqual) {
         if (areEqual) {
             assertEquals(firstPlayer, secondPlayer);
         } else {
