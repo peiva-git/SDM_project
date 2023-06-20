@@ -9,8 +9,11 @@ import it.units.sdm.project.board.gui.GuiStone;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Optional;
 
 import static board.gui.providers.GuiBoardProviders.fillBoardWithWhiteGuiStones;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,6 +76,17 @@ class GuiBoardTests {
             assertThrows(expectedException, () -> board.putPiece(expectedStone, Position.fromCoordinates(row, column)));
             assertThrows(expectedException, () -> board.getPiece(Position.fromCoordinates(row, column)));
         }
+    }
+
+    @Test
+    void testGetPositionsByCheckingPositionCountAndMinAndMaxPositions() {
+        Optional<Position> optionalMax = board.getPositions().stream().max(Position::compareTo);
+        assertTrue(optionalMax.isPresent());
+        assertEquals(Position.fromCoordinates(numberOfRows - 1, numberOfColumns - 1), optionalMax.get());
+        Optional<Position> optionalMin = board.getPositions().stream().min(Position::compareTo);
+        assertTrue(optionalMin.isPresent());
+        assertEquals(Position.fromCoordinates(0, 0), optionalMin.get());
+        assertEquals(numberOfRows * numberOfColumns, board.getPositions().size());
     }
 
     @AfterAll
