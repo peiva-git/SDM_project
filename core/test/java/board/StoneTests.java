@@ -4,11 +4,23 @@ import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Stone;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 class StoneTests {
     Piece blackStone = new Stone(Color.BLACK);
+
+    @ParameterizedTest
+    @MethodSource("board.providers.StoneProviders#provideStoneColorsWithExceptionsForInvalidColors")
+    void testStoneColorValidity(Color stoneColor, Class<Exception> expectedException) {
+        if (expectedException == null) {
+            assertDoesNotThrow(() -> new Stone(stoneColor));
+        } else {
+            assertThrows(expectedException, () -> new Stone(stoneColor));
+        }
+    }
 
     @Test
     void testColorGetter() {
