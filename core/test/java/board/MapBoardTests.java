@@ -21,7 +21,7 @@ class MapBoardTests {
     }
 
     @ParameterizedTest
-    @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptionsForInvalidMapBoardSizes")
+    @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptionsForInvalidBoardSizes")
     void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
         if (expectedException != null) {
             assertThrows(expectedException, () -> new MapBoard<>(numberOfRows, numberOfColumns));

@@ -11,8 +11,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
-import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
-
 /**
  * This class represents an implementation of the {@link Board} interface using a {@link TreeMap} to hold
  * information about the pieces {@link P} that are on this {@link Board}. The {@link Position}s on this {@link Board}
@@ -22,15 +20,6 @@ import static it.units.sdm.project.board.Position.MAXIMUM_COLUMN_INDEX;
 public class MapBoard<P extends Piece> implements Board<P> {
 
     private static final String INVALID_BOARD_POSITION_MESSAGE = "Invalid board position";
-    /**
-     * Minimum allowed {@link Board} size for this implementation.
-     */
-    public static final int MIN_BOARD_SIZE = 2;
-
-    /**
-     * Maximum allowed {@link Board} size for this implementation.
-     */
-    public static final int MAX_BOARD_SIZE = MAXIMUM_COLUMN_INDEX + 1;
     private final Map<Position, Cell<P>> cells = new TreeMap<>();
     private final int numberOfRows;
     private final int numberOfColumns;
@@ -45,8 +34,8 @@ public class MapBoard<P extends Piece> implements Board<P> {
     public MapBoard(int numberOfRows, int numberOfColumns) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(numberOfRows, numberOfColumns)) {
             throw new InvalidBoardSizeException(
-                    "The size of the board must be at least " + MIN_BOARD_SIZE + "x" + MIN_BOARD_SIZE
-                            + " and at most " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE);
+                    "The size of the board must be at least " + Board.MIN_BOARD_SIZE + "x" + Board.MIN_BOARD_SIZE
+                            + " and at most " + Board.MAX_BOARD_SIZE + "x" + Board.MAX_BOARD_SIZE);
         }
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
@@ -59,10 +48,6 @@ public class MapBoard<P extends Piece> implements Board<P> {
                 cells.put(Position.fromCoordinates(i, j), new Cell<>());
             }
         }
-    }
-
-    private boolean isBoardSizeValid(int numberOfRows, int numberOfColumns) {
-        return numberOfRows >= MIN_BOARD_SIZE && numberOfRows <= MAX_BOARD_SIZE && (numberOfRows == numberOfColumns);
     }
 
     @Override

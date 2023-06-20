@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class BoardProviders {
-    public static @NotNull Stream<Arguments> provideBoardSizesWithExceptionsForInvalidMapBoardSizes() {
+    public static @NotNull Stream<Arguments> provideBoardSizesWithExceptionsForInvalidBoardSizes() {
         return Stream.of(
                 Arguments.of(0, 1, InvalidBoardSizeException.class),
                 Arguments.of(1, 0, InvalidBoardSizeException.class),
