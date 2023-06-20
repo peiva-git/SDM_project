@@ -37,20 +37,15 @@ class FreedomLineTests {
     @ParameterizedTest
     @MethodSource("game.providers.FreedomLineProviders#provideSetOfPositions")
     void testAddMethod(SortedSet<Position> positions, Class<Exception> expectedException) {
+        FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
-            Assertions.assertDoesNotThrow(() -> {
-                FreedomLine freedomLine = new FreedomLine(board);
-                for (Position position : positions) {
-                    freedomLine.addPosition(position);
-                }
-            });
+            Assertions.assertDoesNotThrow(() ->
+                    freedomLine.addPositions(positions)
+            );
         } else {
-            Assertions.assertThrows(expectedException, () -> {
-                FreedomLine freedomLine = new FreedomLine(board);
-                for (Position position : positions) {
-                    freedomLine.addPosition(position);
-                }
-            });
+            Assertions.assertThrows(expectedException, () ->
+                    freedomLine.addPositions(positions)
+            );
         }
     }
 
