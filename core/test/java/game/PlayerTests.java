@@ -12,6 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTests {
 
     @Test
+    void testColorGetter() {
+        Player whitePlayer = new Player(Color.WHITE, "white");
+        assertEquals(Color.WHITE, whitePlayer.getColor());
+    }
+
+    @Test
     void testEqualsForTwoPlayersWithDifferentColorsAndDifferentUsername() {
         Player blackPlayer = new Player(Color.BLACK, "black");
         Player whitePlayer = new Player(Color.WHITE, "white");
