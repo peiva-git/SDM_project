@@ -1,7 +1,7 @@
 package board.gui.providers;
 
 import com.badlogic.gdx.graphics.Color;
-import com.kotcrab.vis.ui.VisUI;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.gui.GuiBoard;
 import it.units.sdm.project.board.gui.GuiStone;
@@ -19,9 +19,9 @@ public class GuiBoardProviders {
         );
     }
 
-    public static void fillBoardWithWhiteGuiStones(@NotNull GuiBoard<GuiStone> board) {
+    public static void fillBoardWithWhiteGuiStones(@NotNull GuiBoard<GuiStone> board, TextureRegion whiteCheckerImage) {
         for (Position position : board.getPositions()) {
-            board.putPiece(new GuiStone(Color.WHITE, VisUI.getSkin().getRegion("white_checker")), position);
+            board.putPiece(new GuiStone(Color.WHITE, whiteCheckerImage), position);
         }
     }
 }

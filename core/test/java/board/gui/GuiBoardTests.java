@@ -56,7 +56,7 @@ class GuiBoardTests {
     @ParameterizedTest
     @MethodSource("board.providers.BoardProviders#providePositionsFor8x8BoardWithExceptionsForInvalidPositions")
     void testClearCellByFillingBoardAndThenClearingOneCell(int row, int column, Class<Exception> expectedException) {
-        fillBoardWithWhiteGuiStones(board);
+        fillBoardWithWhiteGuiStones(board, VisUI.getSkin().getRegion("white_checker"));
         if (expectedException == null) {
             board.clearCell(Position.fromCoordinates(row, column));
             assertFalse(board.isCellOccupied(Position.fromCoordinates(row, column)));
