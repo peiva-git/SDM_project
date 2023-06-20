@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GuiStoneTests {
+class GuiStoneTests {
 
     private static final String WHITE_STONE_IMAGE_NAME = "white_checker";
     private static HeadlessApplication application;
