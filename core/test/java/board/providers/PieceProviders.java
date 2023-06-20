@@ -8,7 +8,10 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-public class StoneProviders {
+public class PieceProviders {
+
+    private static final String WHITE_CHECKER_IMAGE_NAME = "white_checker";
+    private static final String BLACK_CHECKER_IMAGE_NAME = "black_checker";
 
     public static @NotNull Stream<Arguments> provideStoneColorsWithExceptionsForInvalidColors() {
         return Stream.of(
@@ -27,6 +30,15 @@ public class StoneProviders {
                 Arguments.of(stone, null, false),
                 Arguments.of(stone, stone, true),
                 Arguments.of(stone, new Object(), false)
+        );
+    }
+
+    public static @NotNull Stream<Arguments> provideImagePathWithColorPairsAndWhetherResultingGuiStonesShouldBeEqual() {
+        return Stream.of(
+                Arguments.of(WHITE_CHECKER_IMAGE_NAME, Color.WHITE, WHITE_CHECKER_IMAGE_NAME, Color.WHITE, true),
+                Arguments.of(WHITE_CHECKER_IMAGE_NAME, Color.WHITE, WHITE_CHECKER_IMAGE_NAME, Color.BLACK, false),
+                Arguments.of(WHITE_CHECKER_IMAGE_NAME, Color.WHITE, BLACK_CHECKER_IMAGE_NAME, Color.WHITE, false),
+                Arguments.of(WHITE_CHECKER_IMAGE_NAME, Color.WHITE, BLACK_CHECKER_IMAGE_NAME, Color.BLACK, false)
         );
     }
 }
