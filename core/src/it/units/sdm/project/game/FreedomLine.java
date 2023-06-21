@@ -29,7 +29,7 @@ public class FreedomLine {
     /**
      * Creates a {@link FreedomLine} instance
      *
-     * @param board The {@link Board} on which this {@link FreedomLine} is located
+     * @param board The {@link Board} on which {@code this} {@link FreedomLine} is located
      * @param positions Initial {@link Position}s of the {@link FreedomLine}
      */
     public FreedomLine(@NotNull Board<? extends Piece> board, @NotNull Set<Position> positions) {
@@ -40,7 +40,7 @@ public class FreedomLine {
     /**
      * Creates a {@link FreedomLine} instance from a starting {@link Position}
      *
-     * @param board           {@link Board} on which this {@link FreedomLine} is located
+     * @param board The {@link Board} on which {@code this} {@link FreedomLine} is located
      * @param initialPosition Initial {@link Position} of the {@link FreedomLine}
      */
     public FreedomLine(@NotNull Board<? extends Piece> board, @NotNull Position initialPosition) {
@@ -49,11 +49,13 @@ public class FreedomLine {
     }
 
     /**
-     * Adds a {@link Piece} to this {@link FreedomLine}. This method checks if the
-     * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
-     * {@link Piece} {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
+     * Adds a {@link Position} to {@code this} {@link FreedomLine}. Before adding the {@link Position}, this method checks whether the
+     * {@link Piece} found on the supplied {@link Position} is valid.
+     * For a {@link Piece} to be valid, it has to exist (that is, the {@link Position} must be occupied),
+     * be in the same {@link Direction} as {@code this} {@link FreedomLine},
+     * and it needs to have the same {@link Color} as {@code this} {@link FreedomLine}.
      *
-     * @param position The {@link Position} to add
+     * @param position The {@link Position} to add and from which to get the {@link Piece}
      * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
      */
     public void addPosition(@NotNull Position position) throws InvalidPositionException {
@@ -72,9 +74,8 @@ public class FreedomLine {
     }
 
     /**
-     * Adds a set of {@link Piece}s to this {@link FreedomLine}. This method checks if the
-     * {@link Position}s to add are valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
-     * {@link Piece}'s {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
+     * Adds a set of {@link Piece}s to this {@link FreedomLine}. This method simply invokes the
+     * {@link FreedomLine#addPosition(Position)} method for each {@link Position} in the supplied {@link Set}.
      *
      * @param positions The {@link Position}s to add
      * @throws InvalidPositionException If any of the {@link Position}s aren't valid according to the above-mentioned criteria
@@ -147,14 +148,15 @@ public class FreedomLine {
     /**
      * Gets the {@link FreedomLine} {@link Color}
      *
-     * @return This {@link FreedomLine}'s {@link Color}
+     * @return This {@link FreedomLine}'s {@link Color}, or {@code null} if there are no {@link Position}s added
+     * to {@code this} {@link FreedomLine}
      */
     public @Nullable Color getColor() {
         return color;
     }
 
     /**
-     * Returns all this {@link FreedomLine}'s {@link Position}s
+     * Returns all {@code this} {@link FreedomLine}'s {@link Position}s
      *
      * @return This {@link FreedomLine}'s {@link Position}s
      */
@@ -164,9 +166,9 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this {@link FreedomLine}'s first {@link Position} according to the {@link Position} ordering.
+     * Returns {@code this} {@link FreedomLine}'s first {@link Position} according to the {@link Position} ordering.
      *
-     * @return The first {@link Position} in this {@link FreedomLine}
+     * @return The first {@link Position} in {@code this} {@link FreedomLine}
      */
     @NotNull
     public Position first() {
@@ -174,9 +176,9 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this {@link FreedomLine}'s last {@link Position} according to the {@link Position} ordering.
+     * Returns {@code this} {@link FreedomLine}'s last {@link Position} according to the {@link Position} ordering.
      *
-     * @return The last {@link Position} in this {@link FreedomLine}
+     * @return The last {@link Position} in {@code this} {@link FreedomLine}
      */
     @NotNull
     public Position last() {
@@ -184,9 +186,9 @@ public class FreedomLine {
     }
 
     /**
-     * Returns this {@link FreedomLine}'s size.
+     * Returns {@code this} {@link FreedomLine}'s size.
      *
-     * @return The size of this {@link FreedomLine}
+     * @return The size of {@code this} {@link FreedomLine}
      */
     public int size() {
         return cellPositions.size();
