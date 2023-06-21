@@ -9,7 +9,6 @@ import it.units.sdm.project.game.Player;
 import it.units.sdm.project.game.gui.FreedomGame;
 import it.units.sdm.project.game.gui.screens.PlayersNamesFormScreen;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Game over dialog for a {@link FreedomGame}.
