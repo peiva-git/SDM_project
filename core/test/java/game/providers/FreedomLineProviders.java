@@ -56,10 +56,10 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of horizontal positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * This provides a set of positions which at least two of them are horizontally aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
-     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
      * @return Stream of arguments which are the positions and the expected exception.
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreHorizontallyAlignedWithException() {
@@ -107,10 +107,10 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of vertical positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * This provides a set of positions which at least two of them are vertically aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
-     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
      * @return Stream of arguments which are the positions and the expected exception.
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreVerticallyAlignedWithException() {
@@ -149,10 +149,10 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of diagonal right positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * This provides a set of positions which at least two of them are diagonally right aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
-     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
      * @return Stream of arguments which are the positions and the expected exception.
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyRightAlignedWithException() {
@@ -201,10 +201,10 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of diagonal left positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * This provides a set of positions which at least two of them are diagonally left aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
-     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
      * @return Stream of arguments which are the positions and the expected exception.
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyLeftAlignedWithException() {
