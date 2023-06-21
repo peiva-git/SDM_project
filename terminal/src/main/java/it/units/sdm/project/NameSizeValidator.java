@@ -22,5 +22,8 @@ public class NameSizeValidator implements IParameterValidator{
         if (value.length() > MAX_NAME_LENGTH) {
             throw new ParameterException("Parameter " + name + "'s value is too long! Maximum allowed size is " + MAX_NAME_LENGTH);
         }
+        if (value.length() == 0) {
+            throw new ParameterException("Parameter" + name + "is empty!");
+        }
     }
 }
