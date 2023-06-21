@@ -58,21 +58,30 @@ To start the server, simply run the following command:
 docker compose -f path/to/docker-compose.yml up -d
 ```
 
+**An issue may appear on Linux systems**, indicating that the container requires more virtual memory in order to run correctly:
+> max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+
+To temporarily circumvent this issue, run the following command. For more information, 
+check out [this thread](https://stackoverflow.com/questions/42889241/how-to-increase-vm-max-map-count)
+```shell
+sudo sysctl -w vm.max_map_count=262144 
+```
+
 To use the Sonarqube Scanner run:
 ```shell
 ./gradlew -Dsonar.login=[auth_token] sonar
 ```
 
-To generate a code coverage report with [JaCoCo](https://github.com/jacoco/jacoco) run:
+To generate a code coverage report for the whole project with [JaCoCo](https://github.com/jacoco/jacoco) run:
 ```shell
-./gradlew -Dsonar.login=[auth_token] core:test jacocoTestReport sonar
+./gradlew -Dsonar.login=[auth_token] test jacocoTestReport sonar
 ```
 
 ### Unit testing
 
 Each module can have its own set of tests.
 Unit testing is done via the [JUnit 5 framework](https://junit.org/junit5/), using [Mockito](https://site.mockito.org/)
-when there's a need to mock libGDX's rendering capabilities.
+to mock libGDX's rendering capabilities.
 
 The tests can be executed all together, by running the main `test` task:
 ```shell
