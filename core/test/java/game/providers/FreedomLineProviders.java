@@ -56,7 +56,7 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of them are horizontally aligned.
+     * This provides a set of positions which at least two of its positions are horizontally aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
@@ -107,7 +107,7 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of them are vertically aligned.
+     * This provides a set of positions which at least two of its positions are vertically aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
@@ -149,7 +149,7 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of them are diagonally right aligned.
+     * This provides a set of positions which at least two of its positions are diagonally right aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
@@ -201,7 +201,7 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of them are diagonally left aligned.
+     * This provides a set of positions which at least two of its positions are diagonally left aligned.
      * If the expected exception is null the positions provided are either adjacent
      * to the last line's position or to the first line's position.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
