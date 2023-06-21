@@ -125,24 +125,24 @@ public class FreedomLine {
         throw new InvalidPositionException("The next position is not adjacent to the last stone of this line");
     }
 
-    private boolean isHorizontal(@NotNull Position position) {
-        if(cellPositions.first().getRow() == position.getRow() && cellPositions.first().getColumn() == position.getColumn() + 1) return true;
-        return cellPositions.last().getRow() == position.getRow() && cellPositions.last().getColumn() == position.getColumn() - 1;
+    private boolean isHorizontal(@NotNull Position nextPosition) {
+        if(cellPositions.first().getRow() == nextPosition.getRow() && cellPositions.first().getColumn() == nextPosition.getColumn() + 1) return true;
+        return cellPositions.last().getRow() == nextPosition.getRow() && cellPositions.last().getColumn() == nextPosition.getColumn() - 1;
     }
 
-    private boolean isVertical(@NotNull Position position) {
-        if(cellPositions.first().getColumn() == position.getColumn() && cellPositions.first().getRow() - 1 == position.getRow())  return true;
-        return cellPositions.last().getColumn() == position.getColumn() && cellPositions.last().getRow() + 1 == position.getRow();
+    private boolean isVertical(@NotNull Position nextPosition) {
+        if(cellPositions.first().getColumn() == nextPosition.getColumn() && cellPositions.first().getRow() - 1 == nextPosition.getRow())  return true;
+        return cellPositions.last().getColumn() == nextPosition.getColumn() && cellPositions.last().getRow() + 1 == nextPosition.getRow();
     }
 
-    private boolean isDiagonalLeft(@NotNull Position position) {
-        if(cellPositions.first().getColumn() == position.getColumn() - 1 && cellPositions.first().getRow() == position.getRow() + 1) return true;
-        return cellPositions.last().getColumn() == position.getColumn() + 1 && cellPositions.last().getRow() == position.getRow() - 1;
+    private boolean isDiagonalLeft(@NotNull Position nextPosition) {
+        if(cellPositions.first().getColumn() == nextPosition.getColumn() - 1 && cellPositions.first().getRow() == nextPosition.getRow() + 1) return true;
+        return cellPositions.last().getColumn() == nextPosition.getColumn() + 1 && cellPositions.last().getRow() == nextPosition.getRow() - 1;
     }
 
-    private boolean isDiagonalRight(@NotNull Position position) {
-        if(cellPositions.first().getColumn() == position.getColumn() + 1 && cellPositions.first().getRow() == position.getRow() + 1) return true;
-        return cellPositions.last().getColumn() == position.getColumn() - 1 && cellPositions.last().getRow() == position.getRow() - 1;
+    private boolean isDiagonalRight(@NotNull Position nextPosition) {
+        if(cellPositions.first().getColumn() == nextPosition.getColumn() + 1 && cellPositions.first().getRow() == nextPosition.getRow() + 1) return true;
+        return cellPositions.last().getColumn() == nextPosition.getColumn() - 1 && cellPositions.last().getRow() == nextPosition.getRow() - 1;
     }
 
     /**
