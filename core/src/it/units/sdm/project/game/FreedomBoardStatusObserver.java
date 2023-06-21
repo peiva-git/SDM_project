@@ -1,5 +1,6 @@
 package it.units.sdm.project.game;
 
+import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Piece;
 import org.jetbrains.annotations.NotNull;
@@ -24,31 +25,29 @@ public class FreedomBoardStatusObserver {
     }
 
     /**
-     * Returns the {@link Player} who's currently winning among the two {@link Player}s
-     * @param whitePlayer The first {@link Player}
-     * @param blackPlayer The second {@link Player}
-     * @return The {@link Player} who's currently winning, or {@code null} if it's a tie
+     * Returns the {@link Color} of the {@link Player} who's currently winning among the two {@link Player}s
+     * @return The {@link Color} of the {@link Player} who's currently winning, or {@code null} if it's a tie
      */
     @Nullable
-    public Player getCurrentWinner(@NotNull Player whitePlayer, @NotNull Player blackPlayer) {
-        int whiteScore = getCurrentScore(whitePlayer);
-        int blackScore = getCurrentScore(blackPlayer);
+    public Color getCurrentWinner() {
+        int whiteScore = getCurrentScore(Color.WHITE);
+        int blackScore = getCurrentScore(Color.BLACK);
         if (whiteScore > blackScore) {
-            return whitePlayer;
+            return Color.WHITE;
         } else if (blackScore > whiteScore) {
-            return blackPlayer;
+            return Color.BLACK;
         }
         return null;
     }
 
     /**
      * Returns the {@link Player}'s current score
-     * @param player The chosen {@link Player}
+     * @param playerColor The chosen {@link Player}
      * @return The {@link Player}'s current score
      */
-    private int getCurrentScore(@NotNull Player player) {
+    private int getCurrentScore(@NotNull Color playerColor) {
         FreedomPointsCounter freedomPointsCounter = new FreedomPointsCounter(board);
-        return freedomPointsCounter.getPlayerScore(player);
+        return freedomPointsCounter.getPlayerScore(playerColor);
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.units.sdm.project;
 
+import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Stone;
@@ -68,8 +69,7 @@ public class FreedomGame implements BoardGame<Piece> {
         System.out.println(board);
         System.out.println();
         System.out.println("The game is over!");
-        Player winner = statusObserver.getCurrentWinner(whitePlayer, blackPlayer);
-        displayTheWinner(winner);
+        displayTheWinner();
         reset();
     }
 
@@ -148,12 +148,21 @@ public class FreedomGame implements BoardGame<Piece> {
         return true;
     }
 
-    private void displayTheWinner(@Nullable Player winner) {
-        if (winner != null) {
-            System.out.println("The winner is: " + winner);
-        } else {
+    private void displayTheWinner() {
+        Color winnerColor = statusObserver.getCurrentWinner();
+        if (winnerColor == null) {
             System.out.println("Tie!");
+        } else {
+            System.out.println("The winner is: " + getPlayerFromColor(winnerColor));
         }
+    }
+    private @NotNull Player getPlayerFromColor(@NotNull Color playerColor) throws IllegalArgumentException {
+        if(playerColor == Color.WHITE) {
+            return whitePlayer;
+        } else if (playerColor == Color.BLACK) {
+            return blackPlayer;
+        }
+        throw new IllegalArgumentException("The color can be either white or black");
     }
 
     @Override

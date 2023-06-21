@@ -2,6 +2,7 @@ package it.units.sdm.project.game.gui.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import it.units.sdm.project.game.FreedomBoardStatusObserver;
 import it.units.sdm.project.game.Player;
@@ -29,14 +30,23 @@ public class GameOverDialog extends VisDialog {
         FreedomBoardStatusObserver statusObserver = new FreedomBoardStatusObserver(game.getBoard());
         button(POSITIVE_TEXT, POSITIVE_TEXT);
         button(NEGATIVE_TEXT, NEGATIVE_TEXT);
-        Player winner = statusObserver.getCurrentWinner(game.getWhitePlayer(), game.getBlackPlayer());
-        if (winner != null) {
-            text("The winner is " + winner);
-        } else {
+        Color winnerColor = statusObserver.getCurrentWinner();
+        if (winnerColor == null) {
             text("Tie!");
+        } else {
+            text("The winner is " + getPlayerFromColor(winnerColor));
         }
         getContentTable().pad(PADDING);
         getButtonsTable().pad(PADDING);
+    }
+
+    private @NotNull Player getPlayerFromColor(@NotNull Color playerColor) throws IllegalArgumentException {
+        if(playerColor == Color.WHITE) {
+            return game.getWhitePlayer();
+        } else if (playerColor == Color.BLACK) {
+            return game.getBlackPlayer();
+        }
+        throw new IllegalArgumentException("The color can be either white or black");
     }
 
     @Override
