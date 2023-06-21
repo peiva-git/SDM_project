@@ -73,11 +73,11 @@ public class FreedomLine {
 
     /**
      * Adds a set of {@link Piece}s to this {@link FreedomLine}. This method checks if the
-     * {@link Position} to add is valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
-     * {@link Piece} {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
+     * {@link Position}s to add are valid according to the {@link FreedomLine}'s {@link Direction}, to the last added
+     * {@link Piece}'s {@link Position} and to the last added {@link Piece}'s {@link Color}, if any.
      *
      * @param positions The {@link Position}s to add
-     * @throws InvalidPositionException If the {@link Position} isn't valid according to the above-mentioned criteria
+     * @throws InvalidPositionException If any of the {@link Position}s aren't valid according to the above-mentioned criteria
      */
     public void addPositions(@NotNull Set<Position> positions) throws InvalidPositionException {
         for (Position position : positions) {
