@@ -1,15 +1,20 @@
 package game;
 
 import board.providers.BoardProviders;
+import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.game.FreedomLine;
 import it.units.sdm.project.board.Board;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.awt.*;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class FreedomLineTests {
 
@@ -24,13 +29,21 @@ class FreedomLineTests {
             + "   A  B  C  D  E  F  G  H";
     private final Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
 
+    @Test
+    void testColorGetter() {
+        FreedomLine blackFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 0));
+        FreedomLine whiteFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 1));
+        assertEquals(Color.BLACK, blackFreedomLine.getColor());
+        assertEquals(Color.WHITE, whiteFreedomLine.getColor());
+    }
+
     @ParameterizedTest
     @MethodSource("game.providers.FreedomLineProviders#provideInitialLinePositionFor8x8BoardWithException")
     void testFreedomLineCustomConstructor(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
-            Assertions.assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
+            assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         } else {
-            Assertions.assertThrows(expectedException, () -> new FreedomLine(board, Position.fromCoordinates(row, column)));
+            assertThrows(expectedException, () -> new FreedomLine(board, Position.fromCoordinates(row, column)));
         }
     }
 
@@ -39,11 +52,11 @@ class FreedomLineTests {
     void testAddMethod(Set<Position> positions, Class<Exception> expectedException) {
         FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
-            Assertions.assertDoesNotThrow(() ->
+            assertDoesNotThrow(() ->
                     freedomLine.addPositions(positions)
             );
         } else {
-            Assertions.assertThrows(expectedException, () ->
+            assertThrows(expectedException, () ->
                     freedomLine.addPositions(positions)
             );
         }
