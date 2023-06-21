@@ -50,7 +50,7 @@ class FreedomLineTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.FreedomLineProviders#provideInitialLinePositionFor8x8BoardWithException")
+    @MethodSource("game.providers.FreedomLineProviders#provideInitialLinePositionFor8x8BoardWithExceptionsForInvalidPosition")
     void testFreedomLineCustomConstructor(int row, int column, Class<Exception> expectedException) {
         if (expectedException == null) {
             assertDoesNotThrow(() -> new FreedomLine(board, Position.fromCoordinates(row, column)));
