@@ -1,6 +1,5 @@
 package game.providers;
 
-import board.providers.BoardProviders;
 import it.units.sdm.project.board.Board;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Position;
@@ -11,6 +10,8 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.*;
 import java.util.stream.Stream;
+
+import static board.providers.BoardProviders.parseBoardFromString;
 
 public class FreedomLineProviders {
 
@@ -25,7 +26,7 @@ public class FreedomLineProviders {
                 + " 1 B  W  W  B  W  W  W  W\n"
                 + "   A  B  C  D  E  F  G  H";
 
-        Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
+        Board<Piece> board = parseBoardFromString(printedBoard, 8);
         FreedomLine freedomLine = new FreedomLine(board, Position.fromCoordinates(0,0));
         return Stream.of(
                 Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,1)), false),
