@@ -45,6 +45,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI.
      * This implementation allows only square {@link Board}s, with the minimum and maximum size limits specified by the
      * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE} fields.
+     *
      * @param boardSize Number of rows the {@link Board} is going to have. Should be equal to the number of columns
      */
     public GuiBoard(int boardSize) {
@@ -56,20 +57,6 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         initBoard();
     }
 
-    /**
-     * This method obtains a {@link Position} from the given tile coordinates.
-     * Each tile in a {@link Table} layout has its own pair of coordinates.
-     * Refer to the <a href="https://libgdx.com/wiki/graphics/2d/scene2d/table">Table documentation</a>
-     * to find out how they're specified.
-     * @param tileRow The tile row coordinate, starting from index zero
-     * @param tileColumn The tile column coordinate, starting from index zero
-     * @return The resulting {@link Position}
-     */
-    @NotNull
-    public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(boardSize - tileRow - 1, tileColumn);
-    }
-
     private void initBoard() {
         for (int i = 0; i < boardSize; i++) {
             row();
@@ -79,6 +66,10 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
                 initBoardColumns(LIGHT_TILE, DARK_TILE);
             }
         }
+    }
+
+    private static boolean isIndexEven(int i) {
+        return i % 2 == 0;
     }
 
     private void initBoardColumns(Color oddTilesColor, Color evenTilesColor) {
@@ -96,36 +87,50 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     /**
      * Sets a listener for the whole {@link Board}
+     *
      * @param clickListener Listener to be set
      */
     @SuppressWarnings("unchecked")
     public void setTileClickListener(@NotNull ClickListener clickListener) {
-        for(Cell<Actor> cell : getCells()) {
+        for (Cell<Actor> cell : getCells()) {
             Actor tileAndPiece = cell.getActor();
             tileAndPiece.clearListeners();
             tileAndPiece.addListener(clickListener);
         }
     }
 
-    private static boolean isIndexEven(int i) {
-        return i % 2 == 0;
+    @Override
+    public void clearCell(@NotNull Position position) throws InvalidPositionException {
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
+        if (isCellOccupied(tileAndPiece)) {
+            tileAndPiece.removeActorAt(1, false);
+        } else {
+            Gdx.app.debug(GUI_BOARD_TAG, "No piece at position " + position + ", already clear");
+        }
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public void clearCell(@NotNull Position position) throws InvalidPositionException {
+    private @NotNull Group getTileAndPieceFromPosition(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
-            if (getPositionFromCell(cell).equals(position)) {
-                Group tileAndPiece = (Group) cell.getActor();
-                if (isCellOccupied(tileAndPiece)) {
-                    tileAndPiece.removeActorAt(1, false);
-                } else {
-                    Gdx.app.debug(GUI_BOARD_TAG, "No piece at position " + position + ", already clear");
-                }
-                return;
-            }
+            Position currentPosition = fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn());
+            if (currentPosition.equals(position)) return (Group) cell.getActor();
         }
         throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
+    }
+
+    /**
+     * This method obtains a {@link Position} from the given tile coordinates.
+     * Each tile in a {@link Table} layout has its own pair of coordinates.
+     * Refer to the <a href="https://libgdx.com/wiki/graphics/2d/scene2d/table">Table documentation</a>
+     * to find out how they're specified.
+     *
+     * @param tileRow    The tile row coordinate, starting from index zero
+     * @param tileColumn The tile column coordinate, starting from index zero
+     * @return The resulting {@link Position}
+     */
+    @NotNull
+    public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
+        return Position.fromCoordinates(boardSize - tileRow - 1, tileColumn);
     }
 
     private static boolean isCellOccupied(@NotNull Group tileAndPiece) {
@@ -133,44 +138,27 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
-        for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromCell(cell).equals(position)) {
-                Group tileAndPiece = (Group) cell.getActor();
-                tileAndPiece.addActor(piece);
-                return;
-            }
-        }
-        throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
-    }
-
-    @NotNull
-    private Position getPositionFromCell(@NotNull Cell<Actor> tile) {
-        return Position.fromCoordinates(boardSize - tile.getRow() - 1, tile.getColumn());
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
+        tileAndPiece.addActor(piece);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
-        for(Cell<Actor> cell : getCells()) {
-            if(getPositionFromCell(cell).equals(position)) {
-                Group tileAndPiece = (Group) cell.getActor();
-                if (!isCellOccupied(tileAndPiece)) {
-                    return null;
-                } else {
-                    return (P) tileAndPiece.getChild(1);
-                }
-            }
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
+        if (!isCellOccupied(tileAndPiece)) {
+            return null;
+        } else {
+            return (P) tileAndPiece.getChild(1);
         }
-        throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public @NotNull Set<Position> getPositions() {
         Set<Position> positions = new TreeSet<>();
-        for(Cell<Actor> cell : getCells()) {
+        for (Cell<Actor> cell : getCells()) {
             positions.add(Position.fromCoordinates(cell.getRow(), cell.getColumn()));
         }
         return positions;
