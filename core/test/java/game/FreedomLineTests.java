@@ -37,6 +37,12 @@ class FreedomLineTests {
         assertEquals(Color.WHITE, whiteFreedomLine.getColor());
     }
 
+    @Test
+    void testPositionsGetter() {
+        FreedomLine blackFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 0));
+        assertEquals(Set.of(Position.fromCoordinates(0,0)), blackFreedomLine.getCellPositions());
+    }
+
     @ParameterizedTest
     @MethodSource("game.providers.FreedomLineProviders#provideFreedomLineWithCandidateObjectAndWhetherEqual")
     void testEquals(@NotNull FreedomLine freedomLine, @Nullable Object object, boolean shouldBeEqual) {
