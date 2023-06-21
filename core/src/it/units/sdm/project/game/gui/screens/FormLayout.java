@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class FormLayout extends VisTable {
     private static final int MAX_NAME_LENGTH = 20;
     private static final int TABLE_PADDING = 40;
-    public static final int CELLS_PADDING = 20;
+    private static final int CELLS_PADDING = 20;
     @NotNull
     private final VisValidatableTextField whitePlayerUsername;
     @NotNull
