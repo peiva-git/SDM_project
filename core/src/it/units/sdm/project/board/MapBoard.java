@@ -86,7 +86,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
         for (int i = boardSize - 1; i >= 0; i--) {
             for (int j = 0; j < boardSize; j++) {
                 if (isCurrentColumnForLabeling(j)) {
-                    printRowLabel(sb, i);
+                    sb.append(currentRowLabel(i));
                 }
                 if (isCellOccupied(Position.fromCoordinates(i, j))) {
                     sb.append(getPiece(Position.fromCoordinates(i, j)));
@@ -100,25 +100,29 @@ public class MapBoard<P extends Piece> implements Board<P> {
                 }
             }
         }
-        printColumnLabels(sb);
+        sb.append(columnLabels());
         return sb.toString();
     }
 
-    private void printColumnLabels(@NotNull StringBuilder sb) {
+    private @NotNull String columnLabels() {
+        StringBuilder sb = new StringBuilder();
         sb.append(" ");
         IntStream.range(0, boardSize).forEach(columnIndex -> sb.append("  ").append((char) ('A' + columnIndex)));
+        return sb.toString();
     }
 
     private boolean isNotLastColumn(int j) {
         return j < boardSize - 1;
     }
 
-    private static void printRowLabel(StringBuilder sb, int rowIndex) {
+    private static @NotNull String currentRowLabel(int rowIndex) {
+        StringBuilder sb = new StringBuilder();
         if (hasRowNumberOnlyOneDigit(rowIndex + 1)) {
             sb.append(" ").append(rowIndex + 1).append(" ");
         } else {
             sb.append(rowIndex + 1).append(" ");
         }
+        return sb.toString();
     }
 
     private static boolean hasRowNumberOnlyOneDigit(int rowNumber) {
