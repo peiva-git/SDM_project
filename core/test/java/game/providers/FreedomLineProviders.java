@@ -31,6 +31,7 @@ public class FreedomLineProviders {
                 Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,1)), false),
                 Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,3)), false),
                 Arguments.of(freedomLine, freedomLine, true),
+                Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,0)), true),
                 Arguments.of(freedomLine, null, false),
                 Arguments.of(freedomLine, new Object(), false)
         );
