@@ -34,13 +34,10 @@ public class TileClickListener extends ClickListener {
      */
     @Override
     public void clicked(@NotNull InputEvent event, float x, float y) {
-        Cell<Actor> cell = ((GuiBoard<GuiStone>) game.getBoard()).getCell(event.getListenerActor());
-        game.nextMove(fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
+        GuiBoard<GuiStone> board = (GuiBoard<GuiStone>) game.getBoard();
+        Cell<Actor> cell = board.getCell(event.getListenerActor());
+        game.nextMove(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
         super.clicked(event, x, y);
     }
 
-    @NotNull
-    private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(game.getBoardSize() - tileRow - 1, tileColumn);
-    }
 }
