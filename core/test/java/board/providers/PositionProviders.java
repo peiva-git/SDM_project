@@ -38,4 +38,16 @@ public class PositionProviders {
                 Arguments.of(3, 7, "H4")
         );
     }
+
+    public static @NotNull Stream<Arguments> providePositionWithObjectAndWhetherEqual() {
+        Position position = Position.fromCoordinates(4, 6);
+        return Stream.of(
+                Arguments.of(position, Position.fromCoordinates(4, 6), true),
+                Arguments.of(position, Position.fromCoordinates(5, 6), false),
+                Arguments.of(position, Position.fromCoordinates(4, 7), false),
+                Arguments.of(position, null, false),
+                Arguments.of(position, position, true),
+                Arguments.of(position, new Object(), false)
+        );
+    }
 }
