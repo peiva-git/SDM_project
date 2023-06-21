@@ -56,11 +56,11 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of its positions are horizontally aligned.
-     * If the expected exception is null the positions provided are either adjacent
-     * to the last line's position or to the first line's position.
+     * This provides a {@link Set} of {@link Position}s, with at least two of them horizontally aligned.
+     * If the expected {@link Exception} is {@code null}, the provided {@link Position}s are either adjacent
+     * to the last {@link FreedomLine}'s {@link Position} or to the first {@link FreedomLine}'s {@link Position}.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
-     * @return Stream of arguments which are the positions and the expected exception.
+     * @return A {@link Stream} of the specified {@link Arguments}
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreHorizontallyAlignedWithException() {
         return Stream.of(
@@ -107,11 +107,11 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of its positions are vertically aligned.
-     * If the expected exception is null the positions provided are either adjacent
-     * to the last line's position or to the first line's position.
+     * This provides a {@link Set} of {@link Position}s, with at least two of them vertically aligned.
+     * If the expected {@link Exception} is {@code null}, the provided {@link Position}s are either adjacent
+     * to the last {@link FreedomLine}'s {@link Position} or to the first {@link FreedomLine}'s {@link Position}.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
-     * @return Stream of arguments which are the positions and the expected exception.
+     * @return A {@link Stream} of the specified {@link Arguments}
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreVerticallyAlignedWithException() {
         return Stream.of(
@@ -149,11 +149,11 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of its positions are diagonally right aligned.
-     * If the expected exception is null the positions provided are either adjacent
-     * to the last line's position or to the first line's position.
+     * This provides a {@link Set} of {@link Position}s, with at least two of them diagonally right aligned.
+     * If the expected {@link Exception} is {@code null}, the provided {@link Position}s are either adjacent
+     * to the last {@link FreedomLine}'s {@link Position} or to the first {@link FreedomLine}'s {@link Position}.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
-     * @return Stream of arguments which are the positions and the expected exception.
+     * @return A {@link Stream} of the specified {@link Arguments}
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyRightAlignedWithException() {
         return Stream.of(
@@ -201,11 +201,11 @@ public class FreedomLineProviders {
     }
 
     /**
-     * This provides a set of positions which at least two of its positions are diagonally left aligned.
-     * If the expected exception is null the positions provided are either adjacent
-     * to the last line's position or to the first line's position.
+     * This provides a {@link Set} of {@link Position}s, with at least two of them diagonally left aligned.
+     * If the expected {@link Exception} is {@code null}, the provided {@link Position}s are either adjacent
+     * to the last {@link FreedomLine}'s {@link Position} or to the first {@link FreedomLine}'s {@link Position}.
      * Otherwise, there is at least one position which is either adjacent but in the wrong direction or not adjacent at all.
-     * @return Stream of arguments which are the positions and the expected exception.
+     * @return A {@link Stream} of the specified {@link Arguments}
      */
     public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyLeftAlignedWithException() {
         return Stream.of(
