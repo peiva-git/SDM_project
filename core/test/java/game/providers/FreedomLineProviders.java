@@ -41,12 +41,9 @@ public class FreedomLineProviders {
                 ),
                 Arguments.of(
                         new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(7, 0),
-                                Position.fromCoordinates(6, 0),
                                 Position.fromCoordinates(5, 0),
-                                Position.fromCoordinates(4, 0),
-                                Position.fromCoordinates(3, 0),
-                                Position.fromCoordinates(2, 0)
+                                Position.fromCoordinates(6, 0),
+                                Position.fromCoordinates(1, 0)
                         )),
                         InvalidPositionException.class
                 ),
@@ -67,10 +64,18 @@ public class FreedomLineProviders {
                 ),
                 Arguments.of(
                         new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(0, 1),
                                 Position.fromCoordinates(1, 2),
+                                Position.fromCoordinates(0, 1),
                                 Position.fromCoordinates(2, 3),
-                                Position.fromCoordinates(3, 3)
+                                Position.fromCoordinates(5, 0)
+                        )),
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(List.of(
+                                Position.fromCoordinates(1, 2),
+                                Position.fromCoordinates(0, 1),
+                                Position.fromCoordinates(7, 3)
                         )),
                         InvalidPositionException.class
                 ),
@@ -111,6 +116,23 @@ public class FreedomLineProviders {
                                 Position.fromCoordinates(2, 1)))
                         ,
                         null
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(List.of(
+                                Position.fromCoordinates(0, 2),
+                                Position.fromCoordinates(0, 1),
+                                Position.fromCoordinates(0, 5)))
+                        ,
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(List.of(
+                                Position.fromCoordinates(2, 3),
+                                Position.fromCoordinates(1, 2),
+                                Position.fromCoordinates(0, 1),
+                                Position.fromCoordinates(3, 4)))
+                        ,
+                        InvalidPositionException.class
                 )
         );
     }
