@@ -18,7 +18,7 @@ public class TileClickListener extends ClickListener {
 
     /**
      * Creates a new listener to be used with a {@link GuiBoard}. By default,
-     * the listener will simply execute the {@link FreedomGame#nextMove(Position)} method from the {@link BoardGame}
+     * the listener will simply execute the {@link BoardGame#nextMove(Position)} method from the {@link BoardGame}
      * interface using the clicked tile's {@link Position}.
      * If a different behaviour is expected, the {@link ClickListener#clicked(InputEvent, float, float)} method should be overridden.
      * @param boardGame The {@link BoardGame} instance on which to listen for tile click events
