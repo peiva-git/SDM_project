@@ -23,9 +23,8 @@ class GuiBoardTests {
 
     private static HeadlessApplication application;
 
-    private static final int numberOfRows = 8;
-    private static final int numberOfColumns = 8;
-    private final GuiBoard<GuiStone> board = new GuiBoard<>(numberOfRows, numberOfColumns);
+    private static final int boardSize = 8;
+    private final GuiBoard<GuiStone> board = new GuiBoard<>(boardSize);
 
     @BeforeAll
     static void initApplication() {
@@ -39,11 +38,11 @@ class GuiBoardTests {
 
     @ParameterizedTest
     @MethodSource("board.providers.BoardProviders#provideBoardSizesWithExceptionsForInvalidBoardSizes")
-    void testBoardSizeValidity(int numberOfRows, int numberOfColumns, Class<Exception> expectedException) {
+    void testBoardSizeValidity(int boardSize, Class<Exception> expectedException) {
         if (expectedException != null) {
-            assertThrows(expectedException, () -> new GuiBoard<>(numberOfRows, numberOfColumns));
+            assertThrows(expectedException, () -> new GuiBoard<>(boardSize));
         } else {
-            assertDoesNotThrow(() -> new GuiBoard<>(numberOfRows, numberOfColumns));
+            assertDoesNotThrow(() -> new GuiBoard<>(boardSize));
         }
     }
 
@@ -82,11 +81,11 @@ class GuiBoardTests {
     void testGetPositionsByCheckingPositionCountAndMinAndMaxPositions() {
         Optional<Position> optionalMax = board.getPositions().stream().max(Position::compareTo);
         assertTrue(optionalMax.isPresent());
-        assertEquals(Position.fromCoordinates(numberOfRows - 1, numberOfColumns - 1), optionalMax.get());
+        assertEquals(Position.fromCoordinates(boardSize - 1, boardSize - 1), optionalMax.get());
         Optional<Position> optionalMin = board.getPositions().stream().min(Position::compareTo);
         assertTrue(optionalMin.isPresent());
         assertEquals(Position.fromCoordinates(0, 0), optionalMin.get());
-        assertEquals(numberOfRows * numberOfColumns, board.getPositions().size());
+        assertEquals(boardSize * boardSize, board.getPositions().size());
     }
 
     @AfterAll

@@ -54,7 +54,7 @@ public class TerminalLauncher {
             return;
         }
 
-        Board<Piece> board = new MapBoard<>(launcher.boardSize, launcher.boardSize);
+        Board<Piece> board = new MapBoard<>(launcher.boardSize);
         Player whitePlayer = new Player(Color.WHITE, launcher.whitePlayerUsername);
         Player blackPlayer = new Player(Color.BLACK, launcher.blackPlayerUsername);
         FreedomGame freedomGame = new FreedomGame(board, whitePlayer, blackPlayer);

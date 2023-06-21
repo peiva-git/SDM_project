@@ -44,7 +44,7 @@ public class FreedomGame extends Game implements BoardGame<GuiStone> {
      */
     public static final int MIN_BOARD_SIZE = 4;
     private static final String GAME_TAG = "FREEDOM_GAME";
-    private int numberOfRowsAndColumns = 8;
+    private int boardSize = 8;
     @NotNull
     private GuiBoard<GuiStone> board;
     @NotNull
@@ -129,8 +129,8 @@ public class FreedomGame extends Game implements BoardGame<GuiStone> {
      * If no value was set, returns the default value of 8
      * @return The number of rows or columns
      */
-    public int getNumberOfRowsAndColumns() {
-        return numberOfRowsAndColumns;
+    public int getBoardSize() {
+        return boardSize;
     }
 
     @Override
@@ -174,15 +174,15 @@ public class FreedomGame extends Game implements BoardGame<GuiStone> {
 
     /**
      * Sets the number of rows and columns for {@code this} {@link FreedomGame}
-     * @param numberOfRowsAndColumns The numbers of rows and columns to be set
+     * @param boardSize The numbers of rows and columns to be set
      */
-    public void setNumberOfRowsAndColumns(int numberOfRowsAndColumns) {
-        this.numberOfRowsAndColumns = numberOfRowsAndColumns;
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
         reloadBoardSetup();
     }
 
     private void reloadBoardSetup() {
-        board = new GuiBoard<>(numberOfRowsAndColumns, numberOfRowsAndColumns);
+        board = new GuiBoard<>(boardSize);
         board.setTileClickListener(new TileClickListener(this));
         statusObserver = new FreedomBoardStatusObserver(board);
         cellHighlighter = new FreedomCellHighlighter(board);

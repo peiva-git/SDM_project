@@ -41,6 +41,6 @@ public class TileClickListener extends ClickListener {
 
     @NotNull
     private Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(game.getNumberOfRowsAndColumns() - tileRow - 1, tileColumn);
+        return Position.fromCoordinates(game.getBoardSize() - tileRow - 1, tileColumn);
     }
 }
