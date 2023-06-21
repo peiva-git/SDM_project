@@ -101,7 +101,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     @Override
     public void clearCell(@NotNull Position position) throws InvalidPositionException {
-        Group tileAndPiece = getTileAndPieceGroupFromPosition(position);
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
         if (isCellOccupied(tileAndPiece)) {
             tileAndPiece.removeActorAt(1, false);
         } else {
@@ -110,7 +110,7 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
     }
 
     @SuppressWarnings("unchecked")
-    private @NotNull Group getTileAndPieceGroupFromPosition(@NotNull Position position) throws InvalidPositionException {
+    private @NotNull Group getTileAndPieceFromPosition(@NotNull Position position) throws InvalidPositionException {
         for (Cell<Actor> cell : getCells()) {
             Position currentPosition = fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn());
             if (currentPosition.equals(position)) return (Group) cell.getActor();
@@ -139,14 +139,14 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
 
     @Override
     public void putPiece(@NotNull P piece, @NotNull Position position) throws InvalidPositionException {
-        Group tileAndPiece = getTileAndPieceGroupFromPosition(position);
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
         tileAndPiece.addActor(piece);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable P getPiece(@NotNull Position position) throws InvalidPositionException {
-        Group tileAndPiece = getTileAndPieceGroupFromPosition(position);
+        Group tileAndPiece = getTileAndPieceFromPosition(position);
         if (!isCellOccupied(tileAndPiece)) {
             return null;
         } else {
