@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static board.providers.BoardProviders.parseBoardFromString;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FreedomBoardStatusObserverTests {
+class FreedomBoardStatusObserverTests {
 
     @ParameterizedTest
     @MethodSource("game.providers.FreedomPointsCounterProviders#printedBoardsProvider")
