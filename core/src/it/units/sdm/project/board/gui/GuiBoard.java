@@ -45,7 +45,6 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
      * Creates a new {@link Board} instance to be used in a libGDX scene2d GUI.
      * This implementation allows only square {@link Board}s, with the minimum and maximum size limits specified by the
      * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE} fields.
-     *
      * @param boardSize Number of rows the {@link Board} is going to have. Should be equal to the number of columns
      */
     public GuiBoard(int boardSize) {
@@ -55,6 +54,20 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
         }
         this.boardSize = boardSize;
         initBoard();
+    }
+
+    /**
+     * This method obtains a {@link Position} from the given tile coordinates.
+     * Each tile in a {@link Table} layout has its own pair of coordinates.
+     * Refer to the <a href="https://libgdx.com/wiki/graphics/2d/scene2d/table">Table documentation</a>
+     * to find out how they're specified.
+     * @param tileRow The tile row coordinate, starting from index zero
+     * @param tileColumn The tile column coordinate, starting from index zero
+     * @return The resulting {@link Position}
+     */
+    @NotNull
+    public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
+        return Position.fromCoordinates(boardSize - tileRow - 1, tileColumn);
     }
 
     private void initBoard() {
@@ -116,21 +129,6 @@ public class GuiBoard<P extends GuiStone> extends VisTable implements Board<P> {
             if (currentPosition.equals(position)) return (Group) cell.getActor();
         }
         throw new InvalidPositionException(INVALID_BOARD_POSITION_MESSAGE);
-    }
-
-    /**
-     * This method obtains a {@link Position} from the given tile coordinates.
-     * Each tile in a {@link Table} layout has its own pair of coordinates.
-     * Refer to the <a href="https://libgdx.com/wiki/graphics/2d/scene2d/table">Table documentation</a>
-     * to find out how they're specified.
-     *
-     * @param tileRow    The tile row coordinate, starting from index zero
-     * @param tileColumn The tile column coordinate, starting from index zero
-     * @return The resulting {@link Position}
-     */
-    @NotNull
-    public Position fromTileCoordinatesToBoardPosition(int tileRow, int tileColumn) {
-        return Position.fromCoordinates(boardSize - tileRow - 1, tileColumn);
     }
 
     private static boolean isCellOccupied(@NotNull Group tileAndPiece) {
