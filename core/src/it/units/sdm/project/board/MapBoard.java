@@ -86,11 +86,12 @@ public class MapBoard<P extends Piece> implements Board<P> {
         StringBuilder sb = new StringBuilder();
         for (int i = boardSize - 1; i >= 0; i--) {
             for (int j = 0; j < boardSize; j++) {
+                Position currentPosition = Position.fromCoordinates(i, j);
                 if (isFirstColumn(j)) {
                     sb.append(currentRowLabel(i));
                 }
-                if (isCellOccupied(Position.fromCoordinates(i, j))) {
-                    sb.append(getPiece(Position.fromCoordinates(i, j)));
+                if (isCellOccupied(currentPosition)) {
+                    sb.append(getPiece(currentPosition));
                 } else {
                     sb.append("-");
                 }
