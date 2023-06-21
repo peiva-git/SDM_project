@@ -6,12 +6,12 @@ import it.units.sdm.project.board.Position;
 import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.game.FreedomLine;
 import it.units.sdm.project.board.Board;
-import org.junit.jupiter.api.Assertions;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.awt.*;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +35,12 @@ class FreedomLineTests {
         FreedomLine whiteFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 1));
         assertEquals(Color.BLACK, blackFreedomLine.getColor());
         assertEquals(Color.WHITE, whiteFreedomLine.getColor());
+    }
+
+    @ParameterizedTest
+    @MethodSource("game.providers.FreedomLineProviders#provideFreedomLineWithCandidateObjectAndWhetherEqual")
+    void testEquals(@NotNull FreedomLine freedomLine, @Nullable Object object, boolean shouldBeEqual) {
+        assertEquals(shouldBeEqual, freedomLine.equals(object));
     }
 
     @ParameterizedTest

@@ -1,7 +1,11 @@
 package game.providers;
 
+import board.providers.BoardProviders;
+import it.units.sdm.project.board.Board;
+import it.units.sdm.project.board.Piece;
 import it.units.sdm.project.board.Position;
 import it.units.sdm.project.exceptions.InvalidPositionException;
+import it.units.sdm.project.game.FreedomLine;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -9,6 +13,30 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class FreedomLineProviders {
+
+    public static @NotNull Stream<Arguments> provideFreedomLineWithCandidateObjectAndWhetherEqual() {
+        String printedBoard = " 8 W  W  W  W  W  W  W  W\n"
+                + " 7 W  B  W  W  W  W  W  W\n"
+                + " 6 W  B  B  W  B  W  B  B\n"
+                + " 5 W  B  B  W  B  W  B  W\n"
+                + " 4 W  W  B  W  B  W  B  W\n"
+                + " 3 B  W  W  W  B  W  B  W\n"
+                + " 2 B  W  W  W  W  W  W  W\n"
+                + " 1 B  W  W  B  W  W  W  W\n"
+                + "   A  B  C  D  E  F  G  H";
+
+        Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
+        FreedomLine verticalFreedomLine = new FreedomLine(board, Position.fromCoordinates(0,0));
+        verticalFreedomLine.addPosition(Position.fromCoordinates(1,0));
+        FreedomLine horizontalFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 1));
+        horizontalFreedomLine.addPosition(Position.fromCoordinates(0,2));
+        return Stream.of(
+                Arguments.of(verticalFreedomLine, verticalFreedomLine, true),
+                Arguments.of(verticalFreedomLine, horizontalFreedomLine, false),
+                Arguments.of(verticalFreedomLine, null, false),
+                Arguments.of(verticalFreedomLine, new Object(), false)
+        );
+    }
 
     public static @NotNull Stream<Arguments> provideInitialLinePositionFor8x8BoardWithException() {
         return Stream.of(

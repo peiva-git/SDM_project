@@ -194,7 +194,7 @@ public class FreedomLine {
     }
 
     /**
-     * Two {@link FreedomLine}s are equal if they have the same {@link Color}, the same {@link Piece} {@link Position}s and the same {@link Direction}.
+     * Two {@link FreedomLine}s are equal if they have the same {@link Color} and the same {@link Piece} {@link Position}s
      *
      * @param o The {@link Object} to compare with
      * @return {@code true} if the {@link FreedomLine}s are equal, {@code false} otherwise
@@ -204,7 +204,7 @@ public class FreedomLine {
         if (this == o) return true;
         if (!(o instanceof FreedomLine)) return false;
         FreedomLine that = (FreedomLine) o;
-        return Objects.equals(color, that.color) && direction == that.direction && Objects.equals(cellPositions, that.cellPositions);
+        return Objects.equals(color, that.color) && Objects.equals(cellPositions, that.cellPositions);
     }
 
     @Override
