@@ -2,6 +2,7 @@ package board;
 
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import it.units.sdm.project.board.Position;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -40,5 +41,11 @@ class PositionTests {
     @MethodSource("board.providers.PositionProviders#providePositionStringRepresentations")
     void testPositionStringRepresentation(int row, int column, String positionRepresentation) {
         assertEquals(Position.fromCoordinates(row, column).toString(), positionRepresentation);
+    }
+
+    @ParameterizedTest
+    @MethodSource("board.providers.PositionProviders#providePositionWithObjectAndWhetherEqual")
+    void testEqualsByComparingPositionWithCandidateObject(@NotNull Position position, Object candidate, boolean shouldBeEqual) {
+        assertEquals(shouldBeEqual, position.equals(candidate));
     }
 }
