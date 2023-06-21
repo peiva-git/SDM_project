@@ -75,8 +75,9 @@ public class MapBoard<P extends Piece> implements Board<P> {
     /**
      * Generates a {@link String} representation of the {@link Board}. The {@link Board} is displayed here as a chess board,
      * with letters indicating columns and numbers indicating rows. Free cells are marked with a - character,
-     * while cells occupied by the white {@link it.units.sdm.project.game.Player} are marked with a W
-     * and cells occupied by the black {@link it.units.sdm.project.game.Player} are marked with a B.
+     * while cells occupied are displayed with {@link Object#toString()}. In order to properly visualize
+     * the {@link Board}, the {@link Piece}s used must have a single character string representation by overriding
+     * the {@link Object#toString()}.
      *
      * @return The {@link Board}'s {@link String} representation
      */
