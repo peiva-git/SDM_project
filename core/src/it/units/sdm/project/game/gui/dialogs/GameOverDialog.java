@@ -38,6 +38,7 @@ public class GameOverDialog extends VisDialog {
         }
         getContentTable().pad(PADDING);
         getButtonsTable().pad(PADDING);
+        getTitleTable().pad(PADDING);
     }
 
     private @NotNull Player getPlayerFromColor(@NotNull Color playerColor) throws IllegalArgumentException {

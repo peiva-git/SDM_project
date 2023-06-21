@@ -28,6 +28,7 @@ public class LastMoveDialog extends VisDialog {
         button(NEGATIVE_TEXT, NEGATIVE_TEXT);
         getContentTable().pad(PADDING);
         getButtonsTable().pad(PADDING);
+        getTitleTable().pad(PADDING);
     }
     @Override
     protected void result(Object object) {
