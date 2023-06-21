@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-public class FreedomBoardStatusProvider {
+public class FreedomBoardStatusObserverProvider {
 
         public static @NotNull Stream<Arguments> provide4x4BoardWithLastMOvedPlayed() {
             Player whitePlayer = new Player(Color.WHITE, "white");
