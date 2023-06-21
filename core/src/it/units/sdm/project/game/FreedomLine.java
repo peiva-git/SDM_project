@@ -98,9 +98,8 @@ public class FreedomLine {
             case DIAGONAL_LEFT:
                 if (!isDiagonalLeft(nextPosition)) return false;
                 break;
-            case DIAGONAL_RIGHT:
+            default:
                 if (!isDiagonalRight(nextPosition)) return false;
-                break;
         }
         return true;
     }
