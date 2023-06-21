@@ -38,9 +38,9 @@ public interface BoardGame<P extends Piece> {
 
     /**
      * Plays the next {@link Move} in this {@link BoardGame}
-     * @param position The chosen {@link Position} for the next {@link Move}
+     * @param playerChosenPosition The chosen {@link Position} for the next {@link Move}
      */
-    void nextMove(@NotNull Position position);
+    void nextMove(@NotNull Position playerChosenPosition);
 
     /**
      * Returns the {@link Player} who's playing next
