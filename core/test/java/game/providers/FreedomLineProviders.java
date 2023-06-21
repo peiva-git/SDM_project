@@ -55,111 +55,188 @@ public class FreedomLineProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> provideSetOfPositionsWithExceptionsForAtLeastOneInvalidPosition() {
+    /**
+     * This provides a set of horizontal positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * If the expected exception is null the positions provided are either adjacent
+     * to the last line's position or to the first line's position.
+     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * @return Stream of arguments which are the positions and the expected exception.
+     */
+    public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreHorizontallyAlignedWithException() {
         return Stream.of(
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(7, 0),
-                                Position.fromCoordinates(6, 0),
-                                Position.fromCoordinates(5, 0),
-                                Position.fromCoordinates(4, 0),
-                                Position.fromCoordinates(3, 0)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 2),
+                                        Position.fromCoordinates(1,3),
+                                        Position.fromCoordinates(1,1)
+                                )
+                        ),
                         null
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(5, 0),
-                                Position.fromCoordinates(6, 0),
-                                Position.fromCoordinates(1, 0)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 2),
+                                        Position.fromCoordinates(5,3)
+                                )
+                        ),
                         InvalidPositionException.class
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(7, 0),
-                                Position.fromCoordinates(6, 1)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 2),
+                                        Position.fromCoordinates(1,3),
+                                        Position.fromCoordinates(2,3)
+                                )
+                        ),
                         InvalidPositionException.class
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(6, 1),
-                                Position.fromCoordinates(5, 2),
-                                Position.fromCoordinates(4, 2)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 2),
+                                        Position.fromCoordinates(1,3),
+                                        Position.fromCoordinates(1,7)
+                                )
+                        ),
                         InvalidPositionException.class
-                ),
+                )
+        );
+    }
+
+    /**
+     * This provides a set of vertical positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * If the expected exception is null the positions provided are either adjacent
+     * to the last line's position or to the first line's position.
+     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * @return Stream of arguments which are the positions and the expected exception.
+     */
+    public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreVerticallyAlignedWithException() {
+        return Stream.of(
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(1, 2),
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(2, 3),
-                                Position.fromCoordinates(5, 0)
-                        )),
-                        InvalidPositionException.class
-                ),
-                Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(1, 2),
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(7, 3)
-                        )),
-                        InvalidPositionException.class
-                ),
-                Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(7, 0),
-                                Position.fromCoordinates(6, 2)
-                        )),
-                        InvalidPositionException.class
-                ),
-                Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(0, 2),
-                                Position.fromCoordinates(1, 2)
-                        )),
-                        InvalidPositionException.class
-                ),
-                Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(1, 2),
-                                Position.fromCoordinates(2, 3)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 1),
+                                        Position.fromCoordinates(2,1),
+                                        Position.fromCoordinates(0,1)
+                                )
+                        ),
                         null
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(0, 2),
-                                Position.fromCoordinates(1, 1),
-                                Position.fromCoordinates(2, 1)
-                        )),
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(0, 1),
+                                        Position.fromCoordinates(1,1),
+                                        Position.fromCoordinates(3,2)
+                                )
+                        ),
                         InvalidPositionException.class
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(1, 1),
-                                Position.fromCoordinates(2, 1)))
-                        ,
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(0, 1),
+                                        Position.fromCoordinates(1,1),
+                                        Position.fromCoordinates(5,1)
+                                )
+                        ),
+                        InvalidPositionException.class
+                )
+        );
+    }
+
+    /**
+     * This provides a set of diagonal right positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * If the expected exception is null the positions provided are either adjacent
+     * to the last line's position or to the first line's position.
+     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * @return Stream of arguments which are the positions and the expected exception.
+     */
+    public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyRightAlignedWithException() {
+        return Stream.of(
+                Arguments.of(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 2),
+                                        Position.fromCoordinates(0,1),
+                                        Position.fromCoordinates(2,3)
+                                )
+                        ),
                         null
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(0, 2),
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(0, 5)))
-                        ,
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(0, 1),
+                                        Position.fromCoordinates(1,2),
+                                        Position.fromCoordinates(2,4)
+                                )
+                        ),
                         InvalidPositionException.class
                 ),
                 Arguments.of(
-                        new LinkedHashSet<>(List.of(
-                                Position.fromCoordinates(2, 3),
-                                Position.fromCoordinates(1, 2),
-                                Position.fromCoordinates(0, 1),
-                                Position.fromCoordinates(3, 4)))
-                        ,
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(2, 3),
+                                        Position.fromCoordinates(1,2),
+                                        Position.fromCoordinates(4,6)
+                                )
+                        ),
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(2, 3),
+                                        Position.fromCoordinates(1,2),
+                                        Position.fromCoordinates(4,1)
+                                )
+                        ),
+                        InvalidPositionException.class
+                )
+        );
+    }
+
+    /**
+     * This provides a set of diagonal left positions in order to test the {@link FreedomLine#addPositions(Set)} method.
+     * If the expected exception is null the positions provided are either adjacent
+     * to the last line's position or to the first line's position.
+     * Otherwise, the position can be either adjacent but in the wrong direction or not adjacent at all.
+     * @return Stream of arguments which are the positions and the expected exception.
+     */
+    public static @NotNull Stream<Arguments> provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyLeftAlignedWithException() {
+        return Stream.of(
+                Arguments.of(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(1, 3),
+                                        Position.fromCoordinates(0,4),
+                                        Position.fromCoordinates(2,2)
+                                )
+                        ),
+                        null
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(0, 4),
+                                        Position.fromCoordinates(1,3),
+                                        Position.fromCoordinates(4,2)
+                                )
+                        ),
+                        InvalidPositionException.class
+                ),
+                Arguments.of(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        Position.fromCoordinates(2, 2),
+                                        Position.fromCoordinates(1,3),
+                                        Position.fromCoordinates(4,7)
+                                )
+                        ),
                         InvalidPositionException.class
                 )
         );

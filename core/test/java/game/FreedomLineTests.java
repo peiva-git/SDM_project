@@ -61,7 +61,10 @@ class FreedomLineTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.FreedomLineProviders#provideSetOfPositionsWithExceptionsForAtLeastOneInvalidPosition")
+    @MethodSource({"game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreHorizontallyAlignedWithException",
+            "game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreVerticallyAlignedWithException",
+            "game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyRightAlignedWithException",
+            "game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyLeftAlignedWithException"})
     void testAddMethod(Set<Position> positions, Class<Exception> expectedException) {
         FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
