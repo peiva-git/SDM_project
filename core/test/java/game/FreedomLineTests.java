@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static board.providers.BoardProviders.parseBoardFromString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,11 +71,11 @@ class FreedomLineTests {
         FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
             assertDoesNotThrow(() ->
-                    freedomLine.addPositions(positions)
+                    freedomLine.addPositions(positions.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
             );
         } else {
             assertThrows(expectedException, () ->
-                    freedomLine.addPositions(positions)
+                    freedomLine.addPositions(positions.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
             );
         }
     }
