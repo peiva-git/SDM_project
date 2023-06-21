@@ -125,12 +125,13 @@ public interface Board<P extends Piece> {
     }
 
     /**
-     * Checks whether a {@link Position} is inside of {@link Board} bounds and unoccupied
-     *
+     * Checks whether a {@link Position} is inside of {@link Board} bounds and unoccupied.
+     * This method needs to be {@code default} in order for the GWT compiler to work, since the
+     * {@code private} modifier is not allowed
      * @param position The chosen {@link Position}
      * @return {@code true} if the {@link Position} meets the above-mentioned criteria, {@code false} otherwise
      */
-    private boolean isPositionValidForTheBoard(@NotNull Position position) {
+    default boolean isPositionValidForTheBoard(@NotNull Position position) {
         try {
             getPiece(position);
             return true;

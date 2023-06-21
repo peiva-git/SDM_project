@@ -39,5 +39,4 @@ public class TileClickListener extends ClickListener {
         game.nextMove(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
         super.clicked(event, x, y);
     }
-
 }

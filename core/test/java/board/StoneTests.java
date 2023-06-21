@@ -45,4 +45,12 @@ class StoneTests {
         assertEquals(Objects.hash(blackStone.getPieceColor()), blackStone.hashCode());
     }
 
+    @Test
+    void testStoneStringRepresentation() {
+        Stone whiteStone = new Stone(Color.WHITE);
+        assertEquals("W", whiteStone.toString());
+        Stone blackStone = new Stone(Color.BLACK);
+        assertEquals("B", blackStone.toString());
+    }
+
 }

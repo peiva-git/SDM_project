@@ -1,20 +1,20 @@
 package it.units.sdm.project.board;
 
-import com.badlogic.gdx.graphics.Color;
 import it.units.sdm.project.exceptions.InvalidBoardSizeException;
 import it.units.sdm.project.exceptions.InvalidPositionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 /**
  * This class represents an implementation of the {@link Board} interface using a {@link TreeMap} to hold
  * information about the pieces {@link P} that are on this {@link Board}. The {@link Position}s on this {@link Board}
  * are ordered based on the ordering defined in the {@link Position} class.
+ *
  * @param <P> The type of piece to be put on this {@link Board}.
  */
 public class MapBoard<P extends Piece> implements Board<P> {
@@ -27,9 +27,10 @@ public class MapBoard<P extends Piece> implements Board<P> {
      * Creates a new {@link Board} instance with a {@link TreeMap} implementation.
      * This implementation allows only square {@link Board}s, with the maximum and minimum size limits specified by the
      * {@link Board#MIN_BOARD_SIZE} and {@link Board#MAX_BOARD_SIZE} fields.
+     *
      * @param boardSize The number of rows and columns on the {@link Board}
      * @throws InvalidBoardSizeException In case the {@link Board} sizes aren't matching,
-     * or they're outside the allowed range of [2, 26]
+     *                                   or they're outside the allowed range of [2, 26]
      */
     public MapBoard(int boardSize) throws InvalidBoardSizeException {
         if (!isBoardSizeValid(boardSize)) {
@@ -76,41 +77,60 @@ public class MapBoard<P extends Piece> implements Board<P> {
      * with letters indicating columns and numbers indicating rows. Free cells are marked with a - character,
      * while cells occupied by the white {@link it.units.sdm.project.game.Player} are marked with a W
      * and cells occupied by the black {@link it.units.sdm.project.game.Player} are marked with a B.
+     *
      * @return The {@link Board}'s {@link String} representation
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = boardSize; i > 0; i--) {
-            for (int j = 1; j <= boardSize; j++) {
-                if (j == 1) {
-                    if (i < 10) {
-                        sb.append(" ").append(i).append(" ");
-                    } else {
-                        sb.append(i).append(" ");
-                    }
+        for (int i = boardSize - 1; i >= 0; i--) {
+            for (int j = 0; j < boardSize; j++) {
+                if (isFirstColumn(j)) {
+                    sb.append(currentRowLabel(i));
                 }
-                if (isCellOccupied(Position.fromCoordinates(i - 1, j - 1))) {
-                    if (Objects.requireNonNull(getPiece(Position.fromCoordinates(i - 1, j - 1))).getPieceColor() == Color.WHITE) {
-                        sb.append("W");
-                    } else {
-                        sb.append("B");
-                    }
+                if (isCellOccupied(Position.fromCoordinates(i, j))) {
+                    sb.append(getPiece(Position.fromCoordinates(i, j)));
                 } else {
                     sb.append("-");
                 }
-                if (j < boardSize) {
+                if (isNotLastColumn(j)) {
                     sb.append("  ");
                 } else {
                     sb.append("\n");
                 }
             }
         }
+        sb.append(columnLabels());
+        return sb.toString();
+    }
+
+    private @NotNull String columnLabels() {
+        StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        for (int j = 0; j < boardSize; j++) {
-            sb.append("  ").append((char) ('A' + j));
+        IntStream.range(0, boardSize).forEach(columnIndex -> sb.append("  ").append((char) ('A' + columnIndex)));
+        return sb.toString();
+    }
+
+    private boolean isNotLastColumn(int j) {
+        return j < boardSize - 1;
+    }
+
+    private static @NotNull String currentRowLabel(int rowIndex) {
+        StringBuilder sb = new StringBuilder();
+        if (hasRowNumberOnlyOneDigit(rowIndex + 1)) {
+            sb.append(" ").append(rowIndex + 1).append(" ");
+        } else {
+            sb.append(rowIndex + 1).append(" ");
         }
         return sb.toString();
+    }
+
+    private static boolean hasRowNumberOnlyOneDigit(int rowNumber) {
+        return rowNumber < 10;
+    }
+
+    private static boolean isFirstColumn(int j) {
+        return j == 0;
     }
 
     @NotNull
