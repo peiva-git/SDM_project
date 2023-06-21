@@ -7,12 +7,12 @@ import it.units.sdm.project.game.gui.screens.FormLayout;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static utility.FreedomHeadlessApplicationUtils.initHeadlessApplication;
 
 class FormValidationTests {
@@ -54,6 +54,12 @@ class FormValidationTests {
         form.getBlackPlayerUsername().validateInput();
         assertFalse(form.getWhitePlayerUsername().isInputValid());
         assertFalse(form.getBlackPlayerUsername().isInputValid());
+    }
+
+    @Test
+    void testBoardSizeSliderBounds() {
+        assertEquals(FreedomGame.MAX_BOARD_SIZE, form.getBoardSizeSlider().getMaxValue());
+        assertEquals(FreedomGame.MIN_BOARD_SIZE, form.getBoardSizeSlider().getMinValue());
     }
 
     @AfterAll
