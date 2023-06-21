@@ -85,7 +85,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
         StringBuilder sb = new StringBuilder();
         for (int i = boardSize - 1; i >= 0; i--) {
             for (int j = 0; j < boardSize; j++) {
-                if (isCurrentColumnForLabeling(j)) {
+                if (isFirstColumn(j)) {
                     sb.append(currentRowLabel(i));
                 }
                 if (isCellOccupied(Position.fromCoordinates(i, j))) {
@@ -129,7 +129,7 @@ public class MapBoard<P extends Piece> implements Board<P> {
         return rowNumber < 10;
     }
 
-    private static boolean isCurrentColumnForLabeling(int j) {
+    private static boolean isFirstColumn(int j) {
         return j == 0;
     }
 
