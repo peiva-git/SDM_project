@@ -61,7 +61,7 @@ class FreedomLineTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.FreedomLineProviders#provideSetOfPositions")
+    @MethodSource("game.providers.FreedomLineProviders#provideSetOfPositionsWithExceptionsForAtLeastOneInvalidPosition")
     void testAddMethod(Set<Position> positions, Class<Exception> expectedException) {
         FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {

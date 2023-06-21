@@ -55,7 +55,7 @@ public class FreedomLineProviders {
         );
     }
 
-    public static @NotNull Stream<Arguments> provideSetOfPositions() {
+    public static @NotNull Stream<Arguments> provideSetOfPositionsWithExceptionsForAtLeastOneInvalidPosition() {
         return Stream.of(
                 Arguments.of(
                         new LinkedHashSet<>(List.of(
