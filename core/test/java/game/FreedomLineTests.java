@@ -28,7 +28,7 @@ class FreedomLineTests {
             + " 1 B  W  W  B  W  W  W  W\n"
             + "   A  B  C  D  E  F  G  H";
 
-    private final Board<Piece> board = parseBoardFromString(printedBoard, 8, 8);
+    private final Board<Piece> board = parseBoardFromString(printedBoard, 8);
 
     @Test
     void testColorGetter() {
