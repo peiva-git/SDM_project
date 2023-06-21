@@ -26,15 +26,13 @@ public class FreedomLineProviders {
                 + "   A  B  C  D  E  F  G  H";
 
         Board<Piece> board = BoardProviders.parseBoardFromString(printedBoard, 8, 8);
-        FreedomLine verticalFreedomLine = new FreedomLine(board, Position.fromCoordinates(0,0));
-        verticalFreedomLine.addPosition(Position.fromCoordinates(1,0));
-        FreedomLine horizontalFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 1));
-        horizontalFreedomLine.addPosition(Position.fromCoordinates(0,2));
+        FreedomLine freedomLine = new FreedomLine(board, Position.fromCoordinates(0,0));
         return Stream.of(
-                Arguments.of(verticalFreedomLine, verticalFreedomLine, true),
-                Arguments.of(verticalFreedomLine, horizontalFreedomLine, false),
-                Arguments.of(verticalFreedomLine, null, false),
-                Arguments.of(verticalFreedomLine, new Object(), false)
+                Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,1)), false),
+                Arguments.of(freedomLine, new FreedomLine(board, Position.fromCoordinates(0,3)), false),
+                Arguments.of(freedomLine, freedomLine, true),
+                Arguments.of(freedomLine, null, false),
+                Arguments.of(freedomLine, new Object(), false)
         );
     }
 
