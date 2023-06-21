@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class FreedomBoardStatusObserverProvider {
 
-        public static @NotNull Stream<Arguments> provide4x4BoardWithLastMovedPlayed() {
+        public static @NotNull Stream<Arguments> provide4x4BoardWithLastMovedPlayedAndExpectedGameStatus() {
             Player whitePlayer = new Player(Color.WHITE, "white");
             Player blackPlayer = new Player(Color.BLACK, "black");
             return Stream.of(

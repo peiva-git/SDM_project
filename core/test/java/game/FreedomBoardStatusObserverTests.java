@@ -28,9 +28,9 @@ public class FreedomBoardStatusObserverTests {
     }
 
     @ParameterizedTest
-    @MethodSource("game.providers.FreedomBoardStatusObserverProvider#provide4x4BoardWithLastMovedPlayed")
-    void testGetCurrentGameStatus(@NotNull String printedBoard, @Nullable Move lastMove, @NotNull FreedomBoardStatusObserver.GameStatus gameStatusExpected) {
+    @MethodSource("game.providers.FreedomBoardStatusObserverProvider#provide4x4BoardWithLastMovedPlayedAndExpectedGameStatus")
+    void testGetCurrentGameStatus(@NotNull String printedBoard, @Nullable Move lastMove, @NotNull FreedomBoardStatusObserver.GameStatus expectedGameStatus) {
         FreedomBoardStatusObserver freedomBoardStatusObserver = new FreedomBoardStatusObserver(parseBoardFromString(printedBoard, 4));
-        assertEquals(gameStatusExpected, freedomBoardStatusObserver.getCurrentGameStatus(lastMove));
+        assertEquals(expectedGameStatus, freedomBoardStatusObserver.getCurrentGameStatus(lastMove));
     }
 }
