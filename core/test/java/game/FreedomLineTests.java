@@ -43,7 +43,7 @@ class FreedomLineTests {
     @Test
     void testPositionsGetter() {
         FreedomLine blackFreedomLine = new FreedomLine(board, Position.fromCoordinates(0, 0));
-        assertEquals(Set.of(Position.fromCoordinates(0,0)), blackFreedomLine.getCellPositions());
+        assertEquals(Set.of(Position.fromCoordinates(0, 0)), blackFreedomLine.getCellPositions());
     }
 
     @ParameterizedTest
@@ -68,14 +68,13 @@ class FreedomLineTests {
             "game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyRightAlignedWithException",
             "game.providers.FreedomLineProviders#provideSetOfPositionsWhichAtLeastTwoOfThemAreDiagonallyLeftAlignedWithException"})
     void testAddMethod(Set<Position> positions, Class<Exception> expectedException) {
-        FreedomLine freedomLine = new FreedomLine(board);
         if (expectedException == null) {
             assertDoesNotThrow(() ->
-                    freedomLine.addPositions(positions.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+                    new FreedomLine(board, positions)
             );
         } else {
             assertThrows(expectedException, () ->
-                    freedomLine.addPositions(positions.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+                    new FreedomLine(board, positions)
             );
         }
     }

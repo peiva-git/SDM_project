@@ -30,11 +30,11 @@ public class FreedomLine {
      * Creates a {@link FreedomLine} instance
      *
      * @param board The {@link Board} on which this {@link FreedomLine} is located
+     * @param positions Initial {@link Position}s of the {@link FreedomLine}
      */
-    public FreedomLine(@NotNull Board<? extends Piece> board) {
-        this.color = null;
-        this.direction = null;
+    public FreedomLine(@NotNull Board<? extends Piece> board, @NotNull Set<Position> positions) {
         this.board = board;
+        addPositions(positions);
     }
 
     /**
