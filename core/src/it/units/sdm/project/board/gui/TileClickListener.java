@@ -14,17 +14,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TileClickListener extends ClickListener {
     @NotNull
-    private final BoardGame<?> game;
+    private final BoardGame<?> boardGame;
 
     /**
      * Creates a new listener to be used with a {@link it.units.sdm.project.board.Board}. By default,
      * the listener will simply execute the {@link FreedomGame#nextMove(Position)} method from the {@link FreedomGame}
      * interface using the clicked tile's {@link Position}.
      * If a different behaviour is expected, the {@link ClickListener#clicked(InputEvent, float, float)} method should be overridden.
-     * @param game The {@link BoardGame} instance on which to listen for tile click events
+     * @param boardGame The {@link BoardGame} instance on which to listen for tile click events
      */
-    public TileClickListener(@NotNull BoardGame<?> game) {
-        this.game = game;
+    public TileClickListener(@NotNull BoardGame<?> boardGame) {
+        this.boardGame = boardGame;
     }
 
     /**
@@ -35,9 +35,9 @@ public class TileClickListener extends ClickListener {
      */
     @Override
     public void clicked(@NotNull InputEvent event, float x, float y) {
-        GuiBoard<?> board = (GuiBoard<?>) game.getBoard();
+        GuiBoard<?> board = (GuiBoard<?>) boardGame.getBoard();
         Cell<Actor> cell = board.getCell(event.getListenerActor());
-        game.nextMove(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
+        boardGame.nextMove(board.fromTileCoordinatesToBoardPosition(cell.getRow(), cell.getColumn()));
         super.clicked(event, x, y);
     }
 }
